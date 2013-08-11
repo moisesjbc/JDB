@@ -17,17 +17,27 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include <iostream>
-#include "jdb.hpp"
+#ifndef JDB_HPP
+#define JDB_HPP
 
-using namespace std;
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
+#include <stdexcept>
 
-int main()
+namespace jdb {
+
+class JDB
 {
-    jdb::JDB jdb;
+    private:
+        SDL_Window* window;
+        SDL_Surface* screen;
+    public:
+        JDB();
+        ~JDB();
 
-    jdb.run();
+        void run();
+};
 
-    return 0;
-}
+} // namespace jdb
 
+#endif // JDB_HPP
