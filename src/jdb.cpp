@@ -18,6 +18,7 @@
  ***/
 
 #include "jdb.hpp"
+#include <iostream>
 
 namespace jdb {
 
@@ -37,20 +38,33 @@ JDB::JDB() :
       SDL_WINDOWPOS_CENTERED,
       800,
       600,
-      SDL_WINDOW_SHOWN );
+      SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
 
     screen = SDL_GetWindowSurface( window );
+
+    glContext = SDL_GL_CreateContext( window );
+
+    /*
+    shaderLoader = ShaderLoader::getInstance();
+    shaderLoader->loadMinimumShaderProgram( "data/shaders/basicVertexShader.shader", "data/shaders/basicFragmentShader.shader" );
+    shaderLoader->destroy();
+    */
 }
 
 
 JDB::~JDB()
 {
-    // Destroy the main window (muahaha).
+    // Destroy the OpenGL context (muahaha!).
+    SDL_GL_DeleteContext( glContext );
+
+    // Destroy the main window (muahaha! x2).
     SDL_DestroyWindow( window );
     window = NULL;
 
-    // Destroy SDL (muahaha x2).
+    // Destroy SDL (muahaha! x3).
     SDL_Quit();
+
+
 }
 
 
@@ -59,6 +73,9 @@ void JDB::run()
     SDL_Event event;
     bool quit = false;
 
+    glViewport( 0, 0, 800, 600 );
+    glClear( GL_COLOR_BUFFER_BIT );
+
     // Keep rendering a black window until player tell us to stop.
     while( !quit ){
        while( SDL_PollEvent( &event ) != 0 ){
@@ -66,8 +83,10 @@ void JDB::run()
              quit = true;
           }
        }
+
        //SDL_BlitSurface( image, NULL, screen, NULL );
-       SDL_UpdateWindowSurface( window );
+       //SDL_UpdateWindowSurface( window );
+       SDL_GL_SwapWindow( window );
     }
 }
 

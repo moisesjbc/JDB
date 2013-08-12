@@ -17,29 +17,25 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef JDB_HPP
-#define JDB_HPP
+#ifndef DEPENDENCIES_HPP
+#define DEPENDENCIES_HPP
 
-#include "graphics/tileset.hpp"
-#include "utilities/shader_loader.hpp"
+// OpenGL
+#include <GL/glew.h>
+#include <GL/gl.h>
+#include <GL/glx.h>
 
-namespace jdb {
+// GLM
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <GL/gl.h>
 
-class JDB
-{
-    private:
-        SDL_Window* window;
-        SDL_Surface* screen;
-        SDL_GLContext glContext;
-        ShaderLoader* shaderLoader;
+// SDL
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_video.h>
+#include <SDL2/SDL_opengl.h>
 
-    public:
-        JDB();
-        ~JDB();
+// Others
+#include <stdexcept>
 
-        void run();
-};
-
-} // namespace jdb
-
-#endif // JDB_HPP
+#endif // DEPENDENCIES_HPP

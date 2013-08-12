@@ -17,29 +17,33 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef JDB_HPP
-#define JDB_HPP
+#ifndef TILESET_HPP
+#define TILESET_HPP
 
-#include "graphics/tileset.hpp"
-#include "utilities/shader_loader.hpp"
+#include "drawable.hpp"
+#include <memory>
 
 namespace jdb {
 
-class JDB
-{
-    private:
-        SDL_Window* window;
-        SDL_Surface* screen;
-        SDL_GLContext glContext;
-        ShaderLoader* shaderLoader;
+struct TilesetData {
 
-    public:
-        JDB();
-        ~JDB();
-
-        void run();
 };
 
-} // namespace jdb
+class Tileset : public Drawable
+{
+    private:
+        static GLuint vao;
+        std::shared_ptr< TilesetData > tilesetData;
 
-#endif // JDB_HPP
+    public:
+        /***
+         * 1. Initialization
+         ***/
+        Tileset();
+        void setTileSetData( const std::shared_ptr< TilesetData >& tilesetData );
+};
+
+
+} // Namespace jdb
+
+#endif // TILESET_HPP

@@ -17,29 +17,41 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef JDB_HPP
-#define JDB_HPP
-
-#include "graphics/tileset.hpp"
-#include "utilities/shader_loader.hpp"
+#include "tileset.hpp"
 
 namespace jdb {
 
-class JDB
+GLuint Tileset::vao = 0;
+
+
+/***
+ * 1. Initialization
+ ***/
+
+Tileset::Tileset()
 {
-    private:
-        SDL_Window* window;
-        SDL_Surface* screen;
-        SDL_GLContext glContext;
-        ShaderLoader* shaderLoader;
+    /*
+    const GLfloat size = 0.5f;
+    GLfloat vertices[] {
+        -size, -size,   // Bottom left
+        size, -size,    // Bottom right
+        size, size,     // Top right
+        -size, size     // Top left
+    };
 
-    public:
-        JDB();
-        ~JDB();
+    if( !vbo ){
+        glGenBuffers( 1, &vbo );
+        glBindBuffer( GL_ARRAY_BUFFER, vbo );
+        glBufferData(  )
+    }
+    */
+}
 
-        void run();
-};
+void Tileset::setTileSetData( const std::shared_ptr< TilesetData >& tilesetData )
+{
+    this->tilesetData = tilesetData;
+}
 
-} // namespace jdb
+//void glBufferData(GLenum target,  GLsizeiptr size,  const GLvoid * data,  GLenum usage);
 
-#endif // JDB_HPP
+} // Namespace jdb

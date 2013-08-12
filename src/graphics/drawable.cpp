@@ -17,29 +17,28 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef JDB_HPP
-#define JDB_HPP
-
-#include "graphics/tileset.hpp"
-#include "utilities/shader_loader.hpp"
+#include "drawable.hpp"
 
 namespace jdb {
 
-class JDB
+
+/***
+ * 1. Initialization
+ ***/
+
+Drawable::Drawable() :
+    transformationMatrix( 1.0f )
 {
-    private:
-        SDL_Window* window;
-        SDL_Surface* screen;
-        SDL_GLContext glContext;
-        ShaderLoader* shaderLoader;
+}
 
-    public:
-        JDB();
-        ~JDB();
 
-        void run();
-};
+/***
+ * 2. Transformations
+ ***/
+
+void Drawable::translate( const float& tx, const float& ty )
+{
+    transformationMatrix = glm::translate( transformationMatrix, glm::vec3( tx, ty, 0.0f ) );
+}
 
 } // namespace jdb
-
-#endif // JDB_HPP
