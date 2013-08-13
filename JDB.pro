@@ -6,15 +6,15 @@ CONFIG -= qt
 SOURCES += src/main.cpp \
     src/jdb.cpp \
     src/graphics/drawable.cpp \
-    src/graphics/tileset.cpp \
-    src/utilities/shader_loader.cpp
+    src/utilities/shader_loader.cpp \
+    src/graphics/sprite.cpp
 
 HEADERS += \
     src/jdb.hpp \
     src/graphics/drawable.hpp \
-    src/graphics/tileset.hpp \
     src/utilities/shader_loader.hpp \
-    src/utilities/dependencies.hpp
+    src/utilities/dependencies.hpp \
+    src/graphics/sprite.hpp
 
 LIBS += -lGLEW -lGLU -lGL -lSDL2
 

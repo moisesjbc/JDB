@@ -17,33 +17,56 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef TILESET_HPP
-#define TILESET_HPP
+#ifndef SPRITE_HPP
+#define SPRITE_HPP
 
 #include "drawable.hpp"
 #include <memory>
 
 namespace jdb {
 
-struct TilesetData {
+struct SpriteData {
 
 };
 
-class Tileset : public Drawable
+//std::shared_ptr<SpriteData> readSpriteDataFromFile( const char* filePath );
+
+
+class Sprite : public Drawable
 {
     private:
         static GLuint vao;
-        std::shared_ptr< TilesetData > tilesetData;
+        static GLint mvpMatrixLocation;
+
+        GLuint vbo;
+        std::shared_ptr< SpriteData > spriteData;
 
     public:
         /***
          * 1. Initialization
          ***/
-        Tileset();
-        void setTileSetData( const std::shared_ptr< TilesetData >& tilesetData );
+        Sprite();
+        void setSpriteData( const std::shared_ptr< SpriteData >& spriteData );
+
+        /***
+         * 2. VAO management
+         ***/
+        static void initializeVAO();
+        static GLuint getVAO();
+
+        /***
+         * 3. Drawing
+         ***/
+        virtual void draw( const glm::mat4& projectionMatrix ) const ;
+
+        /***
+         * 4. Auxiliar methods
+         ***/
+    private:
+        virtual void sendMVPMatrixToShader( const glm::mat4& mvpMatrix ) const ;
 };
 
 
 } // Namespace jdb
 
-#endif // TILESET_HPP
+#endif // SPRITE_HPP

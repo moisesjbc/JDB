@@ -2,11 +2,11 @@
 
 in vec2 vPosition;
 
-uniform float depth;
-uniform mat4 viewProjectionMatrix;
+//uniform float depth;
+uniform mat4 mvpMatrix;
 
 void main()
 {
-	gl_Position = viewProjectionMatrix * vec4( vPosition.x, vPosition.y, depth, 1.0f );
+	gl_Position = mvpMatrix * vec4( vPosition.x, vPosition.y, 0.0f, 1.0f );
 }
 

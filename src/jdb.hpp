@@ -20,7 +20,7 @@
 #ifndef JDB_HPP
 #define JDB_HPP
 
-#include "graphics/tileset.hpp"
+#include "graphics/sprite.hpp"
 #include "utilities/shader_loader.hpp"
 
 namespace jdb {
@@ -28,10 +28,12 @@ namespace jdb {
 class JDB
 {
     private:
+        GLuint vao;
         SDL_Window* window;
         SDL_Surface* screen;
         SDL_GLContext glContext;
         ShaderLoader* shaderLoader;
+        glm::mat4 projectionMatrix;
 
     public:
         JDB();

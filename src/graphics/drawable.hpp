@@ -26,7 +26,7 @@ namespace jdb {
 
 class Drawable
 {
-    private:
+    protected:
         glm::mat4 transformationMatrix;
 
     public:
@@ -43,10 +43,9 @@ class Drawable
 
 
         /***
-         * 3. Updating and drawing
+         * 3. Drawing
          ***/
-        virtual void update() = 0;
-        virtual void draw() const = 0;
+        virtual void draw( const glm::mat4& projectionMatrix ) const = 0;
 };
 
 

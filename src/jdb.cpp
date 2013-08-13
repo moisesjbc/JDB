@@ -58,6 +58,17 @@ JDB::JDB() :
     shaderLoader = ShaderLoader::getInstance();
     shaderLoader->loadMinimumShaderProgram( "data/shaders/basicVertexShader.shader", "data/shaders/basicFragmentShader.shader" );
     shaderLoader->destroy();
+
+    // Initialize OpenGL.
+    glEnable( GL_DEPTH_TEST );
+    glDepthFunc( GL_LEQUAL );
+    glViewport( 0, 0, 800, 600 );
+
+    // TODO: delete this when using textures.
+    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+
+    // Set projection mode.
+    projectionMatrix = glm::ortho( 0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f );
 }
 
 
@@ -72,8 +83,6 @@ JDB::~JDB()
 
     // Destroy SDL (muahaha! x3).
     SDL_Quit();
-
-
 }
 
 
@@ -82,8 +91,13 @@ void JDB::run()
     SDL_Event event;
     bool quit = false;
 
-    glViewport( 0, 0, 800, 600 );
-    glClear( GL_COLOR_BUFFER_BIT );
+    jdb::Sprite sprite;
+
+    // Clear screen.
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+    // Set Sprite VAO as the active one.
+    glBindVertexArray( Sprite::getVAO() );
 
     // Keep rendering a black window until player tell us to stop.
     while( !quit ){
@@ -92,7 +106,9 @@ void JDB::run()
              quit = true;
           }
        }
+       sprite.draw( projectionMatrix );
 
+       glFlush();
        SDL_GL_SwapWindow( window );
     }
 }
