@@ -42,13 +42,22 @@ JDB::JDB() :
 
     screen = SDL_GetWindowSurface( window );
 
+    // Initialize OpenGL and create a GL context.
+    glewInit();
     glContext = SDL_GL_CreateContext( window );
 
-    /*
+    // Initialize some OpenGL attributes.
+    SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8 );
+    SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8 );
+    SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8 );
+    SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
+    SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
+    SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+
+    // Load and use shaders.
     shaderLoader = ShaderLoader::getInstance();
     shaderLoader->loadMinimumShaderProgram( "data/shaders/basicVertexShader.shader", "data/shaders/basicFragmentShader.shader" );
     shaderLoader->destroy();
-    */
 }
 
 
@@ -84,8 +93,6 @@ void JDB::run()
           }
        }
 
-       //SDL_BlitSurface( image, NULL, screen, NULL );
-       //SDL_UpdateWindowSurface( window );
        SDL_GL_SwapWindow( window );
     }
 }

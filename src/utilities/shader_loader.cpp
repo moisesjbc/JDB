@@ -33,7 +33,7 @@ ShaderLoader* ShaderLoader::instance = NULL;
  ***/
 
 ShaderLoader::ShaderLoader()
-{
+{            
     shaderProgram = glCreateProgram();
     if( shaderProgram == 0 ){
         cout << "ERROR in glCreateProgram()" << endl;
