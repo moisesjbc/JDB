@@ -93,6 +93,7 @@ void ShaderLoader::loadShaderObject( GLenum shaderType, const char* shaderFile )
 {
     //const GLchar **string
     const GLint STR_SIZE = 1024;
+    GLchar log[STR_SIZE];
     GLchar* shaderCode = new GLchar [ STR_SIZE ];
     GLuint shaderObject;
     GLint compilationResult;
@@ -111,7 +112,8 @@ void ShaderLoader::loadShaderObject( GLenum shaderType, const char* shaderFile )
 
     if( compilationResult == GL_FALSE ){
         // TODO: Difference between different shader types.
-        cout << "ERROR compiling shader" << endl;
+        glGetShaderInfoLog( shaderObject, STR_SIZE, NULL, log );
+        cout << "ERROR compiling shader: " << endl << log << endl;
         return;
     }
 

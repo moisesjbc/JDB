@@ -7,11 +7,14 @@
 
 #version 430 core
 
-//uniform vec4 color;
+uniform sampler2D sampler;
+
+in vec2 texCoordinates;
+
 out vec4 finalColor;
 
 void main()
 {
-	finalColor = vec4( 0.0f, 1.0f, 0.0f, 1.0f );
+	finalColor = texture( sampler, texCoordinates );
 }
 

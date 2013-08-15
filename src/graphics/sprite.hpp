@@ -37,8 +37,10 @@ class Sprite : public Drawable
     private:
         static GLuint vao;
         static GLint mvpMatrixLocation;
+        static GLint samplerLocation;
 
         GLuint vbo;
+        GLuint tbo;
         std::shared_ptr< SpriteData > spriteData;
 
     public:

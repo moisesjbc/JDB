@@ -31,6 +31,10 @@ JDB::JDB() :
         throw std::runtime_error( SDL_GetError() );
     }
 
+    if( IMG_Init( IMG_INIT_PNG ) != IMG_INIT_PNG ){
+        throw std::runtime_error( IMG_GetError() );
+    }
+
     // Create main window
     window = SDL_CreateWindow(
       "JDB v3",
@@ -63,6 +67,7 @@ JDB::JDB() :
     glEnable( GL_DEPTH_TEST );
     glDepthFunc( GL_LEQUAL );
     glViewport( 0, 0, 800, 600 );
+    glClearColor( 0xF5/255.0f, 0xF6/255.0f, 0xCE/255.0f, 1.0f );
 
     // TODO: delete this when using textures.
     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
@@ -81,7 +86,10 @@ JDB::~JDB()
     SDL_DestroyWindow( window );
     window = NULL;
 
-    // Destroy SDL (muahaha! x3).
+    // Destroy SDL_image (muahaha! x3).
+    IMG_Quit();
+
+    // Destroy SDL (muahaha! x4).
     SDL_Quit();
 }
 

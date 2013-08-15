@@ -16,7 +16,7 @@ HEADERS += \
     src/utilities/dependencies.hpp \
     src/graphics/sprite.hpp
 
-LIBS += -lGLEW -lGLU -lGL -lSDL2
+LIBS += -lGLEW -lGLU -lGL -lSDL2 -lSDL2_image
 
 # http://qt-project.org/forums/viewthread/19989
 CONFIG += c++11 pedantic

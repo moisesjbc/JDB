@@ -24,6 +24,7 @@ namespace jdb {
 
 GLuint Sprite::vao = 0;
 GLint Sprite::mvpMatrixLocation = -1;
+GLint Sprite::samplerLocation = -1;
 
 /***
  * 1. Initialization
@@ -33,29 +34,67 @@ Sprite::Sprite( )
 {
     GLint currentProgram;
 
-    const GLfloat size = 100.0f;
+    SDL_Surface* image = NULL;
+
+    const GLfloat width = 256;
+    const GLfloat height = 64;
+
     GLfloat vertices[] {
-        0, 0,       // Bottom left
-        size, 0,    // Bottom right
-        size, size, // Top right
-        0, size     // Top left
+        // Bottom left
+        0.0f, 0.0f,     // Vertice coordinates
+        0.0f, 0.0f,     // Texture coordinates
+
+        // Bottom right
+        width, 0.0f,    // Vertice coordinates
+        1.0f, 0.0f,     // Texture coordinates
+
+        // Top right
+        width, height,  // Vertice coordinates
+        1.0f, 1.0f,     // Texture coordinates
+
+        // Top left
+        0.0f, height,   // Vertice coordinates
+        0.0f, 1.0f      // Texture coordinates
     };
+
+
 
     glGenBuffers( 1, &vbo );
     glBindBuffer( GL_ARRAY_BUFFER, vbo );
-    glBufferData( GL_ARRAY_BUFFER, 8*sizeof( GLfloat ), vertices, GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, 16*sizeof( GLfloat ), vertices, GL_STATIC_DRAW );
+
+    image = IMG_Load( "data/img/sandwich_01.png" );
+
+    if( !image ){
+        std::cout << SDL_GetError() << std::endl;
+    }
+    std::cout << "image: " << image << std::endl;
+    //
+    glGenTextures( 1, &tbo );
+    glBindTexture( GL_TEXTURE_2D, tbo );
+    //glTexStorage2D( GL_TEXTURE_2D, 1, GL_RGBA8, image->w, image->h );
+    //glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, image->w, image->h, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels );
+    SDL_FreeSurface( image );
+
+    GLuint sampler;
+
+    glGenSamplers( 1, &sampler );
+    glBindSampler( tbo, sampler );
+
+    gluErrorString( glGetError() );
 
     // If the VAO for sprites hasn't been initialized... well, initialize it is time.
     if( !vao ){
         Sprite::initializeVAO();
     }
 
-    // If we still don't have the location of the shader uniform "mvpMatrix", we
-    // search it here.
+    // If we still don't have the locations of the shader uniforms, we
+    // search them here.
     if( mvpMatrixLocation == -1 ){
         glGetIntegerv( GL_CURRENT_PROGRAM, &currentProgram );
 
         mvpMatrixLocation = glGetUniformLocation( currentProgram, "mvpMatrix" );
+        samplerLocation = glGetUniformLocation( currentProgram, "sampler" );
     }
 }
 
@@ -78,6 +117,10 @@ void Sprite::initializeVAO()
     // We are sending 2D vertices to the vertex shader.
     glVertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, 0, 0 );
     glEnableVertexAttribArray( 0 );
+
+    // We are sending 2D texture coordinates to the shader.
+    glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GLfloat), (GLvoid*)(2*sizeof(GLfloat)) );
+    glEnableVertexAttribArray( 1 );
 }
 
 GLuint Sprite::getVAO()
@@ -93,6 +136,8 @@ GLuint Sprite::getVAO()
 void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     // Set this Sprite's VBO as the active one.
     glBindBuffer( GL_ARRAY_BUFFER, vbo );
+
+    glBindTexture( GL_TEXTURE_2D, tbo );
 
     // Send MVP matrix to shader.
     // TODO: change and use the Sprite's own transformation matrix.
