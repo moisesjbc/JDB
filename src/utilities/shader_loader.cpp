@@ -97,7 +97,6 @@ void ShaderLoader::loadShaderObject( GLenum shaderType, const char* shaderFile )
     GLchar* shaderCode = new GLchar [ STR_SIZE ];
     GLuint shaderObject;
     GLint compilationResult;
-    GLchar** shaderCodePtr = &shaderCode;
 
     // Create shader object.
     shaderObject = glCreateShader( shaderType );

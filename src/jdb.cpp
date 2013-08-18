@@ -28,12 +28,25 @@ JDB::JDB() :
 {
     // Initialize SDL
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
-        throw std::runtime_error( SDL_GetError() );
+        throw std::runtime_error( std::string( "ERROR initializing SDL: " ) + SDL_GetError() );
     }
 
     if( IMG_Init( IMG_INIT_PNG ) != IMG_INIT_PNG ){
         throw std::runtime_error( IMG_GetError() );
     }
+
+    // Initialize some OpenGL attributes.
+    SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8 );
+    SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8 );
+    SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8 );
+    SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
+    SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
+    SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 4 );
+    SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 2 );
+    SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 );
+
+    std::cout << "SDL_GL attributes set: " << SDL_GetError() << std::endl;
 
     // Create main window
     window = SDL_CreateWindow(
@@ -44,19 +57,36 @@ JDB::JDB() :
       600,
       SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
 
+    if( window == NULL ){
+        throw std::runtime_error( std::string( "ERROR creating window: " ) + std::string( SDL_GetError() ) );
+    }
+
+    // Retrieve the window's screen.
     screen = SDL_GetWindowSurface( window );
 
     // Initialize OpenGL and create a GL context.
+    glewExperimental = GL_TRUE;
     glewInit();
+
+    // Create an OpenGL context.
     glContext = SDL_GL_CreateContext( window );
 
-    // Initialize some OpenGL attributes.
-    SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8 );
-    SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8 );
-    SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8 );
-    SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
-    SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
-    SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
+    // Retrieve and display the context's version.
+    int majorVersion, minorVersion;
+    SDL_GL_GetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, &majorVersion );
+    SDL_GL_GetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, &minorVersion );
+    std::cout << "Context version (SDL/OpenGL): " << majorVersion << "." << minorVersion << std::endl;
+
+    // Display a string with the OpenGL version.
+    const unsigned char* version = glGetString( GL_VERSION );
+    if( version == NULL ){
+        std::runtime_error( std::string( "ERROR retrieving OpenGL's version: " ) + std::string( (GLchar* )( gluErrorString( glGetError() ) ) ) );
+    }else{
+        std::cout << "Version: " << version << std::endl;
+    }
+
+    // Display a string showing the GLSL version.
+    std::cout << "GLSL Version: " << glGetString( GL_SHADING_LANGUAGE_VERSION ) << std::endl;
 
     // Load and use shaders.
     shaderLoader = ShaderLoader::getInstance();
@@ -68,12 +98,12 @@ JDB::JDB() :
     glDepthFunc( GL_LEQUAL );
     glViewport( 0, 0, 800, 600 );
     glClearColor( 0xF5/255.0f, 0xF6/255.0f, 0xCE/255.0f, 1.0f );
-
-    // TODO: delete this when using textures.
-    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
     // Set projection mode.
     projectionMatrix = glm::ortho( 0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f );
+
+    std::cout << "JDB constructor finished - " << gluErrorString( glGetError() ) << std::endl;
 }
 
 
@@ -98,26 +128,26 @@ void JDB::run()
 {
     SDL_Event event;
     bool quit = false;
-
     jdb::Sprite sprite;
-
-    // Clear screen.
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     // Set Sprite VAO as the active one.
     glBindVertexArray( Sprite::getVAO() );
 
     // Keep rendering a black window until player tell us to stop.
     while( !quit ){
-       while( SDL_PollEvent( &event ) != 0 ){
-          if( event.type == SDL_QUIT ){
-             quit = true;
-          }
-       }
-       sprite.draw( projectionMatrix );
+        glEnable( GL_TEXTURE_2D );
+        // Clear screen.
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-       glFlush();
-       SDL_GL_SwapWindow( window );
+        while( SDL_PollEvent( &event ) != 0 ){
+            if( event.type == SDL_QUIT ){
+                quit = true;
+            }
+        }
+        sprite.draw( projectionMatrix );
+
+        SDL_GL_SwapWindow( window );
+        glDisable( GL_TEXTURE_2D );
     }
 }
 

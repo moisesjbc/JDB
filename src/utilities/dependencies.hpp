@@ -20,8 +20,11 @@
 #ifndef DEPENDENCIES_HPP
 #define DEPENDENCIES_HPP
 
+#define GL_GLEXT_PROTOTYPES
+
 // OpenGL
 #include <GL/glew.h>
+#include <GL/glext.h>
 #include <GL/gl.h>
 #include <GL/glx.h>
 

@@ -5,16 +5,16 @@
 	Version 4.3. The Khronos OpenGL ARB Working Group . Editorial Pearson. 2013.
 ***/
 
-#version 430 core
+#version 420 core
 
-uniform sampler2D sampler;
-
-in vec2 texCoordinates;
+in vec2 UV;
 
 out vec4 finalColor;
 
+uniform usampler2D awesomeTexture;
+
 void main()
 {
-	finalColor = texture( sampler, texCoordinates );
+	finalColor = texture( awesomeTexture, UV );
 }
 

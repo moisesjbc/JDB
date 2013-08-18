@@ -40,7 +40,7 @@ class Sprite : public Drawable
         static GLint samplerLocation;
 
         GLuint vbo;
-        GLuint tbo;
+        GLuint texture;
         std::shared_ptr< SpriteData > spriteData;
 
     public:
