@@ -31,6 +31,7 @@ JDB::JDB() :
         throw std::runtime_error( std::string( "ERROR initializing SDL: " ) + SDL_GetError() );
     }
 
+    // Initialize SDL_image
     if( IMG_Init( IMG_INIT_PNG ) != IMG_INIT_PNG ){
         throw std::runtime_error( IMG_GetError() );
     }
@@ -41,13 +42,11 @@ JDB::JDB() :
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8 );
     SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
-    SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+    //SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 4 );
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 2 );
     SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 );
-
-    std::cout << "SDL_GL attributes set: " << SDL_GetError() << std::endl;
 
     // Create main window
     window = SDL_CreateWindow(
@@ -65,15 +64,7 @@ JDB::JDB() :
     // Retrieve the window's screen.
     screen = SDL_GetWindowSurface( window );
 
-    // Initialize OpenGL and create a GL context.
-    if( gl3wInit() ){
-        throw std::runtime_error( "ERROR when using gl3wInit()" );
-    }
-    if (!gl3wIsSupported(3, 2)) {
-        throw std::runtime_error( "OpenGL 3.2 not supported" );
-    }
 
-    std::cout << "OpenGL " << glGetString(GL_VERSION) << ", GLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
             /*
     glewExperimental = GL_TRUE;
     glewInit();*/
@@ -81,11 +72,23 @@ JDB::JDB() :
     // Create an OpenGL context.
     glContext = SDL_GL_CreateContext( window );
 
+    // Initialize OpenGL and create a GL context.
+    if( gl3wInit() ){
+        throw std::runtime_error( "ERROR when using gl3wInit()" );
+    }
+    if (!gl3wIsSupported(4, 2)) {
+        throw std::runtime_error( "OpenGL 4.2 not supported" );
+    }
+
+     std::cout << "OpenGL " << glGetString(GL_VERSION) << ", GLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+
     // Retrieve and display the context's version.
     int majorVersion, minorVersion;
     SDL_GL_GetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, &majorVersion );
     SDL_GL_GetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, &minorVersion );
     std::cout << "Context version (SDL/OpenGL): " << majorVersion << "." << minorVersion << std::endl;
+
+
 
     // Display a string with the OpenGL version.
     const unsigned char* version = glGetString( GL_VERSION );
@@ -108,10 +111,12 @@ JDB::JDB() :
     glDepthFunc( GL_LEQUAL );
     glViewport( 0, 0, 800, 600 );
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    glEnable( GL_BLEND );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glClearColor( 0xF5/255.0f, 0xF6/255.0f, 0xCE/255.0f, 1.0f );
 
     // Set projection mode.
-    projectionMatrix = glm::ortho( 0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f );
+    projectionMatrix = glm::ortho( 0.0f, 800.0f, 0.0f, 600.0f, 1.0f, -1.0f );
 
     std::cout << "JDB constructor finished - " << gluErrorString( glGetError() ) << std::endl;
 }
@@ -145,12 +150,8 @@ void JDB::run()
 
     // Keep rendering a black window until player tell us to stop.
     while( !quit ){
-
         // Clear screen.
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-        glEnable( GL_BLEND );
-        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
         while( SDL_PollEvent( &event ) != 0 ){
             if( event.type == SDL_QUIT ){
@@ -158,8 +159,6 @@ void JDB::run()
             }
         }
         sprite.draw( projectionMatrix );
-
-        glDisable( GL_BLEND );
 
         SDL_GL_SwapWindow( window );
     }

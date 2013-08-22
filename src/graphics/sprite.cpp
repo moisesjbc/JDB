@@ -37,24 +37,31 @@ Sprite::Sprite( )
     const GLfloat width = 64.0f;
     const GLfloat height = 64.0f;
 
-    const GLsizei textureSize = 16;
+    const GLsizei textureWidth = 256;
+    const GLsizei textureHeight = 256;
+    const unsigned int textureSize = 4*textureHeight*textureWidth;
+
+    //SDL_Surface* image;
 
     GLfloat vertices[] {
         // Vertice coordinates
-        0.0f, height,   // Bottom left
-        width, height,  // Bottom right
-        0.0f, 0.0f,     // Top left
-        width, 0.0f,    // Top right
+        0.0f, 0.0f,     // Bottom left
+        width, 0.0f,    // Bottom right
+        0.0f, height,   // Top left
+        width, height,  // Top right
 
         // Texture coordinates
-        0.0f, 1.0f,
-        1.0f, 1.0f,
         0.0f, 0.0f,
-        1.0f, 0.0f
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 1.0f
     };
 
     glGenVertexArrays( 1, &vao );
     glBindVertexArray( vao );
+
+    // Load the image
+    //image = IMG_Load( "data/img/sandwich_01.png" );
 
     // Generate a VBO and fill it with Sprite's vertex attributes.
     glGenBuffers( 1, &vbo );
@@ -79,49 +86,51 @@ Sprite::Sprite( )
     // Generate a 2D texture id.
     glActiveTexture( GL_TEXTURE0 );
     glGenTextures( 1, &texture );
-    glBindTexture( GL_TEXTURE_2D, texture );
-
     std::cout << "texture: " << texture << std::endl;
+    glBindTexture( GL_TEXTURE_2D, texture );
 
     // Set texture's wrapping and filtering parameters.
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+
     glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
     //glPixelStorei( GL_PACK_ALIGNMENT, 1 );
 
     // Set the texture's storage.
-    glTexStorage2D( GL_TEXTURE_2D, 1, GL_RGBA32F, textureSize, textureSize );
+    glTexStorage2D( GL_TEXTURE_2D,  // target
+                    1,              // levels (1 = no mipmapping)
+                    GL_RGBA8,       // internal format (32-bit textures)
+                    textureWidth,   // texture width
+                    textureHeight   // texture height
+                    );
     std::cout << "glTexStorage2D: " << gluErrorString( glGetError() ) << std::endl;
 
     // Declare a array with the texture's image data.
-    const unsigned int size = 4*2*textureSize;
-    GLubyte imageData[size];
-    std::cout << "size: " << size << std::endl
-         << "size/4: " << (size/4) << std::endl
-         << "size/2: " << (size/2) << std::endl
-         << "3/4*size: " << (size*(3.0f/4.0f)) << std::endl;
+    GLubyte imageData[textureSize];
 
     // Intialize the image data.
     unsigned int i;
     // Red
     //for( i=0; i<size/4; i++ ){
-    for( i=0; i<size; i+=4 ){
-        imageData[i] = 255;
-        imageData[i+1] = 0;
-        imageData[i+2] = 0;
-        imageData[i+3] = 255;
+    for( i=0; i<textureSize/2; i+=4 ){
+        imageData[i] = (GLubyte)255;
+        imageData[i+1] = (GLubyte)0;
+        imageData[i+2] = (GLubyte)0;
+        imageData[i+3] = (GLubyte)255;
+    }
+    for( ; i<textureSize; i+=4 ){
+        imageData[i] = (GLubyte)0;
+        imageData[i+1] = (GLubyte)255;
+        imageData[i+2] = (GLubyte)0;
+        imageData[i+3] = (GLubyte)255;
     }
 
-    // Blue
-    /*for( ; i<size; i+=4 ){
-        //std::cout << "i (2) : " << i << std::endl;
-        imageData[i] = 0;
-        imageData[i+1] = 255;
-        imageData[i+2] = 0;
-        imageData[i+3] = 0;
-    }*/
+    imageData[0] = (GLubyte)0;
+    imageData[1] = (GLubyte)0;
+    imageData[2] = (GLubyte)255;
+    imageData[3] = (GLubyte)255;
 
     std::cout << "Loading image data into texture ..." << std::endl;
     // Set texture's image data.
@@ -129,8 +138,8 @@ Sprite::Sprite( )
                      0,                 // level
                      0,                 // xoffset
                      0,                 // yoffset
-                     textureSize,       // width
-                     textureSize,       // height
+                     textureWidth,      // width
+                     textureHeight,     // height
                      GL_RGBA,           // format
                      GL_UNSIGNED_BYTE,  // type
                      imageData          // image data.
@@ -194,7 +203,7 @@ void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     sendMVPMatrixToShader( projectionMatrix * glm::translate( glm::mat4( 1.0f ), glm::vec3( 400.0f, 100.0f, 0.0f ) ) );
 
     // Draw the sprite.
-    glDrawArrays( GL_TRIANGLES, 0, 3 );
+    glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
 }
 
 
