@@ -20,13 +20,16 @@
 #ifndef DEPENDENCIES_HPP
 #define DEPENDENCIES_HPP
 
-#define GL_GLEXT_PROTOTYPES
+//#define GL_GLEXT_PROTOTYPES
+
+// GL3W
+#include "gl3w/gl3w.h"
 
 // OpenGL
-#include <GL/glew.h>
 #include <GL/glext.h>
 #include <GL/gl.h>
 #include <GL/glx.h>
+#include <GL/glu.h>
 
 // GLM
 #include <glm/glm.hpp>

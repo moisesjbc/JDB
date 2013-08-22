@@ -7,14 +7,13 @@
 
 #version 420 core
 
+uniform sampler2D tex;
+
 in vec2 UV;
 
 out vec4 finalColor;
 
-uniform usampler2D awesomeTexture;
-
 void main()
 {
-	finalColor = texture( awesomeTexture, UV );
+	finalColor = texture( tex, UV );
 }
-

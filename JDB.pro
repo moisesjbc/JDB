@@ -7,6 +7,7 @@ SOURCES += src/main.cpp \
     src/jdb.cpp \
     src/graphics/drawable.cpp \
     src/utilities/shader_loader.cpp \
+    src/utilities/gl3w/gl3w.c \
     src/graphics/sprite.cpp
 
 HEADERS += \
@@ -14,9 +15,11 @@ HEADERS += \
     src/graphics/drawable.hpp \
     src/utilities/shader_loader.hpp \
     src/utilities/dependencies.hpp \
+    src/utilities/gl3w/gl3w.h \
+    src/utilities/gl3w/glcorearb.h \
     src/graphics/sprite.hpp
 
-LIBS += -lGLEW -lGLU -lGL -lSDL2 -lSDL2_image
+LIBS += -lGLU -lGL -lSDL2 -lSDL2_image
 
 # http://qt-project.org/forums/viewthread/19989
 CONFIG += c++11 pedantic

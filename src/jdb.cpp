@@ -41,6 +41,7 @@ JDB::JDB() :
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8 );
     SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
+    SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 4 );
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 2 );
@@ -65,8 +66,17 @@ JDB::JDB() :
     screen = SDL_GetWindowSurface( window );
 
     // Initialize OpenGL and create a GL context.
+    if( gl3wInit() ){
+        throw std::runtime_error( "ERROR when using gl3wInit()" );
+    }
+    if (!gl3wIsSupported(3, 2)) {
+        throw std::runtime_error( "OpenGL 3.2 not supported" );
+    }
+
+    std::cout << "OpenGL " << glGetString(GL_VERSION) << ", GLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+            /*
     glewExperimental = GL_TRUE;
-    glewInit();
+    glewInit();*/
 
     // Create an OpenGL context.
     glContext = SDL_GL_CreateContext( window );
@@ -94,11 +104,11 @@ JDB::JDB() :
     shaderLoader->destroy();
 
     // Initialize OpenGL.
-    glEnable( GL_DEPTH_TEST );
+    glDisable( GL_DEPTH_TEST );
     glDepthFunc( GL_LEQUAL );
     glViewport( 0, 0, 800, 600 );
-    glClearColor( 0xF5/255.0f, 0xF6/255.0f, 0xCE/255.0f, 1.0f );
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    glClearColor( 0xF5/255.0f, 0xF6/255.0f, 0xCE/255.0f, 1.0f );
 
     // Set projection mode.
     projectionMatrix = glm::ortho( 0.0f, 800.0f, 600.0f, 0.0f, -1.0f, 1.0f );
@@ -135,9 +145,12 @@ void JDB::run()
 
     // Keep rendering a black window until player tell us to stop.
     while( !quit ){
-        glEnable( GL_TEXTURE_2D );
+
         // Clear screen.
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+        glEnable( GL_BLEND );
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
         while( SDL_PollEvent( &event ) != 0 ){
             if( event.type == SDL_QUIT ){
@@ -146,8 +159,9 @@ void JDB::run()
         }
         sprite.draw( projectionMatrix );
 
+        glDisable( GL_BLEND );
+
         SDL_GL_SwapWindow( window );
-        glDisable( GL_TEXTURE_2D );
     }
 }
 
