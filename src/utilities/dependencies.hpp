@@ -22,6 +22,9 @@
 
 //#define GL_GLEXT_PROTOTYPES
 
+// TinyXML 2
+#include "tinyxml2/tinyxml2.h"
+
 // GL3W
 #include "gl3w/gl3w.h"
 

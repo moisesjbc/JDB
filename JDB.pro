@@ -8,6 +8,7 @@ SOURCES += src/main.cpp \
     src/graphics/drawable.cpp \
     src/utilities/shader_loader.cpp \
     src/utilities/gl3w/gl3w.c \
+    src/utilities/tinyxml2/tinyxml2.cpp \
     src/graphics/sprite.cpp
 
 HEADERS += \
@@ -17,6 +18,7 @@ HEADERS += \
     src/utilities/dependencies.hpp \
     src/utilities/gl3w/gl3w.h \
     src/utilities/gl3w/glcorearb.h \
+    src/utilities/tinyxml2/tinyxml2.h \
     src/graphics/sprite.hpp
 
 LIBS += -lGLU -lGL -lSDL2 -lSDL2_image

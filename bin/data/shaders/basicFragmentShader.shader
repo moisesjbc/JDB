@@ -7,7 +7,8 @@
 
 #version 420 core
 
-uniform sampler2D tex;
+uniform sampler2DArray tex;
+uniform int slice;
 
 in vec2 uv;
 
@@ -15,5 +16,5 @@ out vec4 finalColor;
 
 void main()
 {
-	finalColor = texture( tex, vec2( uv.s, 1.0f - uv.t ) );
+	finalColor = texture( tex, vec3( uv.s, 1.0f - uv.t, slice ) );
 }

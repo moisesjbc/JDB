@@ -26,7 +26,14 @@
 namespace jdb {
 
 struct SpriteData {
+    GLuint texture;
+    GLuint vbo;
 
+    SpriteData() : texture(0), vbo(0) {}
+    ~SpriteData(){
+        glDeleteBuffers( 1, &vbo );
+        glDeleteTextures( 1, &texture );
+    }
 };
 
 //std::shared_ptr<SpriteData> readSpriteDataFromFile( const char* filePath );
@@ -38,6 +45,7 @@ class Sprite : public Drawable
         static GLuint vao;
         static GLint mvpMatrixLocation;
         static GLint samplerLocation;
+        static GLint sliceLocation;
 
         GLuint vbo;
         GLuint texture;
@@ -49,6 +57,8 @@ class Sprite : public Drawable
          ***/
         Sprite();
         void setSpriteData( const std::shared_ptr< SpriteData >& spriteData );
+
+        static std::shared_ptr<SpriteData> loadSpriteData( const tinyxml2::XMLNode* xmlNode );
 
         /***
          * 2. VAO management

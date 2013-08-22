@@ -89,7 +89,6 @@ JDB::JDB() :
     std::cout << "Context version (SDL/OpenGL): " << majorVersion << "." << minorVersion << std::endl;
 
 
-
     // Display a string with the OpenGL version.
     const unsigned char* version = glGetString( GL_VERSION );
     if( version == NULL ){
@@ -144,6 +143,11 @@ void JDB::run()
     SDL_Event event;
     bool quit = false;
     jdb::Sprite sprite;
+
+    tinyxml2::XMLDocument spritesFile;
+    spritesFile.LoadFile( "data/img/sprites.xml" );
+
+    sprite.setSpriteData( Sprite::loadSpriteData( spritesFile.FirstChildElement( "sprite" ) ) );
 
     // Set Sprite VAO as the active one.
     glBindVertexArray( Sprite::getVAO() );
