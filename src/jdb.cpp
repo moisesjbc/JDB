@@ -144,10 +144,10 @@ void JDB::run()
     bool quit = false;
     jdb::Sprite sprite;
 
-    tinyxml2::XMLDocument spritesFile;
-    spritesFile.LoadFile( "data/img/sprites.xml" );
+    tinyxml2::XMLDocument tilesetsFile;
+    tilesetsFile.LoadFile( "data/img/tilesets.xml" );
 
-    sprite.setSpriteData( Sprite::loadSpriteData( spritesFile.FirstChildElement( "sprite" ) ) );
+    sprite.setTileset( Sprite::loadTileset( tilesetsFile.FirstChildElement( "tileset" ) ) );
 
     // Set Sprite VAO as the active one.
     glBindVertexArray( Sprite::getVAO() );

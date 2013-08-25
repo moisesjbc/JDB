@@ -161,17 +161,17 @@ Sprite::Sprite( )
     //SDL_FreeSurface( image );
 }
 
-void Sprite::setSpriteData( const std::shared_ptr< SpriteData >& spriteData )
+void Sprite::setTileset( const std::shared_ptr< Tileset >& tileset )
 {
-    this->spriteData = spriteData;
+    this->tileset = tileset;
 
-    std::cout << "Sprite::setSpriteData - spriteData->texture: " << spriteData->texture << std::endl;
+    std::cout << "Sprite::setTileset - tileset->texture: " << tileset->texture << std::endl;
 }
 
 
-std::shared_ptr<SpriteData> Sprite::loadSpriteData( const tinyxml2::XMLNode* xmlNode )
+std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
 {
-    std::shared_ptr<SpriteData> spriteData( new SpriteData );
+    std::shared_ptr<Tileset> tileset( new Tileset );
 
     // Read texture's source and frame dimensions from the given XML node.
     const char* imageFile = xmlNode->FirstChildElement( "src" )->GetText();
@@ -192,9 +192,9 @@ std::shared_ptr<SpriteData> Sprite::loadSpriteData( const tinyxml2::XMLNode* xml
     // Generate the texture and set its parameters.
     // TODO: play with multiple texture units (or not?).
     glActiveTexture( GL_TEXTURE0 );
-    glGenTextures( 1, &spriteData->texture );
-    glBindTexture( GL_TEXTURE_2D_ARRAY, spriteData->texture );
-    std::cout << "Sprite::loadSpriteData - texture: " << spriteData->texture << std::endl;
+    glGenTextures( 1, &tileset->texture );
+    glBindTexture( GL_TEXTURE_2D_ARRAY, tileset->texture );
+    std::cout << "Sprite::loadTileset - texture: " << tileset->texture << std::endl;
 
     glTexParameteri( GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_REPEAT );
     glTexParameteri( GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_REPEAT );
@@ -234,7 +234,7 @@ std::shared_ptr<SpriteData> Sprite::loadSpriteData( const tinyxml2::XMLNode* xml
 
     //glBindTexture( GL_TEXTURE_2D_ARRAY, 0 );
 
-    return spriteData;
+    return tileset;
 }
 
 /***
@@ -270,7 +270,7 @@ void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     // Set this Sprite's VBO as the active one.
     glActiveTexture( GL_TEXTURE0 );
     glBindBuffer( GL_ARRAY_BUFFER, vbo );
-    glBindTexture( GL_TEXTURE_2D_ARRAY, spriteData->texture );
+    glBindTexture( GL_TEXTURE_2D_ARRAY, tileset->texture );
 
     // Send MVP matrix to shader.
     // TODO: change and use the Sprite's own transformation matrix.

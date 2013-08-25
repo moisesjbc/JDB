@@ -25,12 +25,12 @@
 
 namespace jdb {
 
-struct SpriteData {
+struct Tileset {
     GLuint texture;
     GLuint vbo;
 
-    SpriteData() : texture(0), vbo(0) {}
-    ~SpriteData(){
+    Tileset() : texture(0), vbo(0) {}
+    ~Tileset(){
         glDeleteBuffers( 1, &vbo );
         glDeleteTextures( 1, &texture );
     }
@@ -49,16 +49,16 @@ class Sprite : public Drawable
 
         GLuint vbo;
         GLuint texture;
-        std::shared_ptr< SpriteData > spriteData;
+        std::shared_ptr< Tileset > tileset;
 
     public:
         /***
          * 1. Initialization
          ***/
         Sprite();
-        void setSpriteData( const std::shared_ptr< SpriteData >& spriteData );
+        void setTileset( const std::shared_ptr< Tileset >& tileset );
 
-        static std::shared_ptr<SpriteData> loadSpriteData( const tinyxml2::XMLNode* xmlNode );
+        static std::shared_ptr<Tileset> loadTileset( const tinyxml2::XMLNode* xmlNode );
 
         /***
          * 2. VAO management
