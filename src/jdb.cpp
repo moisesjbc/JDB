@@ -42,7 +42,7 @@ JDB::JDB() :
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8 );
     SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
-    //SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+    SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 4 );
     SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 2 );
@@ -53,8 +53,8 @@ JDB::JDB() :
       "JDB v3",
       SDL_WINDOWPOS_CENTERED,
       SDL_WINDOWPOS_CENTERED,
-      800,
-      600,
+      1024,
+      768,
       SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
 
     if( window == NULL ){

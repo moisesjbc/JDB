@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 
 <tileset>
+	<src>data/img/tileset_test.png</src>
+	<tile_dimensions width="32" height="32"/>
+</tileset>
+
+<tileset>
 	<src>data/img/sandwich_01.png</src>
 	<tile_dimensions width="256" height="64"/>
 </tileset>

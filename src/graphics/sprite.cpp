@@ -35,8 +35,8 @@ Sprite::Sprite( )
 {
     GLint currentProgram;
 
-    const GLfloat width = 256.0f;
-    const GLfloat height = 64.0f;
+    const GLfloat width = 32.0f;
+    const GLfloat height = 32.0f;
 
     GLfloat vertices[] {
         // Bottom left
@@ -107,6 +107,7 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
     const tinyxml2::XMLElement* tileDimensionsNode = xmlNode->FirstChildElement( "tile_dimensions" );
     const GLsizei tileWidth = (GLsizei)tileDimensionsNode->IntAttribute( "width" );
     const GLsizei tileHeight = (GLsizei)tileDimensionsNode->IntAttribute( "height" );
+    GLsizei nRows, nColumns, nTiles;
 
     SDL_Surface* image = NULL;
 
@@ -115,8 +116,17 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
     if( !image ){
         throw std::runtime_error( std::string( "ERROR: couldn't load texture image - " ) + std::string( IMG_GetError() ) );
     }
-
     std::cout << "Image loaded: " << imageFile << std::endl;
+
+
+    if( ( image->w % tileWidth ) || ( image->h % tileHeight ) ){
+        throw std::runtime_error( "ERROR: Image's' dimensions are not multiples of tile's dimensions" );
+    }
+    nRows = ( image->h / tileHeight );
+    nColumns = ( image->w / tileWidth );
+    nTiles = nRows * nColumns;
+
+    std::cout << "Tileset: columns (" << nColumns << ")    rows (" << nRows << ")" << std::endl;
 
     // Generate the texture and set its parameters.
     // TODO: play with multiple texture units (or not?).
@@ -138,24 +148,34 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
                     GL_RGBA8,               // internal format (32-bit textures).
                     tileWidth,              // texture width.
                     tileHeight,             // texture height.
-                    1                       // texture depth (number of slices).
+                    nTiles                  // texture depth (number of slices).
                     );
     std::cout << "glTexStorage3D: " << gluErrorString( glGetError() ) << std::endl;
 
     // Set texture's image data.
-    // TODO: extend to multiple layers.
-    glTexSubImage3D( GL_TEXTURE_2D_ARRAY,   // target
-                     0,                     // level
-                     0,                     // xoffset
-                     0,                     // yoffset
-                     0,                     // zoffet
-                     tileWidth,             // width
-                     tileHeight,            // height
-                     1,                     // depth
-                     GL_RGBA,               // format
-                     GL_UNSIGNED_BYTE,      // type
-                     image->pixels          // image data.
-                     );
+    GLsizei tile = 0;
+    for( GLsizei row = 0; row < nRows; row++ ){
+        for( GLsizei column = 0; column < nColumns; column++ ){
+            glPixelStorei( GL_UNPACK_SKIP_PIXELS, column*tileWidth );
+            glPixelStorei( GL_UNPACK_SKIP_ROWS, row*tileHeight );
+
+            glTexSubImage3D( GL_TEXTURE_2D_ARRAY,   // target
+                             0,                     // level
+                             0,                     // xoffset
+                             0,                     // yoffset
+                             tile,                  // zoffset
+                             tileWidth,             // width
+                             tileHeight,            // height
+                             1,                     // depth
+                             GL_RGBA,               // format
+                             GL_UNSIGNED_BYTE,      // type
+                             image->pixels          // image data.
+                             );
+            tile++;
+        }
+
+    }
+
     std::cout << "glTextSubImage3D: " << gluErrorString( glGetError() ) << std::endl;
 
     // Free the image's surface.

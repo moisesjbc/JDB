@@ -36,8 +36,6 @@ struct Tileset {
     }
 };
 
-//std::shared_ptr<SpriteData> readSpriteDataFromFile( const char* filePath );
-
 
 class Sprite : public Drawable
 {
@@ -48,7 +46,6 @@ class Sprite : public Drawable
         static GLint sliceLocation;
 
         GLuint vbo;
-        GLuint texture;
         std::shared_ptr< Tileset > tileset;
 
     public:
