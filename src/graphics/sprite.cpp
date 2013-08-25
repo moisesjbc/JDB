@@ -39,17 +39,21 @@ Sprite::Sprite( )
     const GLfloat height = 64.0f;
 
     GLfloat vertices[] {
-        // Vertice coordinates
-        0.0f, 0.0f,     // Bottom left
-        width, 0.0f,    // Bottom right
-        0.0f, height,   // Top left
-        width, height,  // Top right
+        // Bottom left
+        0.0f, 0.0f,     // Vertice coordinates
+        0.0f, 0.0f,     // Texture coordinates
 
-        // Texture coordinates
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f
+        // Bottom right
+        width, 0.0f,    // Vertice coordinates
+        1.0f, 0.0f,     // Texture coordinates
+
+        // Top left
+        0.0f, height,   // Vertice coordinates
+        0.0f, 1.0f,     // Texture coordinates
+
+        // Top right
+        width, height,  // Vertice coordinates
+        1.0f, 1.0f      // Texture coordinates
     };
 
     // Generate a VBO and fill it with Sprite's vertex attributes.
@@ -73,8 +77,6 @@ Sprite::Sprite( )
 
         glUniform1i( sliceLocation, 0 );
     }
-
-
 
     // Connect sampler to texture unit.
     glUniform1i( samplerLocation, 0 );
@@ -173,11 +175,11 @@ void Sprite::initializeVAO()
     glBindVertexArray( vao );
 
     // We are sending 2D vertices to the vertex shader.
-    glVertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(0) );
+    glVertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, 4*sizeof(GLfloat), (GLvoid*)(0) );
     glEnableVertexAttribArray( 0 );
 
     // We are sending 2D texture coordinates to the shader.
-    glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(8*sizeof(GLfloat)) );
+    glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 4*sizeof(GLfloat), (GLvoid*)(2*sizeof(GLfloat)) );
     glEnableVertexAttribArray( 1 );
 }
 
