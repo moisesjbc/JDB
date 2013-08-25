@@ -38,12 +38,6 @@ Sprite::Sprite( )
     const GLfloat width = 256.0f;
     const GLfloat height = 64.0f;
 
-    const GLsizei textureWidth = 256;
-    const GLsizei textureHeight = 256;
-    const unsigned int textureSize = 4*textureHeight*textureWidth;
-
-    SDL_Surface* image;
-
     GLfloat vertices[] {
         // Vertice coordinates
         0.0f, 0.0f,     // Bottom left
@@ -80,85 +74,18 @@ Sprite::Sprite( )
         glUniform1i( sliceLocation, 0 );
     }
 
-    glActiveTexture( GL_TEXTURE0 );
-    /*
-    std::cout << "Sprite - Vertices and locations loaded: " << gluErrorString( glGetError() ) << std::endl;
 
-    // Generate a 2D texture id.
-    glActiveTexture( GL_TEXTURE0 );
-    glGenTextures( 1, &texture );
-    std::cout << "texture: " << texture << std::endl;
-    glBindTexture( GL_TEXTURE_2D, texture );
 
-    // Set texture's wrapping and filtering parameters.
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-
-    glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-    //glPixelStorei( GL_PACK_ALIGNMENT, 1 );
-
-    // Set the texture's storage.
-    glTexStorage2D( GL_TEXTURE_2D,  // target
-                    1,              // levels (1 = no mipmapping)
-                    GL_RGBA8,       // internal format (32-bit textures)
-                    image->w,       // texture width
-                    image->h        // texture height
-                    );
-    std::cout << "glTexStorage2D: " << gluErrorString( glGetError() ) << std::endl;
-
-    // Declare a array with the texture's image data.
-    GLubyte imageData[textureSize];
-
-    // Intialize the image data.
-    unsigned int i;
-    // Red
-    //for( i=0; i<size/4; i++ ){
-    for( i=0; i<textureSize/2; i+=4 ){
-        imageData[i] = (GLubyte)255;
-        imageData[i+1] = (GLubyte)0;
-        imageData[i+2] = (GLubyte)0;
-        imageData[i+3] = (GLubyte)255;
-    }
-    for( ; i<textureSize; i+=4 ){
-        imageData[i] = (GLubyte)0;
-        imageData[i+1] = (GLubyte)255;
-        imageData[i+2] = (GLubyte)0;
-        imageData[i+3] = (GLubyte)255;
-    }
-
-    imageData[0] = (GLubyte)0;
-    imageData[1] = (GLubyte)0;
-    imageData[2] = (GLubyte)255;
-    imageData[3] = (GLubyte)255;
-
-    std::cout << "Loading image data into texture ..." << std::endl;
-    // Set texture's image data.
-    glTexSubImage2D( GL_TEXTURE_2D,     // target
-                     0,                 // level
-                     0,                 // xoffset
-                     0,                 // yoffset
-                     image->w,          // width
-                     image->h,          // height
-                     GL_RGBA,           // format
-                     GL_UNSIGNED_BYTE,  // type
-                     image->pixels      // image data.
-                     );
-    std::cout << "glTextSubImage2D: " << gluErrorString( glGetError() ) << std::endl;
-    */
     // Connect sampler to texture unit.
     glUniform1i( samplerLocation, 0 );
     std::cout << "Location of shader variable \"sampler\" set : " << gluErrorString( glGetError() ) << std::endl;
 
     // If the VAO for sprites hasn't been initialized... well, it is time.
-    //if( !vao ){
+    if( !vao ){
         Sprite::initializeVAO();
-    //}
+    }
 
     std::cout << "Sprite - VAO initialized: " << gluErrorString( glGetError() ) << std::endl;
-
-    //SDL_FreeSurface( image );
 }
 
 void Sprite::setTileset( const std::shared_ptr< Tileset >& tileset )
@@ -231,8 +158,6 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
 
     // Free the image's surface.
     SDL_FreeSurface( image );
-
-    //glBindTexture( GL_TEXTURE_2D_ARRAY, 0 );
 
     return tileset;
 }

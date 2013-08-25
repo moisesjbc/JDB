@@ -23,5 +23,7 @@ HEADERS += \
 
 LIBS += -lGLU -lGL -lSDL2 -lSDL2_image
 
+CXXFLAGS += -Wall -Werrors -pedantic-errors
+
 # http://qt-project.org/forums/viewthread/19989
-CONFIG += c++11 pedantic
+CONFIG += c++11
