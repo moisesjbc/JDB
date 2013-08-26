@@ -28,6 +28,7 @@ class Drawable
 {
     protected:
         glm::mat4 transformationMatrix;
+        glm::vec4 position;
 
     public:
         /***
@@ -35,15 +36,19 @@ class Drawable
          ***/
         Drawable();
 
+        /***
+         * 2. Getters and setters
+         ***/
+        GLfloat getX() const;
 
         /***
-         * 2. Transformations
+         * 3. Transformations
          ***/
         virtual void translate( const float& tx, const float& ty );
 
 
         /***
-         * 3. Drawing
+         * 4. Drawing
          ***/
         virtual void draw( const glm::mat4& projectionMatrix ) const = 0;
 };

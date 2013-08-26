@@ -256,8 +256,7 @@ void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     glUniform1ui( sliceLocation, currentTile );
 
     // Send MVP matrix to shader.
-    // TODO: change and use the Sprite's own transformation matrix.
-    sendMVPMatrixToShader( projectionMatrix * glm::translate( glm::mat4( 1.0f ), glm::vec3( 400.0f, 100.0f, 0.0f ) ) );
+    sendMVPMatrixToShader( projectionMatrix * transformationMatrix );
 
     // Draw the sprite.
     glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );

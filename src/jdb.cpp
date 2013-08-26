@@ -22,6 +22,9 @@
 
 namespace jdb {
 
+const GLfloat WINDOW_WIDTH = 1024;
+const GLfloat WINDOW_HEIGHT = 768;
+
 JDB::JDB() :
     window( NULL ),
     screen( NULL )
@@ -53,8 +56,8 @@ JDB::JDB() :
       "JDB v3",
       SDL_WINDOWPOS_CENTERED,
       SDL_WINDOWPOS_CENTERED,
-      1024,
-      768,
+      WINDOW_WIDTH,
+      WINDOW_HEIGHT,
       SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
 
     if( window == NULL ){
@@ -108,14 +111,14 @@ JDB::JDB() :
     // Initialize OpenGL.
     glDisable( GL_DEPTH_TEST );
     glDepthFunc( GL_LEQUAL );
-    glViewport( 0, 0, 800, 600 );
+    glViewport( 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT );
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glClearColor( 0xF5/255.0f, 0xF6/255.0f, 0xCE/255.0f, 1.0f );
 
     // Set projection mode.
-    projectionMatrix = glm::ortho( 0.0f, 800.0f, 0.0f, 600.0f, 1.0f, -1.0f );
+    projectionMatrix = glm::ortho( 0.0f, WINDOW_WIDTH, 0.0f, WINDOW_HEIGHT, 1.0f, -1.0f );
 
     std::cout << "JDB constructor finished - " << gluErrorString( glGetError() ) << std::endl;
 }
@@ -143,6 +146,10 @@ void JDB::run()
     SDL_Event event;
     bool quit = false;
     jdb::Sprite sprite;
+    Uint32 t0 = 0;
+    Uint32 t1 = 0;
+
+    GLfloat dx = 10.0f;
 
     tinyxml2::XMLDocument tilesetsFile;
     tilesetsFile.LoadFile( "data/img/tilesets.xml" );
@@ -153,27 +160,39 @@ void JDB::run()
     glBindVertexArray( Sprite::getVAO() );
 
     // Keep rendering a black window until player tell us to stop.
-    while( !quit ){
+    while( !quit ){ 
+        t0 = SDL_GetTicks();
+        while( (t1 - t0) < 40 ){
+            if( SDL_PollEvent( &event ) != 0 ){
+                switch( event.type ){
+                    case SDL_QUIT:
+                        quit = true;
+                    break;
+                    case SDL_KEYDOWN:
+                        switch( event.key.keysym.sym ){
+                            case SDLK_LEFT:
+                                sprite.previousTile();
+                            break;
+                            case SDLK_RIGHT:
+                                sprite.nextTile();
+                            break;
+                        }
+                    break;
+                }
+            }
+            t1 = SDL_GetTicks();
+        }
+        t0 = SDL_GetTicks();
+        t1 = SDL_GetTicks();
+
         // Clear screen.
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-        while( SDL_PollEvent( &event ) != 0 ){
-            switch( event.type ){
-                case SDL_QUIT:
-                    quit = true;
-                break;
-                case SDL_KEYDOWN:
-                    switch( event.key.keysym.sym ){
-                        case SDLK_LEFT:
-                            sprite.previousTile();
-                        break;
-                        case SDLK_RIGHT:
-                            sprite.nextTile();
-                        break;
-                    }
-                break;
-            }
+        sprite.translate( dx, 0 );
+        if( ( sprite.getX() > WINDOW_WIDTH ) || ( sprite.getX() < 0 ) ){
+            dx = -dx;
         }
+
         sprite.draw( projectionMatrix );
 
         SDL_GL_SwapWindow( window );
