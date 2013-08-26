@@ -158,6 +158,7 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
         for( GLsizei column = 0; column < nColumns; column++ ){
             glPixelStorei( GL_UNPACK_SKIP_PIXELS, column*tileWidth );
             glPixelStorei( GL_UNPACK_SKIP_ROWS, row*tileHeight );
+            glPixelStorei( GL_UNPACK_ROW_LENGTH, image->w );
 
             glTexSubImage3D( GL_TEXTURE_2D_ARRAY,   // target
                              0,                     // level
