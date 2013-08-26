@@ -22,16 +22,16 @@
 
 #include "drawable.hpp"
 #include <memory>
+#include <iostream>
 
 namespace jdb {
 
 struct Tileset {
     GLuint texture;
-    GLuint vbo;
+    GLuint nTiles;
 
-    Tileset() : texture(0), vbo(0) {}
+    Tileset() : texture(0), nTiles(0) {}
     ~Tileset(){
-        glDeleteBuffers( 1, &vbo );
         glDeleteTextures( 1, &texture );
     }
 };
@@ -47,6 +47,7 @@ class Sprite : public Drawable
 
         GLuint vbo;
         std::shared_ptr< Tileset > tileset;
+        GLuint currentTile;
 
     public:
         /***
@@ -57,19 +58,30 @@ class Sprite : public Drawable
 
         static std::shared_ptr<Tileset> loadTileset( const tinyxml2::XMLNode* xmlNode );
 
+
         /***
          * 2. VAO management
          ***/
         static void initializeVAO();
         static GLuint getVAO();
 
+
         /***
-         * 3. Drawing
+         * 3. Current tile management
+         ***/
+        void nextTile();
+        void previousTile();
+        void setTile( const GLuint tile );
+
+
+        /***
+         * 4. Drawing
          ***/
         virtual void draw( const glm::mat4& projectionMatrix ) const ;
 
+
         /***
-         * 4. Auxiliar methods
+         * 5. Auxiliar methods
          ***/
     private:
         virtual void sendMVPMatrixToShader( const glm::mat4& mvpMatrix ) const ;

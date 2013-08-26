@@ -8,7 +8,7 @@
 #version 420 core
 
 uniform sampler2DArray tex;
-uniform int slice;
+uniform unsigned int slice;
 
 in vec2 uv;
 

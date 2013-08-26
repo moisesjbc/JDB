@@ -158,8 +158,20 @@ void JDB::run()
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
         while( SDL_PollEvent( &event ) != 0 ){
-            if( event.type == SDL_QUIT ){
-                quit = true;
+            switch( event.type ){
+                case SDL_QUIT:
+                    quit = true;
+                break;
+                case SDL_KEYDOWN:
+                    switch( event.key.keysym.sym ){
+                        case SDLK_LEFT:
+                            sprite.previousTile();
+                        break;
+                        case SDLK_RIGHT:
+                            sprite.nextTile();
+                        break;
+                    }
+                break;
             }
         }
         sprite.draw( projectionMatrix );

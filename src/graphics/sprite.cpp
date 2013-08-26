@@ -75,10 +75,10 @@ Sprite::Sprite( )
                   << "samplerLocation: " << samplerLocation << std::endl
                   << "sliceLocation: " << sliceLocation << std::endl;
 
-        glUniform1i( sliceLocation, 0 );
+        currentTile = 0;
     }
 
-    // Connect sampler to texture unit.
+    // Connect sampler to texture unit 0.
     glUniform1i( samplerLocation, 0 );
     std::cout << "Location of shader variable \"sampler\" set : " << gluErrorString( glGetError() ) << std::endl;
 
@@ -107,7 +107,7 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
     const tinyxml2::XMLElement* tileDimensionsNode = xmlNode->FirstChildElement( "tile_dimensions" );
     const GLsizei tileWidth = (GLsizei)tileDimensionsNode->IntAttribute( "width" );
     const GLsizei tileHeight = (GLsizei)tileDimensionsNode->IntAttribute( "height" );
-    GLsizei nRows, nColumns, nTiles;
+    GLsizei nRows, nColumns;
 
     SDL_Surface* image = NULL;
 
@@ -124,7 +124,7 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
     }
     nRows = ( image->h / tileHeight );
     nColumns = ( image->w / tileWidth );
-    nTiles = nRows * nColumns;
+    tileset->nTiles = nRows * nColumns;
 
     std::cout << "Tileset: columns (" << nColumns << ")    rows (" << nRows << ")" << std::endl;
 
@@ -148,7 +148,7 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
                     GL_RGBA8,               // internal format (32-bit textures).
                     tileWidth,              // texture width.
                     tileHeight,             // texture height.
-                    nTiles                  // texture depth (number of slices).
+                    tileset->nTiles         // texture depth (number of slices).
                     );
     std::cout << "glTexStorage3D: " << gluErrorString( glGetError() ) << std::endl;
 
@@ -211,7 +211,39 @@ GLuint Sprite::getVAO()
 
 
 /***
- * 3. Drawing
+ * 3. Current tile management
+ ***/
+
+void Sprite::nextTile()
+{
+    if( currentTile < (tileset->nTiles - 1) ){
+        currentTile++;
+    }else{
+        currentTile = 0;
+    }
+}
+
+void Sprite::previousTile()
+{
+    if( currentTile ){
+        currentTile--;
+    }else{
+        currentTile = tileset->nTiles - 1;
+    }
+}
+
+void Sprite::setTile( const GLuint tile )
+{
+    if( tile < tileset->nTiles ){
+        currentTile = tile;
+    }else{
+        throw std::runtime_error( "ERROR: tile index out of limits" );
+    }
+}
+
+
+/***
+ * 4. Drawing
  ***/
 
 void Sprite::draw( const glm::mat4& projectionMatrix ) const {
@@ -219,6 +251,9 @@ void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     glActiveTexture( GL_TEXTURE0 );
     glBindBuffer( GL_ARRAY_BUFFER, vbo );
     glBindTexture( GL_TEXTURE_2D_ARRAY, tileset->texture );
+
+    // Send current tile index to shader.
+    glUniform1ui( sliceLocation, currentTile );
 
     // Send MVP matrix to shader.
     // TODO: change and use the Sprite's own transformation matrix.
@@ -230,7 +265,7 @@ void Sprite::draw( const glm::mat4& projectionMatrix ) const {
 
 
 /***
- * 4. Auxiliar methods
+ * 5. Auxiliar methods
  ***/
 
 void Sprite::sendMVPMatrixToShader( const glm::mat4& mvpMatrix ) const
