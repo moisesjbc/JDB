@@ -29,9 +29,11 @@ namespace jdb {
 struct Tileset {
     GLuint texture;
     GLuint nTiles;
+    GLuint vbo;
 
-    Tileset() : texture(0), nTiles(0) {}
+    Tileset() : texture(0), nTiles(0), vbo(0) {}
     ~Tileset(){
+        glDeleteBuffers( 1, &vbo );
         glDeleteTextures( 1, &texture );
     }
 };
@@ -45,7 +47,6 @@ class Sprite : public Drawable
         static GLint samplerLocation;
         static GLint sliceLocation;
 
-        GLuint vbo;
         std::shared_ptr< Tileset > tileset;
         GLuint currentTile;
 

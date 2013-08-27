@@ -35,33 +35,6 @@ Sprite::Sprite( )
 {
     GLint currentProgram;
 
-    const GLfloat width = 32.0f;
-    const GLfloat height = 32.0f;
-
-    GLfloat vertices[] {
-        // Bottom left
-        0.0f, 0.0f,     // Vertice coordinates
-        0.0f, 0.0f,     // Texture coordinates
-
-        // Bottom right
-        width, 0.0f,    // Vertice coordinates
-        1.0f, 0.0f,     // Texture coordinates
-
-        // Top left
-        0.0f, height,   // Vertice coordinates
-        0.0f, 1.0f,     // Texture coordinates
-
-        // Top right
-        width, height,  // Vertice coordinates
-        1.0f, 1.0f      // Texture coordinates
-    };
-
-    // Generate a VBO and fill it with Sprite's vertex attributes.
-    glGenBuffers( 1, &vbo );
-    glBindBuffer( GL_ARRAY_BUFFER, vbo );
-    glBufferData( GL_ARRAY_BUFFER, 16*sizeof( GLfloat ), vertices, GL_STATIC_DRAW );
-    std::cout << "Sprite - Vertices and locations loaded 1: " << gluErrorString( glGetError() ) << std::endl;
-
     // If we still don't have the locations of the shader uniforms, we
     // search them here.
     if( mvpMatrixLocation == -1 ){
@@ -81,6 +54,11 @@ Sprite::Sprite( )
     // Connect sampler to texture unit 0.
     glUniform1i( samplerLocation, 0 );
     std::cout << "Location of shader variable \"sampler\" set : " << gluErrorString( glGetError() ) << std::endl;
+}
+
+void Sprite::setTileset( const std::shared_ptr< Tileset >& tileset )
+{
+    this->tileset = tileset;
 
     // If the VAO for sprites hasn't been initialized... well, it is time.
     if( !vao ){
@@ -88,12 +66,6 @@ Sprite::Sprite( )
     }
 
     std::cout << "Sprite - VAO initialized: " << gluErrorString( glGetError() ) << std::endl;
-}
-
-void Sprite::setTileset( const std::shared_ptr< Tileset >& tileset )
-{
-    this->tileset = tileset;
-
     std::cout << "Sprite::setTileset - tileset->texture: " << tileset->texture << std::endl;
 }
 
@@ -102,12 +74,48 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
 {
     std::shared_ptr<Tileset> tileset( new Tileset );
 
+    const GLfloat width = 1.0f;
+    const GLfloat height = 1.0f;
+
+    GLfloat vertices[] {
+        // Bottom left
+        0.0f, 0.0f,     // Vertice coordinates
+        0.0f, 0.0f,     // Texture coordinates
+
+        // Bottom right
+        width, 0.0f,    // Vertice coordinates
+        1.0f, 0.0f,     // Texture coordinates
+
+        // Top left
+        0.0f, height,   // Vertice coordinates
+        0.0f, 1.0f,     // Texture coordinates
+
+        // Top right
+        width, height,  // Vertice coordinates
+        1.0f, 1.0f      // Texture coordinates
+    };
+
+
     // Read texture's source and frame dimensions from the given XML node.
     const char* imageFile = xmlNode->FirstChildElement( "src" )->GetText();
     const tinyxml2::XMLElement* tileDimensionsNode = xmlNode->FirstChildElement( "tile_dimensions" );
     const GLsizei tileWidth = (GLsizei)tileDimensionsNode->IntAttribute( "width" );
     const GLsizei tileHeight = (GLsizei)tileDimensionsNode->IntAttribute( "height" );
     GLsizei nRows, nColumns;
+
+    // Update the previous array "vertices" with the width and the height
+    // of a tile.
+    vertices[4] = tileWidth;
+    vertices[12] = tileWidth;
+    vertices[9] = tileHeight;
+    vertices[13] = tileHeight;
+
+
+    // Generate a VBO and fill it with previous array "vertices".
+    glGenBuffers( 1, &(tileset->vbo) );
+    glBindBuffer( GL_ARRAY_BUFFER, tileset->vbo );
+    glBufferData( GL_ARRAY_BUFFER, 16*sizeof( GLfloat ), vertices, GL_STATIC_DRAW );
+    std::cout << "Tileset - Vertices loaded: " << gluErrorString( glGetError() ) << std::endl;
 
     SDL_Surface* image = NULL;
 
@@ -249,7 +257,7 @@ void Sprite::setTile( const GLuint tile )
 void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     // Set this Sprite's VBO as the active one.
     glActiveTexture( GL_TEXTURE0 );
-    glBindBuffer( GL_ARRAY_BUFFER, vbo );
+    glBindBuffer( GL_ARRAY_BUFFER, tileset->vbo );
     glBindTexture( GL_TEXTURE_2D_ARRAY, tileset->texture );
 
     // Send current tile index to shader.
