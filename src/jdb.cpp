@@ -67,11 +67,6 @@ JDB::JDB() :
     // Retrieve the window's screen.
     screen = SDL_GetWindowSurface( window );
 
-
-            /*
-    glewExperimental = GL_TRUE;
-    glewInit();*/
-
     // Create an OpenGL context.
     glContext = SDL_GL_CreateContext( window );
 
@@ -145,19 +140,22 @@ void JDB::run()
 {
     SDL_Event event;
     bool quit = false;
-    jdb::Sprite sprite;
+
     Uint32 t0 = 0;
     Uint32 t1 = 0;
+
+    jdb::Sprite tool;
+    jdb::Sprite sandwich;
 
     GLfloat dx = 10.0f;
 
     tinyxml2::XMLDocument tilesetsFile;
     tilesetsFile.LoadFile( "data/img/tilesets.xml" );
 
-    sprite.setTileset( Sprite::loadTileset( tilesetsFile.FirstChildElement( "tileset" ) ) );
+    sandwich.setTileset( Sprite::loadTileset( tilesetsFile.FirstChildElement( "tileset" )->NextSiblingElement( "tileset" ) ) );
+    tool.setTileset( Sprite::loadTileset( tilesetsFile.FirstChildElement( "tileset" ) ) );
 
     // Set Sprite VAO as the active one.
-    glBindVertexArray( Sprite::getVAO() );
 
     // Keep rendering a black window until player tell us to stop.
     while( !quit ){ 
@@ -171,10 +169,10 @@ void JDB::run()
                     case SDL_KEYDOWN:
                         switch( event.key.keysym.sym ){
                             case SDLK_LEFT:
-                                sprite.previousTile();
+                                tool.previousTile();
                             break;
                             case SDLK_RIGHT:
-                                sprite.nextTile();
+                                tool.nextTile();
                             break;
                         }
                     break;
@@ -188,12 +186,13 @@ void JDB::run()
         // Clear screen.
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-        sprite.translate( dx, 0 );
-        if( ( sprite.getX() > WINDOW_WIDTH ) || ( sprite.getX() < 0 ) ){
+        sandwich.translate( dx, 0 );
+        if( ( sandwich.getX() > WINDOW_WIDTH ) || ( sandwich.getX() < 0 ) ){
             dx = -dx;
         }
 
-        sprite.draw( projectionMatrix );
+        tool.draw( projectionMatrix );
+        sandwich.draw( projectionMatrix );
 
         SDL_GL_SwapWindow( window );
     }

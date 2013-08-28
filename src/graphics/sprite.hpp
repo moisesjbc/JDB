@@ -42,19 +42,20 @@ struct Tileset {
 class Sprite : public Drawable
 {
     private:
-        static GLuint vao;
         static GLint mvpMatrixLocation;
         static GLint samplerLocation;
         static GLint sliceLocation;
 
+        GLuint vao;
         std::shared_ptr< Tileset > tileset;
         GLuint currentTile;
 
     public:
         /***
-         * 1. Initialization
+         * 1. Initialization and destruction
          ***/
         Sprite();
+        ~Sprite();
         void setTileset( const std::shared_ptr< Tileset >& tileset );
 
         static std::shared_ptr<Tileset> loadTileset( const tinyxml2::XMLNode* xmlNode );
@@ -63,8 +64,7 @@ class Sprite : public Drawable
         /***
          * 2. VAO management
          ***/
-        static void initializeVAO();
-        static GLuint getVAO();
+        void initializeVAO();
 
 
         /***

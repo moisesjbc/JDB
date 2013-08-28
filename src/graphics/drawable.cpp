@@ -27,7 +27,7 @@ namespace jdb {
  ***/
 
 Drawable::Drawable() :
-    transformationMatrix( 1.0f )
+    transformationMatrix( 1.0f ), position( 0.0f )
 {
 }
 

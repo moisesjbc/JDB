@@ -22,7 +22,6 @@
 
 namespace jdb {
 
-GLuint Sprite::vao = 0;
 GLint Sprite::mvpMatrixLocation = -1;
 GLint Sprite::samplerLocation = -1;
 GLint Sprite::sliceLocation = -1;
@@ -31,9 +30,12 @@ GLint Sprite::sliceLocation = -1;
  * 1. Initialization
  ***/
 
-Sprite::Sprite( )
+Sprite::Sprite()
 {
     GLint currentProgram;
+
+    // Generate a id for the Sprite's VAO.
+    glGenVertexArrays( 1, &vao );
 
     // If we still don't have the locations of the shader uniforms, we
     // search them here.
@@ -60,15 +62,17 @@ void Sprite::setTileset( const std::shared_ptr< Tileset >& tileset )
 {
     this->tileset = tileset;
 
-    // If the VAO for sprites hasn't been initialized... well, it is time.
-    if( !vao ){
-        Sprite::initializeVAO();
-    }
+    // Initialize the VAO.
+    Sprite::initializeVAO();
 
-    std::cout << "Sprite - VAO initialized: " << gluErrorString( glGetError() ) << std::endl;
-    std::cout << "Sprite::setTileset - tileset->texture: " << tileset->texture << std::endl;
+    std::cout << "Sprite - texture and VAO initialized: " << gluErrorString( glGetError() ) << std::endl;
 }
 
+
+Sprite::~Sprite()
+{
+    glDeleteVertexArrays( 1, &vao );
+}
 
 std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
 {
@@ -109,7 +113,6 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
     vertices[12] = tileWidth;
     vertices[9] = tileHeight;
     vertices[13] = tileHeight;
-
 
     // Generate a VBO and fill it with previous array "vertices".
     glGenBuffers( 1, &(tileset->vbo) );
@@ -199,8 +202,7 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
 
 void Sprite::initializeVAO()
 {
-    // Initialize the VAO shared by all sprites.
-    glGenVertexArrays( 1, &vao );
+    // Initialize the sprite's VAO.
     glBindVertexArray( vao );
 
     // We are sending 2D vertices to the vertex shader.
@@ -210,11 +212,6 @@ void Sprite::initializeVAO()
     // We are sending 2D texture coordinates to the shader.
     glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 4*sizeof(GLfloat), (GLvoid*)(2*sizeof(GLfloat)) );
     glEnableVertexAttribArray( 1 );
-}
-
-GLuint Sprite::getVAO()
-{
-    return vao;
 }
 
 
@@ -255,9 +252,9 @@ void Sprite::setTile( const GLuint tile )
  ***/
 
 void Sprite::draw( const glm::mat4& projectionMatrix ) const {
-    // Set this Sprite's VBO as the active one.
+    // Load the sprite's attributes for rendering.
     glActiveTexture( GL_TEXTURE0 );
-    glBindBuffer( GL_ARRAY_BUFFER, tileset->vbo );
+    glBindVertexArray( vao );
     glBindTexture( GL_TEXTURE_2D_ARRAY, tileset->texture );
 
     // Send current tile index to shader.
