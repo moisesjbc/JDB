@@ -105,7 +105,10 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
     const tinyxml2::XMLElement* tileDimensionsNode = xmlNode->FirstChildElement( "tile_dimensions" );
     const GLsizei tileWidth = (GLsizei)tileDimensionsNode->IntAttribute( "width" );
     const GLsizei tileHeight = (GLsizei)tileDimensionsNode->IntAttribute( "height" );
+    const tinyxml2::XMLElement* collisionInfoNode = xmlNode->FirstChildElement( "collision_info" );
+    const tinyxml2::XMLElement* collisionRectNode;
     GLsizei nRows, nColumns;
+    Rect colRect;
 
     // Update the previous array "vertices" with the width and the height
     // of a tile.
@@ -188,12 +191,45 @@ std::shared_ptr<Tileset> Sprite::loadTileset( const tinyxml2::XMLNode* xmlNode )
 
     }
 
+
+
+
     std::cout << "glTextSubImage3D: " << gluErrorString( glGetError() ) << std::endl;
 
     // Free the image's surface.
     SDL_FreeSurface( image );
 
+
+    // Get collision info (if available).
+    if( collisionInfoNode ){
+        collisionRectNode = collisionInfoNode->FirstChildElement( "general_col_rects" )->FirstChildElement( "rect" );
+
+        while( collisionRectNode ){
+            colRect.x = (GLfloat)( collisionRectNode->FloatAttribute( "x" ) );
+            colRect.y = (GLfloat)( collisionRectNode->FloatAttribute( "y" ) );
+            colRect.width = (GLfloat)( collisionRectNode->FloatAttribute( "width" ) );
+            colRect.height = (GLfloat)( collisionRectNode->FloatAttribute( "height" ) );
+
+            std::cout << "colRect: (" << colRect.x << ", " << colRect.y << ", " << colRect.width << ", " << colRect.height << ")" << std::endl;
+
+            tileset->generalCollisionRects.push_back( colRect );
+
+            collisionRectNode = collisionRectNode->NextSiblingElement();
+        }
+    }
+
     return tileset;
+}
+
+const std::shared_ptr< Tileset > Sprite::getTileset()
+{
+    return tileset;
+}
+
+
+glm::vec2 Sprite::getPosition() const
+{
+    return position;
 }
 
 /***
@@ -262,23 +298,39 @@ bool Sprite::collide( const Sprite& b ) const
     const std::vector<Rect>* aRects = getCollisionRects();
     const std::vector<Rect>* bRects = b.getCollisionRects();
 
+    const glm::vec2 bPosition = b.getPosition();
+
     Rect aRect, bRect;
 
     for( unsigned int i=0; i<aRects->size(); i++ ){
         aRect.x = ( (*aRects)[i] ).x + position.x;
         aRect.y = ( (*aRects)[i] ).y + position.y;
+        aRect.width = ( (*aRects)[i] ).width;
+        aRect.height = ( (*aRects)[i] ).height;
+
         for( unsigned int j=0; j<bRects->size(); j++ ){
-            bRect.x = ( (*bRects)[j] ).x + position.x;
-            bRect.y = ( (*bRects)[j] ).y + position.y;
+            bRect.x = ( (*bRects)[j] ).x + bPosition.x;
+            bRect.y = ( (*bRects)[j] ).y + bPosition.y;
+            bRect.width = ( (*bRects)[j] ).width;
+            bRect.height = ( (*bRects)[j] ).height;
+
+            if(
+                ( aRect.x < ( bRect.x + bRect.width ) ) && // 4
+                ( ( aRect.x + aRect.width ) > bRect.x ) && // 3
+                ( aRect.y < ( bRect.y + bRect.height ) ) && // 2
+                ( ( aRect.y + aRect.height ) > bRect.y )  // 1
+              ){
+                return true;
+            }
         }
     }
 
-    return true;
+    return false;
 }
 
 const std::vector<Rect>* Sprite::getCollisionRects() const
 {
-    return &( tileset->collisionRects[currentTile] );
+    return &( tileset->generalCollisionRects );
 }
 
 

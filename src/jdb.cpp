@@ -141,10 +141,13 @@ void JDB::run()
     SDL_Event event;
     bool quit = false;
 
+    // Make the cursor invisible.
+    SDL_ShowCursor( SDL_DISABLE );
+
     Uint32 t0 = 0;
     Uint32 t1 = 0;
 
-    jdb::Sprite tool;
+    jdb::Sprite staticTool, dynamicTool;
     jdb::Sprite sandwich;
 
     GLfloat dx = 10.0f;
@@ -153,7 +156,10 @@ void JDB::run()
     tilesetsFile.LoadFile( "data/img/tilesets.xml" );
 
     sandwich.setTileset( Sprite::loadTileset( tilesetsFile.FirstChildElement( "tileset" )->NextSiblingElement( "tileset" ) ) );
-    tool.setTileset( Sprite::loadTileset( tilesetsFile.FirstChildElement( "tileset" ) ) );
+    staticTool.setTileset( Sprite::loadTileset( tilesetsFile.FirstChildElement( "tileset" ) ) );
+    dynamicTool.setTileset( staticTool.getTileset() );
+
+    dynamicTool.setTile( 0 );
 
     // Set Sprite VAO as the active one.
 
@@ -169,11 +175,23 @@ void JDB::run()
                     case SDL_KEYDOWN:
                         switch( event.key.keysym.sym ){
                             case SDLK_LEFT:
-                                tool.previousTile();
+                                dynamicTool.previousTile();
                             break;
                             case SDLK_RIGHT:
-                                tool.nextTile();
+                                dynamicTool.nextTile();
                             break;
+                            case SDLK_ESCAPE:
+                                quit = true;
+                            break;
+                        }
+                    break;
+                    case SDL_MOUSEMOTION:
+                        dynamicTool.translate( event.motion.xrel, event.motion.yrel );
+
+                        if( dynamicTool.collide( staticTool ) ){
+                            staticTool.setTile( 1 );
+                        }else{
+                            staticTool.setTile( 0 );
                         }
                     break;
                 }
@@ -191,7 +209,8 @@ void JDB::run()
             dx = -dx;
         }
 
-        tool.draw( projectionMatrix );
+        staticTool.draw( projectionMatrix );
+        dynamicTool.draw( projectionMatrix );
         sandwich.draw( projectionMatrix );
 
         SDL_GL_SwapWindow( window );

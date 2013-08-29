@@ -32,7 +32,9 @@ struct Tileset {
     GLuint texture;
     GLuint nTiles;
     GLuint vbo;
-    std::vector< std::vector <Rect> > collisionRects;
+
+    std::vector< Rect > generalCollisionRects;
+    //std::vector< std::vector <Rect> > collisionRects;
 
     Tileset() : texture(0), nTiles(0), vbo(0) {}
     ~Tileset(){
@@ -60,9 +62,11 @@ class Sprite : public Drawable
         Sprite();
         ~Sprite();
         void setTileset( const std::shared_ptr< Tileset >& tileset );
+        const std::shared_ptr< Tileset > getTileset();
 
         static std::shared_ptr<Tileset> loadTileset( const tinyxml2::XMLNode* xmlNode );
 
+        glm::vec2 getPosition() const ;
 
         /***
          * 2. VAO management
