@@ -3,6 +3,11 @@
 <tileset>
 	<src>data/img/tileset_test.png</src>
 	<tile_dimensions width="32" height="32"/>
+	<collision_info>
+		<common_col_rects>
+			<rect x="0" y="0" width="32" height="32" />
+		</common_col_rects>
+	</collision_info>
 </tileset>
 
 <tileset>

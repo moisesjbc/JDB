@@ -113,7 +113,7 @@ JDB::JDB() :
     glClearColor( 0xF5/255.0f, 0xF6/255.0f, 0xCE/255.0f, 1.0f );
 
     // Set projection mode.
-    projectionMatrix = glm::ortho( 0.0f, WINDOW_WIDTH, 0.0f, WINDOW_HEIGHT, 1.0f, -1.0f );
+    projectionMatrix = glm::ortho( 0.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 0.0f, 1.0f, -1.0f );
 
     std::cout << "JDB constructor finished - " << gluErrorString( glGetError() ) << std::endl;
 }

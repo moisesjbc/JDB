@@ -16,5 +16,5 @@ out vec4 finalColor;
 
 void main()
 {
-	finalColor = texture( tex, vec3( uv.s, 1.0f - uv.t, slice ) );
+	finalColor = texture( tex, vec3( uv.s, uv.t, slice ) );
 }
