@@ -24,11 +24,18 @@
 
 namespace jdb {
 
+struct Rect
+{
+    GLfloat x;
+    GLfloat y;
+    GLfloat width;
+    GLfloat height;
+};
+
 class Drawable
 {
     protected:
-        glm::mat4 transformationMatrix;
-        glm::vec4 position;
+        glm::vec2 position;
 
     public:
         /***
@@ -36,10 +43,12 @@ class Drawable
          ***/
         Drawable();
 
+
         /***
          * 2. Getters and setters
          ***/
         GLfloat getX() const;
+
 
         /***
          * 3. Transformations

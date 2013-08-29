@@ -27,7 +27,7 @@ namespace jdb {
  ***/
 
 Drawable::Drawable() :
-    transformationMatrix( 1.0f ), position( 0.0f )
+    position( 0.0f )
 {
 }
 
@@ -48,10 +48,9 @@ GLfloat Drawable::getX() const
 
 void Drawable::translate( const float& tx, const float& ty )
 {
-    transformationMatrix = glm::translate( transformationMatrix, glm::vec3( tx, ty, 0.0f ) );
-
     // Update the Drawable's position.
-    position = transformationMatrix * glm::vec4( 0.0f, 0.0f, 0.0f, 1.0f );
+    position.x += tx;
+    position.y += ty;
 }
 
 } // namespace jdb

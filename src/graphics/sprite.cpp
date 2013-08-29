@@ -247,8 +247,43 @@ void Sprite::setTile( const GLuint tile )
 }
 
 
+GLuint Sprite::getCurrentTile() const
+{
+    return currentTile;
+}
+
+
 /***
- * 4. Drawing
+ * 4. Collision detection
+ ***/
+
+bool Sprite::collide( const Sprite& b ) const
+{
+    const std::vector<Rect>* aRects = getCollisionRects();
+    const std::vector<Rect>* bRects = b.getCollisionRects();
+
+    Rect aRect, bRect;
+
+    for( unsigned int i=0; i<aRects->size(); i++ ){
+        aRect.x = ( (*aRects)[i] ).x + position.x;
+        aRect.y = ( (*aRects)[i] ).y + position.y;
+        for( unsigned int j=0; j<bRects->size(); j++ ){
+            bRect.x = ( (*bRects)[j] ).x + position.x;
+            bRect.y = ( (*bRects)[j] ).y + position.y;
+        }
+    }
+
+    return true;
+}
+
+const std::vector<Rect>* Sprite::getCollisionRects() const
+{
+    return &( tileset->collisionRects[currentTile] );
+}
+
+
+/***
+ * 5. Drawing
  ***/
 
 void Sprite::draw( const glm::mat4& projectionMatrix ) const {
@@ -261,7 +296,7 @@ void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     glUniform1ui( sliceLocation, currentTile );
 
     // Send MVP matrix to shader.
-    sendMVPMatrixToShader( projectionMatrix * transformationMatrix );
+    sendMVPMatrixToShader( projectionMatrix * glm::translate( glm::mat4( 1.0f ), glm::vec3( position.x, position.y, 0.0f ) ) );
 
     // Draw the sprite.
     glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
@@ -269,7 +304,7 @@ void Sprite::draw( const glm::mat4& projectionMatrix ) const {
 
 
 /***
- * 5. Auxiliar methods
+ * 6. Auxiliar methods
  ***/
 
 void Sprite::sendMVPMatrixToShader( const glm::mat4& mvpMatrix ) const

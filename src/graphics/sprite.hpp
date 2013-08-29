@@ -23,13 +23,16 @@
 #include "drawable.hpp"
 #include <memory>
 #include <iostream>
+#include <vector>
 
 namespace jdb {
+
 
 struct Tileset {
     GLuint texture;
     GLuint nTiles;
     GLuint vbo;
+    std::vector< std::vector <Rect> > collisionRects;
 
     Tileset() : texture(0), nTiles(0), vbo(0) {}
     ~Tileset(){
@@ -73,16 +76,26 @@ class Sprite : public Drawable
         void nextTile();
         void previousTile();
         void setTile( const GLuint tile );
+        GLuint getCurrentTile() const ;
 
 
         /***
-         * 4. Drawing
+         * 4. Collision detection
+         ***/
+        virtual bool collide( const Sprite& b ) const ;
+    private:
+        const std::vector<Rect>* getCollisionRects() const ;
+    public:
+
+
+        /***
+         * 5. Drawing
          ***/
         virtual void draw( const glm::mat4& projectionMatrix ) const ;
 
 
         /***
-         * 5. Auxiliar methods
+         * 6. Auxiliar methods
          ***/
     private:
         virtual void sendMVPMatrixToShader( const glm::mat4& mvpMatrix ) const ;
