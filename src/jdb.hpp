@@ -20,8 +20,9 @@
 #ifndef JDB_HPP
 #define JDB_HPP
 
+#include "libraries/dependencies.hpp"
+#include "libraries/msl/src/shader_loader.hpp"
 #include "libraries/m2g/src/sprite.hpp"
-#include "libraries/shader_loader.hpp"
 
 namespace jdb {
 
@@ -32,7 +33,7 @@ class JDB
         SDL_Window* window;
         SDL_Surface* screen;
         SDL_GLContext glContext;
-        ShaderLoader* shaderLoader;
+        msl::ShaderLoader* shaderLoader;
         glm::mat4 projectionMatrix;
 
     public:

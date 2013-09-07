@@ -99,7 +99,7 @@ JDB::JDB() :
     std::cout << "GLSL Version: " << glGetString( GL_SHADING_LANGUAGE_VERSION ) << std::endl;
 
     // Load and use shaders.
-    shaderLoader = ShaderLoader::getInstance();
+    shaderLoader = msl::ShaderLoader::getInstance();
     shaderLoader->loadMinimumShaderProgram( "data/shaders/basicVertexShader.shader", "data/shaders/basicFragmentShader.shader" );
     shaderLoader->destroy();
 
@@ -147,16 +147,16 @@ void JDB::run()
     Uint32 t0 = 0;
     Uint32 t1 = 0;
 
-    jdb::Sprite staticTool, dynamicTool;
-    jdb::Sprite sandwich;
+    m2g::Sprite staticTool, dynamicTool;
+    m2g::Sprite sandwich;
 
     GLfloat dx = 10.0f;
 
     tinyxml2::XMLDocument tilesetsFile;
     tilesetsFile.LoadFile( "data/img/tilesets.xml" );
 
-    sandwich.setTileset( Sprite::loadTileset( tilesetsFile.FirstChildElement( "tileset" )->NextSiblingElement( "tileset" ) ) );
-    staticTool.setTileset( Sprite::loadTileset( tilesetsFile.FirstChildElement( "tileset" ) ) );
+    sandwich.setTileset( m2g::loadTileset( tilesetsFile.FirstChildElement( "tileset" )->NextSiblingElement( "tileset" ) ) );
+    staticTool.setTileset( m2g::loadTileset( tilesetsFile.FirstChildElement( "tileset" ) ) );
     dynamicTool.setTileset( staticTool.getTileset() );
 
     dynamicTool.setTile( 0 );
