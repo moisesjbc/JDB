@@ -1,3 +1,6 @@
 [submodule "src/libraries/m2g"]
 	path = src/libraries/m2g
 	url = git@github.com:Neodivert/m2g
+[submodule "src/libraries/msl"]
+	path = src/libraries/msl
+	url = git@github.com:Neodivert/msl

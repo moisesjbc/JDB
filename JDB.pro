@@ -20,6 +20,7 @@ HEADERS += \
     src/libraries/gl3w/glcorearb.h \
     src/libraries/tinyxml2/tinyxml2.h \
     src/libraries/m2g/src/tileset.hpp \
+    src/libraries/m2g/src/libraries/tinyxml2/tinyxml2.h \
     src/libraries/m2g/src/sprite.hpp \
     src/libraries/m2g/src/drawable.hpp
 

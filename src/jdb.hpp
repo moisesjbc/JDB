@@ -20,8 +20,8 @@
 #ifndef JDB_HPP
 #define JDB_HPP
 
-#include "graphics/sprite.hpp"
-#include "utilities/shader_loader.hpp"
+#include "libraries/m2g/src/sprite.hpp"
+#include "libraries/shader_loader.hpp"
 
 namespace jdb {
 
