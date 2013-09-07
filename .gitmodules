@@ -1,0 +1,3 @@
+[submodule "src/libraries/m2g"]
+	path = src/libraries/m2g
+	url = git@github.com:Neodivert/m2g

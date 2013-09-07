@@ -161,6 +161,8 @@ void JDB::run()
 
     dynamicTool.setTile( 0 );
 
+    staticTool.translate( 300, 300 );
+
     // Set Sprite VAO as the active one.
 
     // Keep rendering a black window until player tell us to stop.
