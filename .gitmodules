@@ -1,0 +1,3 @@
+[submodule "project/src/libraries/msl"]
+	path = project/src/libraries/msl
+	url = git@github.com:Neodivert/msl
