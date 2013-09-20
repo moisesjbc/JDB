@@ -23,7 +23,8 @@
 #define GL_GLEXT_PROTOTYPES
 
 // GL3W
-#include "gl3w/gl3w.h"
+// TODO: Move gl3w to dependencies folder.
+#include <GL/gl3w.h>
 
 // OpenGL
 //#include <GL/glext.h>
