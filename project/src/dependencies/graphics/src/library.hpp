@@ -21,6 +21,7 @@
 #define LIBRARY_HPP
 
 #include "drawables/sprite.hpp"
+#include "dependencies/tinyxml2/tinyxml2.h"
 #include <string>
 
 namespace m2g {

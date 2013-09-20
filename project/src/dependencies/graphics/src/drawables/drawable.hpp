@@ -21,8 +21,7 @@
 #define DRAWABLE_HPP
 
 #include "../dependencies/dependencies.hpp"
-#include "../gpu-buffers/src/
-#include "gpu-buffers/src/buffer.hpp"
+#include "../dependencies/gpu-buffers/src/buffer.hpp"
 
 namespace m2g {
 
