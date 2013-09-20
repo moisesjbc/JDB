@@ -20,9 +20,9 @@
 #ifndef JDB_HPP
 #define JDB_HPP
 
-#include "libraries/dependencies.hpp"
-#include "libraries/msl/src/shader_loader.hpp"
-#include "libraries/m2g/src/sprite.hpp"
+#include "dependencies/dependencies.hpp"
+#include "dependencies/msl/src/shader_loader.hpp"
+#include "dependencies/graphics/src/library.hpp"
 
 namespace jdb {
 
