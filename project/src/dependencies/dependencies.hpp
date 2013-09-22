@@ -24,7 +24,7 @@
 
 // GL3W
 // TODO: Move gl3w to dependencies folder.
-#include <GL/gl3w.h>
+#include "GL3W/gl3w.h"
 
 // OpenGL
 //#include <GL/glext.h>

@@ -4,7 +4,6 @@
 // OpenGL
 #define GL_GLEXT_PROTOTYPES
 //#include <GL/gl3w.h>
-#include <QtOpenGL>
 #include <GL/gl.h>
 #include <GL/glu.h>
 

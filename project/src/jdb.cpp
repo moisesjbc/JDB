@@ -141,29 +141,34 @@ void JDB::run()
     SDL_Event event;
     bool quit = false;
 
-    // Make the cursor invisible.
-    SDL_ShowCursor( SDL_DISABLE );
-
+    // Variable for time management.
     Uint32 t0 = 0;
     Uint32 t1 = 0;
 
+    // Create the graphic Library and the sprites.
+    m2g::Library library;
     m2g::Sprite staticTool, dynamicTool;
     m2g::Sprite sandwich;
 
+    // X velocity for sprite "sandwich".
     GLfloat dx = 10.0f;
 
-    tinyxml2::XMLDocument tilesetsFile;
-    tilesetsFile.LoadFile( "data/img/tilesets.xml" );
+    // Make the cursor invisible.
+    SDL_ShowCursor( SDL_DISABLE );
 
-    sandwich.setTileset( m2g::loadTileset( tilesetsFile.FirstChildElement( "tileset" )->NextSiblingElement( "tileset" ) ) );
-    staticTool.setTileset( m2g::loadTileset( tilesetsFile.FirstChildElement( "tileset" ) ) );
+    // Load the graphic library.
+    library.loadFile( "data/img/examples/examples.library" );
+
+    // Set the sprite's tilesets.
+    sandwich.setTileset( library.getTileset( 0 ) );
+    staticTool.setTileset( library.getTileset( 1 ) );
     dynamicTool.setTileset( staticTool.getTileset() );
 
+    // Initialize the dynamic tool's tile.
     dynamicTool.setTile( 0 );
 
+    // Set the static tool at a fixed position.
     staticTool.translate( 300, 300 );
-
-    // Set Sprite VAO as the active one.
 
     // Keep rendering a black window until player tell us to stop.
     while( !quit ){ 
@@ -191,8 +196,10 @@ void JDB::run()
                         dynamicTool.translate( event.motion.xrel, event.motion.yrel );
 
                         if( dynamicTool.collide( staticTool ) ){
+                            std::cout << "collide 1" << std::endl;
                             staticTool.setTile( 1 );
                         }else{
+                            std::cout << "collide 0" << std::endl;
                             staticTool.setTile( 0 );
                         }
                     break;
@@ -211,9 +218,13 @@ void JDB::run()
             dx = -dx;
         }
 
+        std::cout << "Drawing sprites ..." << std::endl;
+
         staticTool.draw( projectionMatrix );
         dynamicTool.draw( projectionMatrix );
         sandwich.draw( projectionMatrix );
+
+        std::cout << "Drawing sprites ...OK" << std::endl;
 
         SDL_GL_SwapWindow( window );
     }
