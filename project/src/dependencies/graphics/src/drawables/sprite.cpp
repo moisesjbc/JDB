@@ -80,12 +80,6 @@ const std::shared_ptr< Tileset > Sprite::getTileset()
     return tileset;
 }
 
-
-glm::vec2 Sprite::getPosition() const
-{
-    return position;
-}
-
 /***
  * 2. VAO management
  ***/
@@ -149,41 +143,6 @@ GLuint Sprite::getCurrentTile() const
 /***
  * 4. Collision detection
  ***/
-
-bool Sprite::collide( const Sprite& b ) const
-{
-    const std::vector<Rect>* aRects = getCollisionRects();
-    const std::vector<Rect>* bRects = b.getCollisionRects();
-
-    const glm::vec2 bPosition = b.getPosition();
-
-    Rect aRect, bRect;
-
-    for( unsigned int i=0; i<aRects->size(); i++ ){
-        aRect.x = ( (*aRects)[i] ).x + position.x;
-        aRect.y = ( (*aRects)[i] ).y + position.y;
-        aRect.width = ( (*aRects)[i] ).width;
-        aRect.height = ( (*aRects)[i] ).height;
-
-        for( unsigned int j=0; j<bRects->size(); j++ ){
-            bRect.x = ( (*bRects)[j] ).x + bPosition.x;
-            bRect.y = ( (*bRects)[j] ).y + bPosition.y;
-            bRect.width = ( (*bRects)[j] ).width;
-            bRect.height = ( (*bRects)[j] ).height;
-
-            if(
-                ( aRect.x < ( bRect.x + bRect.width ) ) && // 4
-                ( ( aRect.x + aRect.width ) > bRect.x ) && // 3
-                ( aRect.y < ( bRect.y + bRect.height ) ) && // 2
-                ( ( aRect.y + aRect.height ) > bRect.y )  // 1
-              ){
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
 
 const std::vector<Rect>* Sprite::getCollisionRects() const
 {

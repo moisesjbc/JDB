@@ -47,7 +47,7 @@ class Sprite : public Drawable
         void setTileset( std::shared_ptr< Tileset > tileset );
         const std::shared_ptr< Tileset > getTileset();
 
-        glm::vec2 getPosition() const ;
+
 
         /***
          * 2. VAO management
@@ -67,9 +67,8 @@ class Sprite : public Drawable
         /***
          * 4. Collision detection
          ***/
-        virtual bool collide( const Sprite& b ) const ;
     private:
-        const std::vector<Rect>* getCollisionRects() const ;
+        virtual const std::vector<Rect>* getCollisionRects() const ;
     public:
 
 

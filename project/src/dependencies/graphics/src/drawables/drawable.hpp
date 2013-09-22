@@ -22,6 +22,7 @@
 
 #include "../dependencies/dependencies.hpp"
 #include "../dependencies/gpu-buffers/src/buffer.hpp"
+#include <vector>
 
 namespace m2g {
 
@@ -49,6 +50,7 @@ class Drawable
          * 2. Getters and setters
          ***/
         GLfloat getX() const;
+        glm::vec2 getPosition() const ;
 
 
         /***
@@ -58,7 +60,15 @@ class Drawable
 
 
         /***
-         * 4. Drawing
+         * 4. Collision test
+         ***/
+        virtual bool collide( const Drawable& b ) const ;
+    private:
+        virtual const std::vector<Rect>* getCollisionRects() const = 0;
+
+
+        /***
+         * 5. Drawing
          ***/
         virtual void draw( const glm::mat4& projectionMatrix ) const = 0;
 };
