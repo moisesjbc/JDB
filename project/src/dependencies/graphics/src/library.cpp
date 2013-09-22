@@ -109,6 +109,9 @@ const std::shared_ptr< m2g::Tileset > Library::getTileset( const unsigned int& i
 std::shared_ptr<Tileset> Library::loadTileset( const tinyxml2::XMLNode* xmlNode, const char* folder, bool developerMode )
 {
     std::shared_ptr<Tileset> tileset( new Tileset );
+    std::string tilesStr;
+    unsigned int firstTile, lastTile;
+    int separatorIndex;
 
     const GLfloat width = 1.0f;
     const GLfloat height = 1.0f;
@@ -139,7 +142,7 @@ std::shared_ptr<Tileset> Library::loadTileset( const tinyxml2::XMLNode* xmlNode,
     const tinyxml2::XMLElement* tileDimensionsNode = xmlNode->FirstChildElement( "tile_dimensions" );
     tileset->tileWidth = (GLuint)tileDimensionsNode->IntAttribute( "width" );
     tileset->tileHeight = (GLuint)tileDimensionsNode->IntAttribute( "height" );
-    const tinyxml2::XMLElement* collisionInfoNode = xmlNode->FirstChildElement( "collision_info" );
+    const tinyxml2::XMLElement* collisionInfoNode = xmlNode->FirstChildElement( "collision_rects" );
     const tinyxml2::XMLElement* collisionRectNode;
     Rect colRect;
 
@@ -156,18 +159,18 @@ std::shared_ptr<Tileset> Library::loadTileset( const tinyxml2::XMLNode* xmlNode,
     }
     std::cout << "Image loaded: " << imageFile << std::endl;
 
-
+    // Validity condition: the tileset dimensions must be multiples
+    // of the tile's dimensions.
     if( ( image->w % tileset->tileWidth ) || ( image->h % tileset->tileHeight ) ){
         throw std::runtime_error( "ERROR: Image's' dimensions are not multiples of tile's dimensions" );
     }
 
+    // Read tileset general info.
     tileset->imageWidth = image->w;
     tileset->imageHeight = image->h;
     tileset->nRows = ( image->h / tileset->tileHeight );
     tileset->nColumns = ( image->w / tileset->tileWidth );
     tileset->nTiles = tileset->nRows * tileset->nColumns;
-
-    std::cout << "Tileset: columns (" << tileset->nColumns << ")    rows (" << tileset->nRows << ")" << std::endl;
 
     // Update the previous array "vertices" with the width and the height
     // of the entire image or a single tile depending on whether developer
@@ -271,21 +274,59 @@ std::shared_ptr<Tileset> Library::loadTileset( const tinyxml2::XMLNode* xmlNode,
     // Free the image's surface.
     SDL_FreeSurface( image );
 
-    // Get collision info (if available).
-    if( collisionInfoNode ){
-        collisionRectNode = collisionInfoNode->FirstChildElement( "general_col_rects" )->FirstChildElement( "rect" );
+    // Create an empty vector of collision rects for each tile in the tileset.
+    tileset->collisionRects.resize( tileset->nTiles );
 
+    // Check if there is available collision info.
+    if( collisionInfoNode ){
+
+        // Get the first collision rect node.
+        collisionRectNode = collisionInfoNode->FirstChildElement( "collision_rect" );
+
+        // Process each collision rect in the tileset XML element.
         while( collisionRectNode ){
+
+            // Get the current collision rect from the XML element.
             colRect.x = (GLfloat)( collisionRectNode->FloatAttribute( "x" ) );
             colRect.y = (GLfloat)( collisionRectNode->FloatAttribute( "y" ) );
             colRect.width = (GLfloat)( collisionRectNode->FloatAttribute( "width" ) );
             colRect.height = (GLfloat)( collisionRectNode->FloatAttribute( "height" ) );
 
-            std::cout << "colRect: (" << colRect.x << ", " << colRect.y << ", " << colRect.width << ", " << colRect.height << ")" << std::endl;
+            // The XML attribute "tiles" tells us in how many tiles is
+            // the current collision rect present.
+            tilesStr = collisionRectNode->Attribute( "tiles" );
 
-            tileset->generalCollisionRects.push_back( colRect );
+            if( tilesStr == "all" ){
+                // The collision rect is present in all the tiles
+                // of the tileset.
+                for( unsigned int i=0; i<tileset->nTiles; i++ ){
+                    tileset->collisionRects[i].push_back( colRect );
+                }
+            }else{
+                // The collision rect is present in a subset of
+                // tiles.
+                separatorIndex = tilesStr.find( '-' );
+                if( separatorIndex != -1 ){
+                    // The collision rect is present in a range
+                    // of tiles [first-last].
+                    firstTile = atoi( tilesStr.substr( 0, separatorIndex ).c_str() );
+                    lastTile = atoi( tilesStr.substr( separatorIndex+1 ).c_str() );
+                }else{
+                    // The collision rect is present in an individual
+                    // tile.
+                    firstTile = atoi( tilesStr.c_str() );
+                    lastTile = atoi( tilesStr.c_str() );
+                }
 
-            collisionRectNode = collisionRectNode->NextSiblingElement();
+                // Add the collision rect to the requested tiles' collision
+                // info.
+                for( unsigned int i=firstTile; i<=lastTile; i++ ){
+                    tileset->collisionRects[i].push_back( colRect );
+                }
+            }
+
+            // Get the next collision rect XML node.
+            collisionRectNode = collisionRectNode->NextSiblingElement( "collision_rect" );
         }
     }
 

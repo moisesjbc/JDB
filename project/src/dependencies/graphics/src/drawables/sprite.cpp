@@ -146,7 +146,7 @@ GLuint Sprite::getCurrentTile() const
 
 const std::vector<Rect>* Sprite::getCollisionRects() const
 {
-    return &( tileset->generalCollisionRects );
+    return &( tileset->collisionRects[currentTile] );
 }
 
 

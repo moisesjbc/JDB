@@ -30,25 +30,34 @@ namespace m2g {
 const unsigned int MAX_TILESET_NAME_SIZE = 100;
 
 struct Tileset {
+    // Texture 2D array id (OpenGL).
     GLuint texture;
 
+    // Tile dimensions.
     GLuint tileWidth;
     GLuint tileHeight;
 
+    // Image dimensions.
     GLuint imageWidth;
     GLuint imageHeight;
 
+    // Tileset number of elements.
     GLuint nRows;
     GLuint nColumns;
     GLuint nTiles;
 
+    // VBO with tileset vertices and UV coordinates.
     GLuint vbo;
 
+    // Name of the tileset's base image.
     char name[MAX_TILESET_NAME_SIZE];
 
-    std::vector< Rect > generalCollisionRects;
-    //std::vector< std::vector <Rect> > collisionRects;
+    // We keep a vector of collision rects for each tile in the tileset.
+    std::vector< std::vector< Rect > > collisionRects;
 
+    /***
+     * 1. Initialization and destruction.
+     ***/
     Tileset();
     ~Tileset();
 };

@@ -22,6 +22,11 @@
 
 namespace m2g {
 
+
+/***
+ * 1. Initialization and destruction.
+ ***/
+
 Tileset::Tileset() :
     texture( 0 ),
     tileWidth( 0 ),

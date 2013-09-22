@@ -194,14 +194,6 @@ void JDB::run()
                     break;
                     case SDL_MOUSEMOTION:
                         dynamicTool.translate( event.motion.xrel, event.motion.yrel );
-
-                        if( dynamicTool.collide( staticTool ) ){
-                            std::cout << "collide 1" << std::endl;
-                            staticTool.setTile( 1 );
-                        }else{
-                            std::cout << "collide 0" << std::endl;
-                            staticTool.setTile( 0 );
-                        }
                     break;
                 }
             }
@@ -218,13 +210,15 @@ void JDB::run()
             dx = -dx;
         }
 
-        std::cout << "Drawing sprites ..." << std::endl;
+        if( dynamicTool.collide( staticTool ) ){
+            staticTool.setTile( 1 );
+        }else{
+            staticTool.setTile( 0 );
+        }
 
         staticTool.draw( projectionMatrix );
         dynamicTool.draw( projectionMatrix );
         sandwich.draw( projectionMatrix );
-
-        std::cout << "Drawing sprites ...OK" << std::endl;
 
         SDL_GL_SwapWindow( window );
     }
