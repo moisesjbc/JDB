@@ -20,7 +20,10 @@
 #include "tilesets_buffer.hpp"
 #include <cstring>
 
+#define DONT_BIND_WHEN_DRAWING 1
+
 namespace m2g {
+
 
 /***
  * 1. Initialization and destruction
@@ -37,7 +40,7 @@ TilesetsBuffer::TilesetsBuffer( GLuint nTilesets_ ) :
     vbo( 0 ),
     occupiedSize( 0 ),
     totalSize( nTilesets_ * TILESET_SIZE ),
-    nTilesets( nTilesets_ )
+    nTilesets( 0 )
 {
     // Generate the VAO associated with this buffer and bind it as the active
     // one.
@@ -81,7 +84,8 @@ TilesetsBuffer::~TilesetsBuffer()
  * 3. Data insertion.
  ***/
 
-void TilesetsBuffer::insertTileset( GLfloat tileWidth, GLfloat tileHeight )
+// TODO: Avoid inserting repeated elements (tileWidth, tileHeight).
+unsigned int TilesetsBuffer::insertTileset( GLfloat tileWidth, GLfloat tileHeight )
 {
     GLvoid* mappedPtr = nullptr;
     GLchar* oldData = nullptr;
@@ -142,8 +146,12 @@ void TilesetsBuffer::insertTileset( GLfloat tileWidth, GLfloat tileHeight )
     // Insert the new data in the VBO.
     glBufferSubData( GL_ARRAY_BUFFER, occupiedSize, TILESET_SIZE, tilesetData );
     occupiedSize += TILESET_SIZE;
+    nTilesets++;
 
-    std::cout << "Buffer::insertData - " << gluErrorString( glGetError() ) << std::endl;
+    std::cout << "Buffer::insertData - " << gluErrorString( glGetError() ) << std::endl
+              << "\tReturning (" << (nTilesets - 1) << ")" << std::endl;
+
+    return nTilesets - 1;
 }
 
 
@@ -153,12 +161,15 @@ void TilesetsBuffer::insertTileset( GLfloat tileWidth, GLfloat tileHeight )
 
 void TilesetsBuffer::draw( GLuint index )
 {
+#ifndef DONT_BIND_WHEN_DRAWING
     // Bind the buffer's VAO and VBO as the active ones.
     glBindVertexArray( vao );
     glBindBuffer( GL_ARRAY_BUFFER, vbo );
+    std::cout << "BINDING!" << std::endl;
+#endif
 
     // Draw the requested rect.
-    glDrawArrays( GL_LINE_LOOP, index*VERTICES_PER_TILESET, VERTICES_PER_TILESET );
+    glDrawArrays( GL_TRIANGLE_STRIP, index*VERTICES_PER_TILESET, VERTICES_PER_TILESET );
 }
 
 
@@ -170,6 +181,13 @@ void TilesetsBuffer::clear()
 {
     occupiedSize = 0;
     nTilesets = 0;
+}
+
+void TilesetsBuffer::bind()
+{
+    // Bind the buffer's VAO and VBO as the active ones.
+    glBindVertexArray( vao );
+    glBindBuffer( GL_ARRAY_BUFFER, vbo );
 }
 
 } // namespace gpu_buf

@@ -35,7 +35,6 @@ class Sprite : public Drawable
         static GLint samplerLocation;
         static GLint sliceLocation;
 
-        GLuint vao;
         std::shared_ptr< Tileset > tileset;
         GLuint currentTile;
 
@@ -44,16 +43,13 @@ class Sprite : public Drawable
          * 1. Initialization and destruction
          ***/
         Sprite();
-        ~Sprite();
-        void setTileset( std::shared_ptr< Tileset > tileset );
-        const std::shared_ptr< Tileset > getTileset();
-
 
 
         /***
-         * 2. VAO management
+         * 2. Getters and setters
          ***/
-        void initializeVAO();
+        void setTileset( std::shared_ptr< Tileset > tileset );
+        const std::shared_ptr< Tileset > getTileset();
 
 
         /***

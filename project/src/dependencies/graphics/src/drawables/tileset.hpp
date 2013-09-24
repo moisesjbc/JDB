@@ -24,12 +24,18 @@
 #include <memory>
 #include <iostream>
 #include <vector>
+#include "../utilities/tilesets_buffer.hpp"
 
 namespace m2g {
 
 const unsigned int MAX_TILESET_NAME_SIZE = 100;
 
 struct Tileset {
+    // Common tilesets buffer for all tilesets and its corresponding references
+    // count.
+    static TilesetsBuffer* tilesetsBuffer;
+    static unsigned int refCount;
+
     // Texture 2D array id (OpenGL).
     GLuint texture;
 
@@ -46,8 +52,8 @@ struct Tileset {
     GLuint nColumns;
     GLuint nTiles;
 
-    // VBO with tileset vertices and UV coordinates.
-    GLuint vbo;
+    // Index of this tileset's vertex attributes in the tilesets buffer.
+    unsigned int bufferIndex;
 
     // Name of the tileset's base image.
     char name[MAX_TILESET_NAME_SIZE];

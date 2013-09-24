@@ -34,9 +34,6 @@ Sprite::Sprite()
 {
     GLint currentProgram;
 
-    // Generate a id for the Sprite's VAO.
-    glGenVertexArrays( 1, &vao );
-
     // If we still don't have the locations of the shader uniforms, we
     // search them here.
     if( mvpMatrixLocation == -1 ){
@@ -58,47 +55,21 @@ Sprite::Sprite()
     std::cout << "Location of shader variable \"sampler\" set : " << gluErrorString( glGetError() ) << std::endl;
 }
 
+
+/***
+ * 2. Getters and setters
+ ***/
+
 void Sprite::setTileset( std::shared_ptr< Tileset > tileset )
 {
     // Start sharing the new tileset.
     this->tileset = tileset;
-
-    // Initialize the VAO.
-    Sprite::initializeVAO();
-
-    std::cout << "Sprite - texture and VAO initialized: " << gluErrorString( glGetError() ) << std::endl;
 }
 
-
-Sprite::~Sprite()
-{
-    glDeleteVertexArrays( 1, &vao );
-}
 
 const std::shared_ptr< Tileset > Sprite::getTileset()
 {
     return tileset;
-}
-
-/***
- * 2. VAO management
- ***/
-
-void Sprite::initializeVAO()
-{
-    // Set the sprite's VAO as the active one.
-    glBindVertexArray( vao );
-
-    // Set the tileset's VBO as the active one.
-    glBindBuffer( GL_ARRAY_BUFFER, tileset->vbo );
-
-    // We are sending 2D vertices to the vertex shader.
-    glVertexAttribPointer( 0, 2, GL_FLOAT, GL_FALSE, 4*sizeof(GLfloat), (GLvoid*)(0) );
-    glEnableVertexAttribArray( 0 );
-
-    // We are sending 2D texture coordinates to the shader.
-    glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 4*sizeof(GLfloat), (GLvoid*)(2*sizeof(GLfloat)) );
-    glEnableVertexAttribArray( 1 );
 }
 
 
@@ -157,7 +128,6 @@ const std::vector<Rect>* Sprite::getCollisionRects() const
 void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     // Load the sprite's attributes for rendering.
     glActiveTexture( GL_TEXTURE0 );
-    glBindVertexArray( vao );
     glBindTexture( GL_TEXTURE_2D_ARRAY, tileset->texture );
 
     // Send current tile index to shader.
@@ -167,7 +137,8 @@ void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     sendMVPMatrixToShader( projectionMatrix * glm::translate( glm::mat4( 1.0f ), glm::vec3( position.x, position.y, 0.0f ) ) );
 
     // Draw the sprite.
-    glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
+    tileset->tilesetsBuffer->draw( tileset->bufferIndex );
+    //glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
 }
 
 

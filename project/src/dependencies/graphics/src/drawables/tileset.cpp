@@ -27,6 +27,9 @@ namespace m2g {
  * 1. Initialization and destruction.
  ***/
 
+TilesetsBuffer* Tileset::tilesetsBuffer = nullptr;
+unsigned int Tileset::refCount = 0;
+
 Tileset::Tileset() :
     texture( 0 ),
     tileWidth( 0 ),
@@ -36,13 +39,30 @@ Tileset::Tileset() :
     nRows( 0 ),
     nColumns( 0 ),
     nTiles( 0 ),
-    vbo( 0 )
-{}
+    bufferIndex( 0 )
+{
+    if( tilesetsBuffer == nullptr ){
+        // If the tilesets buffer is not initialized, create it!.
+        tilesetsBuffer = new TilesetsBuffer( 10 );
+    }
+
+    // Increment the references count.
+    refCount++;
+}
 
 Tileset::~Tileset()
 {
-    glDeleteBuffers( 1, &vbo );
+    // Free the OpenGL texture object.
     glDeleteTextures( 1, &texture );
+
+    // Decrement the references count.
+    refCount--;
+
+    // If the references count reaches 0, delete the tilesets buffer.
+    if( !refCount ){
+        delete tilesetsBuffer;
+        tilesetsBuffer = nullptr;
+    }
 }
 
 } // Namespace m2g

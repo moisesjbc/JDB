@@ -216,6 +216,7 @@ void JDB::run()
             staticTool.setTile( 0 );
         }
 
+        m2g::Tileset::tilesetsBuffer->bind();
         staticTool.draw( projectionMatrix );
         dynamicTool.draw( projectionMatrix );
         sandwich.draw( projectionMatrix );

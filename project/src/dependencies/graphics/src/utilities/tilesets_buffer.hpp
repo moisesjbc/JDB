@@ -57,7 +57,7 @@ class TilesetsBuffer
         /***
          * 3. Data insertion.
          ***/
-        void insertTileset( GLfloat tileWidth, GLfloat tileHeight );
+        unsigned int insertTileset( GLfloat tileWidth, GLfloat tileHeight );
 
 
         /***
@@ -69,6 +69,7 @@ class TilesetsBuffer
         /***
          * 5. Auxiliar methods
          ***/
+        void bind();
         virtual void clear();
 };
 

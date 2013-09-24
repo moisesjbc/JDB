@@ -81,27 +81,6 @@ std::shared_ptr<Tileset> Library::loadTileset( const tinyxml2::XMLNode* xmlNode,
     unsigned int firstTile, lastTile;
     int separatorIndex;
 
-    const GLfloat width = 1.0f;
-    const GLfloat height = 1.0f;
-
-    GLfloat vertices[] {
-        // Bottom left
-        0.0f, 0.0f,     // Vertice coordinates
-        0.0f, 0.0f,     // Texture coordinates
-
-        // Bottom right
-        width, 0.0f,    // Vertice coordinates
-        1.0f, 0.0f,     // Texture coordinates
-
-        // Top left
-        0.0f, height,   // Vertice coordinates
-        0.0f, 1.0f,     // Texture coordinates
-
-        // Top right
-        width, height,  // Vertice coordinates
-        1.0f, 1.0f      // Texture coordinates
-    };
-
     // Copy the tileset's name ().
     strncpy( tileset->name, xmlNode->FirstChildElement( "src" )->GetText(), MAX_TILESET_NAME_SIZE );
 
@@ -140,26 +119,8 @@ std::shared_ptr<Tileset> Library::loadTileset( const tinyxml2::XMLNode* xmlNode,
     tileset->nColumns = ( image->w / tileset->tileWidth );
     tileset->nTiles = tileset->nRows * tileset->nColumns;
 
-    // Update the previous array "vertices" with the width and the height
-    // of the entire image or a single tile depending on whether developer
-    // mode is active or not.
-    if( developerMode ){
-        vertices[4] = tileset->imageWidth;
-        vertices[12] = tileset->imageWidth;
-        vertices[9] = tileset->imageHeight;
-        vertices[13] = tileset->imageHeight;
-    }else{
-        vertices[4] = tileset->tileWidth;
-        vertices[12] = tileset->tileWidth;
-        vertices[9] = tileset->tileHeight;
-        vertices[13] = tileset->tileHeight;
-    }
-
-    // Generate a VBO and fill it with previous array "vertices".
-    glGenBuffers( 1, &(tileset->vbo) );
-    glBindBuffer( GL_ARRAY_BUFFER, tileset->vbo );
-    glBufferData( GL_ARRAY_BUFFER, 16*sizeof( GLfloat ), vertices, GL_STATIC_DRAW );
-    std::cout << "Tileset - Vertices loaded: " << gluErrorString( glGetError() ) << std::endl;
+    // Insert the tileset vertex attributes in the tilesetsBuffer and get its index.
+    tileset->bufferIndex = tileset->tilesetsBuffer->insertTileset( tileset->tileWidth, tileset->tileHeight );
 
     // Generate the texture and set its parameters.
     // TODO: play with multiple texture units (or not?).
