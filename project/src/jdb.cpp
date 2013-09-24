@@ -145,10 +145,11 @@ void JDB::run()
     Uint32 t0 = 0;
     Uint32 t1 = 0;
 
-    // Create the graphic Library and the sprites.
+    // Create the graphic Library and the sprite pointers.
     m2g::Library library;
-    m2g::Sprite staticTool, dynamicTool;
-    m2g::Sprite sandwich;
+    m2g::Sprite* staticTool = nullptr;
+    m2g::Sprite* dynamicTool = nullptr;
+    m2g::Sprite* sandwich = nullptr;
 
     // X velocity for sprite "sandwich".
     GLfloat dx = 10.0f;
@@ -160,15 +161,13 @@ void JDB::run()
     library.loadFile( "data/img/examples/examples.library" );
 
     // Set the sprite's tilesets.
-    sandwich.setTileset( library.getTileset( 0 ) );
-    staticTool.setTileset( library.getTileset( 1 ) );
-    dynamicTool.setTileset( staticTool.getTileset() );
+    sandwich = new m2g::Sprite( library.getTileset( 0 ) );
+    staticTool = new m2g::Sprite( library.getTileset( 1 ) );
+    dynamicTool = new m2g::Sprite( staticTool->getTileset() );
 
-    // Initialize the dynamic tool's tile.
-    dynamicTool.setTile( 0 );
 
     // Set the static tool at a fixed position.
-    staticTool.translate( 300, 300 );
+    staticTool->translate( 300, 300 );
 
     // Keep rendering a black window until player tell us to stop.
     while( !quit ){ 
@@ -182,10 +181,10 @@ void JDB::run()
                     case SDL_KEYDOWN:
                         switch( event.key.keysym.sym ){
                             case SDLK_LEFT:
-                                dynamicTool.previousTile();
+                                dynamicTool->previousTile();
                             break;
                             case SDLK_RIGHT:
-                                dynamicTool.nextTile();
+                                dynamicTool->nextTile();
                             break;
                             case SDLK_ESCAPE:
                                 quit = true;
@@ -193,7 +192,7 @@ void JDB::run()
                         }
                     break;
                     case SDL_MOUSEMOTION:
-                        dynamicTool.translate( event.motion.xrel, event.motion.yrel );
+                        dynamicTool->translate( event.motion.xrel, event.motion.yrel );
                     break;
                 }
             }
@@ -205,24 +204,30 @@ void JDB::run()
         // Clear screen.
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-        sandwich.translate( dx, 0 );
-        if( ( sandwich.getX() > WINDOW_WIDTH ) || ( sandwich.getX() < 0 ) ){
+        sandwich->translate( dx, 0 );
+        if( ( sandwich->getX() > WINDOW_WIDTH ) || ( sandwich->getX() < 0 ) ){
             dx = -dx;
         }
 
-        if( dynamicTool.collide( staticTool ) ){
-            staticTool.setTile( 1 );
+        if( dynamicTool->collide( *staticTool ) ){
+            staticTool->setTile( 1 );
         }else{
-            staticTool.setTile( 0 );
+            staticTool->setTile( 0 );
         }
 
         m2g::Tileset::tilesetsBuffer->bind();
-        staticTool.draw( projectionMatrix );
-        dynamicTool.draw( projectionMatrix );
-        sandwich.draw( projectionMatrix );
+        staticTool->draw( projectionMatrix );
+        dynamicTool->draw( projectionMatrix );
+        sandwich->draw( projectionMatrix );
 
         SDL_GL_SwapWindow( window );
     }
+
+
+    // Free resources
+    delete staticTool;
+    delete dynamicTool;
+    delete sandwich;
 }
 
 } // namespace jdb

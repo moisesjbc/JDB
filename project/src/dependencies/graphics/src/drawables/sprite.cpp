@@ -30,7 +30,8 @@ GLint Sprite::sliceLocation = -1;
  * 1. Initialization
  ***/
 
-Sprite::Sprite()
+Sprite::Sprite( std::shared_ptr< Tileset > tileset_ ) :
+    currentTile( 0 )
 {
     GLint currentProgram;
 
@@ -53,6 +54,9 @@ Sprite::Sprite()
     // Connect sampler to texture unit 0.
     glUniform1i( samplerLocation, 0 );
     std::cout << "Location of shader variable \"sampler\" set : " << gluErrorString( glGetError() ) << std::endl;
+
+    // Share the tileset given as an argument.
+    setTileset( tileset_ );
 }
 
 

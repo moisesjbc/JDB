@@ -42,7 +42,7 @@ class Sprite : public Drawable
         /***
          * 1. Initialization and destruction
          ***/
-        Sprite();
+        Sprite( std::shared_ptr< Tileset > tileset );
 
 
         /***
