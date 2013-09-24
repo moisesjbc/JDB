@@ -55,6 +55,9 @@ class Library
         const std::shared_ptr< m2g::Tileset > getTileset( const unsigned int& index ) const ;
         const std::shared_ptr< m2g::Tileset> getTileset( const std::string& imageName ) const ;
 
+        const std::shared_ptr< m2g::AnimationData > getAnimationData( const unsigned int& index ) const ;
+        const std::shared_ptr< m2g::AnimationData> getAnimationData( const std::string& imageName ) const ;
+
 
         /***
          * 4. Tileset and animation data loading

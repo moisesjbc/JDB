@@ -50,6 +50,13 @@ class AnimationData
          * 2. Loading
          ***/
         void load( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr );
+
+
+        /***
+         * 3. Getters
+         ***/
+        const std::shared_ptr< Tileset > getTileset() const ;
+        const std::array< int, 3 > getState( unsigned int index ) const ;
 };
 
 } // namespace m2g.

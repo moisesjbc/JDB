@@ -52,12 +52,11 @@ void Library::loadFile( const std::string& filePath )
     // Keep reading tilesets until the end of file.
     while( tilesetNode ){
         if( !strcmp( tilesetNode->Value(), "tileset" ) ){
-            // Load the tileset in the current XML element.
+            // Load the tileset from the current XML element.
             tilesets.push_back( std::shared_ptr< Tileset >( new Tileset( tilesetNode, imagesFolder.c_str() ) ) );
         }else{
-            std::cout << "Pushing back [" << tilesetNode->Value() << "] ..." << std::endl;
+            // Load the animation from the current XML element.
             animationsData.push_back( std::shared_ptr< AnimationData >( new AnimationData( tilesetNode, imagesFolder.c_str() ) ) );
-            std::cout << "Pushing back [" << tilesetNode->Value() << "] ...OK" << std::endl;
         }
 
         // Get next XML element.
@@ -93,5 +92,26 @@ const std::shared_ptr< m2g::Tileset> Library::getTileset( const std::string& ima
 }
 
 
+const std::shared_ptr< m2g::AnimationData > Library::getAnimationData( const unsigned int& index ) const
+{
+    return animationsData[index];
+}
+
+
+const std::shared_ptr< m2g::AnimationData> Library::getAnimationData( const std::string& imageName ) const
+{
+    unsigned int i = 0;
+
+    while( ( i < animationsData.size() ) &&
+           ( animationsData[i]->getTileset()->getName() != imageName) ){
+        i++;
+    }
+
+    if( i >= animationsData.size() ){
+        throw std::runtime_error( "ERROR: Animation data [" + imageName + "] not found in library" );
+    }
+
+    return animationsData[i];
+}
 
 } // namespace m2g

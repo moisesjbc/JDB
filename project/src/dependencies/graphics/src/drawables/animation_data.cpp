@@ -63,4 +63,19 @@ void AnimationData::load( const tinyxml2::XMLNode* xmlNode, const char* folder )
     }
 }
 
+
+/***
+ * 3. Getters
+ ***/
+
+const std::shared_ptr< Tileset > AnimationData::getTileset() const
+{
+    return tileset;
+}
+
+const std::array< int, 3 > AnimationData::getState( unsigned int index ) const
+{
+    return states[ index ];
+}
+
 } // namespace m2g
