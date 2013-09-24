@@ -49,7 +49,7 @@ class Library
          * 3. Setters and getters
          ***/
         const std::shared_ptr< m2g::Tileset > getTileset( const unsigned int& index ) const ;
-        const std::vector< std::shared_ptr< m2g::Tileset > >* getTilesets() const ;
+        const std::shared_ptr< m2g::Tileset> getTileset( const std::string& imageName ) const ;
 
 
         /***

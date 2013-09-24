@@ -138,96 +138,101 @@ JDB::~JDB()
 
 void JDB::run()
 {
-    SDL_Event event;
-    bool quit = false;
+    try
+    {
+        SDL_Event event;
+        bool quit = false;
 
-    // Variable for time management.
-    Uint32 t0 = 0;
-    Uint32 t1 = 0;
+        // Variable for time management.
+        Uint32 t0 = 0;
+        Uint32 t1 = 0;
 
-    // Create the graphic Library and the sprite pointers.
-    m2g::Library library;
-    m2g::Sprite* staticTool = nullptr;
-    m2g::Sprite* dynamicTool = nullptr;
-    m2g::Sprite* sandwich = nullptr;
+        // Create the graphic Library and the sprite pointers.
+        m2g::Library library;
+        m2g::Sprite* staticTool = nullptr;
+        m2g::Sprite* dynamicTool = nullptr;
+        m2g::Sprite* sandwich = nullptr;
 
-    // X velocity for sprite "sandwich".
-    GLfloat dx = 10.0f;
+        // X velocity for sprite "sandwich".
+        GLfloat dx = 10.0f;
 
-    // Make the cursor invisible.
-    SDL_ShowCursor( SDL_DISABLE );
+        // Make the cursor invisible.
+        SDL_ShowCursor( SDL_DISABLE );
 
-    // Load the graphic library.
-    library.loadFile( "data/img/examples/examples.library" );
+        // Load the graphic library.
+        library.loadFile( "data/img/examples/examples.library" );
 
-    // Set the sprite's tilesets.
-    sandwich = new m2g::Sprite( library.getTileset( 0 ) );
-    staticTool = new m2g::Sprite( library.getTileset( 1 ) );
-    dynamicTool = new m2g::Sprite( staticTool->getTileset() );
+        // Set the sprite's tilesets.
+        staticTool = new m2g::Sprite( library.getTileset( "tileset_test.png" ) );
+        dynamicTool = new m2g::Sprite( staticTool->getTileset() );
+        sandwich = new m2g::Sprite( library.getTileset( "sandwich_01.png" ) );
 
 
-    // Set the static tool at a fixed position.
-    staticTool->translate( 300, 300 );
+        // Set the static tool at a fixed position.
+        staticTool->translate( 300, 300 );
 
-    // Keep rendering a black window until player tell us to stop.
-    while( !quit ){ 
-        t0 = SDL_GetTicks();
-        while( (t1 - t0) < 40 ){
-            if( SDL_PollEvent( &event ) != 0 ){
-                switch( event.type ){
-                    case SDL_QUIT:
-                        quit = true;
-                    break;
-                    case SDL_KEYDOWN:
-                        switch( event.key.keysym.sym ){
-                            case SDLK_LEFT:
-                                dynamicTool->previousTile();
-                            break;
-                            case SDLK_RIGHT:
-                                dynamicTool->nextTile();
-                            break;
-                            case SDLK_ESCAPE:
-                                quit = true;
-                            break;
-                        }
-                    break;
-                    case SDL_MOUSEMOTION:
-                        dynamicTool->translate( event.motion.xrel, event.motion.yrel );
-                    break;
+        // Keep rendering a black window until player tell us to stop.
+        while( !quit ){
+            t0 = SDL_GetTicks();
+            while( (t1 - t0) < 40 ){
+                if( SDL_PollEvent( &event ) != 0 ){
+                    switch( event.type ){
+                        case SDL_QUIT:
+                            quit = true;
+                        break;
+                        case SDL_KEYDOWN:
+                            switch( event.key.keysym.sym ){
+                                case SDLK_LEFT:
+                                    dynamicTool->previousTile();
+                                break;
+                                case SDLK_RIGHT:
+                                    dynamicTool->nextTile();
+                                break;
+                                case SDLK_ESCAPE:
+                                    quit = true;
+                                break;
+                            }
+                        break;
+                        case SDL_MOUSEMOTION:
+                            dynamicTool->translate( event.motion.xrel, event.motion.yrel );
+                        break;
+                    }
                 }
+                t1 = SDL_GetTicks();
             }
+            t0 = SDL_GetTicks();
             t1 = SDL_GetTicks();
+
+            // Clear screen.
+            glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+            sandwich->translate( dx, 0 );
+            if( ( sandwich->getX() > WINDOW_WIDTH ) || ( sandwich->getX() < 0 ) ){
+                dx = -dx;
+            }
+
+            if( dynamicTool->collide( *staticTool ) ){
+                staticTool->setTile( 1 );
+            }else{
+                staticTool->setTile( 0 );
+            }
+
+            m2g::Tileset::tilesetsBuffer->bind();
+            staticTool->draw( projectionMatrix );
+            dynamicTool->draw( projectionMatrix );
+            sandwich->draw( projectionMatrix );
+
+            SDL_GL_SwapWindow( window );
         }
-        t0 = SDL_GetTicks();
-        t1 = SDL_GetTicks();
 
-        // Clear screen.
-        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-        sandwich->translate( dx, 0 );
-        if( ( sandwich->getX() > WINDOW_WIDTH ) || ( sandwich->getX() < 0 ) ){
-            dx = -dx;
-        }
-
-        if( dynamicTool->collide( *staticTool ) ){
-            staticTool->setTile( 1 );
-        }else{
-            staticTool->setTile( 0 );
-        }
-
-        m2g::Tileset::tilesetsBuffer->bind();
-        staticTool->draw( projectionMatrix );
-        dynamicTool->draw( projectionMatrix );
-        sandwich->draw( projectionMatrix );
-
-        SDL_GL_SwapWindow( window );
+        // Free resources
+        delete staticTool;
+        delete dynamicTool;
+        delete sandwich;
+    }catch( std::runtime_error& e ){
+        std::cerr << e.what() << std::endl;
     }
-
-
-    // Free resources
-    delete staticTool;
-    delete dynamicTool;
-    delete sandwich;
 }
 
 } // namespace jdb

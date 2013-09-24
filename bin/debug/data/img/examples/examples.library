@@ -15,33 +15,3 @@
 		</collision_rects>
 	</tileset>
 </library>
-
-<!--
-<library>
-	<tileset>
-		<src>data/img/tileset_test.png</src>
-		<tile_dimensions width="32" height="32"/>
-		<collision_info>
-			<general_col_rects>
-				<rect x="0" y="0" width="32" height="32" />
-			</general_col_rects>
-			<specific_col_rects>
-				<tile id="0">
-					<rect x="0" y="0" width="32" height="32" />
-				</tiles>
-				<tile id="0">
-					<rect x="0" y="0" width="32" height="32" />
-				</tiles>
-				<tile id="0">
-					<rect x="0" y="0" width="32" height="32" />
-				</tiles>
-			</specific_col_rects>
-		</collision_info>
-	</tileset>
-
-	<tileset>
-		<src>data/img/sandwich_01.png</src>
-		<tile_dimensions width="256" height="64"/>
-	</tileset>
-</library>
--->

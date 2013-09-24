@@ -70,6 +70,23 @@ const std::shared_ptr< m2g::Tileset > Library::getTileset( const unsigned int& i
 }
 
 
+const std::shared_ptr< m2g::Tileset> Library::getTileset( const std::string& imageName ) const
+{
+    unsigned int i = 0;
+
+    while( ( i < tilesets.size() ) &&
+           strcmp( tilesets[i]->name, imageName.c_str() ) ){
+        i++;
+    }
+
+    if( i >= tilesets.size() ){
+        throw std::runtime_error( "ERROR: Tileset [" + imageName + "] not found in library" );
+    }
+
+    return tilesets[i];
+}
+
+
 /***
  * 4. Tileset and animation data loading
  ***/
@@ -260,12 +277,6 @@ std::shared_ptr<Tileset> Library::loadTileset( const tinyxml2::XMLNode* xmlNode,
     }
 
     return tileset;
-}
-
-
-const std::vector< std::shared_ptr< m2g::Tileset > >* Library::getTilesets() const
-{
-    return &tilesets;
 }
 
 
