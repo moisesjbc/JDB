@@ -62,7 +62,6 @@ class Drawable
          * 4. Collision test
          ***/
         virtual bool collide( const Drawable& b ) const ;
-    private:
         virtual const std::vector<Rect>* getCollisionRects() const = 0;
 
 

@@ -26,7 +26,7 @@
 		</tileset>
 		
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="3" backFrame="2" />
+			<animation_state firstFrame="0" lastFrame="7" backFrame="1" />
 		</animation_states>
 	</animation>
 </library>

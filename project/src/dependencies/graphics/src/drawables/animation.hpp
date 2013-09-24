@@ -21,13 +21,54 @@
 #define ANIMATION_HPP
 
 #include "animation_data.hpp"
+#include "sprite.hpp"
 
 namespace m2g {
 
-class Animation
+class Animation : public Drawable
 {
+    private:
+        Sprite sprite;
+        std::shared_ptr< AnimationData > animationData;
+        unsigned int currentState;
+
     public:
-        Animation();
+        /***
+         * 1. Initialization and destruction
+         ***/
+        Animation( std::shared_ptr< AnimationData > animationData );
+
+
+        /***
+         * 2. Getters and setters
+         ***/
+        void setAnimationData( std::shared_ptr< AnimationData > animationData );
+
+
+        /***
+         * 3. Transformations
+         ***/
+        virtual void translate( const float& tx, const float& ty );
+
+
+        /***
+         * 4. Collision test
+         ***/
+    private:
+        virtual const std::vector<Rect>* getCollisionRects() const ;
+    public:
+
+        /***
+         * 5. Updating
+         ***/
+        void update();
+
+
+        /***
+         * 6. Drawing
+         ***/
+        virtual void draw( const glm::mat4& projectionMatrix ) const ;
+
 };
 
 } // namespace m2g

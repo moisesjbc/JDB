@@ -21,9 +21,86 @@
 
 namespace m2g {
 
-Animation::Animation()
-{
 
+/***
+ * 1. Initialization and destruction
+ ***/
+
+Animation::Animation( std::shared_ptr< AnimationData > animationData ) :
+    sprite( animationData->getTileset() )
+{
+    setAnimationData( animationData );
+}
+
+
+/***
+ * 2. Getters and setters
+ ***/
+
+void Animation::setAnimationData( std::shared_ptr< AnimationData > animationData )
+{
+    // Set static data.
+    sprite.setTileset( animationData->getTileset() );
+    this->animationData = animationData;
+
+    // Reset current state.
+    // TODO: Instead of this, use setState( 0 ). The setState method will set the current
+    // tile to that state's first frame.
+    currentState = 0;
+}
+
+
+/***
+ * 3. Transformations
+ ***/
+
+void Animation::translate( const float& tx, const float& ty )
+{
+    sprite.translate( tx, ty );
+}
+
+
+/***
+ * 4. Collision test
+ ***/
+
+const std::vector<Rect>* Animation::getCollisionRects() const
+{
+    return sprite.getCollisionRects();
+}
+
+
+/***
+ * 5. Updating
+ ***/
+
+void Animation::update()
+{
+    // Get the current animation state's info.
+    std::array< int, 3 > state = animationData->getState( currentState );
+
+    // Get the current tile / frame.
+    GLint currentTile = sprite.getCurrentTile();
+
+    // Get the next tile / frame.
+    if( currentTile < state[LAST_FRAME] ){
+        currentTile++;
+    }else{
+        currentTile = state[BACK_FRAME];
+    }
+
+    // Update the current tile / frame.
+    sprite.setTile( currentTile );
+}
+
+
+/***
+ * 6. Drawing
+ ***/
+
+void Animation::draw( const glm::mat4& projectionMatrix ) const
+{
+    sprite.draw( projectionMatrix );
 }
 
 } // namespace m2g

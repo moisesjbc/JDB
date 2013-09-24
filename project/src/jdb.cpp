@@ -140,6 +140,7 @@ void JDB::run()
 {
     try
     {
+        unsigned int animationCount = 0;
         SDL_Event event;
         bool quit = false;
 
@@ -152,6 +153,7 @@ void JDB::run()
         m2g::Sprite* staticTool = nullptr;
         m2g::Sprite* dynamicTool = nullptr;
         m2g::Sprite* sandwich = nullptr;
+        m2g::Animation* animation = nullptr;
 
         // X velocity for sprite "sandwich".
         GLfloat dx = 10.0f;
@@ -166,10 +168,11 @@ void JDB::run()
         staticTool = new m2g::Sprite( library.getTileset( "tileset_test.png" ) );
         dynamicTool = new m2g::Sprite( staticTool->getTileset() );
         sandwich = new m2g::Sprite( library.getTileset( "sandwich_01.png" ) );
+        animation = new m2g::Animation( library.getAnimationData( 0 ) );
 
-
-        // Set the static tool at a fixed position.
+        // Set the static tool and the animation at a fixed position.
         staticTool->translate( 300, 300 );
+        animation->translate( 400, 400 );
 
         // Keep rendering a black window until player tell us to stop.
         while( !quit ){
@@ -221,6 +224,14 @@ void JDB::run()
             staticTool->draw( projectionMatrix );
             dynamicTool->draw( projectionMatrix );
             sandwich->draw( projectionMatrix );
+            animation->draw( projectionMatrix );
+
+            // Update the animation every 5 frames.
+            animationCount++;
+            if( animationCount >= 5 ){
+                animationCount = 0;
+                animation->update();
+            }
 
             SDL_GL_SwapWindow( window );
         }
@@ -230,6 +241,7 @@ void JDB::run()
         delete staticTool;
         delete dynamicTool;
         delete sandwich;
+        delete animation;
     }catch( std::runtime_error& e ){
         std::cerr << e.what() << std::endl;
     }

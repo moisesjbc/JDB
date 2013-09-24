@@ -64,9 +64,7 @@ class Sprite : public Drawable
         /***
          * 4. Collision detection
          ***/
-    private:
         virtual const std::vector<Rect>* getCollisionRects() const ;
-    public:
 
 
         /***
