@@ -17,48 +17,37 @@
  * along with M2G.  If not, see <http://www.gnu.org/licenses/>.
 ***/
 
-#ifndef LIBRARY_HPP
-#define LIBRARY_HPP
+#ifndef ANIMATION_DATA_HPP
+#define ANIMATION_DATA_HPP
 
-#include "drawables/sprite.hpp"
-#include "dependencies/tinyxml2/tinyxml2.h"
-#include <string>
+#include "tileset.hpp"
+#include <vector>
+#include <array>
+#include "../dependencies/tinyxml2/tinyxml2.h"
 
 namespace m2g {
 
-class Library
+class AnimationData
 {
     private:
-        // Vector of tilesets.
-        std::vector< std::shared_ptr< m2g::Tileset > > tilesets;
+        std::shared_ptr< Tileset > tileset;
+
+        // Each state is a tuple (firstFrame, lastFrame, backFrame).
+        std::vector< std::array< int, 3 > >  states;
 
     public:
         /***
          * 1. Initialization and destruction
          ***/
-        Library();
+        AnimationData( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr );
 
 
         /***
-         * 2. File management
+         * 2. Loading
          ***/
-        void loadFile( const std::string& filePath );
-
-
-        /***
-         * 3. Setters and getters
-         ***/
-        const std::shared_ptr< m2g::Tileset > getTileset( const unsigned int& index ) const ;
-        const std::shared_ptr< m2g::Tileset> getTileset( const std::string& imageName ) const ;
-
-
-        /***
-         * 4. Tileset and animation data loading
-         ***/
-    private:
-        std::shared_ptr<Tileset> loadTileset( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr );
+        void load( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr );
 };
 
-} // namespace m2g
+} // namespace m2g.
 
-#endif // LIBRARY_HPP
+#endif // ANIMATION_DATA_HPP

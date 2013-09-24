@@ -83,7 +83,7 @@ const std::shared_ptr< Tileset > Sprite::getTileset()
 
 void Sprite::nextTile()
 {
-    if( currentTile < (tileset->nTiles - 1) ){
+    if( currentTile < (tileset->getNTiles() - 1) ){
         currentTile++;
     }else{
         currentTile = 0;
@@ -95,13 +95,13 @@ void Sprite::previousTile()
     if( currentTile ){
         currentTile--;
     }else{
-        currentTile = tileset->nTiles - 1;
+        currentTile = tileset->getNTiles() - 1;
     }
 }
 
 void Sprite::setTile( const GLuint tile )
 {
-    if( tile < tileset->nTiles ){
+    if( tile < tileset->getNTiles() ){
         currentTile = tile;
     }else{
         throw std::runtime_error( "ERROR: tile index out of limits" );
@@ -121,7 +121,7 @@ GLuint Sprite::getCurrentTile() const
 
 const std::vector<Rect>* Sprite::getCollisionRects() const
 {
-    return &( tileset->collisionRects[currentTile] );
+    return tileset->getCollisionRects( currentTile );
 }
 
 
@@ -132,7 +132,7 @@ const std::vector<Rect>* Sprite::getCollisionRects() const
 void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     // Load the sprite's attributes for rendering.
     glActiveTexture( GL_TEXTURE0 );
-    glBindTexture( GL_TEXTURE_2D_ARRAY, tileset->texture );
+    glBindTexture( GL_TEXTURE_2D_ARRAY, tileset->getTexture() );
 
     // Send current tile index to shader.
     glUniform1ui( sliceLocation, currentTile );
@@ -141,7 +141,7 @@ void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     sendMVPMatrixToShader( projectionMatrix * glm::translate( glm::mat4( 1.0f ), glm::vec3( position.x, position.y, 0.0f ) ) );
 
     // Draw the sprite.
-    tileset->tilesetsBuffer->draw( tileset->bufferIndex );
+    tileset->draw();
     //glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
 }
 

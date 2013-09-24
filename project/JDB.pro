@@ -12,7 +12,8 @@ SOURCES += src/main.cpp \
     src/dependencies/graphics/src/drawables/sprite.cpp \
     src/dependencies/graphics/src/drawables/drawable.cpp \
     src/dependencies/GL3W/gl3w.c \
-    src/dependencies/graphics/src/utilities/tilesets_buffer.cpp
+    src/dependencies/graphics/src/utilities/tilesets_buffer.cpp \
+    src/dependencies/graphics/src/drawables/animation_data.cpp
 
 HEADERS += \
     src/jdb.hpp \
@@ -25,7 +26,8 @@ HEADERS += \
     src/dependencies/graphics/src/drawables/drawable.hpp \
     src/dependencies/GL3W/gl3w.h \
     src/dependencies/GL3W/gl3.h \
-    src/dependencies/graphics/src/utilities/tilesets_buffer.hpp
+    src/dependencies/graphics/src/utilities/tilesets_buffer.hpp \
+    src/dependencies/graphics/src/drawables/animation_data.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image
 
