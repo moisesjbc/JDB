@@ -21,6 +21,7 @@
 #define LIBRARY_HPP
 
 #include "drawables/sprite.hpp"
+#include "drawables/animation_data.hpp"
 #include "dependencies/tinyxml2/tinyxml2.h"
 #include <string>
 
@@ -31,6 +32,9 @@ class Library
     private:
         // Vector of tilesets.
         std::vector< std::shared_ptr< m2g::Tileset > > tilesets;
+
+        // Vector of animations.
+        std::vector< std::shared_ptr< m2g::AnimationData > > animationsData;
 
     public:
         /***

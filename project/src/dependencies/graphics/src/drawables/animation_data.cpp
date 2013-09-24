@@ -24,22 +24,43 @@ namespace m2g {
 /***
  * 1. Initialization and destruction
  ***/
-/*
-AnimationData::AnimationData( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr )
+
+AnimationData::AnimationData( const tinyxml2::XMLNode* xmlNode, const char* folder )
 {
-
     load( xmlNode, folder );
-
 }
 
 
 /***
  * 2. Loading
- ***
+ ***/
 
-void AnimationData::load( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr )
+void AnimationData::load( const tinyxml2::XMLNode* xmlNode, const char* folder )
 {
+    std::array< int, 3 > animationState;
 
+    const tinyxml2::XMLNode* tilesetNode = xmlNode->FirstChildElement( "tileset" );
+    const tinyxml2::XMLNode* animationStatesNode = tilesetNode->NextSiblingElement( "animation_states" );
+    const tinyxml2::XMLElement* animationStateNode = nullptr;
+
+    // Load the tileset info.
+    tileset = std::shared_ptr< Tileset >( new Tileset( tilesetNode, folder ) );
+
+    // Access the XML node with the animation states info.
+    animationStateNode = animationStatesNode->FirstChildElement();
+
+    while( animationStateNode ){
+        // Composite the new animation state.
+        animationState[FIRST_FRAME] = animationStateNode->IntAttribute( "firstFrame" );
+        animationState[LAST_FRAME] = animationStateNode->IntAttribute( "lastFrame" );
+        animationState[BACK_FRAME] = animationStateNode->IntAttribute( "backFrame" );
+
+        // Insert the new animation state in the vector.
+        states.push_back( animationState );
+
+        // Go to next node.
+        animationStateNode = animationStateNode->NextSiblingElement();
+    }
 }
-*/
+
 } // namespace m2g

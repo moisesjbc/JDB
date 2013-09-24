@@ -27,6 +27,10 @@
 
 namespace m2g {
 
+const unsigned int FIRST_FRAME = 0;
+const unsigned int LAST_FRAME = 1;
+const unsigned int BACK_FRAME = 2;
+
 class AnimationData
 {
     private:

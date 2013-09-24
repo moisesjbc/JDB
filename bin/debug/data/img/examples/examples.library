@@ -14,4 +14,19 @@
 			<collision_rect tiles="6" x="0" y="0" width="32" height="32" />
 		</collision_rects>
 	</tileset>
+
+	<animation>
+		<tileset>
+			<src>tileset_test.png</src>
+			<tile_dimensions width="32" height="32"/>
+			<collision_rects>
+				<collision_rect tiles="0-3" x="0" y="0" width="32" height="32" />
+				<collision_rect tiles="6" x="0" y="0" width="32" height="32" />
+			</collision_rects>
+		</tileset>
+		
+		<animation_states>
+			<animation_state firstFrame="0" lastFrame="3" backFrame="2" />
+		</animation_states>
+	</animation>
 </library>

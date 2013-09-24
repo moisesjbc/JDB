@@ -51,8 +51,14 @@ void Library::loadFile( const std::string& filePath )
 
     // Keep reading tilesets until the end of file.
     while( tilesetNode ){
-        // Load the tileset in the current XML element.
-        tilesets.push_back( std::shared_ptr< Tileset >( new Tileset( tilesetNode, imagesFolder.c_str() ) ) );
+        if( !strcmp( tilesetNode->Value(), "tileset" ) ){
+            // Load the tileset in the current XML element.
+            tilesets.push_back( std::shared_ptr< Tileset >( new Tileset( tilesetNode, imagesFolder.c_str() ) ) );
+        }else{
+            std::cout << "Pushing back [" << tilesetNode->Value() << "] ..." << std::endl;
+            animationsData.push_back( std::shared_ptr< AnimationData >( new AnimationData( tilesetNode, imagesFolder.c_str() ) ) );
+            std::cout << "Pushing back [" << tilesetNode->Value() << "] ...OK" << std::endl;
+        }
 
         // Get next XML element.
         tilesetNode = tilesetNode->NextSiblingElement();
@@ -75,7 +81,7 @@ const std::shared_ptr< m2g::Tileset> Library::getTileset( const std::string& ima
     unsigned int i = 0;
 
     while( ( i < tilesets.size() ) &&
-           ( tilesets[i]->getName() != imageName ) ){
+           ( tilesets[i]->getName() != imageName) ){
         i++;
     }
 
