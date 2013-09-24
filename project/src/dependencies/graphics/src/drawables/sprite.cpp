@@ -68,6 +68,9 @@ void Sprite::setTileset( std::shared_ptr< Tileset > tileset )
 {
     // Start sharing the new tileset.
     this->tileset = tileset;
+
+    // Restart current tile.
+    currentTile = 0;
 }
 
 

@@ -23,6 +23,7 @@
 #include "drawables/sprite.hpp"
 #include "drawables/animation_data.hpp"
 #include "dependencies/tinyxml2/tinyxml2.h"
+#include "drawables/animation.hpp"
 #include <string>
 
 namespace m2g {
