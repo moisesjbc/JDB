@@ -20,13 +20,14 @@
 			<src>tileset_test.png</src>
 			<tile_dimensions width="32" height="32"/>
 			<collision_rects>
-				<collision_rect tiles="0-3" x="0" y="0" width="32" height="32" />
-				<collision_rect tiles="6" x="0" y="0" width="32" height="32" />
+				<collision_rect tiles="3" x="0" y="0" width="32" height="32" />
+				<collision_rect tiles="7" x="0" y="0" width="32" height="32" />
 			</collision_rects>
 		</tileset>
 		
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="7" backFrame="1" />
+			<animation_state firstFrame="0" lastFrame="3" backFrame="1" />
+			<animation_state firstFrame="4" lastFrame="7" backFrame="5" />
 		</animation_states>
 	</animation>
 </library>

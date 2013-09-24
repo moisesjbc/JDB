@@ -30,7 +30,7 @@ class Animation : public Drawable
     private:
         Sprite sprite;
         std::shared_ptr< AnimationData > animationData;
-        unsigned int currentState;
+        int currentState;
 
     public:
         /***
@@ -43,6 +43,8 @@ class Animation : public Drawable
          * 2. Getters and setters
          ***/
         void setAnimationData( std::shared_ptr< AnimationData > animationData );
+        void setState( int newState );
+        int getState() const ;
 
 
         /***

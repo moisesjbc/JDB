@@ -44,9 +44,27 @@ void Animation::setAnimationData( std::shared_ptr< AnimationData > animationData
     this->animationData = animationData;
 
     // Reset current state.
-    // TODO: Instead of this, use setState( 0 ). The setState method will set the current
-    // tile to that state's first frame.
-    currentState = 0;
+    setState( 0 );
+}
+
+
+void Animation::setState( int newState )
+{
+    // Get the new animation state's info.
+    std::array< int, 3 > state = animationData->getState( newState );
+
+    // Update the current animation state.
+    currentState = newState;
+
+    // Update the current tile / frame so it is now the first of the
+    // new state.
+    sprite.setTile( state[FIRST_FRAME] );
+}
+
+
+int Animation::getState() const
+{
+    return currentState;
 }
 
 

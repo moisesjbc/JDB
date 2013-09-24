@@ -220,6 +220,11 @@ void JDB::run()
                 staticTool->setTile( 0 );
             }
 
+            if( dynamicTool->collide( *animation ) ){
+                std::cout << "\tCollision!" << std::endl;
+                animation->setState( !animation->getState() );
+            }
+
             m2g::Tileset::bindBuffer();
             staticTool->draw( projectionMatrix );
             dynamicTool->draw( projectionMatrix );
@@ -228,7 +233,7 @@ void JDB::run()
 
             // Update the animation every 5 frames.
             animationCount++;
-            if( animationCount >= 5 ){
+            if( animationCount >= 20 ){
                 animationCount = 0;
                 animation->update();
             }
