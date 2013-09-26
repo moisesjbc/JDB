@@ -45,6 +45,7 @@ class Animation : public Drawable
         void setAnimationData( std::shared_ptr< AnimationData > animationData );
         void setState( int newState );
         int getState() const ;
+        GLuint getFrame() const ;
 
 
         /***
@@ -56,9 +57,7 @@ class Animation : public Drawable
         /***
          * 4. Collision test
          ***/
-    private:
         virtual const std::vector<Rect>* getCollisionRects() const ;
-    public:
 
         /***
          * 5. Updating

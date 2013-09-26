@@ -68,12 +68,19 @@ int Animation::getState() const
 }
 
 
+GLuint Animation::getFrame() const
+{
+    return sprite.getCurrentTile();
+}
+
+
 /***
  * 3. Transformations
  ***/
 
 void Animation::translate( const float& tx, const float& ty )
 {
+    Drawable::translate( tx, ty );
     sprite.translate( tx, ty );
 }
 
