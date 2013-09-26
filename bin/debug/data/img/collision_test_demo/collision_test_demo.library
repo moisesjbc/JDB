@@ -2,10 +2,6 @@
 
 <library>
 	<tileset>
-		<src>sandwich_01.png</src>
-		<tile_dimensions width="256" height="64"/>
-	</tileset>
-	<tileset>
 		<src>tileset_test.png</src>
 		<tile_dimensions width="32" height="32"/>
 		<collision_rects>

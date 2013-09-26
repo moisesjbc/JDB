@@ -136,7 +136,131 @@ JDB::~JDB()
 }
 
 
-void JDB::run()
+void JDB::runInfiniteSandwichesDemo()
+{
+    const unsigned int N_SANDWICHES = 5;
+    const float SANDWICHES_END_POINT = -300.0f;
+    const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
+
+    unsigned int i;
+    unsigned int firstSandwich = 0;
+    unsigned int lastSandwich = N_SANDWICHES - 1;
+
+    try
+    {
+        SDL_Event event;
+        bool quit = false;
+
+        // Variable for time management.
+        Uint32 t0 = 0;
+        Uint32 t1 = 0;
+
+        // Create the graphic Library and the sprite pointers.
+        m2g::Library library;
+        m2g::Sprite* sandwiches[N_SANDWICHES];
+        m2g::Sprite* tool = nullptr;
+        m2g::Sprite* conveyorBelt = nullptr;
+
+        // X velocity for sprite "sandwich".
+        GLfloat dx = -10.0f;
+
+        // Make the cursor invisible.
+        SDL_ShowCursor( SDL_DISABLE );
+
+        // Load the graphic library.
+        library.loadFile( "data/img/infinite_sandwiches_demo/infinite_sandwiches_demo.library" );
+
+        // Load the sandwiches' sprites and move them to their positions.
+        for( i=0; i < N_SANDWICHES; i++ ){
+            sandwiches[i] = new m2g::Sprite( library.getTileset( "sandwich_02.png" ) );
+
+            sandwiches[i]->translate( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
+        }
+
+        // Load the rest of the sprites.
+        tool = new m2g::Sprite( library.getTileset( "hand.png" ) );
+        conveyorBelt = new m2g::Sprite( library.getTileset( "conveyor_belt.png" ) );
+
+        // Set the static tool and the animation at a fixed position.
+        conveyorBelt->translate( 0, 256 );
+
+        // Keep rendering a black window until player tell us to stop.
+        while( !quit ){
+            t0 = SDL_GetTicks();
+            while( (t1 - t0) < 40 ){
+                if( SDL_PollEvent( &event ) != 0 ){
+                    switch( event.type ){
+                        case SDL_QUIT:
+                            quit = true;
+                        break;
+                        case SDL_KEYDOWN:
+                            switch( event.key.keysym.sym ){
+                                case SDLK_ESCAPE:
+                                    quit = true;
+                                break;
+                            }
+                        break;
+                        case SDL_MOUSEMOTION:
+                            tool->translate( event.motion.xrel, event.motion.yrel );
+                        break;
+                    }
+                }
+                t1 = SDL_GetTicks();
+            }
+            t0 = SDL_GetTicks();
+            t1 = SDL_GetTicks();
+
+            // Clear screen.
+            glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+            // Bind the tileset's buffer.
+            m2g::Tileset::bindBuffer();
+
+            // Draw the conveyor belt.
+            conveyorBelt->draw( projectionMatrix );
+
+            // Draw and move the sandwiches.
+            for( i=0; i < N_SANDWICHES; i++ ){
+                sandwiches[i]->draw( projectionMatrix );
+                sandwiches[i]->translate( dx, 0.0f );
+            }
+
+            // Draw the tool
+            tool->draw( projectionMatrix );
+
+            // Check if the first sandwich reached the sandwiches end point and, in that case,
+            // translate it behind the last sandwich.
+            if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
+                sandwiches[firstSandwich]->translate(
+                            sandwiches[lastSandwich]->getX()
+                            - sandwiches[firstSandwich]->getX()
+                            + DISTANCE_BETWEEN_SANDWICHES,
+                            0.0f );
+
+                // Change the indices for the first and last sandwiches.
+                firstSandwich = (firstSandwich + 1) % N_SANDWICHES;
+                lastSandwich = (lastSandwich + 1) % N_SANDWICHES;
+            }
+
+            SDL_GL_SwapWindow( window );
+        }
+
+
+        // Free resources
+        delete tool;
+        delete conveyorBelt;
+        for( i=0; i < N_SANDWICHES; i++ ){
+            delete sandwiches[i];
+        }
+
+    }catch( std::runtime_error& e ){
+        std::cerr << e.what() << std::endl;
+    }
+}
+
+
+
+void JDB::runCollisionDemo()
 {
     try
     {
@@ -152,27 +276,22 @@ void JDB::run()
         m2g::Library library;
         m2g::Sprite* staticTool = nullptr;
         m2g::Sprite* dynamicTool = nullptr;
-        m2g::Sprite* sandwich = nullptr;
         m2g::Animation* animation = nullptr;
-
-        // X velocity for sprite "sandwich".
-        GLfloat dx = 10.0f;
 
         // Make the cursor invisible.
         SDL_ShowCursor( SDL_DISABLE );
 
         // Load the graphic library.
-        library.loadFile( "data/img/examples/examples.library" );
+        library.loadFile( "data/img/collision_test_demo/collision_test_demo.library" );
 
         // Set the sprite's tilesets.
         staticTool = new m2g::Sprite( library.getTileset( "tileset_test.png" ) );
         dynamicTool = new m2g::Sprite( staticTool->getTileset() );
-        sandwich = new m2g::Sprite( library.getTileset( "sandwich_01.png" ) );
         animation = new m2g::Animation( library.getAnimationData( 0 ) );
 
         // Set the static tool and the animation at a fixed position.
-        staticTool->translate( 300, 300 );
-        animation->translate( 400, 400 );
+        staticTool->translate( 100, 400 );
+        animation->translate( 700, 400 );
 
         // Keep rendering a black window until player tell us to stop.
         while( !quit ){
@@ -209,11 +328,6 @@ void JDB::run()
             // Clear screen.
             glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-            sandwich->translate( dx, 0 );
-            if( ( sandwich->getX() > WINDOW_WIDTH ) || ( sandwich->getX() < 0 ) ){
-                dx = -dx;
-            }
-
             if( dynamicTool->collide( *staticTool ) ){
                 staticTool->setTile( 1 );
             }else{
@@ -221,14 +335,12 @@ void JDB::run()
             }
 
             if( dynamicTool->collide( *animation ) ){
-                std::cout << "\tCollision!" << std::endl;
                 animation->setState( !animation->getState() );
             }
 
             m2g::Tileset::bindBuffer();
             staticTool->draw( projectionMatrix );
             dynamicTool->draw( projectionMatrix );
-            sandwich->draw( projectionMatrix );
             animation->draw( projectionMatrix );
 
             // Update the animation every 5 frames.
@@ -245,7 +357,6 @@ void JDB::run()
         // Free resources
         delete staticTool;
         delete dynamicTool;
-        delete sandwich;
         delete animation;
     }catch( std::runtime_error& e ){
         std::cerr << e.what() << std::endl;

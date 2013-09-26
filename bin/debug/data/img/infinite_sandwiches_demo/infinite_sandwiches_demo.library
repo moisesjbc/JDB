@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<library>
+	<tileset>
+		<src>sandwich_01.png</src>
+		<tile_dimensions width="256" height="64"/>
+	</tileset>
+
+	<tileset>
+		<src>sandwich_02.png</src>
+		<tile_dimensions width="256" height="128"/>
+	</tileset>
+
+	<tileset>
+		<src>hand.png</src>
+		<tile_dimensions width="64" height="64"/>
+	</tileset>
+
+	<tileset>
+		<src>conveyor_belt.png</src>
+		<tile_dimensions width="1024" height="512"/>
+	</tileset>
+</library>
