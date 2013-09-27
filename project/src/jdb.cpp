@@ -141,6 +141,7 @@ void JDB::runInfiniteSandwichesDemo()
     const unsigned int N_SANDWICHES = 5;
     const float SANDWICHES_END_POINT = -300.0f;
     const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
+    const unsigned int N_DANGERS = N_SANDWICHES * 3;
 
     unsigned int i;
     unsigned int firstSandwich = 0;
@@ -158,11 +159,12 @@ void JDB::runInfiniteSandwichesDemo()
         // Create the graphic Library and the sprite pointers.
         m2g::Library library;
         m2g::Sprite* sandwiches[N_SANDWICHES];
+        m2g::Animation* dangers[N_DANGERS];
         m2g::Animation* tool = nullptr;
         m2g::Sprite* conveyorBelt = nullptr;
 
         // X velocity for sprite "sandwich".
-        GLfloat dx = -10.0f;
+        GLfloat dx = -8.0f;
 
         // Make the cursor invisible.
         SDL_ShowCursor( SDL_DISABLE );
@@ -177,11 +179,20 @@ void JDB::runInfiniteSandwichesDemo()
             sandwiches[i]->translate( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
         }
 
-        // Load the rest of the sprites.
+        // Load the danger's animations and move them to their positions.
+        for( i=0; i < N_SANDWICHES; i++ ){
+            for( int j=0; j< 3; j++ ){
+                dangers[i*3+j] = new m2g::Animation( library.getAnimationData( "knife_02.png" ) );
+
+                dangers[i*3+j]->translate( 1024 + 30 + i * DISTANCE_BETWEEN_SANDWICHES + j * (DISTANCE_BETWEEN_SANDWICHES / 4), 330 );
+            }
+        }
+
+        // Load the rest of the sprites and animations.
         tool = new m2g::Animation( library.getAnimationData( "tools.png" ) );
         conveyorBelt = new m2g::Sprite( library.getTileset( "conveyor_belt.png" ) );
 
-        // Set the static tool and the animation at a fixed position.
+        // Set the conveyor belt's sprite at its final position.
         conveyorBelt->translate( 0, 256 );
 
         // Keep rendering a black window until player tell us to stop.
@@ -192,6 +203,19 @@ void JDB::runInfiniteSandwichesDemo()
                     switch( event.type ){
                         case SDL_QUIT:
                             quit = true;
+                        break;
+                        case SDL_MOUSEBUTTONDOWN:
+                            // User has clicked. Check if the hand "collides" with any of the
+                            // dangers.
+                            i = 0;
+                            while( ( i < N_DANGERS ) && !tool->collide( *(dangers[i] ) ) ){
+                                i++;
+                            }
+
+                            // The hand collided with a danger, change that danger's state.
+                            if( i < N_DANGERS ){
+                                dangers[i]->setState( 1 );
+                            }
                         break;
                         case SDL_KEYDOWN:
                             switch( event.key.keysym.sym ){
@@ -225,12 +249,31 @@ void JDB::runInfiniteSandwichesDemo()
                 sandwiches[i]->translate( dx, 0.0f );
             }
 
+            // Draw and move the dangers.
+            for( i=0; i < N_DANGERS; i++ ){
+                dangers[i]->draw( projectionMatrix );
+                dangers[i]->translate( dx, 0.0f );
+            }
+
             // Draw the tool
             tool->draw( projectionMatrix );
 
             // Check if the first sandwich reached the sandwiches end point and, in that case,
-            // translate it behind the last sandwich.
+            // translate it and is dangers behind the last sandwich.
             if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
+
+                // Dangers translation.
+                for( i=firstSandwich*3; i<firstSandwich*3+3; i++ ){
+                    dangers[i]->translate(
+                                sandwiches[lastSandwich]->getX()
+                                - sandwiches[firstSandwich]->getX()
+                                + DISTANCE_BETWEEN_SANDWICHES,
+                                0.0f
+                                );
+                    dangers[i]->setState( 0 );
+                }
+
+                // Sandwich translation.
                 sandwiches[firstSandwich]->translate(
                             sandwiches[lastSandwich]->getX()
                             - sandwiches[firstSandwich]->getX()
@@ -251,6 +294,9 @@ void JDB::runInfiniteSandwichesDemo()
         delete conveyorBelt;
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];
+        }
+        for( i=0; i < N_DANGERS; i++ ){
+            delete dangers[i];
         }
 
     }catch( std::runtime_error& e ){
