@@ -33,18 +33,24 @@ Library::Library()
  * 2. File management
  ***/
 
-void Library::loadFile( const std::string& filePath )
+void Library::load( std::string libraryFolder )
 {
     tinyxml2::XMLDocument xmlFile;
     tinyxml2::XMLNode* tilesetNode;
     std::string imagesFolder;
 
+    // The library folder's path can contain a '/' or not at the end, so
+    // the path is "normarlized" here by removing that last '/', if it exists.
+    if( libraryFolder[libraryFolder.size()-1] == '/' ){
+        libraryFolder.resize( libraryFolder.size () - 1 );
+    }
+
     // Get the path to the "default" images folder.
     // TODO: Allow other skins loading.
-    imagesFolder = filePath.substr( 0, filePath.rfind( "/" ) ) + "/default/";
+    imagesFolder = libraryFolder + "/default/";
 
     // Open the requested file.
-    xmlFile.LoadFile( filePath.c_str() );
+    xmlFile.LoadFile( ( libraryFolder + "/graphic_library.xml" ).c_str() );
 
     // Load the first tileset XML node.
     tilesetNode = ( xmlFile.FirstChildElement( "library" ) )->FirstChildElement();

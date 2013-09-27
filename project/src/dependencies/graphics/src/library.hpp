@@ -47,7 +47,7 @@ class Library
         /***
          * 2. File management
          ***/
-        void loadFile( const std::string& filePath );
+        void load( std::string libraryFolder );
 
 
         /***

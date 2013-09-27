@@ -158,7 +158,7 @@ void JDB::runInfiniteSandwichesDemo()
         // Create the graphic Library and the sprite pointers.
         m2g::Library library;
         m2g::Sprite* sandwiches[N_SANDWICHES];
-        m2g::Sprite* tool = nullptr;
+        m2g::Animation* tool = nullptr;
         m2g::Sprite* conveyorBelt = nullptr;
 
         // X velocity for sprite "sandwich".
@@ -168,7 +168,7 @@ void JDB::runInfiniteSandwichesDemo()
         SDL_ShowCursor( SDL_DISABLE );
 
         // Load the graphic library.
-        library.loadFile( "data/img/infinite_sandwiches_demo/infinite_sandwiches_demo.library" );
+        library.load( "data/img/infinite_sandwiches_demo" );
 
         // Load the sandwiches' sprites and move them to their positions.
         for( i=0; i < N_SANDWICHES; i++ ){
@@ -178,7 +178,7 @@ void JDB::runInfiniteSandwichesDemo()
         }
 
         // Load the rest of the sprites.
-        tool = new m2g::Sprite( library.getTileset( "hand.png" ) );
+        tool = new m2g::Animation( library.getAnimationData( "tools.png" ) );
         conveyorBelt = new m2g::Sprite( library.getTileset( "conveyor_belt.png" ) );
 
         // Set the static tool and the animation at a fixed position.
@@ -282,7 +282,7 @@ void JDB::runCollisionDemo()
         SDL_ShowCursor( SDL_DISABLE );
 
         // Load the graphic library.
-        library.loadFile( "data/img/collision_test_demo/collision_test_demo.library" );
+        library.load( "data/img/collision_test_demo/" );
 
         // Set the sprite's tilesets.
         staticTool = new m2g::Sprite( library.getTileset( "tileset_test.png" ) );
