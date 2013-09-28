@@ -25,10 +25,9 @@
 
 namespace m2g {
 
-class Animation : public Drawable
+class Animation : public Sprite
 {
     private:
-        Sprite sprite;
         std::shared_ptr< AnimationData > animationData;
         int currentState;
 
@@ -36,40 +35,28 @@ class Animation : public Drawable
         /***
          * 1. Initialization and destruction
          ***/
-        Animation( std::shared_ptr< AnimationData > animationData );
+        Animation( const std::shared_ptr< AnimationData >& animationData );
 
 
         /***
-         * 2. Getters and setters
-         ***/
-        void setAnimationData( std::shared_ptr< AnimationData > animationData );
-        void setState( int newState );
-        int getState() const ;
+         * 2. Getters
+         ***/        
+        int getAnimationState() const ;
         GLuint getFrame() const ;
 
 
         /***
-         * 3. Transformations
+         * 3. Setters
          ***/
-        virtual void translate( const float& tx, const float& ty );
+        // TODO: Overload Sprite setters.
+        virtual void setAnimationData( const std::shared_ptr< AnimationData >& animationData );
+        virtual void setAnimationState( int newState );
 
 
         /***
-         * 4. Collision test
-         ***/
-        virtual const std::vector<Rect>* getCollisionRects() const ;
-
-        /***
-         * 5. Updating
+         * 4. Updating
          ***/
         void update();
-
-
-        /***
-         * 6. Drawing
-         ***/
-        virtual void draw( const glm::mat4& projectionMatrix ) const ;
-
 };
 
 } // namespace m2g

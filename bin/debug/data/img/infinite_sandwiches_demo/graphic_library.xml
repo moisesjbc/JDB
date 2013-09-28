@@ -11,6 +11,16 @@
 		<tile_dimensions width="256" height="128"/>
 	</tileset>
 
+	<tileset>
+		<src>sandwich_03.png</src>
+		<tile_dimensions width="256" height="128"/>
+	</tileset>
+
+	<tileset>
+		<src>sandwich_04.png</src>
+		<tile_dimensions width="256" height="128"/>
+	</tileset>
+
 	<animation>
 		<tileset>
 			<src>tools.png</src>

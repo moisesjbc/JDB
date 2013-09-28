@@ -55,7 +55,8 @@ class Drawable
         /***
          * 3. Transformations
          ***/
-        virtual void translate( const float& tx, const float& ty );
+        void translate( const float& tx, const float& ty );
+        void moveTo( const float& x, const float& y );
 
 
         /***

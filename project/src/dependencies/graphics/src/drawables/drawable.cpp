@@ -46,15 +46,24 @@ glm::vec2 Drawable::getPosition() const
     return position;
 }
 
+
 /***
  * 3. Transformations
  ***/
 
 void Drawable::translate( const float& tx, const float& ty )
 {
-    // Update the Drawable's position.
+    // Update the Sprite's position.
     position.x += tx;
     position.y += ty;
+}
+
+
+void Drawable::moveTo( const float& x, const float& y )
+{
+    // Update the Sprite's position.
+    position.x = x;
+    position.y = y;
 }
 
 

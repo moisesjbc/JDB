@@ -42,23 +42,23 @@ class Sprite : public Drawable
         /***
          * 1. Initialization and destruction
          ***/
-        Sprite( std::shared_ptr< Tileset > tileset );
+        Sprite( const std::shared_ptr< Tileset >& tileset );
 
 
         /***
-         * 2. Getters and setters
+         * 2. Getters
          ***/
-        void setTileset( std::shared_ptr< Tileset > tileset );
         const std::shared_ptr< Tileset > getTileset();
+        GLuint getCurrentTile() const ;
 
 
         /***
-         * 3. Current tile management
+         * 3. Setters
          ***/
-        void nextTile();
-        void previousTile();
-        void setTile( const GLuint tile );
-        GLuint getCurrentTile() const ;
+        virtual void setTileset( const std::shared_ptr< Tileset >& tileset );
+        virtual void setTile( const GLuint tile );
+        virtual void nextTile();
+        virtual void previousTile();
 
 
         /***

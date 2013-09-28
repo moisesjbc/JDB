@@ -152,6 +152,13 @@ void JDB::runInfiniteSandwichesDemo()
         SDL_Event event;
         bool quit = false;
 
+        quit = true;
+        while( quit ){
+            SDL_WaitEvent( &event );
+
+            quit = ( event.type != SDL_KEYDOWN );
+        }
+
         // Variable for time management.
         Uint32 t0 = 0;
         Uint32 t1 = 0;
@@ -174,7 +181,13 @@ void JDB::runInfiniteSandwichesDemo()
 
         // Load the sandwiches' sprites and move them to their positions.
         for( i=0; i < N_SANDWICHES; i++ ){
-            sandwiches[i] = new m2g::Sprite( library.getTileset( "sandwich_02.png" ) );
+            if( (i % 3) == 0 ){
+                sandwiches[i] = new m2g::Sprite( library.getTileset( "sandwich_02.png" ) );
+            }else if( (i % 3) == 1 ){
+                sandwiches[i] = new m2g::Sprite( library.getTileset( "sandwich_03.png" ) );
+            }else{
+                sandwiches[i] = new m2g::Sprite( library.getTileset( "sandwich_04.png" ) );
+            }
 
             sandwiches[i]->translate( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
         }
@@ -214,7 +227,7 @@ void JDB::runInfiniteSandwichesDemo()
 
                             // The hand collided with a danger, change that danger's state.
                             if( i < N_DANGERS ){
-                                dangers[i]->setState( 1 );
+                                dangers[i]->setAnimationState( 1 );
                             }
                         break;
                         case SDL_KEYDOWN:
@@ -225,7 +238,7 @@ void JDB::runInfiniteSandwichesDemo()
                             }
                         break;
                         case SDL_MOUSEMOTION:
-                            tool->translate( event.motion.xrel, event.motion.yrel );
+                            tool->moveTo( event.motion.x, event.motion.y );
                         break;
                     }
                 }
@@ -270,7 +283,7 @@ void JDB::runInfiniteSandwichesDemo()
                                 + DISTANCE_BETWEEN_SANDWICHES,
                                 0.0f
                                 );
-                    dangers[i]->setState( 0 );
+                    dangers[i]->setAnimationState( 0 );
                 }
 
                 // Sandwich translation.
@@ -381,7 +394,7 @@ void JDB::runCollisionDemo()
             }
 
             if( dynamicTool->collide( *animation ) ){
-                animation->setState( !animation->getState() );
+                animation->setAnimationState( !animation->getAnimationState() );
             }
 
             m2g::Tileset::bindBuffer();

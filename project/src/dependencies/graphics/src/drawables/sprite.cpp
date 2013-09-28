@@ -30,7 +30,7 @@ GLint Sprite::sliceLocation = -1;
  * 1. Initialization
  ***/
 
-Sprite::Sprite( std::shared_ptr< Tileset > tileset_ ) :
+Sprite::Sprite( const std::shared_ptr< Tileset >& tileset_ ) :
     currentTile( 0 )
 {
     GLint currentProgram;
@@ -61,10 +61,26 @@ Sprite::Sprite( std::shared_ptr< Tileset > tileset_ ) :
 
 
 /***
- * 2. Getters and setters
+ * 2. Getters
  ***/
 
-void Sprite::setTileset( std::shared_ptr< Tileset > tileset )
+const std::shared_ptr< Tileset > Sprite::getTileset()
+{
+    return tileset;
+}
+
+
+GLuint Sprite::getCurrentTile() const
+{
+    return currentTile;
+}
+
+
+/***
+ * 3. Setters
+ ***/
+
+void Sprite::setTileset( const std::shared_ptr< Tileset >& tileset )
 {
     // Start sharing the new tileset.
     this->tileset = tileset;
@@ -73,34 +89,6 @@ void Sprite::setTileset( std::shared_ptr< Tileset > tileset )
     currentTile = 0;
 }
 
-
-const std::shared_ptr< Tileset > Sprite::getTileset()
-{
-    return tileset;
-}
-
-
-/***
- * 3. Current tile management
- ***/
-
-void Sprite::nextTile()
-{
-    if( currentTile < (tileset->getNTiles() - 1) ){
-        currentTile++;
-    }else{
-        currentTile = 0;
-    }
-}
-
-void Sprite::previousTile()
-{
-    if( currentTile ){
-        currentTile--;
-    }else{
-        currentTile = tileset->getNTiles() - 1;
-    }
-}
 
 void Sprite::setTile( const GLuint tile )
 {
@@ -112,9 +100,23 @@ void Sprite::setTile( const GLuint tile )
 }
 
 
-GLuint Sprite::getCurrentTile() const
+void Sprite::nextTile()
 {
-    return currentTile;
+    if( currentTile < (tileset->getNTiles() - 1) ){
+        currentTile++;
+    }else{
+        currentTile = 0;
+    }
+}
+
+
+void Sprite::previousTile()
+{
+    if( currentTile ){
+        currentTile--;
+    }else{
+        currentTile = tileset->getNTiles() - 1;
+    }
 }
 
 
