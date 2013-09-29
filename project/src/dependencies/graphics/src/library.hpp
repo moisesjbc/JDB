@@ -28,31 +28,41 @@
 
 namespace m2g {
 
+typedef std::vector< std::shared_ptr<Tileset> > TilesetsVector;
+typedef std::vector< std::shared_ptr<Animation> > AnimationDataVector;
+
 class Library
 {
-    private:
-        // Vector of tilesets.
-        std::vector< std::shared_ptr< m2g::Tileset > > tilesets;
-
-        // Vector of animations.
-        std::vector< std::shared_ptr< m2g::AnimationData > > animationsData;
-
     public:
         /***
-         * 1. Initialization and destruction
+         * 1. Initialization and destruction.
          ***/
         Library();
 
 
         /***
-         * 2. File management
+         * 2. Loading methods
          ***/
+        void loadTilesets( TilesetsVector& tilesets, std::string libraryFolder );
+        //AnimationDataVector loadAnimationData( string libraryFolder );
+
+
+        /***
+         * 3. Auxiliar methods
+         ***/
+    private:
+        void getLibraryPaths( std::string libraryFolder, std::string& imagesFolder, std::string& libraryFile );
+
+
+        /***
+         * 2. File management
+         ***
         void load( std::string libraryFolder );
 
 
         /***
          * 3. Setters and getters
-         ***/
+         ***
         const std::shared_ptr< m2g::Tileset > getTileset( const unsigned int& index ) const ;
         const std::shared_ptr< m2g::Tileset> getTileset( const std::string& imageName ) const ;
 
@@ -62,9 +72,10 @@ class Library
 
         /***
          * 4. Tileset and animation data loading
-         ***/
+         ***
     private:
         std::shared_ptr<Tileset> loadTileset( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr );
+        ***/
 };
 
 } // namespace m2g

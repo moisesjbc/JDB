@@ -22,7 +22,7 @@
 namespace m2g {
 
 /***
- * 1. Initialization and destruction
+ * 1. Initialization and destruction.
  ***/
 
 Library::Library()
@@ -30,24 +30,70 @@ Library::Library()
 
 
 /***
- * 2. File management
+ * 2. Loading methods
  ***/
 
-void Library::load( std::string libraryFolder )
+void Library::loadTilesets( TilesetsVector& tilesets, std::string libraryFolder )
 {
     tinyxml2::XMLDocument xmlFile;
     tinyxml2::XMLNode* tilesetNode;
-    std::string imagesFolder;
 
+    std::string imagesFolder;
+    std::string libraryFile;
+
+    getLibraryPaths( libraryFolder, imagesFolder, libraryFile );
+
+    // Open the requested file.
+    xmlFile.LoadFile( libraryFile.c_str() );
+
+    // Load the "tilesets" XML node.
+    tilesetNode = ( xmlFile.FirstChildElement( "library" ) )->FirstChildElement( "tilesets" );
+
+    if( tilesetNode ){
+        // Get the first XML tileset node.
+        tilesetNode = tilesetNode->FirstChildElement();
+
+        // Keep reading XML tileset nodes.
+        while( tilesetNode ){
+            // Load the tileset from the current XML element.
+            tilesets.push_back( std::shared_ptr< Tileset >( new Tileset( tilesetNode, imagesFolder.c_str() ) ) );
+
+            // Load next XML element.
+            tilesetNode = tilesetNode->NextSiblingElement();
+        }
+    }
+}
+
+
+/***
+ * 3. Auxiliar methods
+ ***/
+
+void Library::getLibraryPaths( std::string libraryFolder, std::string& imagesFolder, std::string& libraryFile )
+{
     // The library folder's path can contain a '/' or not at the end, so
     // the path is "normarlized" here by removing that last '/', if it exists.
     if( libraryFolder[libraryFolder.size()-1] == '/' ){
         libraryFolder.resize( libraryFolder.size () - 1 );
     }
 
+    std::cout << "[" << libraryFolder << "]" << std::endl;
+
     // Get the path to the "default" images folder.
     // TODO: Allow other skins loading.
     imagesFolder = libraryFolder + "/default/";
+
+    // Get the path to the metadata file.
+    libraryFile = libraryFolder + "/graphic_library.xml";
+}
+
+
+/**
+void Library::load( std::string libraryFolder )
+{
+    tinyxml2::XMLDocument xmlFile;
+    tinyxml2::XMLNode* tilesetNode;
+    std::string imagesFolder;
 
     // Open the requested file.
     xmlFile.LoadFile( ( libraryFolder + "/graphic_library.xml" ).c_str() );
@@ -73,7 +119,7 @@ void Library::load( std::string libraryFolder )
 
 /***
  * 3. Setters and getters
- ***/
+ **
 
 const std::shared_ptr< m2g::Tileset > Library::getTileset( const unsigned int& index ) const
 {
@@ -119,5 +165,6 @@ const std::shared_ptr< m2g::AnimationData> Library::getAnimationData( const std:
 
     return animationsData[i];
 }
+*/
 
 } // namespace m2g

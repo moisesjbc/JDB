@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<library>
+	<!-- Tilesets -->
+
+	<!-- Animations -->
+	<animations>
+
+		<!-- Knife 01 -->
+		<animation>
+			<tileset>
+				<src>knife_01.png</src>
+				<tile_dimensions width="64" height="128"/>
+				<collision_rects>
+					<collision_rect tiles="0" x="15" y="5" width="25" height="41" />
+					<collision_rect tiles="0" x="17" y="46" width="38" height="61" />
+				</collision_rects>
+			</tileset>
+			<animation_states>
+				<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+				<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
+			</animation_states>
+		</animation>
+	</animations>
+</library>
