@@ -33,6 +33,9 @@ typedef std::vector< std::shared_ptr<Animation> > AnimationDataVector;
 
 class Library
 {
+    private:
+        tinyxml2::XMLDocument xmlFile;
+
     public:
         /***
          * 1. Initialization and destruction.
@@ -52,6 +55,8 @@ class Library
          ***/
     private:
         void getLibraryPaths( std::string libraryFolder, std::string& imagesFolder, std::string& libraryFile );
+        tinyxml2::XMLNode* getTilesetsRootNode( std::string libraryFile );
+        //tinyxml2::XMLNode* getAnimationDataRootNode( std::string libraryFile );
 
 
         /***

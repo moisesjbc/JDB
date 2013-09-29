@@ -35,19 +35,15 @@ Library::Library()
 
 void Library::loadTilesets( TilesetsVector& tilesets, std::string libraryFolder )
 {
-    tinyxml2::XMLDocument xmlFile;
-    tinyxml2::XMLNode* tilesetNode;
-
+    tinyxml2::XMLNode* tilesetNode = nullptr;
     std::string imagesFolder;
     std::string libraryFile;
 
+    // Use the library folder path to get the paths to the images folder and metadata file.
     getLibraryPaths( libraryFolder, imagesFolder, libraryFile );
 
-    // Open the requested file.
-    xmlFile.LoadFile( libraryFile.c_str() );
-
     // Load the "tilesets" XML node.
-    tilesetNode = ( xmlFile.FirstChildElement( "library" ) )->FirstChildElement( "tilesets" );
+    tilesetNode = getTilesetsRootNode( libraryFile );
 
     if( tilesetNode ){
         // Get the first XML tileset node.
@@ -77,14 +73,22 @@ void Library::getLibraryPaths( std::string libraryFolder, std::string& imagesFol
         libraryFolder.resize( libraryFolder.size () - 1 );
     }
 
-    std::cout << "[" << libraryFolder << "]" << std::endl;
-
     // Get the path to the "default" images folder.
     // TODO: Allow other skins loading.
     imagesFolder = libraryFolder + "/default/";
 
     // Get the path to the metadata file.
     libraryFile = libraryFolder + "/graphic_library.xml";
+}
+
+
+tinyxml2::XMLNode* Library::getTilesetsRootNode( std::string libraryFile )
+{
+    // Open the requested file.
+    xmlFile.LoadFile( libraryFile.c_str() );
+
+    // Return the tilesets root node.
+    return ( xmlFile.FirstChildElement( "library" ) )->FirstChildElement( "tilesets" );
 }
 
 
