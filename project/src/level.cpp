@@ -26,6 +26,8 @@ const unsigned int N_SANDWICHES = 5;
 const float SANDWICHES_END_POINT = -300.0f;
 const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
 const unsigned int N_DANGERS = N_SANDWICHES * 3;
+const unsigned int FPS = 25;
+const unsigned int REFRESH_TIME = 1000 / FPS;
 
 
 Level::Level( SDL_Window* window_, unsigned int screenWidth, unsigned int screenHeight )
@@ -48,6 +50,8 @@ void Level::runSurvivalLevel( unsigned int index )
     // Open the levels configuration file.
     xmlFile.LoadFile( "data/config/levels.xml" );
 
+    std::cout << "1" << std::endl;
+
     // Iterate over the survival level XML nodes until de number index.
     levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "survival_levels" )->FirstChildElement( "survival_level" ) );
     std::cout << "LevelNode: " << levelNode << std::endl;
@@ -61,12 +65,20 @@ void Level::runSurvivalLevel( unsigned int index )
         throw std::runtime_error( "ERROR: Survival level not found" );
     }
 
+        std::cout << "2" << std::endl;
+    // Load the sandwiches data.
+    loadSandwichData();
+
+    // Load the dangers data.
+    loadDangerData();
+
     // Get the level parameters.
     levelElement = (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" );
     initialSpeed = levelElement->FloatAttribute( "initial" );
     speedStep = levelElement->FloatAttribute( "step" );
     timeLapse = (unsigned int)( levelElement->IntAttribute( "time_lapse" ) );
 
+        std::cout << "3" << std::endl;
     // Execute the main loop.
     survivalLoop( initialSpeed, speedStep, timeLapse );
 }
@@ -78,9 +90,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     unsigned int firstSandwich = 0;
     unsigned int lastSandwich = N_SANDWICHES - 1;
     float speed = initialSpeed;
-    unsigned int totalSeconds = 0;
-
-    //std::thread timerThread( &Level::timer, this );
+    unsigned int nDraws = 0;
 
     try
     {
@@ -105,12 +115,6 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
         // Make the cursor invisible.
         SDL_ShowCursor( SDL_DISABLE );
-
-        // Load the sandwiches data.
-        graphicsLoader.loadTilesets( sandwichesData, "data/img/sandwiches" );
-
-        // Load the dangers data.
-        graphicsLoader.loadAnimationsData( dangersData, "data/img/dangers" );
 
         // Load the sandwiches' sprites and move them to their positions.
         for( i=0; i < N_SANDWICHES; i++ ){
@@ -137,10 +141,13 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         conveyorBelt->translate( 0, 256 );
         */
 
+        // Start the timer.
+        timer.init();
+
         // Keep rendering a black window until player tell us to stop.
         while( !quit ){
             t0 = SDL_GetTicks();
-            while( (t1 - t0) < 40 ){
+            while( (t1 - t0) < REFRESH_TIME ){
                 if( SDL_PollEvent( &event ) != 0 ){
                     switch( event.type ){
                         case SDL_QUIT:
@@ -232,6 +239,13 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             }
 
             SDL_GL_SwapWindow( window );
+
+
+            nDraws++;
+            if( nDraws >= FPS ){
+                nDraws = 0;
+                std::cout << "seconds: " << timer.getSeconds() << std::endl;
+            }
         }
 
 
@@ -245,23 +259,37 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             delete dangers[i];
         }
 
+        // Stop the timer.
+        timer.stop();
+
     }catch( std::runtime_error& e ){
         std::cerr << e.what() << std::endl;
     }
 }
 
 
-void Level::timer()
+/***
+ * 2. Loading
+ ***/
+
+void Level::loadSandwichData()
 {
-    unsigned int totalTime = 0;
-
-    while( true ){
-        coutMutex.lock();
-        std::cout << "seconds: " << totalTime << std::endl;
-        coutMutex.unlock();
-
-        totalTime++;
-    }
+    // Load the sandwiches data.
+    graphicsLoader.loadTilesets( sandwichesData, "data/img/sandwiches" );
 }
+
+
+void Level::loadDangerData()
+{
+    // Load the dangers data.
+    graphicsLoader.loadAnimationsData( dangersData, "data/img/dangers" );
+}
+
+
+void Level::drawTime( int time )
+{
+    std::cout << "seconds: " << time << std::endl;
+}
+
 
 } // namespace jdb

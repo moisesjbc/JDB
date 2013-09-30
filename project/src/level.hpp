@@ -26,6 +26,7 @@
 #include <SDL2/SDL_video.h>
 #include <thread>
 #include <mutex>
+#include "utilities/timer.hpp"
 
 namespace jdb {
 
@@ -51,6 +52,9 @@ class Level
 
         std::mutex coutMutex;
 
+        // Timer
+        Timer timer;
+
     public:
         Level( SDL_Window* window_, unsigned int screenWidth, unsigned int screenHeight );
 
@@ -59,7 +63,13 @@ class Level
     private:
         void survivalLoop( float initialSpeed, float speedStep, unsigned int timeLapse );
 
-        void timer();
+        /***
+         * 2. Loading
+         ***/
+        void loadSandwichData();
+        void loadDangerData();
+
+        static void drawTime( int time );
 };
 
 } // namespace jdb
