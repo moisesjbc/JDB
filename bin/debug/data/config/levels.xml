@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<levels>
+	<!-- Campaign levels -->
+
+
+	<!-- Survival levels -->
+	<survival_levels>
+		<!-- Survival level 01 -->
+		<survival_level>
+			<speed initial="10.0" step="1.0" timeLapse="10" />
+		</survival_level>
+	</survival_levels>
+</levels>

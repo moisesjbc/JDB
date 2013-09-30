@@ -17,33 +17,17 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef JDB_HPP
-#define JDB_HPP
-
-#include "dependencies/dependencies.hpp"
-#include "dependencies/msl/src/shader_loader.hpp"
-#include "dependencies/graphics/src/graphics_loader.hpp"
-#include "level.hpp"
+#ifndef LEVEL_HPP
+#define LEVEL_HPP
 
 namespace jdb {
 
-class JDB
+class Level
 {
-    private:
-        GLuint vao;
-        SDL_Window* window;
-        SDL_Surface* screen;
-        SDL_GLContext glContext;
-        msl::ShaderLoader* shaderLoader;
-        glm::mat4 projectionMatrix;
-
     public:
-        JDB();
-        ~JDB();
-
-        void runInfiniteSandwichesDemo();
+        Level();
 };
 
 } // namespace jdb
 
-#endif // JDB_HPP
+#endif // LEVEL_HPP

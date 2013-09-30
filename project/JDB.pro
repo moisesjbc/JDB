@@ -14,7 +14,8 @@ SOURCES += src/main.cpp \
     src/dependencies/graphics/src/utilities/tilesets_buffer.cpp \
     src/dependencies/graphics/src/drawables/animation_data.cpp \
     src/dependencies/graphics/src/drawables/animation.cpp \
-    src/dependencies/graphics/src/graphics_loader.cpp
+    src/dependencies/graphics/src/graphics_loader.cpp \
+    src/level.cpp
 
 HEADERS += \
     src/jdb.hpp \
@@ -29,7 +30,8 @@ HEADERS += \
     src/dependencies/graphics/src/utilities/tilesets_buffer.hpp \
     src/dependencies/graphics/src/drawables/animation_data.hpp \
     src/dependencies/graphics/src/drawables/animation.hpp \
-    src/dependencies/graphics/src/graphics_loader.hpp
+    src/dependencies/graphics/src/graphics_loader.hpp \
+    src/level.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image
 
