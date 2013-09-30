@@ -147,8 +147,9 @@ void JDB::runInfiniteSandwichesDemo()
     unsigned int firstSandwich = 0;
     unsigned int lastSandwich = N_SANDWICHES - 1;
 
-    m2g::Library library;
-    m2g::TilesetsVector sandwichData;
+    m2g::GraphicsLoader graphicsLoader;
+    m2g::TilesetsVector sandwichesData;
+    m2g::AnimationDataVector dangersData;
 
     try
     {
@@ -168,8 +169,8 @@ void JDB::runInfiniteSandwichesDemo()
         // Create the graphic Library and the sprite pointers.
         m2g::Sprite* sandwiches[N_SANDWICHES];
         m2g::Animation* dangers[N_DANGERS];
-        m2g::Animation* tool = nullptr;
-        m2g::Sprite* conveyorBelt = nullptr;
+        //m2g::Animation* tool = nullptr;
+        //m2g::Sprite* conveyorBelt = nullptr;
 
         // X velocity for sprite "sandwich".
         GLfloat dx = -8.0f;
@@ -177,26 +178,29 @@ void JDB::runInfiniteSandwichesDemo()
         // Make the cursor invisible.
         SDL_ShowCursor( SDL_DISABLE );
 
-        // Load the sandwich data
-        library.loadTilesets( sandwichData, "data/img/sandwiches" );
+        // Load the sandwiches data.
+        graphicsLoader.loadTilesets( sandwichesData, "data/img/sandwiches" );
+
+        // Load the dangers data.
+        graphicsLoader.loadAnimationsData( dangersData, "data/img/dangers" );
 
         // Load the sandwiches' sprites and move them to their positions.
         for( i=0; i < N_SANDWICHES; i++ ){
-            sandwiches[i] = new m2g::Sprite( sandwichData[0] );
+            sandwiches[i] = new m2g::Sprite( sandwichesData[0] );
 
             sandwiches[i]->translate( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
         }
 
         // Load the danger's animations and move them to their positions.
-        /*
         for( i=0; i < N_SANDWICHES; i++ ){
             for( int j=0; j< 3; j++ ){
-                dangers[i*3+j] = new m2g::Animation( library.getAnimationData( "knife_02.png" ) );
+                dangers[i*3+j] = new m2g::Animation( dangersData[0] );
 
                 dangers[i*3+j]->translate( 1024 + 30 + i * DISTANCE_BETWEEN_SANDWICHES + j * (DISTANCE_BETWEEN_SANDWICHES / 4), 330 );
             }
         }
 
+        /*
         // Load the rest of the sprites and animations.
         tool = new m2g::Animation( library.getAnimationData( "tools.png" ) );
         conveyorBelt = new m2g::Sprite( library.getTileset( "conveyor_belt.png" ) );
@@ -262,12 +266,12 @@ void JDB::runInfiniteSandwichesDemo()
             }
 
             // Draw and move the dangers.
-            /*
             for( i=0; i < N_DANGERS; i++ ){
                 dangers[i]->draw( projectionMatrix );
                 dangers[i]->translate( dx, 0.0f );
             }
 
+            /*
             // Draw the tool
             tool->draw( projectionMatrix );
             */
@@ -277,7 +281,6 @@ void JDB::runInfiniteSandwichesDemo()
             if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
 
                 // Dangers translation.
-                /*
                 for( i=firstSandwich*3; i<firstSandwich*3+3; i++ ){
                     dangers[i]->translate(
                                 sandwiches[lastSandwich]->getX()
@@ -287,7 +290,6 @@ void JDB::runInfiniteSandwichesDemo()
                                 );
                     dangers[i]->setAnimationState( 0 );
                 }
-                */
 
                 // Sandwich translation.
                 sandwiches[firstSandwich]->translate(
@@ -311,9 +313,9 @@ void JDB::runInfiniteSandwichesDemo()
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];
         }
-        //for( i=0; i < N_DANGERS; i++ ){
-        //    delete dangers[i];
-        //}
+        for( i=0; i < N_DANGERS; i++ ){
+            delete dangers[i];
+        }
 
     }catch( std::runtime_error& e ){
         std::cerr << e.what() << std::endl;

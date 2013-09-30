@@ -17,8 +17,8 @@
  * along with M2G.  If not, see <http://www.gnu.org/licenses/>.
 ***/
 
-#ifndef LIBRARY_HPP
-#define LIBRARY_HPP
+#ifndef GRAPHIC_LOADER_HPP
+#define GRAPHIC_LOADER_HPP
 
 #include "drawables/sprite.hpp"
 #include "drawables/animation_data.hpp"
@@ -29,9 +29,9 @@
 namespace m2g {
 
 typedef std::vector< std::shared_ptr<Tileset> > TilesetsVector;
-typedef std::vector< std::shared_ptr<Animation> > AnimationDataVector;
+typedef std::vector< std::shared_ptr<AnimationData> > AnimationDataVector;
 
-class Library
+class GraphicsLoader
 {
     private:
         tinyxml2::XMLDocument xmlFile;
@@ -40,14 +40,17 @@ class Library
         /***
          * 1. Initialization and destruction.
          ***/
-        Library();
+        GraphicsLoader();
 
 
         /***
          * 2. Loading methods
          ***/
         void loadTilesets( TilesetsVector& tilesets, std::string libraryFolder );
-        //AnimationDataVector loadAnimationData( string libraryFolder );
+        void loadTilesets( TilesetsVector& tilesets, std::string libraryFolder, std::string prefix );
+
+        void loadAnimationsData( AnimationDataVector& animationData, std::string libraryFolder );
+        void loadAnimationsData( AnimationDataVector& animationData, std::string libraryFolder, std::string prefix );
 
 
         /***
@@ -56,31 +59,7 @@ class Library
     private:
         void getLibraryPaths( std::string libraryFolder, std::string& imagesFolder, std::string& libraryFile );
         tinyxml2::XMLNode* getTilesetsRootNode( std::string libraryFile );
-        //tinyxml2::XMLNode* getAnimationDataRootNode( std::string libraryFile );
-
-
-        /***
-         * 2. File management
-         ***
-        void load( std::string libraryFolder );
-
-
-        /***
-         * 3. Setters and getters
-         ***
-        const std::shared_ptr< m2g::Tileset > getTileset( const unsigned int& index ) const ;
-        const std::shared_ptr< m2g::Tileset> getTileset( const std::string& imageName ) const ;
-
-        const std::shared_ptr< m2g::AnimationData > getAnimationData( const unsigned int& index ) const ;
-        const std::shared_ptr< m2g::AnimationData> getAnimationData( const std::string& imageName ) const ;
-
-
-        /***
-         * 4. Tileset and animation data loading
-         ***
-    private:
-        std::shared_ptr<Tileset> loadTileset( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr );
-        ***/
+        tinyxml2::XMLNode* getAnimationDataRootNode( std::string libraryFile );
 };
 
 } // namespace m2g

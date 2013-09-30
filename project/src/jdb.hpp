@@ -22,7 +22,7 @@
 
 #include "dependencies/dependencies.hpp"
 #include "dependencies/msl/src/shader_loader.hpp"
-#include "dependencies/graphics/src/library.hpp"
+#include "dependencies/graphics/src/graphics_loader.hpp"
 
 namespace jdb {
 
