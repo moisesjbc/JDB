@@ -192,7 +192,7 @@ tinyxml2::XMLNode* GraphicsLoader::getAnimationDataRootNode( std::string library
     // Open the requested file.
     xmlFile.LoadFile( libraryFile.c_str() );
 
-    // Return the tilesets root node.
+    // Return the animationsData root node.
     return ( xmlFile.FirstChildElement( "library" ) )->FirstChildElement( "animations" );
 }
 

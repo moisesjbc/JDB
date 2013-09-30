@@ -20,12 +20,46 @@
 #ifndef LEVEL_HPP
 #define LEVEL_HPP
 
+#include <stdexcept>
+#include "dependencies/graphics/src/graphics_loader.hpp"
+#include <glm/gtx/matrix_operation.hpp>
+#include <SDL2/SDL_video.h>
+#include <thread>
+#include <mutex>
+
 namespace jdb {
+
+enum class LevelType
+{
+    CAMPAIGN,
+    SURVIVAL
+};
+
 
 class Level
 {
+    private:
+        tinyxml2::XMLDocument xmlFile;
+
+        LevelType levelType;
+        m2g::GraphicsLoader graphicsLoader;
+        m2g::TilesetsVector sandwichesData;
+        m2g::AnimationDataVector dangersData;
+
+        SDL_Window* window;
+        glm::mat4 projectionMatrix;
+
+        std::mutex coutMutex;
+
     public:
-        Level();
+        Level( SDL_Window* window_, unsigned int screenWidth, unsigned int screenHeight );
+
+        void runSurvivalLevel( unsigned int index );
+
+    private:
+        void survivalLoop( float initialSpeed, float speedStep, unsigned int timeLapse );
+
+        void timer();
 };
 
 } // namespace jdb

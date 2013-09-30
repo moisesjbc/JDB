@@ -37,6 +37,8 @@ class JDB
         msl::ShaderLoader* shaderLoader;
         glm::mat4 projectionMatrix;
 
+        Level* level;
+
     public:
         JDB();
         ~JDB();
