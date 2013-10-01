@@ -31,10 +31,12 @@ class Timer
     private:
         std::mutex mutex;
 
+        int timeLapse;
         int seconds;
 
-        unsigned int timeLapse;
-        void (*callbackFunction)( int );
+        int remainingSecondsForNewTimeLapse;
+
+        std::function<void (void)> callbackFunction;
 
         bool stop_;
 
@@ -45,15 +47,25 @@ class Timer
          * 1. Initialization
          ***/
         Timer();
+        void init( unsigned int timeLapse_, std::function<void (void)> callbackFunction_ );
 
-        void init();
-        void init( unsigned int timeLapse_, void (*callbackFunction_)(int) );
 
+        /***
+         * 2. Handlers
+         ***/
         void stop();
 
+
+        /***
+         * 3. Getters
+         ***/
         int getSeconds();
 
+
     private:
+        /***
+         * 4. Main loop
+         ***/
         void loop();
 };
 

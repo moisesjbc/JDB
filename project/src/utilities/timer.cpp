@@ -30,47 +30,16 @@ Timer::Timer() :
 {
 }
 
-void Timer::init()
+
+void Timer::init( unsigned int timeLapse_, std::function<void (void)> callbackFunction_ )
 {
     seconds = -1;
-    timeLapse = 0;
-    callbackFunction = nullptr;
-
-    thread = new std::thread( &Timer::loop, this );
-}
-
-
-void Timer::init( unsigned int timeLapse_, void (*callbackFunction_)(int) )
-{
-    seconds = -1;
+    remainingSecondsForNewTimeLapse = -1;
     timeLapse = timeLapse_;
     callbackFunction = callbackFunction_;
+    remainingSecondsForNewTimeLapse = 0;
 
     thread = new std::thread( &Timer::loop, this );
-}
-
-
-void Timer::loop()
-{
-    // TODO: ¿Create loopWithCallback method.?
-    //  - Keep in mind: what to do if the callback function delays the timer?
-    mutex.lock();
-    stop_ = false;
-    //std::thread* callbackThread = nullptr;
-
-    while( !stop_ ){
-        seconds++;
-        mutex.unlock();
-
-        std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
-
-        /*callbackThread = new std::thread( std::bind( callbackFunction, getSeconds() ) );
-        callbackThread->join();
-        delete callbackThread;*/
-
-        mutex.lock();
-    }
-    mutex.unlock();
 }
 
 
@@ -95,4 +64,41 @@ void Timer::stop()
     thread->join();
 }
 
-} // namespace jdb
+
+/***
+ * 4. Main loop
+ ***/
+
+void Timer::loop()
+{
+    // TODO: ¿Create loopWithCallback method.?
+    //  - Keep in mind: what to do if the callback function delays the timer?
+    mutex.lock();
+    stop_ = false;
+    std::thread* callbackThread = nullptr;
+
+    remainingSecondsForNewTimeLapse = timeLapse;
+
+    while( !stop_ ){
+        remainingSecondsForNewTimeLapse--;
+        seconds++;
+
+        if( remainingSecondsForNewTimeLapse == 0 ){
+            remainingSecondsForNewTimeLapse = timeLapse;
+            mutex.unlock();
+            callbackThread = new std::thread( callbackFunction );
+            callbackThread->join();
+            delete callbackThread;
+        }else{
+            mutex.unlock();
+        }
+
+        std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
+
+        mutex.lock();
+    }
+    mutex.unlock();
+}
+
+
+}

@@ -89,6 +89,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     unsigned int i;
     unsigned int firstSandwich = 0;
     unsigned int lastSandwich = N_SANDWICHES - 1;
+    std::mutex speedMutex;
     float speed = initialSpeed;
     unsigned int nDraws = 0;
 
@@ -141,8 +142,16 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         conveyorBelt->translate( 0, 256 );
         */
 
-        // Start the timer.
-        timer.init();
+        // Start the timer and set its callback function.
+        timer.init( timeLapse, [&](){
+            speedMutex.lock();
+            speed += speedStep;
+            speedMutex.unlock();
+
+            coutMutex.lock();
+            std::cout << "New speed! (" << speed << ")" << std::endl;
+            coutMutex.unlock();
+        });
 
         // Keep rendering a black window until player tell us to stop.
         while( !quit ){
@@ -194,17 +203,28 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             // Draw the conveyor belt.
             //conveyorBelt->draw( projectionMatrix );
 
-            // Draw and move the sandwiches.
+            // Draw the sandwiches
             for( i=0; i < N_SANDWICHES; i++ ){
                 sandwiches[i]->draw( projectionMatrix );
+            }
+
+            // Draw the dangers.
+            for( i=0; i < N_DANGERS; i++ ){
+                dangers[i]->draw( projectionMatrix );
+            }
+
+            speedMutex.lock();
+            // Translate the sandwiches
+            for( i=0; i < N_SANDWICHES; i++ ){
                 sandwiches[i]->translate( -speed, 0.0f );
             }
 
-            // Draw and move the dangers.
+            // Translate the dangers.
             for( i=0; i < N_DANGERS; i++ ){
                 dangers[i]->draw( projectionMatrix );
                 dangers[i]->translate( -speed, 0.0f );
             }
+            speedMutex.unlock();
 
             /*
             // Draw the tool
@@ -244,7 +264,10 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             nDraws++;
             if( nDraws >= FPS ){
                 nDraws = 0;
+
+                coutMutex.lock();
                 std::cout << "seconds: " << timer.getSeconds() << std::endl;
+                coutMutex.unlock();
             }
         }
 

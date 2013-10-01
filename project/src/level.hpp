@@ -27,6 +27,7 @@
 #include <thread>
 #include <mutex>
 #include "utilities/timer.hpp"
+#include <functional>
 
 namespace jdb {
 
@@ -69,7 +70,7 @@ class Level
         void loadSandwichData();
         void loadDangerData();
 
-        static void drawTime( int time );
+        void drawTime( int time );
 };
 
 } // namespace jdb

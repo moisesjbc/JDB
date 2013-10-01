@@ -139,8 +139,6 @@ JDB::~JDB()
 
     // Destroy SDL (muahaha! x5).
     SDL_Quit();
-
-
 }
 
 
