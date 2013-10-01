@@ -111,7 +111,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         // Create the graphic Library and the sprite pointers.
         m2g::Sprite* sandwiches[N_SANDWICHES];
         Danger* dangers[N_DANGERS];
-        //m2g::Animation* tool = nullptr;
+        Tool* tool = nullptr;
         //m2g::Sprite* conveyorBelt = nullptr;
 
         // Make the cursor invisible.
@@ -135,7 +135,14 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
         /*
         // Load the rest of the sprites and animations.
-        tool = new m2g::Animation( library.getAnimationData( "tools.png" ) );
+        */
+        std::vector< std::shared_ptr< m2g::AnimationData > > toolsData;
+        graphicsLoader.loadAnimationsData( toolsData, "data/img/tools" );
+
+        std::cout << "toolsData.size(): " << toolsData.size() << std::endl;
+
+        tool = new Tool( toolsData[0] );
+        /*
         conveyorBelt = new m2g::Sprite( library.getTileset( "conveyor_belt.png" ) );
 
         // Set the conveyor belt's sprite at its final position.
@@ -185,7 +192,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                             }
                         break;
                         case SDL_MOUSEMOTION:
-                            //tool->moveTo( event.motion.x, event.motion.y );
+                            tool->moveTo( event.motion.x, event.motion.y );
                         break;
                     }
                 }
@@ -226,10 +233,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             }
             speedMutex.unlock();
 
-            /*
             // Draw the tool
             tool->draw( projectionMatrix );
-            */
 
             // Check if the first sandwich reached the sandwiches end point and, in that case,
             // translate it and is dangers behind the last sandwich.
@@ -273,7 +278,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
 
         // Free resources
-        //delete tool;
+        delete tool;
         //delete conveyorBelt;
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];

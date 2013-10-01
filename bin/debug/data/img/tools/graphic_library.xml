@@ -2,18 +2,20 @@
 
 <library>
 	<!-- Animations -->
-	<animation>
-		<tileset>
-			<src>tools.png</src>
-			<tile_dimensions width="64" height="64"/>
-			<collision_rects>
-				<collision_rect tiles="0" x="14" y="28" width="36" height="31" />
-				<collision_rect tiles="0" x="7" y="16" width="27" height="12" />
-			</collision_rects>
-		</tileset>
-		<animation_states>
-			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
-		</animation_states>
-	</animation>
+	<animations>
+		<animation>
+			<tileset>
+				<src>tools.png</src>
+				<tile_dimensions width="64" height="64"/>
+				<collision_rects>
+					<collision_rect tiles="0" x="14" y="28" width="36" height="31" />
+					<collision_rect tiles="0" x="7" y="16" width="27" height="12" />
+				</collision_rects>
+			</tileset>
+			<animation_states>
+				<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+			</animation_states>
+		</animation>
+	</animations>
 </library>
 

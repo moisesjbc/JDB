@@ -29,6 +29,7 @@
 #include "utilities/timer.hpp"
 #include <functional>
 #include "dangers/danger.hpp"
+#include "tools/tool.hpp"
 
 namespace jdb {
 
