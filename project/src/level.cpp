@@ -306,6 +306,10 @@ void Level::loadDangerData()
 {
     // Load the dangers data.
     graphicsLoader.loadAnimationsData( dangersData, "data/img/dangers" );
+
+
+    //tinyxml2::XMLDocument( "data/config/dangers.xml" );
+    //dangerData
 }
 
 

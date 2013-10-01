@@ -17,7 +17,8 @@ SOURCES += src/main.cpp \
     src/dependencies/graphics/src/graphics_loader.cpp \
     src/level.cpp \
     src/utilities/timer.cpp \
-    src/dangers/dangerstate.cpp
+    src/dangers/danger_data.cpp \
+    src/dangers/danger_state.cpp
 
 HEADERS += \
     src/jdb.hpp \
@@ -36,7 +37,8 @@ HEADERS += \
     src/level.hpp \
     src/utilities/timer.hpp \
     src/dangers/player_action.hpp \
-    src/dangers/dangerstate.hpp
+    src/dangers/danger_data.hpp \
+    src/dangers/danger_state.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image
 

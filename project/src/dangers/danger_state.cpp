@@ -17,7 +17,7 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "dangerstate.hpp"
+#include "danger_state.hpp"
 
 
 /***
@@ -26,5 +26,5 @@
 
 DangerState::DangerState( tinyxml2::XMLElement* xmlElement )
 {
-    xmlElement->IntAttribute( "animation_state" );
+    animationState = xmlElement->IntAttribute( "animation_state" );
 }

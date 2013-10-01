@@ -28,6 +28,7 @@
 #include <mutex>
 #include "utilities/timer.hpp"
 #include <functional>
+#include "dangers/danger_data.hpp"
 
 namespace jdb {
 
@@ -47,6 +48,8 @@ class Level
         m2g::GraphicsLoader graphicsLoader;
         m2g::TilesetsVector sandwichesData;
         m2g::AnimationDataVector dangersData;
+
+        std::vector< DangerData > dangerData;
 
         SDL_Window* window;
         glm::mat4 projectionMatrix;

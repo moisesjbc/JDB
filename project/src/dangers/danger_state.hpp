@@ -25,7 +25,7 @@
 struct DangerState
 {
     // Index of the animation state associated with this state.
-    int AnimationState;
+    int animationState;
 
 
     /***
