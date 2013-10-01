@@ -29,6 +29,14 @@ namespace jdb {
 DangerData::DangerData( tinyxml2::XMLElement* xmlElement  )
 {
     tinyxml2::XMLElement* dangerStateXMLElement;
+    m2g::GraphicsLoader graphicsLoader;
+    std::string dangerName;
+
+    // Get the danger's name.
+    dangerName = xmlElement->Attribute( "name" );
+
+    // Get the damage's animation data.
+    graphicsLoader.loadAnimationsData( animationData, std::string( "data/img/dangers/" ), dangerName );
 
     // Get the damage's general info.
     initialState = atoi( xmlElement->FirstChildElement( "initial_state")->GetText() );

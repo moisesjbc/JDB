@@ -304,12 +304,20 @@ void Level::loadSandwichData()
 
 void Level::loadDangerData()
 {
+    tinyxml2::XMLDocument document;
+    tinyxml2::XMLElement* dangerXMLElement = nullptr;
+
     // Load the dangers data.
     graphicsLoader.loadAnimationsData( dangersData, "data/img/dangers" );
 
+    // Load the dangers data.
+    document.LoadFile( "./data/config/dangers.xml" );
+    dangerXMLElement = ( document.RootElement() )->FirstChildElement( "danger" );
+    while( dangerXMLElement ){
+        dangerData.emplace_back( new DangerData( dangerXMLElement ) );
 
-    //tinyxml2::XMLDocument( "data/config/dangers.xml" );
-    //dangerData
+        dangerXMLElement = dangerXMLElement->NextSiblingElement();
+    }
 }
 
 

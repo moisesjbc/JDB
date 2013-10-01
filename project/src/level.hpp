@@ -49,7 +49,7 @@ class Level
         m2g::TilesetsVector sandwichesData;
         m2g::AnimationDataVector dangersData;
 
-        std::vector< DangerData > dangerData;
+        std::vector< std::shared_ptr< DangerData > > dangerData;
 
         SDL_Window* window;
         glm::mat4 projectionMatrix;

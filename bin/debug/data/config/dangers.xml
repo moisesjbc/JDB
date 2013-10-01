@@ -4,11 +4,11 @@
 	<!-- Knife -->
 	<danger name="knife">
 		<initial_state>0</initial_state>
-		<initial_hp>100<initial_hp>
+		<initial_hp>100</initial_hp>
 		<damage_factor>0.3</damage_factor>
 		<danger_states>
-			<danger_state animation_state="0">
-			<danger_state animation_state="1">
+			<danger_state animation_state="0" />
+			<danger_state animation_state="1" />
 		</danger_states>
 	</danger>
 </dangers>
