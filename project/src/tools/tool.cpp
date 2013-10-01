@@ -21,9 +21,33 @@
 
 namespace jdb {
 
+/***
+ * 1. Initialization
+ ***/
+
 Tool::Tool( const std::shared_ptr< m2g::AnimationData >& animationData ) :
     Animation( animationData )
 {
 }
+
+
+/***
+ * 2. Handlers
+ ***/
+
+void Tool::handleMouseButtonDown( Danger** dangers, unsigned int nDangers )
+{
+    unsigned int i = 0;
+
+    while( ( i < nDangers ) &&
+           !collide( *( dangers[i] ) ) ){
+        i++;
+    }
+
+    if( i < nDangers ){
+        dangers[i]->playerAction( PlayerAction::HAND_CLICK );
+    }
+}
+
 
 } // namespace jdb

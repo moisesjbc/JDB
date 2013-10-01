@@ -170,6 +170,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                             quit = true;
                         break;
                         case SDL_MOUSEBUTTONDOWN:
+                            tool->handleMouseButtonDown( dangers, N_DANGERS );
+
                             // User has clicked. Check if the hand "collides" with any of the
                             // dangers.
                             /*

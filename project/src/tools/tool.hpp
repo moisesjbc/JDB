@@ -22,12 +22,24 @@
 
 #include "../dependencies/graphics/src/drawables/animation.hpp"
 
+#include "../dangers/danger.hpp"
+#include <SDL2/SDL.h>
+
 namespace jdb {
 
 class Tool : public m2g::Animation
 {
     public:
+        /***
+         * 1. Initialization
+         ***/
         Tool( const std::shared_ptr< m2g::AnimationData >& animationData );
+
+
+        /***
+         * 2. Handlers
+         ***/
+        void handleMouseButtonDown( Danger** dangers, unsigned int nDangers );
 };
 
 } // namespace jdb

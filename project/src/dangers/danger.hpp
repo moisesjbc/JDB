@@ -20,6 +20,7 @@
 #ifndef DANGER_HPP
 #define DANGER_HPP
 
+#include "player_action.hpp"
 #include "danger_data.hpp"
 #include "../dependencies/graphics/src/drawables/animation.hpp"
 
@@ -57,7 +58,7 @@ class Danger : public m2g::Animation
         /***
          * 4. Updating
          ***/
-        //void playerAction( PlayerAction playerAction, const std::vector< Rect >* collisionRects );
+        void playerAction( PlayerAction playerAction );
 };
 
 } // namespace jdb

@@ -59,4 +59,15 @@ void Danger::setState( int newState )
 }
 
 
+/***
+ * 4. Updating
+ ***/
+
+void Danger::playerAction( PlayerAction playerAction )
+{
+    // TODO: Change
+    setState( 1 );
+}
+
+
 } // namespace jdb
