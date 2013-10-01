@@ -28,7 +28,7 @@
 #include <mutex>
 #include "utilities/timer.hpp"
 #include <functional>
-#include "dangers/danger_data.hpp"
+#include "dangers/danger.hpp"
 
 namespace jdb {
 
@@ -47,7 +47,6 @@ class Level
         LevelType levelType;
         m2g::GraphicsLoader graphicsLoader;
         m2g::TilesetsVector sandwichesData;
-        m2g::AnimationDataVector dangersData;
 
         std::vector< std::shared_ptr< DangerData > > dangerData;
 

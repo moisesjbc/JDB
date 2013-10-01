@@ -110,7 +110,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
         // Create the graphic Library and the sprite pointers.
         m2g::Sprite* sandwiches[N_SANDWICHES];
-        m2g::Animation* dangers[N_DANGERS];
+        Danger* dangers[N_DANGERS];
         //m2g::Animation* tool = nullptr;
         //m2g::Sprite* conveyorBelt = nullptr;
 
@@ -127,7 +127,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         // Load the danger's animations and move them to their positions.
         for( i=0; i < N_SANDWICHES; i++ ){
             for( int j=0; j< 3; j++ ){
-                dangers[i*3+j] = new m2g::Animation( dangersData[0] );
+                dangers[i*3+j] = new Danger( dangerData[0] );
 
                 dangers[i*3+j]->translate( 1024 + 30 + i * DISTANCE_BETWEEN_SANDWICHES + j * (DISTANCE_BETWEEN_SANDWICHES / 4), 330 );
             }
@@ -306,9 +306,6 @@ void Level::loadDangerData()
 {
     tinyxml2::XMLDocument document;
     tinyxml2::XMLElement* dangerXMLElement = nullptr;
-
-    // Load the dangers data.
-    graphicsLoader.loadAnimationsData( dangersData, "data/img/dangers" );
 
     // Load the dangers data.
     document.LoadFile( "./data/config/dangers.xml" );
