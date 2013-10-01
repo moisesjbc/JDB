@@ -33,7 +33,8 @@ HEADERS += \
     src/dependencies/graphics/src/drawables/animation.hpp \
     src/dependencies/graphics/src/graphics_loader.hpp \
     src/level.hpp \
-    src/utilities/timer.hpp
+    src/utilities/timer.hpp \
+    src/dangers/player_action.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image
 

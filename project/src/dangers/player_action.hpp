@@ -17,36 +17,16 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef JDB_HPP
-#define JDB_HPP
-
-#include "dependencies/dependencies.hpp"
-#include "dependencies/msl/src/shader_loader.hpp"
-#include "dependencies/graphics/src/graphics_loader.hpp"
-#include "level.hpp"
-#include "dangers/player_action.hpp"
+#ifndef PLAYER_ACTION_HPP
+#define PLAYER_ACTION_HPP
 
 namespace jdb {
 
-class JDB
+enum class PlayerAction
 {
-    private:
-        GLuint vao;
-        SDL_Window* window;
-        SDL_Surface* screen;
-        SDL_GLContext glContext;
-        msl::ShaderLoader* shaderLoader;
-        glm::mat4 projectionMatrix;
-
-        Level* level;
-
-    public:
-        JDB();
-        ~JDB();
-
-        void runInfiniteSandwichesDemo();
+    HAND_CLICK
 };
 
-} // namespace jdb
+}
 
-#endif // JDB_HPP
+#endif // PLAYER_ACTION_HPP
