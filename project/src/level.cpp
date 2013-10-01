@@ -92,6 +92,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     std::mutex speedMutex;
     float speed = initialSpeed;
     unsigned int nDraws = 0;
+    float jacobHp = 100.0f;
 
     try
     {
@@ -241,6 +242,13 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             // Check if the first sandwich reached the sandwiches end point and, in that case,
             // translate it and is dangers behind the last sandwich.
             if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
+
+                // Hurt Jacob! (muahahaha!)
+                for( i=firstSandwich*3; i<firstSandwich*3+3; i++ ){
+                    jacobHp -= dangers[i]->getDamage();
+
+                    std::cout << "jacob's hp: " << jacobHp << std::endl;
+                }
 
                 // Dangers translation.
                 for( i=firstSandwich*3; i<firstSandwich*3+3; i++ ){
