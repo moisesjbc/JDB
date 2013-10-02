@@ -30,7 +30,7 @@ GLint Sprite::sliceLocation = -1;
  * 1. Initialization
  ***/
 
-Sprite::Sprite( const std::shared_ptr< Tileset >& tileset_ ) :
+Sprite::Sprite( TilesetPtr tileset_ ) :
     currentTile( 0 )
 {
     GLint currentProgram;
@@ -64,7 +64,7 @@ Sprite::Sprite( const std::shared_ptr< Tileset >& tileset_ ) :
  * 2. Getters
  ***/
 
-const std::shared_ptr< Tileset > Sprite::getTileset()
+TilesetPtr Sprite::getTileset()
 {
     return tileset;
 }
@@ -80,13 +80,14 @@ GLuint Sprite::getCurrentTile() const
  * 3. Setters
  ***/
 
-void Sprite::setTileset( const std::shared_ptr< Tileset >& tileset )
+void Sprite::setTileset( TilesetPtr tileset )
 {
     // Start sharing the new tileset.
     this->tileset = tileset;
 
     // Update the sprite's boundary box with the dimensions of a tile.
-    tileset->getTileDimensions( boundaryBox.width, boundaryBox.height );
+    boundaryBox.width = tileset->tileWidth;
+    boundaryBox.height = tileset->tileHeight;
 
     // Restart current tile.
     currentTile = 0;
@@ -95,7 +96,7 @@ void Sprite::setTileset( const std::shared_ptr< Tileset >& tileset )
 
 void Sprite::setTile( const GLuint tile )
 {
-    if( tile < tileset->getNTiles() ){
+    if( tile < tileset->nTiles ){
         currentTile = tile;
     }else{
         throw std::runtime_error( "ERROR: tile index out of limits" );
@@ -105,7 +106,7 @@ void Sprite::setTile( const GLuint tile )
 
 void Sprite::nextTile()
 {
-    if( currentTile < (tileset->getNTiles() - 1) ){
+    if( currentTile < (tileset->nTiles - 1) ){
         currentTile++;
     }else{
         currentTile = 0;
@@ -118,7 +119,7 @@ void Sprite::previousTile()
     if( currentTile ){
         currentTile--;
     }else{
-        currentTile = tileset->getNTiles() - 1;
+        currentTile = tileset->nTiles - 1;
     }
 }
 
@@ -129,7 +130,7 @@ void Sprite::previousTile()
 
 const std::vector<Rect>* Sprite::getCollisionRects() const
 {
-    return tileset->getCollisionRects( currentTile );
+    return &( tileset->collisionRects[currentTile] );
 }
 
 
@@ -140,7 +141,7 @@ const std::vector<Rect>* Sprite::getCollisionRects() const
 void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     // Load the sprite's attributes for rendering.
     glActiveTexture( GL_TEXTURE0 );
-    glBindTexture( GL_TEXTURE_2D_ARRAY, tileset->getTexture() );
+    glBindTexture( GL_TEXTURE_2D_ARRAY, tileset->texture );
 
     // Send current tile index to shader.
     glUniform1ui( sliceLocation, currentTile );
@@ -150,6 +151,7 @@ void Sprite::draw( const glm::mat4& projectionMatrix ) const {
 
     // Draw the sprite.
     tileset->draw();
+
     //glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
 }
 

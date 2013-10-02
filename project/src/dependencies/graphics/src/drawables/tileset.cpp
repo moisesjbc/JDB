@@ -235,41 +235,7 @@ void Tileset::load( const tinyxml2::XMLNode* xmlNode, const char* folder )
 
 
 /***
- * 3. Setters and getters
- ***/
-
-GLuint Tileset::getTexture() const
-{
-    return texture;
-}
-
-
-GLuint Tileset::getNTiles() const
-{
-    return nTiles;
-}
-
-
-std::string Tileset::getName() const
-{
-    return name;
-}
-
-
-const std::vector< Rect >* Tileset::getCollisionRects( unsigned int tile ) const
-{
-    return &collisionRects[tile];
-}
-
-
-void Tileset::getTileDimensions( float& tileWidth, float& tileHeight ) const
-{
-    tileWidth = this->tileWidth;
-    tileHeight = this->tileHeight;
-}
-
-/***
- * 4. Drawing
+ * 3. Drawing
  ***/
 
 void Tileset::draw() const
@@ -279,7 +245,7 @@ void Tileset::draw() const
 
 
 /***
- * 5. Auxiliar methods
+ * 4. Auxiliar methods
  ***/
 
 void Tileset::bindBuffer()

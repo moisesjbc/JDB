@@ -29,73 +29,63 @@
 
 namespace m2g {
 
-class Tileset {
-    private:
-        // Common tilesets buffer for all tilesets and its corresponding references
-        // count.
-        static TilesetsBuffer* tilesetsBuffer;
-        static unsigned int refCount;
+struct Tileset {
+    // Common tilesets buffer for all tilesets and its corresponding references
+    // count.
+    static TilesetsBuffer* tilesetsBuffer;
+    static unsigned int refCount;
 
-        // Texture 2D array id (OpenGL).
-        GLuint texture;
+    // Texture 2D array id (OpenGL).
+    GLuint texture;
 
-        // Tile dimensions.
-        GLuint tileWidth;
-        GLuint tileHeight;
+    // Tile dimensions.
+    GLuint tileWidth;
+    GLuint tileHeight;
 
-        // Image dimensions.
-        GLuint imageWidth;
-        GLuint imageHeight;
+    // Image dimensions.
+    GLuint imageWidth;
+    GLuint imageHeight;
 
-        // Tileset number of elements.
-        GLuint nRows;
-        GLuint nColumns;
-        GLuint nTiles;
+    // Tileset number of elements.
+    GLuint nRows;
+    GLuint nColumns;
+    GLuint nTiles;
 
-        // Index of this tileset's vertex attributes in the tilesets buffer.
-        unsigned int bufferIndex;
+    // Index of this tileset's vertex attributes in the tilesets buffer.
+    unsigned int bufferIndex;
 
-        // Name of the tileset's base image.
-        std::string name;
+    // Name of the tileset's base image.
+    std::string name;
 
-        // We keep a vector of collision rects for each tile in the tileset.
-        std::vector< std::vector< Rect > > collisionRects;
-
-
-    public:
-        /***
-         * 1. Initialization and destruction.
-         ***/
-        Tileset( const tinyxml2::XMLNode* xmlNode, const char* folder );
-        ~Tileset();
+    // We keep a vector of collision rects for each tile in the tileset.
+    std::vector< std::vector< Rect > > collisionRects;
 
 
-        /***
-         * 2. Loading
-         ***/
-        void load( const tinyxml2::XMLNode* xmlNode, const char* folder );
+    /*** Methods ***/
+
+    /***
+     * 1. Initialization and destruction.
+     ***/
+    Tileset( const tinyxml2::XMLNode* xmlNode, const char* folder );
+    ~Tileset();
 
 
-        /***
-         * 3. Setters and getters
-         ***/
-        GLuint getTexture() const ;
-        GLuint getNTiles() const;
-        std::string getName() const ;
-        const std::vector< Rect >* getCollisionRects( unsigned int tile ) const ;
-        void getTileDimensions( float& tileWidth, float& tileHeight ) const ;
+    /***
+     * 2. Loading
+     ***/
+    void load( const tinyxml2::XMLNode* xmlNode, const char* folder );
 
 
-        /***
-         * 4. Drawing
-         ***/
-        void draw() const ;
+    /***
+     * 3. Drawing
+     ***/
+    void draw() const ;
 
 
-        /***
-         * 5. Auxiliar methods
-         ***/
-        static void bindBuffer();
+    /***
+     * 4. Auxiliar methods
+     ***/
+    static void bindBuffer();
 };
 
 } // Namespace m2g

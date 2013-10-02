@@ -28,6 +28,8 @@
 
 namespace m2g {
 
+typedef std::shared_ptr< const Tileset > TilesetPtr;
+
 class Sprite : public Drawable
 {
     private:
@@ -35,27 +37,27 @@ class Sprite : public Drawable
         static GLint samplerLocation;
         static GLint sliceLocation;
 
-        std::shared_ptr< Tileset > tileset;
+        TilesetPtr tileset;
         GLuint currentTile;
 
     public:
         /***
          * 1. Initialization and destruction
          ***/
-        Sprite( const std::shared_ptr< Tileset >& tileset );
+        Sprite( TilesetPtr tileset );
 
 
         /***
          * 2. Getters
          ***/
-        const std::shared_ptr< Tileset > getTileset();
+        TilesetPtr getTileset();
         GLuint getCurrentTile() const ;
 
 
         /***
          * 3. Setters
          ***/
-        virtual void setTileset( const std::shared_ptr< Tileset >& tileset );
+        virtual void setTileset( TilesetPtr tileset );
         virtual void setTile( const GLuint tile );
         virtual void nextTile();
         virtual void previousTile();
