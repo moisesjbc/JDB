@@ -88,6 +88,8 @@ struct Tileset {
     static void bindBuffer();
 };
 
+typedef std::shared_ptr< const Tileset > TilesetPtr;
+
 } // Namespace m2g
 
 #endif // TILESET_HPP

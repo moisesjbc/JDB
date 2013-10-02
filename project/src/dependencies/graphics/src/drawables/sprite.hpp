@@ -28,8 +28,6 @@
 
 namespace m2g {
 
-typedef std::shared_ptr< const Tileset > TilesetPtr;
-
 class Sprite : public Drawable
 {
     private:

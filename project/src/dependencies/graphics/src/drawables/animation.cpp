@@ -26,8 +26,8 @@ namespace m2g {
  * 1. Initialization and destruction
  ***/
 
-Animation::Animation( const std::shared_ptr< AnimationData >& animationData ) :
-    Sprite( animationData->getTileset() )
+Animation::Animation( AnimationDataPtr animationData ) :
+    Sprite( animationData->tileset )
 {
     setAnimationData( animationData );
 }
@@ -53,10 +53,10 @@ GLuint Animation::getFrame() const
  * 3. Setters
  ***/
 
-void Animation::setAnimationData( const std::shared_ptr< AnimationData >& animationData )
+void Animation::setAnimationData( AnimationDataPtr animationData )
 {
     // Set static data.
-    setTileset( animationData->getTileset() );
+    setTileset( animationData->tileset );
     this->animationData = animationData;
 
     // Reset current state.
@@ -67,7 +67,7 @@ void Animation::setAnimationData( const std::shared_ptr< AnimationData >& animat
 void Animation::setAnimationState( int newState )
 {
     // Get the new animation state's info.
-    std::array< int, 3 > state = animationData->getState( newState );
+    std::array< int, 3 > state = animationData->states[ newState ];
 
     // Update the current animation state.
     currentState = newState;
@@ -85,7 +85,7 @@ void Animation::setAnimationState( int newState )
 void Animation::update()
 {
     // Get the current animation state's info.
-    std::array< int, 3 > state = animationData->getState( currentState );
+    std::array< int, 3 > state = animationData->states[ currentState ];
 
     // Get the current tile / frame.
     GLint currentTile = getCurrentTile();

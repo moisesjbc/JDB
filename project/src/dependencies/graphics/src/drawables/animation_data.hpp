@@ -31,33 +31,30 @@ const unsigned int FIRST_FRAME = 0;
 const unsigned int LAST_FRAME = 1;
 const unsigned int BACK_FRAME = 2;
 
-class AnimationData
+struct AnimationData
 {
-    private:
-        std::shared_ptr< Tileset > tileset;
+    // Tileset associated with this animation.
+    TilesetPtr tileset;
 
-        // Each state is a tuple (firstFrame, lastFrame, backFrame).
-        std::vector< std::array< int, 3 > >  states;
-
-    public:
-        /***
-         * 1. Initialization and destruction
-         ***/
-        AnimationData( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr );
+    // Each state is a tuple (firstFrame, lastFrame, backFrame).
+    std::vector< std::array< int, 3 > >  states;
 
 
-        /***
-         * 2. Loading
-         ***/
-        void load( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr );
+    /*** Methods ***/
+
+    /***
+     * 1. Initialization and destruction
+     ***/
+    AnimationData( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr );
 
 
-        /***
-         * 3. Getters
-         ***/
-        const std::shared_ptr< Tileset > getTileset() const ;
-        const std::array< int, 3 > getState( unsigned int index ) const ;
+    /***
+     * 2. Loading
+     ***/
+    void load( const tinyxml2::XMLNode* xmlNode, const char* folder = nullptr );
 };
+
+typedef std::shared_ptr< const AnimationData > AnimationDataPtr;
 
 } // namespace m2g.
 

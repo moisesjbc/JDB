@@ -28,14 +28,14 @@ namespace m2g {
 class Animation : public Sprite
 {
     private:
-        std::shared_ptr< AnimationData > animationData;
+        AnimationDataPtr animationData;
         int currentState;
 
     public:
         /***
          * 1. Initialization and destruction
          ***/
-        Animation( const std::shared_ptr< AnimationData >& animationData );
+        Animation( AnimationDataPtr animationData );
 
 
         /***
@@ -49,7 +49,7 @@ class Animation : public Sprite
          * 3. Setters
          ***/
         // TODO: Overload Sprite setters.
-        virtual void setAnimationData( const std::shared_ptr< AnimationData >& animationData );
+        virtual void setAnimationData( AnimationDataPtr animationData );
         virtual void setAnimationState( int newState );
 
 
