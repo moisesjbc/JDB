@@ -262,6 +262,12 @@ const std::vector< Rect >* Tileset::getCollisionRects( unsigned int tile ) const
 }
 
 
+void Tileset::getTileDimensions( float& tileWidth, float& tileHeight ) const
+{
+    tileWidth = this->tileWidth;
+    tileHeight = this->tileHeight;
+}
+
 /***
  * 4. Drawing
  ***/

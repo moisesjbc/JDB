@@ -22,6 +22,7 @@
 
 #include "../dependencies/dependencies.hpp"
 #include <vector>
+#include <iostream>
 
 namespace m2g {
 
@@ -31,12 +32,14 @@ struct Rect
     GLfloat y;
     GLfloat width;
     GLfloat height;
+
+    bool collide( const Rect& b ) const ;
 };
 
 class Drawable
 {
     protected:
-        glm::vec2 position;
+        Rect boundaryBox;
 
     public:
         /***
@@ -63,6 +66,7 @@ class Drawable
          * 4. Collision test
          ***/
         virtual bool collide( const Drawable& b ) const ;
+        virtual const Rect* getBoundaryBox() const ;
         virtual const std::vector<Rect>* getCollisionRects() const = 0;
 
 

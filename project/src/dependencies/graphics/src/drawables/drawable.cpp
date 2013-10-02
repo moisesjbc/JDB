@@ -22,13 +22,24 @@
 namespace m2g {
 
 
+bool Rect::collide( const Rect& b ) const
+{
+    return  (
+        ( x < ( b.x + b.width ) ) &&
+        ( ( x + width ) > b.x ) &&
+        ( y < ( b.y + b.height ) ) &&
+        ( ( y + height ) > b.y )
+            );
+}
+
+
 /***
  * 1. Initialization
  ***/
 
-Drawable::Drawable() :
-    position( 0.0f )
+Drawable::Drawable()
 {
+    boundaryBox = { 0.0f, 0.0f, 0.0f, 0.0f };
 }
 
 
@@ -38,12 +49,12 @@ Drawable::Drawable() :
 
 GLfloat Drawable::getX() const
 {
-    return position.x;
+    return boundaryBox.x;
 }
 
 glm::vec2 Drawable::getPosition() const
 {
-    return position;
+    return glm::vec2( boundaryBox.x, boundaryBox.y );
 }
 
 
@@ -54,16 +65,16 @@ glm::vec2 Drawable::getPosition() const
 void Drawable::translate( const float& tx, const float& ty )
 {
     // Update the Sprite's position.
-    position.x += tx;
-    position.y += ty;
+    boundaryBox.x += tx;
+    boundaryBox.y += ty;
 }
 
 
 void Drawable::moveTo( const float& x, const float& y )
 {
     // Update the Sprite's position.
-    position.x = x;
-    position.y = y;
+    boundaryBox.x = x;
+    boundaryBox.y = y;
 }
 
 
@@ -73,16 +84,27 @@ void Drawable::moveTo( const float& x, const float& y )
 
 bool Drawable::collide( const Drawable& b ) const
 {
-    const std::vector<Rect>* aRects = getCollisionRects();
-    const std::vector<Rect>* bRects = b.getCollisionRects();
+    const std::vector<Rect>* aRects = nullptr;
+    const std::vector<Rect>* bRects = nullptr;
+
+    const Rect* aBoundaryBox = getBoundaryBox();
+    const Rect* bBoundaryBox = b.getBoundaryBox();
+
+    if( !aBoundaryBox->collide( *bBoundaryBox ) ){
+        std::cout << "Boundary Box fail" << std::endl;
+        return false;
+    }
+
+    aRects = getCollisionRects();
+    bRects = b.getCollisionRects();
 
     const glm::vec2 bPosition = b.getPosition();
 
     Rect aRect, bRect;
 
     for( unsigned int i=0; i<aRects->size(); i++ ){
-        aRect.x = ( (*aRects)[i] ).x + position.x;
-        aRect.y = ( (*aRects)[i] ).y + position.y;
+        aRect.x = ( (*aRects)[i] ).x + boundaryBox.x;
+        aRect.y = ( (*aRects)[i] ).y + boundaryBox.y;
         aRect.width = ( (*aRects)[i] ).width;
         aRect.height = ( (*aRects)[i] ).height;
 
@@ -92,18 +114,19 @@ bool Drawable::collide( const Drawable& b ) const
             bRect.width = ( (*bRects)[j] ).width;
             bRect.height = ( (*bRects)[j] ).height;
 
-            if(
-                ( aRect.x < ( bRect.x + bRect.width ) ) && // 4
-                ( ( aRect.x + aRect.width ) > bRect.x ) && // 3
-                ( aRect.y < ( bRect.y + bRect.height ) ) && // 2
-                ( ( aRect.y + aRect.height ) > bRect.y )  // 1
-              ){
+            if( aRect.collide( bRect ) ){
                 return true;
             }
         }
     }
 
     return false;
+}
+
+
+const Rect* Drawable::getBoundaryBox() const
+{
+    return &boundaryBox;
 }
 
 } // namespace m2g

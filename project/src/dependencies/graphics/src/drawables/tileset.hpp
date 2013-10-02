@@ -83,6 +83,7 @@ class Tileset {
         GLuint getNTiles() const;
         std::string getName() const ;
         const std::vector< Rect >* getCollisionRects( unsigned int tile ) const ;
+        void getTileDimensions( float& tileWidth, float& tileHeight ) const ;
 
 
         /***

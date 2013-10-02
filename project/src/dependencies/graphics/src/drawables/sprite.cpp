@@ -85,6 +85,9 @@ void Sprite::setTileset( const std::shared_ptr< Tileset >& tileset )
     // Start sharing the new tileset.
     this->tileset = tileset;
 
+    // Update the sprite's boundary box with the dimensions of a tile.
+    tileset->getTileDimensions( boundaryBox.width, boundaryBox.height );
+
     // Restart current tile.
     currentTile = 0;
 }
@@ -143,7 +146,7 @@ void Sprite::draw( const glm::mat4& projectionMatrix ) const {
     glUniform1ui( sliceLocation, currentTile );
 
     // Send MVP matrix to shader.
-    sendMVPMatrixToShader( projectionMatrix * glm::translate( glm::mat4( 1.0f ), glm::vec3( position.x, position.y, 0.0f ) ) );
+    sendMVPMatrixToShader( projectionMatrix * glm::translate( glm::mat4( 1.0f ), glm::vec3( boundaryBox.x, boundaryBox.y, 0.0f ) ) );
 
     // Draw the sprite.
     tileset->draw();
