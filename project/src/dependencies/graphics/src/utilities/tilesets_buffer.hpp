@@ -26,6 +26,8 @@
 #include <GL/glu.h>
 #include <iostream>
 
+#include "../drawables/drawable.hpp"
+
 namespace m2g {
 
 class TilesetsBuffer

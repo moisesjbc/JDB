@@ -118,7 +118,7 @@ JDB::JDB() :
     // Create the level.
     level = new Level( window, WINDOW_WIDTH, WINDOW_HEIGHT );
 
-    std::cout << "JDB constructor finished - " << gluErrorString( glGetError() ) << std::endl;
+    m2g::checkOpenGL( "JDB constructor" );
 }
 
 

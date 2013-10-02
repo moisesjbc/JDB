@@ -43,18 +43,12 @@ DangerData::DangerData( tinyxml2::XMLElement* xmlElement  )
     initialHp = atoi( xmlElement->FirstChildElement( "initial_hp")->GetText() );
     damageFactor = atof( xmlElement->FirstChildElement( "damage_factor")->GetText() );
 
-    std::cout << "Initial state: " << initialState << std::endl
-              << "InitialHp: " << initialHp << std::endl
-              << "damageFactor: " << damageFactor << std::endl;
-
     // Get the damage's states.
     dangerStateXMLElement = xmlElement->FirstChildElement( "danger_states" )->FirstChildElement( "danger_state" );
     while( dangerStateXMLElement ){
         states.emplace_back( dangerStateXMLElement );
 
         dangerStateXMLElement = dangerStateXMLElement->NextSiblingElement();
-
-        std::cout << "state: " << ( states.back() ).animationState << std::endl;
     }
 }
 

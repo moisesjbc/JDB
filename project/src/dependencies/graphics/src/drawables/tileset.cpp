@@ -102,7 +102,6 @@ void Tileset::load( const tinyxml2::XMLNode* xmlNode, const char* folder )
     if( !image ){
         throw std::runtime_error( std::string( "ERROR: couldn't load texture image - " ) + std::string( IMG_GetError() ) );
     }
-    std::cout << "Image loaded: " << imageFile << std::endl;
 
     // Validity condition: the tileset dimensions must be multiples
     // of the tile's dimensions.
@@ -125,7 +124,6 @@ void Tileset::load( const tinyxml2::XMLNode* xmlNode, const char* folder )
     glActiveTexture( GL_TEXTURE0 );
     glGenTextures( 1, &texture );
     glBindTexture( GL_TEXTURE_2D_ARRAY, texture );
-    std::cout << "Sprite::loadTileset - texture: " << texture << std::endl;
 
     glTexParameteri( GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_REPEAT );
     glTexParameteri( GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_REPEAT );
@@ -143,7 +141,6 @@ void Tileset::load( const tinyxml2::XMLNode* xmlNode, const char* folder )
                     tileHeight,    // texture height.
                     nTiles         // texture depth (number of slices).
                     );
-    std::cout << "glTexStorage3D: " << gluErrorString( glGetError() ) << std::endl;
 
     // Set texture's image data.
     GLuint tile = 0;
@@ -170,7 +167,6 @@ void Tileset::load( const tinyxml2::XMLNode* xmlNode, const char* folder )
 
     }
 
-    std::cout << "glTextSubImage3D: " << gluErrorString( glGetError() ) << std::endl;
     glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
 
     // Free the image's surface.
@@ -231,6 +227,7 @@ void Tileset::load( const tinyxml2::XMLNode* xmlNode, const char* folder )
             collisionRectNode = collisionRectNode->NextSiblingElement( "collision_rect" );
         }
     }
+    checkOpenGL( "Sprite constructor" );
 }
 
 

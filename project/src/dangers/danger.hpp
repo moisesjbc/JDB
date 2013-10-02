@@ -59,6 +59,7 @@ class Danger : public m2g::Animation
          * 4. Updating
          ***/
         void playerAction( PlayerAction playerAction );
+        void reset();
 };
 
 } // namespace jdb

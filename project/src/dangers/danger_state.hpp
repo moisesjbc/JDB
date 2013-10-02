@@ -21,11 +21,18 @@
 #define DANGERSTATE_HPP
 
 #include "../dependencies/graphics/src/dependencies/tinyxml2/tinyxml2.h"
+#include "player_action_response.hpp"
+#include <vector>
+
+namespace jdb {
 
 struct DangerState
 {
     // Index of the animation state associated with this state.
     int animationState;
+
+    // Respones to player actions.
+    std::vector< PlayerActionResponse > playerActionResponses;
 
 
     /***
@@ -33,5 +40,7 @@ struct DangerState
      ***/
     DangerState( tinyxml2::XMLElement* xmlElement );
 };
+
+} // namespace jdb.
 
 #endif // DANGERSTATE_HPP

@@ -44,16 +44,13 @@ Sprite::Sprite( TilesetPtr tileset_ ) :
         samplerLocation = glGetUniformLocation( currentProgram, "tex" );
         sliceLocation = glGetUniformLocation( currentProgram, "slice" );
 
-        std::cout << "mvpMatrixLocation: " << mvpMatrixLocation << std::endl
-                  << "samplerLocation: " << samplerLocation << std::endl
-                  << "sliceLocation: " << sliceLocation << std::endl;
+        checkOpenGL( "Setting uniform locations" );
 
         currentTile = 0;
     }
 
     // Connect sampler to texture unit 0.
     glUniform1i( samplerLocation, 0 );
-    std::cout << "Location of shader variable \"sampler\" set : " << gluErrorString( glGetError() ) << std::endl;
 
     // Share the tileset given as an argument.
     setTileset( tileset_ );

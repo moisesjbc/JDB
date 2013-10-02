@@ -50,11 +50,8 @@ void Level::runSurvivalLevel( unsigned int index )
     // Open the levels configuration file.
     xmlFile.LoadFile( "data/config/levels.xml" );
 
-    std::cout << "1" << std::endl;
-
     // Iterate over the survival level XML nodes until de number index.
     levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "survival_levels" )->FirstChildElement( "survival_level" ) );
-    std::cout << "LevelNode: " << levelNode << std::endl;
     while( levelNode && ( i < index ) ){
         levelNode = levelNode->NextSiblingElement( "survival_level" );
         i++;
@@ -65,7 +62,6 @@ void Level::runSurvivalLevel( unsigned int index )
         throw std::runtime_error( "ERROR: Survival level not found" );
     }
 
-        std::cout << "2" << std::endl;
     // Load the sandwiches data.
     loadSandwichData();
 
@@ -78,7 +74,6 @@ void Level::runSurvivalLevel( unsigned int index )
     speedStep = levelElement->FloatAttribute( "step" );
     timeLapse = (unsigned int)( levelElement->IntAttribute( "time_lapse" ) );
 
-        std::cout << "3" << std::endl;
     // Execute the main loop.
     survivalLoop( initialSpeed, speedStep, timeLapse );
 }
@@ -139,8 +134,6 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         */
         std::vector< std::shared_ptr< m2g::AnimationData > > toolsData;
         graphicsLoader.loadAnimationsData( toolsData, "data/img/tools" );
-
-        std::cout << "toolsData.size(): " << toolsData.size() << std::endl;
 
         tool = new Tool( toolsData[0] );
         /*
@@ -258,7 +251,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                                 + DISTANCE_BETWEEN_SANDWICHES,
                                 0.0f
                                 );
-                    dangers[i]->setAnimationState( 0 );
+
+                    // TODO: In future versions, change this by a call to Danger::setDangerData().
+                    dangers[i]->reset();
                 }
 
                 // Sandwich translation.

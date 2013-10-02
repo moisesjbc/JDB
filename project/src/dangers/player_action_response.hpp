@@ -17,25 +17,41 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "danger_state.hpp"
+#ifndef PLAYER_ACTION_RESPONSE_HPP
+#define PLAYER_ACTION_RESPONSE_HPP
 
-
-/***
- * 1. Initialization
- ***/
+#include "player_action.hpp"
+#include "../dependencies/graphics/src/dependencies/tinyxml2/tinyxml2.h"
+#include <string>
+#include <stdexcept>
 
 namespace jdb {
 
-DangerState::DangerState( tinyxml2::XMLElement* xmlElement )
+struct PlayerActionResponse
 {
-    animationState = atoi( xmlElement->FirstChildElement( "animation_state" )->GetText() );
+    // Conditions
+    PlayerAction playerAction;
+    int minHp;
+    int maxHp;
 
-    xmlElement = xmlElement->FirstChildElement( "state_transition" );
-    while( xmlElement ){
-        playerActionResponses.emplace_back( xmlElement );
+    // Responses
+    int hpVariation;
+    int newState;
+    int newDanger;
 
-        xmlElement = xmlElement->NextSiblingElement( "state_transition" );
-    }
-}
 
-} // nameSpace jdb.
+    /***
+     * 1. Initialization
+     ***/
+    PlayerActionResponse( tinyxml2::XMLElement* xmlElement );
+
+
+    /***
+     * 2. Auxiliar methods
+     ***/
+    static PlayerAction getPlayerActionFromString( std::string str );
+};
+
+} // namespace jdb
+
+#endif // PLAYER_ACTION_RESPONSE_HPP

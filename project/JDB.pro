@@ -20,7 +20,8 @@ SOURCES += src/main.cpp \
     src/dangers/danger_data.cpp \
     src/dangers/danger_state.cpp \
     src/dangers/danger.cpp \
-    src/tools/tool.cpp
+    src/tools/tool.cpp \
+    src/dangers/player_action_response.cpp
 
 HEADERS += \
     src/jdb.hpp \
@@ -42,7 +43,8 @@ HEADERS += \
     src/dangers/danger_data.hpp \
     src/dangers/danger_state.hpp \
     src/dangers/danger.hpp \
-    src/tools/tool.hpp
+    src/tools/tool.hpp \
+    src/dangers/player_action_response.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image
 

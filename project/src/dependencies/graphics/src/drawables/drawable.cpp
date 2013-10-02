@@ -91,7 +91,6 @@ bool Drawable::collide( const Drawable& b ) const
     const Rect* bBoundaryBox = b.getBoundaryBox();
 
     if( !aBoundaryBox->collide( *bBoundaryBox ) ){
-        std::cout << "Boundary Box fail" << std::endl;
         return false;
     }
 
@@ -127,6 +126,23 @@ bool Drawable::collide( const Drawable& b ) const
 const Rect* Drawable::getBoundaryBox() const
 {
     return &boundaryBox;
+}
+
+
+/***
+ * 6. Auxiliar functions
+ ***/
+
+void checkOpenGL( const char* str )
+{
+    char errorMsg[256];
+
+    GLenum errorCode = glGetError();
+
+    if( errorCode ){
+        sprintf( errorMsg, "OpenGL error code at [%s] - error code: %i", str, errorCode );
+        throw std::runtime_error( errorMsg );
+    }
 }
 
 } // namespace m2g

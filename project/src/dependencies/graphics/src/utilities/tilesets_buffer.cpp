@@ -63,7 +63,7 @@ TilesetsBuffer::TilesetsBuffer( GLuint nTilesets_ ) :
     glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 4*sizeof(GLfloat), (GLvoid*)(2*sizeof(GLfloat)) );
     glEnableVertexAttribArray( 1 );
 
-    std::cout << "TilesetsBuffer constructor - " << gluErrorString( glGetError() ) << std::endl;
+    checkOpenGL( "TilesetsBuffer constructor" );
 }
 
 
@@ -148,8 +148,7 @@ unsigned int TilesetsBuffer::insertTileset( GLfloat tileWidth, GLfloat tileHeigh
     occupiedSize += TILESET_SIZE;
     nTilesets++;
 
-    std::cout << "Buffer::insertData - " << gluErrorString( glGetError() ) << std::endl
-              << "\tReturning (" << (nTilesets - 1) << ")" << std::endl;
+    checkOpenGL( "TilesetsBuffer::insertData" );
 
     return nTilesets - 1;
 }

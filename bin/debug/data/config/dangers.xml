@@ -7,8 +7,16 @@
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.3</damage_factor>
 		<danger_states>
-			<danger_state animation_state="0" />
-			<danger_state animation_state="1" />
+			<!-- State 0: Intact knife -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="-100:1:-1" />
+			</danger_state>
+
+			<!-- State 1: Knife removed -->
+			<danger_state>
+				<animation_state>1</animation_state>
+			</danger_state>
 		</danger_states>
 	</danger>
 </dangers>
