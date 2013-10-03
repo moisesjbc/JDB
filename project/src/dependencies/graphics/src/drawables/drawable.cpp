@@ -22,6 +22,15 @@
 namespace m2g {
 
 
+void Rect::loadFromXML( tinyxml2::XMLElement* xmlElement )
+{
+    x = xmlElement->FloatAttribute( "x" );
+    y = xmlElement->FloatAttribute( "y" );
+    width = xmlElement->FloatAttribute( "w" );
+    height = xmlElement->FloatAttribute( "h" );
+}
+
+
 bool Rect::collide( const Rect& b ) const
 {
     return  (

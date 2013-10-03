@@ -25,6 +25,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <GL/glu.h>
+#include "../dependencies/tinyxml2/tinyxml2.h"
 
 namespace m2g {
 
@@ -35,6 +36,7 @@ struct Rect
     GLfloat width;
     GLfloat height;
 
+    void loadFromXML( tinyxml2::XMLElement* xmlElement );
     bool collide( const Rect& b ) const ;
 };
 
