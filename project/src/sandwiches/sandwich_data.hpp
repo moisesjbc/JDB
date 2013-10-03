@@ -17,43 +17,41 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef DANGER_DATA_HPP
-#define DANGER_DATA_HPP
+#ifndef SANDWICH_DATA_HPP
+#define SANDWICH_DATA_HPP
 
-#include "danger_state.hpp"
+#include <memory>
+#include <vector>
 #include "../dependencies/graphics/src/drawables/animation_data.hpp"
 #include "../dependencies/graphics/src/graphics_loader.hpp"
-#include <vector>
 #include <iostream>
 
 namespace jdb {
 
-struct DangerData
+struct SandwichData
 {
-    // Vector of animation data.
-    std::vector< std::shared_ptr< m2g::AnimationData > > animationData;
+    m2g::AnimationDataPtr animationData;
 
-    // Initial state and hp of the danger.
-    int initialState;
-    float initialHp;
+    GLfloat x0, x1;
+    std::vector< m2g::Rect > contactRects;
 
-    // When the Danger gets to the end of the conveyor belt, the damage done to Jacob
-    // is equal to danger's hp * damageFactor.
-    float damageFactor;
 
-    // Vector of danger states.
-    std::vector< DangerState > states;
-
+    /*** Methods ***/
 
     /***
      * 1. Initialization
      ***/
-    DangerData( tinyxml2::XMLElement* xmlElement  );
+    SandwichData( tinyxml2::XMLElement* xmlElement );
+
+
+    /***
+     * 2. Loading
+     ***/
+    void loadFromXML( tinyxml2::XMLElement* xmlElement );
 };
 
+typedef std::shared_ptr< const SandwichData > SandwichDataPtr;
 
-typedef std::shared_ptr< const DangerData > DangerDataPtr;
+}
 
-} // namespace jdb
-
-#endif // DANGER_DATA_HPP
+#endif // SANDWICH_DATA_HPP

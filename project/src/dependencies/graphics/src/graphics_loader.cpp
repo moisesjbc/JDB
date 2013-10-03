@@ -95,6 +95,40 @@ void GraphicsLoader::loadTilesets( TilesetsVector& tilesets, std::string library
 }
 
 
+void GraphicsLoader::loadTileset( TilesetPtr& tileset, std::string libraryFolder, std::string name )
+{
+    tinyxml2::XMLNode* tilesetNode = nullptr;
+    std::string imagesFolder;
+    std::string libraryFile;
+    std::string currentName;
+    bool found = false;
+
+    // Use the library folder path to get the paths to the images folder and metadata file.
+    getLibraryPaths( libraryFolder, imagesFolder, libraryFile );
+
+    // Load the "tilesets" XML node.
+    tilesetNode = getTilesetsRootNode( libraryFile );
+
+    if( tilesetNode ){
+        // Get the first XML tileset node.
+        tilesetNode = tilesetNode->FirstChildElement();
+
+        // Keep reading XML tileset nodes.
+        while( tilesetNode && !found ){
+            currentName = std::string( tilesetNode->FirstChildElement( "src" )->GetText() );
+
+            if( currentName.compare( name ) == 0  ){
+                tileset = TilesetPtr( new Tileset( tilesetNode, imagesFolder.c_str() ) );
+                found = true;
+            }
+
+            // Load next XML element.
+            tilesetNode = tilesetNode->NextSiblingElement();
+        }
+    }
+}
+
+
 void GraphicsLoader::loadAnimationsData( AnimationDataVector& animationsData, std::string libraryFolder )
 {
     tinyxml2::XMLNode* animationDataNode = nullptr;
@@ -148,6 +182,39 @@ void GraphicsLoader::loadAnimationsData( AnimationDataVector& animationsData, st
                 // If the current animationData's name starts with prefix, add it to the
                 // animationsData vector.
                 animationsData.push_back( std::shared_ptr< AnimationData >( new AnimationData( animationDataNode, imagesFolder.c_str() ) ) );
+            }
+
+            // Load next XML element.
+            animationDataNode = animationDataNode->NextSiblingElement();
+        }
+    }
+}
+
+void GraphicsLoader::loadAnimationData( AnimationDataPtr& animationData, std::string libraryFolder, std::string name )
+{
+    tinyxml2::XMLNode* animationDataNode = nullptr;
+    std::string imagesFolder;
+    std::string libraryFile;
+    std::string currentName;
+    bool found = false;
+
+    // Use the library folder path to get the paths to the images folder and metadata file.
+    getLibraryPaths( libraryFolder, imagesFolder, libraryFile );
+
+    // Load the "animations" XML node.
+    animationDataNode = getAnimationDataRootNode( libraryFile );
+
+    if( animationDataNode ){
+        // Get the first XML animationData node.
+        animationDataNode = animationDataNode->FirstChildElement();
+
+        // Keep reading XML animationData nodes.
+        while( animationDataNode && !found ){
+            currentName = std::string( animationDataNode->FirstChildElement( "tileset" )->FirstChildElement( "src" )->GetText() );
+
+            if( currentName.compare( name ) == 0  ){
+                animationData = std::shared_ptr< AnimationData >( new AnimationData( animationDataNode, imagesFolder.c_str() ) );
+                found = true;
             }
 
             // Load next XML element.

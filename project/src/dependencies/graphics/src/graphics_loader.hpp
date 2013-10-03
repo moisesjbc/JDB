@@ -48,9 +48,11 @@ class GraphicsLoader
          ***/
         void loadTilesets( TilesetsVector& tilesets, std::string libraryFolder );
         void loadTilesets( TilesetsVector& tilesets, std::string libraryFolder, std::string prefix );
+        void loadTileset( TilesetPtr& tileset, std::string libraryFolder, std::string name );
 
         void loadAnimationsData( AnimationDataVector& animationData, std::string libraryFolder );
         void loadAnimationsData( AnimationDataVector& animationData, std::string libraryFolder, std::string prefix );
+        void loadAnimationData( AnimationDataPtr& animationData, std::string libraryFolder, std::string name );
 
 
         /***

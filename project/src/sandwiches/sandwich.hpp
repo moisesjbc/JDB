@@ -17,51 +17,66 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef DANGER_HPP
-#define DANGER_HPP
+#ifndef SANDWICH_HPP
+#define SANDWICH_HPP
 
-#include "player_action.hpp"
-#include "danger_data.hpp"
-#include "../dependencies/graphics/src/drawables/animation.hpp"
+#include "sandwich_data.hpp"
+#include "../dangers/danger.hpp"
+#include <array>
+#include <vector>
 
 namespace jdb {
 
-class Danger : public m2g::Animation
-{
-    public:
-        float hp;
-        unsigned int state;
+const unsigned int MAX_DANGERS_PER_SANDWICH = 3;
 
-        DangerDataPtr dangerData;
+class Sandwich : public m2g::Animation
+{
+    private:
+        SandwichDataPtr sandwichData_;
+
+        unsigned int nDangers_;
+        std::array< Danger*, MAX_DANGERS_PER_SANDWICH > dangers_;
 
     public:
         /***
          * 1. Initialization and destruction
          ***/
-        Danger( DangerDataPtr dangerData_ );
+        Sandwich( SandwichDataPtr sandwichData, const std::vector< DangerDataPtr >* dangerData );
+        ~Sandwich();
+
+        /***
+         * 2. Loading
+         ***/
+        void setSandwichData( SandwichDataPtr sandwichData );
 
 
         /***
-         * 2. Getters
+         * 3. Getters
          ***/
         float getDamage() const ;
 
 
         /***
-         * 3. Setters
+         * 4. Transformations
          ***/
-        // TODO: Overload Animation setters.
-        void setDangerData( DangerDataPtr dangerData_ );
-        void setState( int newState );
+        virtual void translate( const float& tx, const float& ty );
+        virtual void moveTo( const float& x, const float& y );
 
 
         /***
-         * 4. Updating
+         * 5. Updating
          ***/
+        virtual void update();
         void playerAction( PlayerAction playerAction );
         void reset();
+
+
+        /***
+         * 6. Drawing
+         ***/
+        virtual void draw( const glm::mat4& projectionMatrix ) const;
 };
 
 } // namespace jdb
 
-#endif // DANGER_HPP
+#endif // SANDWICH_HPP

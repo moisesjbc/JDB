@@ -22,6 +22,7 @@
 
 #include "../dependencies/graphics/src/drawables/animation.hpp"
 
+#include "../sandwiches/sandwich.hpp"
 #include "../dangers/danger.hpp"
 #include <SDL2/SDL.h>
 
@@ -39,7 +40,7 @@ class Tool : public m2g::Animation
         /***
          * 2. Handlers
          ***/
-        void handleMouseButtonDown( Danger** dangers, unsigned int nDangers );
+        //void handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiches );
 };
 
 } // namespace jdb

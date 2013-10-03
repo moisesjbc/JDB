@@ -105,8 +105,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         Uint32 t1 = 0;
 
         // Create the graphic Library and the sprite pointers.
-        m2g::Sprite* sandwiches[N_SANDWICHES];
-        Danger* dangers[N_DANGERS];
+        Sandwich* sandwiches[N_SANDWICHES];
         Tool* tool = nullptr;
         //m2g::Sprite* conveyorBelt = nullptr;
 
@@ -115,18 +114,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
         // Load the sandwiches' sprites and move them to their positions.
         for( i=0; i < N_SANDWICHES; i++ ){
-            sandwiches[i] = new m2g::Sprite( sandwichesData[0] );
+            sandwiches[i] = new Sandwich( sandwichData[0], &dangerData );
 
-            sandwiches[i]->translate( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
-        }
-
-        // Load the danger's animations and move them to their positions.
-        for( i=0; i < N_SANDWICHES; i++ ){
-            for( int j=0; j< 3; j++ ){
-                dangers[i*3+j] = new Danger( dangerData[0] );
-
-                dangers[i*3+j]->translate( 1024 + 30 + i * DISTANCE_BETWEEN_SANDWICHES + j * (DISTANCE_BETWEEN_SANDWICHES / 4), 330 );
-            }
+            sandwiches[i]->moveTo( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
         }
 
         /*
@@ -164,7 +154,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                             quit = true;
                         break;
                         case SDL_MOUSEBUTTONDOWN:
-                            tool->handleMouseButtonDown( dangers, N_DANGERS );
+                            //tool->handleMouseButtonDown( dangers, N_DANGERS );
 
                             // User has clicked. Check if the hand "collides" with any of the
                             // dangers.
@@ -211,21 +201,10 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 sandwiches[i]->draw( projectionMatrix );
             }
 
-            // Draw the dangers.
-            for( i=0; i < N_DANGERS; i++ ){
-                dangers[i]->draw( projectionMatrix );
-            }
-
+            // Move the sandwiches
             speedMutex.lock();
-            // Translate the sandwiches
             for( i=0; i < N_SANDWICHES; i++ ){
                 sandwiches[i]->translate( -speed, 0.0f );
-            }
-
-            // Translate the dangers.
-            for( i=0; i < N_DANGERS; i++ ){
-                dangers[i]->draw( projectionMatrix );
-                dangers[i]->translate( -speed, 0.0f );
             }
             speedMutex.unlock();
 
@@ -237,24 +216,14 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
 
                 // Hurt Jacob! (muahahaha!)
-                for( i=firstSandwich*3; i<firstSandwich*3+3; i++ ){
-                    jacobHp -= dangers[i]->getDamage();
+                jacobHp -= sandwiches[firstSandwich]->getDamage();
+                coutMutex.lock();
+                std::cout << "jacob's hp: " << jacobHp << std::endl;
+                coutMutex.unlock();
 
-                    std::cout << "jacob's hp: " << jacobHp << std::endl;
-                }
-
-                // Dangers translation.
-                for( i=firstSandwich*3; i<firstSandwich*3+3; i++ ){
-                    dangers[i]->translate(
-                                sandwiches[lastSandwich]->getX()
-                                - sandwiches[firstSandwich]->getX()
-                                + DISTANCE_BETWEEN_SANDWICHES,
-                                0.0f
-                                );
-
-                    // TODO: In future versions, change this by a call to Danger::setDangerData().
-                    dangers[i]->reset();
-                }
+                // Reset sandwich
+                // TODO: Change this by "populate" in future versions.
+                sandwiches[firstSandwich]->reset();
 
                 // Sandwich translation.
                 sandwiches[firstSandwich]->translate(
@@ -274,10 +243,11 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             nDraws++;
             if( nDraws >= FPS ){
                 nDraws = 0;
-
+/*
                 coutMutex.lock();
                 std::cout << "seconds: " << timer.getSeconds() << std::endl;
                 coutMutex.unlock();
+*/
             }
         }
 
@@ -287,9 +257,6 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         //delete conveyorBelt;
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];
-        }
-        for( i=0; i < N_DANGERS; i++ ){
-            delete dangers[i];
         }
 
         // Stop the timer.
@@ -307,8 +274,21 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
 void Level::loadSandwichData()
 {
+    tinyxml2::XMLDocument document;
+    tinyxml2::XMLElement* sandwichXMLElement = nullptr;
+
     // Load the sandwiches data.
-    graphicsLoader.loadTilesets( sandwichesData, "data/img/sandwiches" );
+    //graphicsLoader.loadTilesets( sandwichesData, "data/img/sandwiches" );
+
+
+    // Load the dangers data.
+    document.LoadFile( "./data/config/sandwiches.xml" );
+    sandwichXMLElement = ( document.RootElement() )->FirstChildElement( "sandwich" );
+    while( sandwichXMLElement ){
+        sandwichData.emplace_back( new SandwichData( sandwichXMLElement ) );
+
+        sandwichXMLElement = sandwichXMLElement->NextSiblingElement();
+    }
 }
 
 

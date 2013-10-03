@@ -21,7 +21,9 @@ SOURCES += src/main.cpp \
     src/dangers/danger_state.cpp \
     src/dangers/danger.cpp \
     src/tools/tool.cpp \
-    src/dangers/player_action_response.cpp
+    src/dangers/player_action_response.cpp \
+    src/sandwiches/sandwich_data.cpp \
+    src/sandwiches/sandwich.cpp
 
 HEADERS += \
     src/jdb.hpp \
@@ -44,7 +46,9 @@ HEADERS += \
     src/dangers/danger_state.hpp \
     src/dangers/danger.hpp \
     src/tools/tool.hpp \
-    src/dangers/player_action_response.hpp
+    src/dangers/player_action_response.hpp \
+    src/sandwiches/sandwich_data.hpp \
+    src/sandwiches/sandwich.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image
 

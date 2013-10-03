@@ -30,6 +30,7 @@
 #include <functional>
 #include "dangers/danger.hpp"
 #include "tools/tool.hpp"
+#include "sandwiches/sandwich.hpp"
 
 namespace jdb {
 
@@ -47,9 +48,9 @@ class Level
 
         LevelType levelType;
         m2g::GraphicsLoader graphicsLoader;
-        m2g::TilesetsVector sandwichesData;
 
-        std::vector< std::shared_ptr< DangerData > > dangerData;
+        std::vector< DangerDataPtr > dangerData;
+        std::vector< SandwichDataPtr > sandwichData;
 
         SDL_Window* window;
         glm::mat4 projectionMatrix;

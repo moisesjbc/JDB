@@ -21,7 +21,7 @@
 
 namespace jdb {
 
-Danger::Danger( const std::shared_ptr< DangerData >& dangerData_ ) :
+Danger::Danger( DangerDataPtr dangerData_ ) :
     Animation( dangerData_->animationData[ rand() % dangerData_->animationData.size()] )
 {
     setDangerData( dangerData_ );
@@ -42,7 +42,7 @@ float Danger::getDamage() const
  * 3. Setters
  ***/
 // TODO: Overload Animation setters.
-void Danger::setDangerData( const std::shared_ptr< DangerData >& dangerData_ )
+void Danger::setDangerData( DangerDataPtr dangerData_ )
 {
     dangerData = dangerData_;
 
