@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<sandwiches>
+	<!-- Sandwich 01 -->
+	<sandwich>
+		<animation>sandwich_01.png</animation>
+		<width_segment x0="0" x1="255" />
+		<contact_rect x="23" y="32" w="218" h="12" />
+		<contact_rect x="58" y="22" w="178" h="22" />
+	</sandwich>
+</sandwiches>
