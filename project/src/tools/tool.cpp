@@ -34,20 +34,16 @@ Tool::Tool( const std::shared_ptr< m2g::AnimationData >& animationData ) :
 /***
  * 2. Handlers
  ***/
-/*
+
+
 void Tool::handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiches )
 {
     unsigned int i = 0;
 
-    while( ( i < nDangers ) &&
-           !collide( *( dangers[i] ) ) ){
+    while( ( i < nSandwiches ) &&
+           ( !sandwiches[i]->useTool( PlayerAction::HAND_CLICK, this ) ) ){
         i++;
     }
-
-    if( i < nDangers ){
-        dangers[i]->playerAction( PlayerAction::HAND_CLICK );
-    }
 }
-*/
 
 } // namespace jdb

@@ -40,7 +40,7 @@ class Tool : public m2g::Animation
         /***
          * 2. Handlers
          ***/
-        //void handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiches );
+        void handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiches );
 };
 
 } // namespace jdb

@@ -67,7 +67,7 @@ class Sandwich : public m2g::Animation
          * 5. Updating
          ***/
         virtual void update();
-        void playerAction( PlayerAction playerAction );
+        bool useTool( PlayerAction playerAction, Sprite* tool );
         void reset();
 
 

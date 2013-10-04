@@ -61,7 +61,7 @@ void Danger::setState( int newState )
  * 4. Updating
  ***/
 
-void Danger::playerAction( PlayerAction playerAction )
+bool Danger::playerAction( PlayerAction playerAction )
 {
     unsigned int i = 0;
     bool foundResponse = false;
@@ -92,7 +92,11 @@ void Danger::playerAction( PlayerAction playerAction )
         if( playerActionResponse->newState != -1 ){
             setState( playerActionResponse->newState );
         }
+
+        return true;
     }
+
+    return false;
 }
 
 

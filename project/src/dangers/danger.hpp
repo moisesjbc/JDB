@@ -58,7 +58,7 @@ class Danger : public m2g::Animation
         /***
          * 4. Updating
          ***/
-        void playerAction( PlayerAction playerAction );
+        bool playerAction( PlayerAction playerAction );
         void reset();
 };
 
