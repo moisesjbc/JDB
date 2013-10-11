@@ -17,37 +17,28 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef JDB_HPP
-#define JDB_HPP
+#ifndef BASE_LINE_HPP
+#define BASE_LINE_HPP
 
-#include "dependencies/dependencies.hpp"
-#include "dependencies/msl/src/shader_loader.hpp"
-#include "dependencies/graphics/src/graphics_loader.hpp"
-#include "level.hpp"
-#include "dangers/player_action.hpp"
-#include <SDL2/SDL_ttf.h>
+#include "../dependencies/graphics/src/dependencies/tinyxml2/tinyxml2.h"
 
 namespace jdb {
 
-class JDB
+struct BaseLine
 {
-    private:
-        GLuint vao;
-        SDL_Window* window;
-        SDL_Surface* screen;
-        SDL_GLContext glContext;
-        msl::ShaderLoader* shaderLoader;
-        glm::mat4 projectionMatrix;
+    float x;
+    float y;
+    float width;
 
-        Level* level;
 
-    public:
-        JDB();
-        ~JDB();
+    /*** Methods ***/
 
-        void runInfiniteSandwichesDemo();
+    /***
+     * 1. Loading
+     ***/
+    void loadFromXML( tinyxml2::XMLElement* xmlElement );
 };
 
-} // namespace jdb
+}
 
-#endif // JDB_HPP
+#endif // BASE_LINE_HPP

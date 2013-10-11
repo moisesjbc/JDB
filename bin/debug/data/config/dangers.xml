@@ -6,9 +6,11 @@
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.3</damage_factor>
-		<!-- <length x="9" y="5" w="46" h="108" /> -->
-		<space_segment x1="9" w="46" />
-		<contact_area x="9" y="103" w="31" h="10" />
+		<!-- <space_segment x1="9" w="46" />
+		<contact_rect x="9" y="103" w="31" h="10" /> -->
+		<!-- <base_line x="9" y="103" width="31" /> -->
+		<base_line x="9" y="103" width="40" />
+		
 		<danger_states>
 			<!-- State 0: Intact knife -->
 			<danger_state>

@@ -48,6 +48,7 @@ class Sandwich : public m2g::Animation
          * 2. Loading
          ***/
         void setSandwichData( SandwichDataPtr sandwichData );
+        void populate( const std::vector< DangerDataPtr >& dangerData );
 
 
         /***

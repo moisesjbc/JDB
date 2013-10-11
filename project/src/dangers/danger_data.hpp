@@ -25,6 +25,7 @@
 #include "../dependencies/graphics/src/graphics_loader.hpp"
 #include <vector>
 #include <iostream>
+#include "../utilities/base_line.hpp"
 
 namespace jdb {
 
@@ -40,6 +41,8 @@ struct DangerData
     // When the Danger gets to the end of the conveyor belt, the damage done to Jacob
     // is equal to danger's hp * damageFactor.
     float damageFactor;
+
+    BaseLine baseLine;
 
     // Vector of danger states.
     std::vector< DangerState > states;

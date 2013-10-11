@@ -39,6 +39,11 @@ JDB::JDB() :
         throw std::runtime_error( IMG_GetError() );
     }
 
+    // Init TTF
+    if( TTF_Init() < 0 ){
+        throw std::runtime_error( std::string( "ERROR initializing TTF: " ) + std::string( TTF_GetError() ) );
+    }
+
     // Initialize some OpenGL attributes.
     SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8 );
     SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8 );
@@ -116,7 +121,7 @@ JDB::JDB() :
     projectionMatrix = glm::ortho( 0.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 0.0f, 1.0f, -1.0f );
 
     // Create the level.
-    level = new Level( window, WINDOW_WIDTH, WINDOW_HEIGHT );
+    level = new Level( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
 
     m2g::checkOpenGL( "JDB constructor" );
 }
@@ -134,10 +139,13 @@ JDB::~JDB()
     SDL_DestroyWindow( window );
     window = NULL;
 
-    // Destroy SDL_image (muahaha! x4).
+    // Destroy TTF (muahaha! x4)
+    TTF_Quit();
+
+    // Destroy SDL_image (muahaha! x5).
     IMG_Quit();
 
-    // Destroy SDL (muahaha! x5).
+    // Destroy SDL (muahaha! x6).
     SDL_Quit();
 }
 

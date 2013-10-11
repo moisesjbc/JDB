@@ -35,13 +35,17 @@ DangerData::DangerData( tinyxml2::XMLElement* xmlElement  )
     // Get the danger's name.
     dangerName = xmlElement->Attribute( "name" );
 
-    // Get the damage's animation data.
+    // Get the danger's animation data.
     graphicsLoader.loadAnimationsData( animationData, std::string( "data/img/dangers/" ), dangerName );
 
-    // Get the damage's general info.
+    // Get the danger's general info.
     initialState = atoi( xmlElement->FirstChildElement( "initial_state")->GetText() );
     initialHp = atoi( xmlElement->FirstChildElement( "initial_hp")->GetText() );
     damageFactor = atof( xmlElement->FirstChildElement( "damage_factor")->GetText() );
+
+    // Get the danger's base line.
+    baseLine.loadFromXML( xmlElement->FirstChildElement( "base_line") );
+
 
     // Get the damage's states.
     dangerStateXMLElement = xmlElement->FirstChildElement( "danger_states" )->FirstChildElement( "danger_state" );

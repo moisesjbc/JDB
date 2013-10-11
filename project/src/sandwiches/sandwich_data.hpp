@@ -25,6 +25,7 @@
 #include "../dependencies/graphics/src/drawables/animation_data.hpp"
 #include "../dependencies/graphics/src/graphics_loader.hpp"
 #include <iostream>
+#include "../utilities/base_line.hpp"
 
 namespace jdb {
 
@@ -32,8 +33,7 @@ struct SandwichData
 {
     m2g::AnimationDataPtr animationData;
 
-    GLfloat x0, x1;
-    std::vector< m2g::Rect > contactRects;
+    BaseLine baseLine;
 
 
     /*** Methods ***/

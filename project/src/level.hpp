@@ -32,6 +32,10 @@
 #include "tools/tool.hpp"
 #include "sandwiches/sandwich.hpp"
 
+#include <freetype2/freetype/config/ftheader.h>
+#include <FTGL/ftgl.h>
+#include <SDL2/SDL_ttf.h>
+
 namespace jdb {
 
 enum class LevelType
@@ -53,6 +57,7 @@ class Level
         std::vector< SandwichDataPtr > sandwichData;
 
         SDL_Window* window;
+        SDL_Surface* screen;
         glm::mat4 projectionMatrix;
 
         std::mutex coutMutex;
@@ -61,7 +66,7 @@ class Level
         Timer timer;
 
     public:
-        Level( SDL_Window* window_, unsigned int screenWidth, unsigned int screenHeight );
+        Level( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight );
 
         void runSurvivalLevel( unsigned int index );
 
@@ -74,7 +79,7 @@ class Level
         void loadSandwichData();
         void loadDangerData();
 
-        void drawTime( int time );
+        void drawTimer( int time );
 };
 
 } // namespace jdb

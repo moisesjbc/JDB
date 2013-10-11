@@ -38,30 +38,14 @@ SandwichData::SandwichData( tinyxml2::XMLElement* xmlElement )
 
 void SandwichData::loadFromXML( tinyxml2::XMLElement* xmlElement )
 {
-    tinyxml2::XMLElement* xmlWidthSegment;
     m2g::GraphicsLoader graphicsLoader;
-    m2g::Rect contactRect;
 
     std::cout << "Loading SandwichData from XML: " << std::endl;
 
     graphicsLoader.loadAnimationData( animationData, "data/img/sandwiches", "sandwich_01.png" );
 
-    xmlWidthSegment = xmlElement->FirstChildElement( "width_segment" );
-    x0 = xmlWidthSegment->FloatAttribute( "x0" );
-    x1 = xmlWidthSegment->FloatAttribute( "x1" );
-
-    std::cout << "\tx0: " << x0 << ", x1: " << x1 << std::endl;
-
-    xmlElement = xmlElement->FirstChildElement( "contact_rect" );
-    while( xmlElement ){
-        contactRect.loadFromXML( xmlElement );
-
-        contactRects.push_back( contactRect );
-
-        std::cout << "\tContact Rect: ( " << contactRects.back().x << ", " << contactRects.back().y << ", " << contactRects.back().width << ", " << contactRects.back().height << ")" << std::endl;
-
-        xmlElement = xmlElement->NextSiblingElement( "contact_rect" );
-    }
+    baseLine.loadFromXML( xmlElement->FirstChildElement( "base_line" ) );
+    std::cout << "SandwichData - base line: (x: " << baseLine.x << ", y: " << baseLine.y << ", width: " << baseLine.width << ")" << std::endl;
 }
 
 

@@ -30,8 +30,9 @@ const unsigned int FPS = 25;
 const unsigned int REFRESH_TIME = 1000 / FPS;
 
 
-Level::Level( SDL_Window* window_, unsigned int screenWidth, unsigned int screenHeight )
-    : window( window_ )
+Level::Level( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight )
+    : window( window_ ),
+      screen( screen_ )
 {
     projectionMatrix = glm::ortho( 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f, -1.0f );
 }
@@ -89,6 +90,38 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     unsigned int nDraws = 0;
     float jacobHp = 100.0f;
 
+    //FTGL::FTGLfont *font = FTGL::ftglCreatePixmapFont( "/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf" );
+
+
+    // Create a pixmap font from a TrueType file.
+    //FTGLPixmapFont font( "/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf" );
+
+    // If something went wrong, bail out.
+    //if( font.Error() ){
+    //    throw std::runtime_error( std::string( "ERROR opening font" ) );
+    //}
+
+
+    TTF_Font* font = TTF_OpenFont( "data/fonts/LiberationSans-Bold.ttf", 20 );
+
+    if( !font ){
+        throw std::runtime_error( std::string( "ERROR opening font - " ) + TTF_GetError() );
+    }
+
+
+    m2g::TilesetPtr textTileset = std::make_shared<m2g::Tileset>( font, 16 );
+
+    m2g::Sprite textSprite( textTileset );
+
+
+   // std::cout << "Text surface dimensions: (" << textSurface->w << ", " << textSurface->h << ")" << std::endl
+   //           << "\tpitch: " << textSurface->pitch << std::endl;
+
+    //exit( 0 );
+
+    //m2g::Sprite textSprite( textTileset );
+
+
     try
     {
         SDL_Event event;
@@ -117,6 +150,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             sandwiches[i] = new Sandwich( sandwichData[0], &dangerData );
 
             sandwiches[i]->moveTo( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
+
+            sandwiches[i]->populate( dangerData );
         }
 
         /*
@@ -211,6 +246,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             // Draw the tool
             tool->draw( projectionMatrix );
 
+            textSprite.draw( projectionMatrix );
+
             // Check if the first sandwich reached the sandwiches end point and, in that case,
             // translate it and is dangers behind the last sandwich.
             if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
@@ -221,9 +258,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 std::cout << "jacob's hp: " << jacobHp << std::endl;
                 coutMutex.unlock();
 
-                // Reset sandwich
-                // TODO: Change this by "populate" in future versions.
-                sandwiches[firstSandwich]->reset();
+                // Populate new sandwich.
+                sandwiches[firstSandwich]->populate( dangerData );
 
                 // Sandwich translation.
                 sandwiches[firstSandwich]->translate(
@@ -237,12 +273,19 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 lastSandwich = (lastSandwich + 1) % N_SANDWICHES;
             }
 
-            SDL_GL_SwapWindow( window );
+            // Set the font size and render a small text.
+            //font.Depth( 0.2f );
+            //font.FaceSize( 72 );
+            //font.Render( "Hello World!", -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT );
 
+            SDL_GL_SwapWindow( window );
+//000000015
 
             nDraws++;
             if( nDraws >= FPS ){
                 nDraws = 0;
+
+                textSprite.setTile( textSprite.getCurrentTile() + 1 );
 /*
                 coutMutex.lock();
                 std::cout << "seconds: " << timer.getSeconds() << std::endl;
@@ -258,6 +301,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];
         }
+
+       // TTF_CloseFont( font );
 
         // Stop the timer.
         timer.stop();
@@ -308,7 +353,7 @@ void Level::loadDangerData()
 }
 
 
-void Level::drawTime( int time )
+void Level::drawTimer( int time )
 {
     std::cout << "seconds: " << time << std::endl;
 }

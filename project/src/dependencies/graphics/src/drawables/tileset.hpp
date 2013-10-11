@@ -26,66 +26,75 @@
 #include <vector>
 #include "../utilities/tilesets_buffer.hpp"
 #include "../dependencies/tinyxml2/tinyxml2.h"
+#include <SDL2/SDL_ttf.h>
 
 namespace m2g {
 
-struct Tileset {
-    // Common tilesets buffer for all tilesets and its corresponding references
-    // count.
-    static TilesetsBuffer* tilesetsBuffer;
-    static unsigned int refCount;
+class Tileset {
 
-    // Texture 2D array id (OpenGL).
-    GLuint texture;
+    public:
+        // Common tilesets buffer for all tilesets and its corresponding references
+        // count.
+        static TilesetsBuffer* tilesetsBuffer;
+        static unsigned int refCount;
 
-    // Tile dimensions.
-    GLuint tileWidth;
-    GLuint tileHeight;
+        // Texture 2D array id (OpenGL).
+        GLuint texture;
 
-    // Image dimensions.
-    GLuint imageWidth;
-    GLuint imageHeight;
+        // Tile dimensions.
+        GLuint tileWidth;
+        GLuint tileHeight;
 
-    // Tileset number of elements.
-    GLuint nRows;
-    GLuint nColumns;
-    GLuint nTiles;
+        // Image dimensions.
+        GLuint imageWidth;
+        GLuint imageHeight;
 
-    // Index of this tileset's vertex attributes in the tilesets buffer.
-    unsigned int bufferIndex;
+        // Tileset number of elements.
+        GLuint nRows;
+        GLuint nColumns;
+        GLuint nTiles;
 
-    // Name of the tileset's base image.
-    std::string name;
+        // Index of this tileset's vertex attributes in the tilesets buffer.
+        unsigned int bufferIndex;
 
-    // We keep a vector of collision rects for each tile in the tileset.
-    std::vector< std::vector< Rect > > collisionRects;
+        // Name of the tileset's base image.
+        std::string name;
 
-
-    /*** Methods ***/
-
-    /***
-     * 1. Initialization and destruction.
-     ***/
-    Tileset( const tinyxml2::XMLNode* xmlNode, const char* folder );
-    ~Tileset();
+        // We keep a vector of collision rects for each tile in the tileset.
+        std::vector< std::vector< Rect > > collisionRects;
 
 
-    /***
-     * 2. Loading
-     ***/
-    void load( const tinyxml2::XMLNode* xmlNode, const char* folder );
+        /*** Methods ***/
+
+        /***
+         * 1. Initialization and destruction.
+         ***/
+        Tileset( const tinyxml2::XMLNode* xmlNode, const char* folder );
+        Tileset( SDL_Surface* surface, GLuint tileWidth, GLuint tileHeight );
+        Tileset( TTF_Font* font, unsigned int size );
+        ~Tileset();
 
 
-    /***
-     * 3. Drawing
-     ***/
-    void draw() const ;
+        /***
+         * 2. Loading
+         ***/
+        void load( const tinyxml2::XMLNode* xmlNode, const char* folder );
+        void load( SDL_Surface* surface, GLuint tileWidth, GLuint tileHeight );
+        void load( TTF_Font* font, unsigned int size );
 
 
-    /***
-     * 4. Auxiliar methods
-     ***/
-    static void bindBuffer();
+        /***
+         * 3. Drawing
+         ***/
+        void draw() const ;
+
+
+        /***
+         * 4. Auxiliar methods
+         ***/
+        static void bindBuffer();
+    private:
+        void loadTexture( void* data, int pitch  );
 };
 
 typedef std::shared_ptr< const Tileset > TilesetPtr;

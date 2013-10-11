@@ -23,7 +23,8 @@ SOURCES += src/main.cpp \
     src/tools/tool.cpp \
     src/dangers/player_action_response.cpp \
     src/sandwiches/sandwich_data.cpp \
-    src/sandwiches/sandwich.cpp
+    src/sandwiches/sandwich.cpp \
+    src/utilities/base_line.cpp
 
 HEADERS += \
     src/jdb.hpp \
@@ -48,11 +49,14 @@ HEADERS += \
     src/tools/tool.hpp \
     src/dangers/player_action_response.hpp \
     src/sandwiches/sandwich_data.hpp \
-    src/sandwiches/sandwich.hpp
+    src/sandwiches/sandwich.hpp \
+    src/utilities/base_line.hpp
 
-LIBS += -lGL -lGLU -lSDL2 -lSDL2_image
+LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl
 
 CXXFLAGS += -Wall -Werrors -pedantic-errors
+
+INCLUDEPATH += /usr/include/freetype2/
 
 # http://qt-project.org/forums/viewthread/19989
 CONFIG += c++11
