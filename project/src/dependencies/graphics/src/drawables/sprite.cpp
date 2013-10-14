@@ -30,6 +30,29 @@ GLint Sprite::sliceLocation = -1;
  * 1. Initialization
  ***/
 
+Sprite::Sprite() :
+    currentTile( 0 )
+{
+    GLint currentProgram;
+
+    // If we still don't have the locations of the shader uniforms, we
+    // search them here.
+    if( mvpMatrixLocation == -1 ){
+        glGetIntegerv( GL_CURRENT_PROGRAM, &currentProgram );
+
+        mvpMatrixLocation = glGetUniformLocation( currentProgram, "mvpMatrix" );
+        samplerLocation = glGetUniformLocation( currentProgram, "tex" );
+        sliceLocation = glGetUniformLocation( currentProgram, "slice" );
+
+        checkOpenGL( "Setting uniform locations" );
+
+        currentTile = 0;
+    }
+
+    // Connect sampler to texture unit 0.
+    glUniform1i( samplerLocation, 0 );
+}
+
 Sprite::Sprite( TilesetPtr tileset_ ) :
     currentTile( 0 )
 {

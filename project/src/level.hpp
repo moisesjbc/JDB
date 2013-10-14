@@ -31,6 +31,7 @@
 #include "dangers/danger.hpp"
 #include "tools/tool.hpp"
 #include "sandwiches/sandwich.hpp"
+#include "dependencies/graphics/src/text/text_renderer.hpp"
 
 #include <freetype2/freetype/config/ftheader.h>
 #include <FTGL/ftgl.h>

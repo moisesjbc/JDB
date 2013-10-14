@@ -102,16 +102,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     //}
 
 
-    TTF_Font* font = TTF_OpenFont( "data/fonts/LiberationSans-Bold.ttf", 20 );
-
-    if( !font ){
-        throw std::runtime_error( std::string( "ERROR opening font - " ) + TTF_GetError() );
-    }
-
-
-    m2g::TilesetPtr textTileset = std::make_shared<m2g::Tileset>( font, 16 );
-
-    m2g::Sprite textSprite( textTileset );
+    m2g::TextRenderer textRenderer;
+    std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 12 ) << std::endl;
 
 
    // std::cout << "Text surface dimensions: (" << textSurface->w << ", " << textSurface->h << ")" << std::endl
@@ -246,7 +238,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             // Draw the tool
             tool->draw( projectionMatrix );
 
-            textSprite.draw( projectionMatrix );
+            //textSprite.draw( projectionMatrix );
+            textRenderer.drawText( projectionMatrix, "0:15", 0, 25, 25 );
 
             // Check if the first sandwich reached the sandwiches end point and, in that case,
             // translate it and is dangers behind the last sandwich.
@@ -285,7 +278,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             if( nDraws >= FPS ){
                 nDraws = 0;
 
-                textSprite.setTile( textSprite.getCurrentTile() + 1 );
+
 /*
                 coutMutex.lock();
                 std::cout << "seconds: " << timer.getSeconds() << std::endl;

@@ -40,7 +40,8 @@ Tileset::Tileset( const tinyxml2::XMLNode* xmlNode, const char* folder ) :
     nRows( 0 ),
     nColumns( 0 ),
     nTiles( 0 ),
-    bufferIndex( 0 )
+    bufferIndex( 0 ),
+    width( nullptr )
 {
     if( tilesetsBuffer == nullptr ){
         // If the tilesets buffer is not initialized, create it!.
@@ -56,6 +57,8 @@ Tileset::Tileset( const tinyxml2::XMLNode* xmlNode, const char* folder ) :
 
 Tileset::Tileset( SDL_Surface* surface, GLuint tileWidth, GLuint tileHeight )
 {
+    width = nullptr;
+
     if( tilesetsBuffer == nullptr ){
         // If the tilesets buffer is not initialized, create it!.
         tilesetsBuffer = new TilesetsBuffer( 10 );
@@ -70,6 +73,8 @@ Tileset::Tileset( SDL_Surface* surface, GLuint tileWidth, GLuint tileHeight )
 
 Tileset::Tileset( TTF_Font* font, unsigned int size )
 {
+    width = nullptr;
+
     if( tilesetsBuffer == nullptr ){
         // If the tilesets buffer is not initialized, create it!.
         tilesetsBuffer = new TilesetsBuffer( 10 );
@@ -96,6 +101,8 @@ Tileset::~Tileset()
         delete tilesetsBuffer;
         tilesetsBuffer = nullptr;
     }
+
+    delete [] width;
 }
 
 
@@ -254,8 +261,7 @@ void Tileset::load( TTF_Font* font, unsigned int size )
     // First ASCII printable character.
     char character[] = " ";
 
-    //const unsigned int N_ASCII_PRINTABLE_CHARACTERS = 95;
-
+    width = new unsigned int [128];
 
     // Get the maximum height of the font.
     srcRect.h = TTF_FontHeight( font );
@@ -304,6 +310,7 @@ void Tileset::load( TTF_Font* font, unsigned int size )
     SDL_Surface *textSurface = SDL_CreateRGBSurface( 0, imageWidth, imageHeight, 32, rmask, gmask, bmask, amask );
     SDL_Color fontColor = { 255, 0, 0, 255 };
 
+    i = 0;
     for( row = 0; row < nRows; row++ ){
         for( column = 0; column < nColumns; column++ ){
             dstRect.x = column * tileWidth;
@@ -317,8 +324,13 @@ void Tileset::load( TTF_Font* font, unsigned int size )
 
             SDL_BlitSurface( letterSurface, NULL, textSurface, &dstRect );
 
+            std::cout << "LetterSurface->w: " << letterSurface->w << std::endl;
+
+            width[i] = letterSurface->w;
+
             SDL_FreeSurface( letterSurface );
 
+            i++;
             character[0]++;
         }
     }

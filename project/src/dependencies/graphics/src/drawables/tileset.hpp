@@ -60,6 +60,9 @@ class Tileset {
         // Name of the tileset's base image.
         std::string name;
 
+        //
+        unsigned int* width;
+
         // We keep a vector of collision rects for each tile in the tileset.
         std::vector< std::vector< Rect > > collisionRects;
 
