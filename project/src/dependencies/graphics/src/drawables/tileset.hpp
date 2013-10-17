@@ -60,9 +60,6 @@ class Tileset {
         // Name of the tileset's base image.
         std::string name;
 
-        //
-        unsigned int* width;
-
         // We keep a vector of collision rects for each tile in the tileset.
         std::vector< std::vector< Rect > > collisionRects;
 
@@ -74,7 +71,6 @@ class Tileset {
          ***/
         Tileset( const tinyxml2::XMLNode* xmlNode, const char* folder );
         Tileset( SDL_Surface* surface, GLuint tileWidth, GLuint tileHeight );
-        Tileset( TTF_Font* font, unsigned int size );
         ~Tileset();
 
 
@@ -83,7 +79,6 @@ class Tileset {
          ***/
         void load( const tinyxml2::XMLNode* xmlNode, const char* folder );
         void load( SDL_Surface* surface, GLuint tileWidth, GLuint tileHeight );
-        void load( TTF_Font* font, unsigned int size );
 
 
         /***

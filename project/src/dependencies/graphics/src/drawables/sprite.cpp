@@ -44,7 +44,7 @@ Sprite::Sprite() :
         samplerLocation = glGetUniformLocation( currentProgram, "tex" );
         sliceLocation = glGetUniformLocation( currentProgram, "slice" );
 
-        checkOpenGL( "Setting uniform locations" );
+        checkOpenGL( "Sprite() - Setting uniform locations" );
 
         currentTile = 0;
     }
@@ -67,7 +67,7 @@ Sprite::Sprite( TilesetPtr tileset_ ) :
         samplerLocation = glGetUniformLocation( currentProgram, "tex" );
         sliceLocation = glGetUniformLocation( currentProgram, "slice" );
 
-        checkOpenGL( "Setting uniform locations" );
+        checkOpenGL( "Sprite( tileset ) - Setting uniform locations" );
 
         currentTile = 0;
     }

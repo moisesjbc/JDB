@@ -17,42 +17,64 @@
  * along with M2G.  If not, see <http://www.gnu.org/licenses/>.
 ***/
 
-#ifndef TEXT_RENDERER_HPP
-#define TEXT_RENDERER_HPP
+#ifndef BITMAP_FONT_HPP
+#define BITMAP_FONT_HPP
 
-#include "bitmap_font.hpp"
+#include "../utilities/tilesets_buffer.hpp"
+#include <memory>
 #include <SDL2/SDL_ttf.h>
 
 namespace m2g {
 
-class TextRenderer
+const unsigned int N_ASCII_PRINTABLE_CHARACTERS = 95;
+
+class BitmapFont
 {
     private:
-        std::vector< BitmapFontPtr > bitmapFonts;
+        // VAO and VBO.
+        GLuint vao;
+        GLuint vbo;
 
-        GLint mvpMatrixLocation;
-        GLint samplerLocation;
-        GLint sliceLocation;
+        // Texture 2D array id (OpenGL).
+        GLuint texture;
+
+
+        int widths[N_ASCII_PRINTABLE_CHARACTERS+1];
+
+        int offset;
 
     public:
         /***
-         * 1. Initialization
+         * 1. Initialization and destruction
          ***/
-        TextRenderer();
+        BitmapFont();
+        ~BitmapFont();
 
 
         /***
          * 2. Loading
          ***/
-        unsigned int loadFont( const char* file, const unsigned int size );
+        void load( const char* fontPath, unsigned int size );
+    private:
+        void loadTexture( void* data, int pitch  );
+    public:
 
 
         /***
-         * 3. Drawing
+         * 3. Getters
          ***/
-        void drawText( const glm::mat4& projectionMatrix, const char* text, unsigned int fontIndex, GLuint x = 0, GLuint y = 0 );
+        unsigned int getCharacterWidth( char c ) const ;
+
+        /***
+         * 4. Drawing
+         ***/
+        void bind() const ;
+        void drawCharacter( char c ) const ;
 };
+
+
+typedef std::shared_ptr< const BitmapFont > BitmapFontPtr;
 
 } // namespace m2g
 
-#endif // TEXT_RENDERER_HPP
+#endif // BITMAP_FONT_HPP

@@ -23,25 +23,39 @@ namespace m2g {
 
 
 /***
+ * 1. Initialization
+ ***/
+
+TextRenderer::TextRenderer()
+{
+    GLint currentProgram;
+
+    // Get the uniforms locations.
+    glGetIntegerv( GL_CURRENT_PROGRAM, &currentProgram );
+
+    mvpMatrixLocation = glGetUniformLocation( currentProgram, "mvpMatrix" );
+    samplerLocation = glGetUniformLocation( currentProgram, "tex" );
+    sliceLocation = glGetUniformLocation( currentProgram, "slice" );
+
+    checkOpenGL( "TextRenderer - Getting uniform locations" );
+
+    // Connect sampler to texture unit 0.
+    glUniform1i( samplerLocation, 0 );
+}
+
+/***
  * 2. Loading
  ***/
 
 unsigned int TextRenderer::loadFont( const char* file, const unsigned int size )
 {
-    m2g::TilesetPtr textTileset;
+    std::shared_ptr< m2g::BitmapFont > bitmapFont = std::shared_ptr< m2g::BitmapFont >( new m2g::BitmapFont );
 
-    // Load the font
-    TTF_Font* font = TTF_OpenFont( file, size );
-
-    if( !font ){
-        throw std::runtime_error( std::string( "ERROR opening font - " ) + TTF_GetError() );
-    }
-
-    // Generate the tileset (bitmap font) from the TrueType font.
-    textTileset = std::make_shared<m2g::Tileset>( font, 16 );
+    // Generate the bitmap font from the TrueType one.
+    bitmapFont->load( file, size );
 
     // Insert the new bitmap font in the bitmap fonts vector.
-    bitmapFonts.push_back( textTileset );
+    bitmapFonts.push_back( bitmapFont );
 
     // Return the index of the just added font.
     return bitmapFonts.size() - 1;
@@ -55,17 +69,29 @@ unsigned int TextRenderer::loadFont( const char* file, const unsigned int size )
 void TextRenderer::drawText( const glm::mat4& projectionMatrix, const char* text, unsigned int fontIndex, GLuint x, GLuint y )
 {
     unsigned int i = 0;
+    glm::mat4 transformationMatrix;
 
-    sprite.setTileset( bitmapFonts[ fontIndex ] );
+    // Bind the bitmap font (its VAO, VBO and texture) as the active one.
+    bitmapFonts[fontIndex]->bind();
 
-    sprite.moveTo( x, y );
+    // Send current 0 index to shader.
+    glUniform1ui( sliceLocation, 0 );
 
     for( ; i < strlen( text ); i++ ){
-        sprite.setTile( text[i] - ' ' );
-        sprite.draw( projectionMatrix );
+        // Set MVP matrix.
+        transformationMatrix = projectionMatrix * glm::translate( glm::mat4( 1.0f ), glm::vec3( x, y, 0.0f ) );
 
-        std::cout << "Translating: " << bitmapFonts[fontIndex]->tileWidth << std::endl;
-        sprite.translate( bitmapFonts[fontIndex]->width[ text[i] - ' ' ], 0.0f );
+        // Send the MVP matrix to the shader.
+        glUniformMatrix4fv( mvpMatrixLocation, 1, GL_FALSE, &transformationMatrix[0][0] );
+
+        // Draw the current character.
+        bitmapFonts[fontIndex]->drawCharacter( text[i] );
+
+        std::cout << "Translating: " << bitmapFonts[fontIndex]->getCharacterWidth( text[i] - ' ' ) << std::endl;
+
+        x += bitmapFonts[fontIndex]->getCharacterWidth( text[i] - ' ' ) + 1.0f;
+
+        //transformationMatrix = transformationMatrix * glm::translate( glm::mat4( 1.0f ), glm::vec3( bitmapFonts[fontIndex]->getCharacterWidth( text[i] - ' ' ) * 2, 0.0f, 0.0f ) );
     }
 }
 

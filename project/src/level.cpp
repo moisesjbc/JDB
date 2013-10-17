@@ -89,30 +89,11 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     float speed = initialSpeed;
     unsigned int nDraws = 0;
     float jacobHp = 100.0f;
+    char character[2] = { ' ', '\0' };
 
-    //FTGL::FTGLfont *font = FTGL::ftglCreatePixmapFont( "/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf" );
-
-
-    // Create a pixmap font from a TrueType file.
-    //FTGLPixmapFont font( "/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf" );
-
-    // If something went wrong, bail out.
-    //if( font.Error() ){
-    //    throw std::runtime_error( std::string( "ERROR opening font" ) );
-    //}
-
-
+    // Initialize the text renderer.
     m2g::TextRenderer textRenderer;
-    std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 12 ) << std::endl;
-
-
-   // std::cout << "Text surface dimensions: (" << textSurface->w << ", " << textSurface->h << ")" << std::endl
-   //           << "\tpitch: " << textSurface->pitch << std::endl;
-
-    //exit( 0 );
-
-    //m2g::Sprite textSprite( textTileset );
-
+    std::cout << "loadFont: " << textRenderer.loadFont( "/usr/share/fonts/truetype/liberation/LiberationSansNarrow-Regular.ttf", 50 ) << std::endl;
 
     try
     {
@@ -171,8 +152,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             coutMutex.unlock();
         });
 
-        // Keep rendering a black window until player tell us to stop.
+        // Keep rendering until player tell us to stop.
         while( !quit ){
+            glClear ( GL_COLOR_BUFFER_BIT );
             t0 = SDL_GetTicks();
             while( (t1 - t0) < REFRESH_TIME ){
                 if( SDL_PollEvent( &event ) != 0 ){
@@ -182,20 +164,6 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                         break;
                         case SDL_MOUSEBUTTONDOWN:
                             tool->handleMouseButtonDown( sandwiches, N_SANDWICHES );
-
-                            // User has clicked. Check if the hand "collides" with any of the
-                            // dangers.
-                            /*
-                            i = 0;
-                            while( ( i < N_DANGERS ) && !tool->collide( *(dangers[i] ) ) ){
-                                i++;
-                            }
-
-                            // The hand collided with a danger, change that danger's state.
-                            if( i < N_DANGERS ){
-                                dangers[i]->setAnimationState( 1 );
-                            }
-                            */
                         break;
                         case SDL_KEYDOWN:
                             switch( event.key.keysym.sym ){
@@ -235,11 +203,12 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             }
             speedMutex.unlock();
 
-            // Draw the tool
+            // Draw the tool.
             tool->draw( projectionMatrix );
 
-            //textSprite.draw( projectionMatrix );
-            textRenderer.drawText( projectionMatrix, "0:15", 0, 25, 25 );
+            // Draw text.
+            textRenderer.drawText( projectionMatrix, "MOISES", 0, 0, 0 );
+            textRenderer.drawText( projectionMatrix, character, 0, 700, 0 );
 
             // Check if the first sandwich reached the sandwiches end point and, in that case,
             // translate it and is dangers behind the last sandwich.
@@ -266,24 +235,13 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 lastSandwich = (lastSandwich + 1) % N_SANDWICHES;
             }
 
-            // Set the font size and render a small text.
-            //font.Depth( 0.2f );
-            //font.FaceSize( 72 );
-            //font.Render( "Hello World!", -1, FTPoint(), FTPoint(), FTGL::RENDER_FRONT );
-
+            // Refresh screen.
             SDL_GL_SwapWindow( window );
-//000000015
 
             nDraws++;
             if( nDraws >= FPS ){
                 nDraws = 0;
-
-
-/*
-                coutMutex.lock();
-                std::cout << "seconds: " << timer.getSeconds() << std::endl;
-                coutMutex.unlock();
-*/
+                character[0]++;
             }
         }
 
@@ -294,8 +252,6 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];
         }
-
-       // TTF_CloseFont( font );
 
         // Stop the timer.
         timer.stop();

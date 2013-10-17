@@ -25,7 +25,8 @@ SOURCES += src/main.cpp \
     src/sandwiches/sandwich_data.cpp \
     src/sandwiches/sandwich.cpp \
     src/utilities/base_line.cpp \
-    src/dependencies/graphics/src/text/text_renderer.cpp
+    src/dependencies/graphics/src/text/text_renderer.cpp \
+    src/dependencies/graphics/src/text/bitmap_font.cpp
 
 HEADERS += \
     src/jdb.hpp \
@@ -52,7 +53,8 @@ HEADERS += \
     src/sandwiches/sandwich_data.hpp \
     src/sandwiches/sandwich.hpp \
     src/utilities/base_line.hpp \
-    src/dependencies/graphics/src/text/text_renderer.hpp
+    src/dependencies/graphics/src/text/text_renderer.hpp \
+    src/dependencies/graphics/src/text/bitmap_font.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl
 

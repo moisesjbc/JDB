@@ -40,8 +40,7 @@ Tileset::Tileset( const tinyxml2::XMLNode* xmlNode, const char* folder ) :
     nRows( 0 ),
     nColumns( 0 ),
     nTiles( 0 ),
-    bufferIndex( 0 ),
-    width( nullptr )
+    bufferIndex( 0 )
 {
     if( tilesetsBuffer == nullptr ){
         // If the tilesets buffer is not initialized, create it!.
@@ -57,8 +56,6 @@ Tileset::Tileset( const tinyxml2::XMLNode* xmlNode, const char* folder ) :
 
 Tileset::Tileset( SDL_Surface* surface, GLuint tileWidth, GLuint tileHeight )
 {
-    width = nullptr;
-
     if( tilesetsBuffer == nullptr ){
         // If the tilesets buffer is not initialized, create it!.
         tilesetsBuffer = new TilesetsBuffer( 10 );
@@ -69,23 +66,6 @@ Tileset::Tileset( SDL_Surface* surface, GLuint tileWidth, GLuint tileHeight )
 
     load( surface, tileWidth, tileHeight );
 }
-
-
-Tileset::Tileset( TTF_Font* font, unsigned int size )
-{
-    width = nullptr;
-
-    if( tilesetsBuffer == nullptr ){
-        // If the tilesets buffer is not initialized, create it!.
-        tilesetsBuffer = new TilesetsBuffer( 10 );
-    }
-
-    // Increment the references count.
-    refCount++;
-
-    load( font, size );
-}
-
 
 
 Tileset::~Tileset()
@@ -101,8 +81,6 @@ Tileset::~Tileset()
         delete tilesetsBuffer;
         tilesetsBuffer = nullptr;
     }
-
-    delete [] width;
 }
 
 
@@ -248,94 +226,6 @@ void Tileset::load( SDL_Surface* surface, GLuint tileWidth, GLuint tileHeight )
 
     // Load the texture
     loadTexture( surface->pixels, surface->w );
-}
-
-
-void Tileset::load( TTF_Font* font, unsigned int size )
-{
-    SDL_Rect srcRect = { 0, 0, 0, 0 };
-    SDL_Rect dstRect = { 0, 0, 0, 0 };
-    unsigned int i;
-    unsigned int row, column;
-
-    // First ASCII printable character.
-    char character[] = " ";
-
-    width = new unsigned int [128];
-
-    // Get the maximum height of the font.
-    srcRect.h = TTF_FontHeight( font );
-
-    // Round the tile height to the nearest pow of 2.
-    i = 1;
-    while( i<srcRect.h ){
-        i <<= 1;
-    }
-    srcRect.h = i;
-
-    // Get the maximum width of the fond.
-    // FIXME: Get the real width.
-    srcRect.w = 32;
-
-    dstRect = srcRect;
-
-    tileWidth = srcRect.w;
-    tileHeight = srcRect.h;
-
-    // 8 * 16 = 128 is the nearest pow of 2 above the number of ASCII printable characters (95).
-    nRows = 8;
-    nColumns = 16;
-    nTiles = nRows * nColumns;
-
-    // Get the image dimensions.
-    imageWidth = nColumns * tileWidth;
-    imageHeight = nRows * tileHeight;
-
-    Uint32 rmask, gmask, bmask, amask;
-
-    #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-        rmask = 0xff000000;
-        gmask = 0x00ff0000;
-        bmask = 0x0000ff00;
-        amask = 0x000000ff;
-    #else
-        rmask = 0x000000ff;
-        gmask = 0x0000ff00;
-        bmask = 0x00ff0000;
-        amask = 0xff000000;
-    #endif
-
-
-    SDL_Surface *letterSurface;
-    SDL_Surface *textSurface = SDL_CreateRGBSurface( 0, imageWidth, imageHeight, 32, rmask, gmask, bmask, amask );
-    SDL_Color fontColor = { 255, 0, 0, 255 };
-
-    i = 0;
-    for( row = 0; row < nRows; row++ ){
-        for( column = 0; column < nColumns; column++ ){
-            dstRect.x = column * tileWidth;
-            dstRect.y = row * tileHeight;
-            dstRect.w = tileWidth;
-            dstRect.h = tileHeight;
-
-            letterSurface = TTF_RenderText_Solid( font, character, fontColor );
-
-            std::cout << "Blitting [" << character << "] (" << letterSurface->w << ", " << letterSurface->h << ") to rect (" << dstRect.x << ", " << dstRect.y << ", " << dstRect.w << ", " << dstRect.h << ")" << std::endl;
-
-            SDL_BlitSurface( letterSurface, NULL, textSurface, &dstRect );
-
-            std::cout << "LetterSurface->w: " << letterSurface->w << std::endl;
-
-            width[i] = letterSurface->w;
-
-            SDL_FreeSurface( letterSurface );
-
-            i++;
-            character[0]++;
-        }
-    }
-
-    loadTexture( textSurface->pixels, textSurface->w );
 }
 
 

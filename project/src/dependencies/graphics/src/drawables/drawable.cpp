@@ -149,7 +149,7 @@ void checkOpenGL( const char* str )
     GLenum errorCode = glGetError();
 
     if( errorCode ){
-        sprintf( errorMsg, "OpenGL error code at [%s] - error code: %i", str, errorCode );
+        sprintf( errorMsg, "OpenGL error code at [%s] - error code: %i (%s)", str, errorCode, gluErrorString( errorCode ) );
         throw std::runtime_error( errorMsg );
     }
 }
