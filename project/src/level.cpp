@@ -90,10 +90,12 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     unsigned int nDraws = 0;
     float jacobHp = 100.0f;
     char character[2] = { ' ', '\0' };
+    unsigned int seconds, minutes;
+    char buffer[16];
 
     // Initialize the text renderer.
     m2g::TextRenderer textRenderer;
-    std::cout << "loadFont: " << textRenderer.loadFont( "/usr/share/fonts/truetype/liberation/LiberationSansNarrow-Regular.ttf", 50 ) << std::endl;
+    std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 ) << std::endl;
 
     try
     {
@@ -102,6 +104,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
         quit = true;
         while( quit ){
+            textRenderer.drawText( projectionMatrix, "PRESS ANY KEY TO START", 0, 0, 0 );
+            SDL_GL_SwapWindow( window );
             SDL_WaitEvent( &event );
             quit = ( event.type != SDL_KEYDOWN );
         }
@@ -207,8 +211,19 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             tool->draw( projectionMatrix );
 
             // Draw text.
-            textRenderer.drawText( projectionMatrix, "MOISES", 0, 0, 0 );
-            textRenderer.drawText( projectionMatrix, character, 0, 700, 0 );
+            //textRenderer.drawText( projectionMatrix, "MOISES", 0, 0, 0 );
+            //textRenderer.drawText( projectionMatrix, character, 0, 700, 0 );
+
+            // Show Jacob's life.
+            sprintf( buffer, "%d", (int)jacobHp );
+            textRenderer.drawText( projectionMatrix, buffer, 0, 0, 0 );
+
+            // Show the time.
+            seconds = timer.getSeconds();
+            minutes = seconds / 60;
+            seconds = seconds % 60;
+            sprintf( buffer, "TIME: %02d:%02d", minutes, seconds );
+            textRenderer.drawText( projectionMatrix, buffer, 0, 250, 0 );
 
             // Check if the first sandwich reached the sandwiches end point and, in that case,
             // translate it and is dangers behind the last sandwich.

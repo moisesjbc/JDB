@@ -63,7 +63,7 @@ JDB::JDB() :
       SDL_WINDOWPOS_CENTERED,
       WINDOW_WIDTH,
       WINDOW_HEIGHT,
-      SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
+      /*SDL_WINDOW_SHOWN |*/ SDL_WINDOW_OPENGL );
 
     if( window == NULL ){
         throw std::runtime_error( std::string( "ERROR creating window: " ) + std::string( SDL_GetError() ) );

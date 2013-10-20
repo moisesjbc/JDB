@@ -76,13 +76,13 @@ BitmapFont::~BitmapFont()
 void BitmapFont::load( const char* fontPath, unsigned int size )
 {
     TTF_Font* font;
-
-    char printableCharacters[N_ASCII_PRINTABLE_CHARACTERS+1];
     unsigned int i = 0, j;
-    int imageWidth, imageHeight;
     SDL_Color fontColor = { 255, 0, 0, 255 };
     int letterHeight;
-    GLfloat accumWidth = 0.0f;
+
+    int tileWidth;
+    int tileHeight;
+    int pow2;
 
     GLfloat vertexData[VBO_ELEMENTS];
 
@@ -106,105 +106,37 @@ void BitmapFont::load( const char* fontPath, unsigned int size )
         const Uint32 amask = 0xff000000;
     #endif
 
+    // Get the font's maximum height and round it to the nearest pow of two.
+    tileHeight = TTF_FontHeight( font );
+    pow2 = 1;
+    while( pow2 < tileHeight ){
+        pow2 <<= 1;
+    }
+    tileHeight = pow2;
+
+    // Get the font's maximum width and rount it to the nearest pow of two.
+    if( TTF_GlyphMetrics( font,'g', nullptr, nullptr, nullptr, nullptr, &tileWidth ) ){
+        throw std::runtime_error( std::string( "ERROR when getting metrics of M - " ) + TTF_GetError() );
+    }
+    pow2 = 1;
+    while( pow2 < tileWidth ){
+        pow2 <<= 1;
+    }
+    tileWidth = pow2;
+
+    std::cout << "Tile dimensions: " << tileWidth << " x " << tileHeight << std::endl;
+
+
     // First ASCII printable character.
     char character[2] = { ' ', '\0' };
-    SDL_Surface* auxTextSurface = nullptr;
-    SDL_Surface* textSurface = nullptr;
+    SDL_Surface* auxLetterSurface = nullptr;
+    SDL_Surface* letterSurface = nullptr;
 
-    // Insert all the printable characters in one string.
-    for( ; i<N_ASCII_PRINTABLE_CHARACTERS; i++ ){
-        printableCharacters[i] = i + ' ';
-        //std::cout << "[" << printableCharacters[i] << "] : " <<  TTF_GlyphIsProvided( font, (short int)( printableCharacters[i] ) ) << std::endl;
-    }
-    printableCharacters[i] = 0;
+    // Create the final letter surface with the power-of-two dimensions.
+    letterSurface = SDL_CreateRGBSurface( 0, tileWidth, tileHeight, 32, rmask, gmask, bmask, amask );
 
-    std::cout << "Printable characters: [" << printableCharacters << "]" << std::endl;
-
-    // Render all the printable characters in one surface for getting
-    // the full dimensions.
-    auxTextSurface = TTF_RenderText_Blended( font, printableCharacters, fontColor );
-    std::cout << "auxTextSurface dimensions: " << auxTextSurface->w << " x " << auxTextSurface->h << std::endl;
-
-    // Round the image width to the nearest pow of 2.
-    imageWidth = 1;
-    while( imageWidth < auxTextSurface->w ){
-        imageWidth <<= 1;
-    }
-
-    // Round the image height to the nearest pow of 2.
-    imageHeight = 1;
-    while( imageHeight < auxTextSurface->h ){
-        imageHeight <<= 1;
-    }
-
-    // Create the final text surface with the power-of-two dimensions.
-    textSurface = SDL_CreateRGBSurface( 0, imageWidth, imageHeight, 32, rmask, gmask, bmask, amask );
-    std::cout << "Image dimensions: " << imageWidth << " x " << imageHeight << std::endl;
-
-    // Copy all the printable characters to the final power-of-two surface.
-    SDL_BlitSurface( auxTextSurface, NULL, textSurface, NULL );
-
-    // Fill the BitmapFont VBO with the vertex attributes of each printable
-    // character.
-    for( i = 0; i < N_ASCII_PRINTABLE_CHARACTERS; i++ ){
-
-        // Get the dimensions of the current character.
-        if( TTF_SizeText( font, character, &widths[i], &letterHeight ) ){
-            throw std::runtime_error( std::string( "ERROR in TTF_SizeText() - " ) + TTF_GetError() );
-        }
-
-        j = i * 16;
-
-        // Set the vertex attributes for the current character.
-
-        /*** Bottom left ***/
-        // Vertice coordinates
-        vertexData[j] = 0.0f;
-        vertexData[j+1] = 0.0f;
-        // Texture coordinates
-        vertexData[j+2] = accumWidth / (GLfloat)imageWidth;
-        vertexData[j+3] = 0.0f;
-
-        /*** Bottom right ***/
-        // Vertice coordinates
-        vertexData[j+4] = widths[i];
-        vertexData[j+5] = 0.0f;
-
-        // Texture coordinates
-        vertexData[j+6] = (accumWidth + widths[i]) / (GLfloat)imageWidth;
-        vertexData[j+7] = 0.0f;
-
-        /*** Top left ***/
-        // Vertice coordinates
-        vertexData[j+8] = 0.0f;
-        vertexData[j+9] = letterHeight;
-
-        // Texture coordinates
-        vertexData[j+10] = accumWidth / (GLfloat)imageWidth;
-        vertexData[j+11] = letterHeight / (GLfloat)imageHeight;
-
-        /*** Top right ***/
-        // Vertice coordinates
-        vertexData[j+12] = widths[i];
-        vertexData[j+13] = letterHeight;
-
-        // Texture coordinates
-        vertexData[j+14] = (accumWidth + widths[i]) / (GLfloat)imageWidth;
-        vertexData[j+15] = letterHeight / (GLfloat)imageHeight;
-
-        // Iterate to the following character.
-        character[0]++;
-        accumWidth += widths[i];
-    }
 
     checkOpenGL( "BitmapConstructor (1)" );
-    SDL_SaveBMP( textSurface, "bmp" );
-
-    // Copy all the vertexData to the VBO
-    glBufferSubData( GL_ARRAY_BUFFER, 0, VBO_SIZE, vertexData );
-
-    checkOpenGL( "BitmapConstructor (2)" );
-
     /*** Load the texture ***/
     // Generate the texture and set its parameters.
     // TODO: play with multiple texture units (or not?).
@@ -220,35 +152,111 @@ void BitmapFont::load( const char* fontPath, unsigned int size )
     glPixelStorei( GL_UNPACK_ALIGNMENT, 4 );
     glPixelStorei( GL_UNPACK_SKIP_PIXELS, 0 );
     glPixelStorei( GL_UNPACK_SKIP_ROWS, 0 );
-    glPixelStorei( GL_UNPACK_ROW_LENGTH, textSurface->w );
-
-    //glPixelStorei( GL_UNPACK_ROW_LENGTH,  );
-
-    checkOpenGL( "BitmapConstructor (3)" );
+    glPixelStorei( GL_UNPACK_ROW_LENGTH, letterSurface->w );
 
 
-    // Set the texture data.
-    SDL_LockSurface( textSurface );
-    glTexImage3D( GL_TEXTURE_2D_ARRAY,     // target
-                  0,                       // Level
-                  GL_RGBA8,                // internal format (32-bit textures).
-                  imageWidth,              // Image width
-                  imageHeight,             // Image height
-                  1,                       // Depth
-                  0,                       // Border (must be 0).
-                  GL_RGBA,                 // Format
-                  GL_UNSIGNED_BYTE,        // type
-                  textSurface->pixels      // image data.
-                );
-    SDL_UnlockSurface( textSurface );
+    glTexStorage3D( GL_TEXTURE_2D_ARRAY,            // Target
+                    1,                              // Levels
+                    GL_RGBA8,                       // Internal format
+                    tileWidth,                      // Tile width
+                    tileHeight,                     // Tile height
+                    N_ASCII_PRINTABLE_CHARACTERS    // Number of tiles.
+                   );
+
+    checkOpenGL( "BitmapConstructor (2)" );
+
+
+
+
+    // Fill the BitmapFont VBO with the vertex attributes of each printable
+    // character.
+    for( i = 0; i < N_ASCII_PRINTABLE_CHARACTERS; i++ ){
+        // Render the current character.
+        auxLetterSurface = TTF_RenderText_Blended( font, character, fontColor );
+
+        // Copy the current character to the final power-of-two surface.
+        SDL_FillRect( letterSurface, NULL, 0 );
+        SDL_BlitSurface( auxLetterSurface, NULL, letterSurface, NULL );
+
+        // Free the auxiliar surface.
+        SDL_FreeSurface( auxLetterSurface );
+
+        // Get the dimensions of the current character.
+        if( TTF_SizeText( font, character, &widths[i], &letterHeight ) ){
+            throw std::runtime_error( std::string( "ERROR in TTF_SizeText() - " ) + TTF_GetError() );
+        }
+
+        j = i * 16;
+
+        // Set the vertex attributes for the current character.
+
+        /*** Bottom left ***/
+        // Vertice coordinates
+        vertexData[j] = 0.0f;
+        vertexData[j+1] = 0.0f;
+        // Texture coordinates
+        vertexData[j+2] = 0.0f;
+        vertexData[j+3] = 0.0f;
+
+        /*** Bottom right ***/
+        // Vertice coordinates
+        vertexData[j+4] = widths[i];
+        vertexData[j+5] = 0.0f;
+
+        // Texture coordinates
+        vertexData[j+6] = widths[i] / (GLfloat)tileWidth;
+        vertexData[j+7] = 0.0f;
+
+        /*** Top left ***/
+        // Vertice coordinates
+        vertexData[j+8] = 0.0f;
+        vertexData[j+9] = letterHeight;
+
+        // Texture coordinates
+        vertexData[j+10] = 0.0f;
+        vertexData[j+11] = letterHeight / (GLfloat)tileHeight;
+
+        /*** Top right ***/
+        // Vertice coordinates
+        vertexData[j+12] = widths[i];
+        vertexData[j+13] = letterHeight;
+
+        // Texture coordinates
+        vertexData[j+14] = widths[i] / (GLfloat)tileWidth;
+        vertexData[j+15] = letterHeight / (GLfloat)tileHeight;
+
+        // Iterate to the following character.
+        character[0]++;
+
+        checkOpenGL( "BitmapConstructor (3)" );
+
+        glTexSubImage3D(
+                    GL_TEXTURE_2D_ARRAY,    // target
+                    0,                      // level
+                    0,                      // X offset
+                    0,                      // Y offset
+                    i,                      // Z offset
+                    tileWidth,              // Width
+                    tileHeight,             // Height
+                    1,                      // Depth
+                    GL_RGBA,                // Format
+                    GL_UNSIGNED_BYTE,       // Type
+                    letterSurface->pixels   // Data
+                    );
+
+        checkOpenGL( "BitmapConstructor (4)" );
+    }
+
+
+    //SDL_SaveBMP( textSurface, "bmp" );
+
+    // Copy all the vertexData to the VBO
+    glBufferSubData( GL_ARRAY_BUFFER, 0, VBO_SIZE, vertexData );
 
     checkOpenGL( "BitmapConstructor (5)" );
-
     // glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
 
     // Free the allocated resources.
-    SDL_FreeSurface( auxTextSurface );
-    SDL_FreeSurface( textSurface );
     TTF_CloseFont( font );
 }
 

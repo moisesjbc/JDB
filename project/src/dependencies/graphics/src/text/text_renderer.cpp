@@ -85,11 +85,12 @@ void TextRenderer::drawText( const glm::mat4& projectionMatrix, const char* text
         glUniformMatrix4fv( mvpMatrixLocation, 1, GL_FALSE, &transformationMatrix[0][0] );
 
         // Draw the current character.
+        glUniform1ui( sliceLocation, text[i]-' ' );
         bitmapFonts[fontIndex]->drawCharacter( text[i] );
 
-        std::cout << "Translating: " << bitmapFonts[fontIndex]->getCharacterWidth( text[i] - ' ' ) << std::endl;
+        //std::cout << "Translating: " << bitmapFonts[fontIndex]->getCharacterWidth( text[i] - ' ' ) << std::endl;
 
-        x += bitmapFonts[fontIndex]->getCharacterWidth( text[i] - ' ' ) + 1.0f;
+        x += bitmapFonts[fontIndex]->getCharacterWidth( text[i] );
 
         //transformationMatrix = transformationMatrix * glm::translate( glm::mat4( 1.0f ), glm::vec3( bitmapFonts[fontIndex]->getCharacterWidth( text[i] - ' ' ) * 2, 0.0f, 0.0f ) );
     }
