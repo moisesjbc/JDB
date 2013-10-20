@@ -83,36 +83,28 @@ void Level::runSurvivalLevel( unsigned int index )
 void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int timeLapse )
 {
     unsigned int i;
-    unsigned int firstSandwich = 0;
-    unsigned int lastSandwich = N_SANDWICHES - 1;
+    unsigned int firstSandwich;
+    unsigned int lastSandwich;
     std::mutex speedMutex;
     float speed = initialSpeed;
     unsigned int nDraws = 0;
-    float jacobHp = 100.0f;
+    int jacobHp = 100;
     char character[2] = { ' ', '\0' };
-    unsigned int seconds, minutes;
+    int seconds, minutes;
     char buffer[16];
-
-    // Initialize the text renderer.
+    SDL_Event event;
+    bool quit = false;
+    bool userResponded = false;
+    Uint32 t0;
+    Uint32 t1;
     m2g::TextRenderer textRenderer;
-    std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 ) << std::endl;
 
     try
     {
-        SDL_Event event;
-        bool quit = false;
-
-        quit = true;
-        while( quit ){
-            textRenderer.drawText( projectionMatrix, "PRESS ANY KEY TO START", 0, 0, 0 );
-            SDL_GL_SwapWindow( window );
-            SDL_WaitEvent( &event );
-            quit = ( event.type != SDL_KEYDOWN );
-        }
-
-        // Variable for time management.
-        Uint32 t0 = 0;
-        Uint32 t1 = 0;
+        // Initialize the text renderer.
+        coutMutex.lock();
+        std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 ) << std::endl;
+        coutMutex.unlock();
 
         // Create the graphic Library and the sprite pointers.
         Sandwich* sandwiches[N_SANDWICHES];
@@ -122,21 +114,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         // Make the cursor invisible.
         SDL_ShowCursor( SDL_DISABLE );
 
-        // Load the sandwiches' sprites and move them to their positions.
-        for( i=0; i < N_SANDWICHES; i++ ){
-            sandwiches[i] = new Sandwich( sandwichData[0], &dangerData );
-
-            sandwiches[i]->moveTo( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
-
-            sandwiches[i]->populate( dangerData );
-        }
-
-        /*
         // Load the rest of the sprites and animations.
-        */
         std::vector< std::shared_ptr< m2g::AnimationData > > toolsData;
         graphicsLoader.loadAnimationsData( toolsData, "data/img/tools" );
-
         tool = new Tool( toolsData[0] );
         /*
         conveyorBelt = new m2g::Sprite( library.getTileset( "conveyor_belt.png" ) );
@@ -145,118 +125,181 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         conveyorBelt->translate( 0, 256 );
         */
 
-        // Start the timer and set its callback function.
-        timer.init( timeLapse, [&](){
-            speedMutex.lock();
-            speed += speedStep;
-            speedMutex.unlock();
-
-            coutMutex.lock();
-            std::cout << "New speed! (" << speed << ")" << std::endl;
-            coutMutex.unlock();
-        });
-
-        // Keep rendering until player tell us to stop.
+        // Wait for the player to press any key to start.
         while( !quit ){
             glClear ( GL_COLOR_BUFFER_BIT );
-            t0 = SDL_GetTicks();
-            while( (t1 - t0) < REFRESH_TIME ){
-                if( SDL_PollEvent( &event ) != 0 ){
-                    switch( event.type ){
-                        case SDL_QUIT:
-                            quit = true;
-                        break;
-                        case SDL_MOUSEBUTTONDOWN:
-                            tool->handleMouseButtonDown( sandwiches, N_SANDWICHES );
-                        break;
-                        case SDL_KEYDOWN:
-                            switch( event.key.keysym.sym ){
-                                case SDLK_ESCAPE:
-                                    quit = true;
-                                break;
-                            }
-                        break;
-                        case SDL_MOUSEMOTION:
-                            tool->moveTo( event.motion.x, event.motion.y );
-                        break;
+            textRenderer.drawText( projectionMatrix, "PRESS ANY KEY TO START", 0, 0, 0 );
+            SDL_GL_SwapWindow( window );
+            SDL_WaitEvent( &event );
+            quit = ( event.type == SDL_KEYDOWN );
+        }
+
+        // Keep rendering until player tell us to stop.
+        quit = false;
+        while( !quit ){
+            // Initialize the variables used for time management.
+            t0 = 0;
+            t1 = 0;
+
+            // Initialize jacob's life and the sandwich indicators.
+            jacobHp = 100;
+            firstSandwich = 0;
+            lastSandwich = N_SANDWICHES - 1;
+
+            // Start the timer and set its callback function.
+            timer.init( timeLapse, [&](){
+                speedMutex.lock();
+                speed += speedStep;
+                speedMutex.unlock();
+
+                coutMutex.lock();
+                std::cout << "New speed! (" << speed << ")" << std::endl;
+                coutMutex.unlock();
+            });
+
+            // Load the sandwiches' sprites and move them to their positions.
+            for( i=0; i < N_SANDWICHES; i++ ){
+                sandwiches[i] = new Sandwich( sandwichData[0], &dangerData );
+
+                sandwiches[i]->moveTo( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
+
+                sandwiches[i]->populate( dangerData );
+            }
+
+            // Main loop: run the game until player ask us for stop or jacob's
+            // life reach 0.
+            while( !quit && ( jacobHp > 0 ) ){
+                glClear ( GL_COLOR_BUFFER_BIT );
+                t0 = SDL_GetTicks();
+                while( (t1 - t0) < REFRESH_TIME ){
+                    if( SDL_PollEvent( &event ) != 0 ){
+                        switch( event.type ){
+                            case SDL_QUIT:
+                                quit = true;
+                            break;
+                            case SDL_MOUSEBUTTONDOWN:
+                                tool->handleMouseButtonDown( sandwiches, N_SANDWICHES );
+                            break;
+                            case SDL_KEYDOWN:
+                                switch( event.key.keysym.sym ){
+                                    case SDLK_ESCAPE:
+                                        quit = true;
+                                    break;
+                                }
+                            break;
+                            case SDL_MOUSEMOTION:
+                                tool->moveTo( event.motion.x, event.motion.y );
+                            break;
+                        }
+                    }
+                    t1 = SDL_GetTicks();
+                }
+                t0 = SDL_GetTicks();
+                t1 = SDL_GetTicks();
+
+
+                // Check if the first sandwich reached the sandwiches end point and, in that case,
+                // translate it and is dangers behind the last sandwich.
+                if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
+
+                    // Hurt Jacob! (muahahaha!)
+                    jacobHp -= sandwiches[firstSandwich]->getDamage();
+                    coutMutex.lock();
+                    std::cout << "jacob's hp: " << jacobHp << std::endl;
+                    coutMutex.unlock();
+
+                    // Populate new sandwich.
+                    sandwiches[firstSandwich]->populate( dangerData );
+
+                    // Sandwich translation.
+                    sandwiches[firstSandwich]->translate(
+                                sandwiches[lastSandwich]->getX()
+                                - sandwiches[firstSandwich]->getX()
+                                + DISTANCE_BETWEEN_SANDWICHES,
+                                0.0f );
+
+                    // Change the indices for the first and last sandwiches.
+                    firstSandwich = (firstSandwich + 1) % N_SANDWICHES;
+                    lastSandwich = (lastSandwich + 1) % N_SANDWICHES;
+                }
+
+
+                // Clear screen.
+                glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+                // Bind the tileset's buffer.
+                m2g::Tileset::bindBuffer();
+
+                // Draw the conveyor belt.
+                //conveyorBelt->draw( projectionMatrix );
+
+                // Draw the sandwiches
+                for( i=0; i < N_SANDWICHES; i++ ){
+                    sandwiches[i]->draw( projectionMatrix );
+                }
+
+                // Move the sandwiches
+                speedMutex.lock();
+                for( i=0; i < N_SANDWICHES; i++ ){
+                    sandwiches[i]->translate( -speed, 0.0f );
+                }
+                speedMutex.unlock();
+
+                // Draw the tool.
+                tool->draw( projectionMatrix );
+
+                // Draw text.
+                //textRenderer.drawText( projectionMatrix, "MOISES", 0, 0, 0 );
+                //textRenderer.drawText( projectionMatrix, character, 0, 700, 0 );
+
+                // Draw Jacob's life.
+                sprintf( buffer, "%d", (int)jacobHp );
+                textRenderer.drawText( projectionMatrix, buffer, 0, 0, 0 );
+
+                // Draw the time.
+                seconds = timer.getSeconds();
+                minutes = seconds / 60;
+                seconds = seconds % 60;
+                sprintf( buffer, "TIME: %02d:%02d", minutes, seconds );
+                textRenderer.drawText( projectionMatrix, buffer, 0, 250, 0 );
+
+
+                // Refresh screen.
+                SDL_GL_SwapWindow( window );
+
+                nDraws++;
+                if( nDraws >= FPS ){
+                    nDraws = 0;
+                    character[0]++;
+                }
+            }
+
+            // Stop the timer.
+            timer.stop();
+
+            if( jacobHp <= 0 ){
+                // Wait for user to press any key to start.
+                textRenderer.drawText( projectionMatrix, "START AGAIN? (y/n)", 0, 150, 150 );
+                SDL_GL_SwapWindow( window );
+
+                userResponded = false;
+                while( !userResponded ){
+                    SDL_WaitEvent( &event );
+                    if( event.type == SDL_KEYDOWN ){
+                        userResponded = true;
+                        switch( event.key.keysym.sym ){
+                            case SDLK_y:
+                                quit = false;
+                            break;
+                            case SDLK_n:
+                                quit = true;
+                            break;
+                            default:
+                                userResponded = false;
+                            break;
+                        }
                     }
                 }
-                t1 = SDL_GetTicks();
-            }
-            t0 = SDL_GetTicks();
-            t1 = SDL_GetTicks();
-
-            // Clear screen.
-            glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-            // Bind the tileset's buffer.
-            m2g::Tileset::bindBuffer();
-
-            // Draw the conveyor belt.
-            //conveyorBelt->draw( projectionMatrix );
-
-            // Draw the sandwiches
-            for( i=0; i < N_SANDWICHES; i++ ){
-                sandwiches[i]->draw( projectionMatrix );
-            }
-
-            // Move the sandwiches
-            speedMutex.lock();
-            for( i=0; i < N_SANDWICHES; i++ ){
-                sandwiches[i]->translate( -speed, 0.0f );
-            }
-            speedMutex.unlock();
-
-            // Draw the tool.
-            tool->draw( projectionMatrix );
-
-            // Draw text.
-            //textRenderer.drawText( projectionMatrix, "MOISES", 0, 0, 0 );
-            //textRenderer.drawText( projectionMatrix, character, 0, 700, 0 );
-
-            // Show Jacob's life.
-            sprintf( buffer, "%d", (int)jacobHp );
-            textRenderer.drawText( projectionMatrix, buffer, 0, 0, 0 );
-
-            // Show the time.
-            seconds = timer.getSeconds();
-            minutes = seconds / 60;
-            seconds = seconds % 60;
-            sprintf( buffer, "TIME: %02d:%02d", minutes, seconds );
-            textRenderer.drawText( projectionMatrix, buffer, 0, 250, 0 );
-
-            // Check if the first sandwich reached the sandwiches end point and, in that case,
-            // translate it and is dangers behind the last sandwich.
-            if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
-
-                // Hurt Jacob! (muahahaha!)
-                jacobHp -= sandwiches[firstSandwich]->getDamage();
-                coutMutex.lock();
-                std::cout << "jacob's hp: " << jacobHp << std::endl;
-                coutMutex.unlock();
-
-                // Populate new sandwich.
-                sandwiches[firstSandwich]->populate( dangerData );
-
-                // Sandwich translation.
-                sandwiches[firstSandwich]->translate(
-                            sandwiches[lastSandwich]->getX()
-                            - sandwiches[firstSandwich]->getX()
-                            + DISTANCE_BETWEEN_SANDWICHES,
-                            0.0f );
-
-                // Change the indices for the first and last sandwiches.
-                firstSandwich = (firstSandwich + 1) % N_SANDWICHES;
-                lastSandwich = (lastSandwich + 1) % N_SANDWICHES;
-            }
-
-            // Refresh screen.
-            SDL_GL_SwapWindow( window );
-
-            nDraws++;
-            if( nDraws >= FPS ){
-                nDraws = 0;
-                character[0]++;
             }
         }
 
@@ -267,9 +310,6 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];
         }
-
-        // Stop the timer.
-        timer.stop();
 
     }catch( std::runtime_error& e ){
         std::cerr << e.what() << std::endl;
