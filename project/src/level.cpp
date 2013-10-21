@@ -100,15 +100,19 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     m2g::TextRenderer textRenderer;
     m2g::TilesetPtr conveyorBeltTileset;
     m2g::TilesetPtr guiHealthTileset;
+    m2g::TilesetPtr timerTileset;
     const SDL_Color HEALTH_FONT_COLOR = { 131, 60, 60, 255 };
+    const SDL_Color TIMER_FONT_COLOR = { 8, 31, 126, 255 };
 
     m2g::Sprite* guiHealth;
+    m2g::Sprite* guiTime;
 
     try
     {
         // Initialize the text renderer.
         coutMutex.lock();
         std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50, HEALTH_FONT_COLOR ) << std::endl;
+        std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50, TIMER_FONT_COLOR ) << std::endl;
         coutMutex.unlock();
 
         // Create the graphic Library and the sprite pointers.
@@ -127,7 +131,11 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         conveyorBelt = new m2g::Sprite( conveyorBeltTileset );
         graphicsLoader.loadTileset( guiHealthTileset, "data/img/gui", "health.png" );
         guiHealth = new m2g::Sprite( guiHealthTileset );
+        graphicsLoader.loadTileset( timerTileset, "data/img/gui", "time.png" );
+        guiTime = new m2g::Sprite( timerTileset );
 
+
+        guiTime->moveTo( 367, 0 );
         //graphicsLoader.loadAnimationData( animationData, "data/img/sandwiches", "sandwich_01.png" );
 
         // Set the conveyor belt's sprite at its final position.
@@ -257,18 +265,20 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 //textRenderer.drawText( projectionMatrix, "MOISES", 0, 0, 0 );
                 //textRenderer.drawText( projectionMatrix, character, 0, 700, 0 );
 
-                // Draw Jacob's life.
+                // Draw Jacob's life visor.
                 guiHealth->draw( projectionMatrix );
-                sprintf( buffer, "%03d", (int)jacobHp );
-                textRenderer.drawText( projectionMatrix, buffer, 0, 75, 5 );
 
-                // Draw the time.
+                // Draw the time visor.
+                guiTime->draw( projectionMatrix );
                 seconds = timer.getSeconds();
                 minutes = seconds / 60;
                 seconds = seconds % 60;
-                sprintf( buffer, "TIME: %02d:%02d", minutes, seconds );
-                textRenderer.drawText( projectionMatrix, buffer, 0, 250, 0 );
 
+                // Write Jacob's life and game time.
+                sprintf( buffer, "%03d", (int)jacobHp );
+                textRenderer.drawText( projectionMatrix, buffer, 0, 75, 5 );
+                sprintf( buffer, "%02d:%02d", minutes, seconds );
+                textRenderer.drawText( projectionMatrix, buffer, 1, 450, 3 );
 
                 // Refresh screen.
                 SDL_GL_SwapWindow( window );
@@ -317,6 +327,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             delete sandwiches[i];
         }
         delete guiHealth;
+        delete guiTime;
 
     }catch( std::runtime_error& e ){
         std::cerr << e.what() << std::endl;
