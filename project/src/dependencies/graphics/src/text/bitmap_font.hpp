@@ -38,7 +38,6 @@ class BitmapFont
         // Texture 2D array id (OpenGL).
         GLuint texture;
 
-
         int widths[N_ASCII_PRINTABLE_CHARACTERS+1];
 
         int offset;
@@ -54,7 +53,7 @@ class BitmapFont
         /***
          * 2. Loading
          ***/
-        void load( const char* fontPath, unsigned int size );
+        void load( const char* fontPath, unsigned int size, const SDL_Color& fontColor );
     private:
         void loadTexture( void* data, int pitch  );
     public:

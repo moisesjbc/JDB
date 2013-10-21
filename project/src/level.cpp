@@ -98,18 +98,23 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     Uint32 t0;
     Uint32 t1;
     m2g::TextRenderer textRenderer;
+    m2g::TilesetPtr conveyorBeltTileset;
+    m2g::TilesetPtr guiHealthTileset;
+    const SDL_Color HEALTH_FONT_COLOR = { 131, 60, 60, 255 };
+
+    m2g::Sprite* guiHealth;
 
     try
     {
         // Initialize the text renderer.
         coutMutex.lock();
-        std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 ) << std::endl;
+        std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50, HEALTH_FONT_COLOR ) << std::endl;
         coutMutex.unlock();
 
         // Create the graphic Library and the sprite pointers.
         Sandwich* sandwiches[N_SANDWICHES];
         Tool* tool = nullptr;
-        //m2g::Sprite* conveyorBelt = nullptr;
+        m2g::Sprite* conveyorBelt = nullptr;
 
         // Make the cursor invisible.
         SDL_ShowCursor( SDL_DISABLE );
@@ -118,12 +123,15 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         std::vector< std::shared_ptr< m2g::AnimationData > > toolsData;
         graphicsLoader.loadAnimationsData( toolsData, "data/img/tools" );
         tool = new Tool( toolsData[0] );
-        /*
-        conveyorBelt = new m2g::Sprite( library.getTileset( "conveyor_belt.png" ) );
+        graphicsLoader.loadTileset( conveyorBeltTileset, "data/img/background", "conveyor_belt.png" );
+        conveyorBelt = new m2g::Sprite( conveyorBeltTileset );
+        graphicsLoader.loadTileset( guiHealthTileset, "data/img/gui", "health.png" );
+        guiHealth = new m2g::Sprite( guiHealthTileset );
+
+        //graphicsLoader.loadAnimationData( animationData, "data/img/sandwiches", "sandwich_01.png" );
 
         // Set the conveyor belt's sprite at its final position.
         conveyorBelt->translate( 0, 256 );
-        */
 
         // Wait for the player to press any key to start.
         while( !quit ){
@@ -204,11 +212,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
                     // Hurt Jacob! (muahahaha!)
                     jacobHp -= sandwiches[firstSandwich]->getDamage();
-                    coutMutex.lock();
-                    std::cout << "jacob's hp: " << jacobHp << std::endl;
-                    coutMutex.unlock();
 
-                    // Populate new sandwich.
+                    // Populate a new sandwich.
                     sandwiches[firstSandwich]->populate( dangerData );
 
                     // Sandwich translation.
@@ -231,7 +236,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 m2g::Tileset::bindBuffer();
 
                 // Draw the conveyor belt.
-                //conveyorBelt->draw( projectionMatrix );
+                conveyorBelt->draw( projectionMatrix );
 
                 // Draw the sandwiches
                 for( i=0; i < N_SANDWICHES; i++ ){
@@ -253,8 +258,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 //textRenderer.drawText( projectionMatrix, character, 0, 700, 0 );
 
                 // Draw Jacob's life.
-                sprintf( buffer, "%d", (int)jacobHp );
-                textRenderer.drawText( projectionMatrix, buffer, 0, 0, 0 );
+                guiHealth->draw( projectionMatrix );
+                sprintf( buffer, "%03d", (int)jacobHp );
+                textRenderer.drawText( projectionMatrix, buffer, 0, 75, 5 );
 
                 // Draw the time.
                 seconds = timer.getSeconds();
@@ -310,6 +316,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];
         }
+        delete guiHealth;
 
     }catch( std::runtime_error& e ){
         std::cerr << e.what() << std::endl;

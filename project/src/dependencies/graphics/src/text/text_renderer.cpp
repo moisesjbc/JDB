@@ -47,12 +47,12 @@ TextRenderer::TextRenderer()
  * 2. Loading
  ***/
 
-unsigned int TextRenderer::loadFont( const char* file, const unsigned int size )
+unsigned int TextRenderer::loadFont( const char* file, const unsigned int size, const SDL_Color& color )
 {
     std::shared_ptr< m2g::BitmapFont > bitmapFont = std::shared_ptr< m2g::BitmapFont >( new m2g::BitmapFont );
 
     // Generate the bitmap font from the TrueType one.
-    bitmapFont->load( file, size );
+    bitmapFont->load( file, size, color );
 
     // Insert the new bitmap font in the bitmap fonts vector.
     bitmapFonts.push_back( bitmapFont );

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<library>
+	<!-- Tilesets -->
+	<tilesets>
+		<!-- Health visor -->
+		<tileset>
+			<src>health.png</src>
+			<tile_dimensions width="256" height="128"/>
+		</tileset>
+	</tilesets>
+</library>

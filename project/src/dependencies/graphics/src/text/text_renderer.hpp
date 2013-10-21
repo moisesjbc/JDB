@@ -44,7 +44,7 @@ class TextRenderer
         /***
          * 2. Loading
          ***/
-        unsigned int loadFont( const char* file, const unsigned int size );
+        unsigned int loadFont( const char* file, const unsigned int size, const SDL_Color& color );
 
 
         /***

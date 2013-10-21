@@ -1,6 +1,21 @@
 <?xml version="1.0"?>
 
 <library>
+	<!-- Tilesets -->
+	<tilesets>
+		<!-- Conveyor belt -->
+		<tileset>
+			<src>conveyor_belt.png</src>
+			<tile_dimensions width="1024" height="512"/>
+		</tileset>
+	</tilesets>
+</library>
+
+<!--
+
+<?xml version="1.0"?>
+
+<library>
 	<tileset>
 		<src>sandwich_01.png</src>
 		<tile_dimensions width="256" height="64"/>
@@ -57,7 +72,6 @@
 </library>
 
 
-<!--
 <animation>
 		<tileset>
 			<src>tileset_test.png</src>

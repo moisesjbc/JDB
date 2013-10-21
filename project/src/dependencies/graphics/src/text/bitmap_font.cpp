@@ -73,11 +73,10 @@ BitmapFont::~BitmapFont()
  * 2. Loading
  ***/
 
-void BitmapFont::load( const char* fontPath, unsigned int size )
+void BitmapFont::load( const char* fontPath, unsigned int size, const SDL_Color& fontColor )
 {
     TTF_Font* font;
     unsigned int i = 0, j;
-    SDL_Color fontColor = { 255, 0, 0, 255 };
     int letterHeight;
 
     int tileWidth;
