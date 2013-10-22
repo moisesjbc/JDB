@@ -23,7 +23,7 @@
 namespace jdb {
 
 const unsigned int N_SANDWICHES = 5;
-const float SANDWICHES_END_POINT = -300.0f;
+const float SANDWICHES_END_POINT = 0.0f;
 const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
 const unsigned int N_DANGERS = N_SANDWICHES * 3;
 const unsigned int FPS = 25;
@@ -101,11 +101,16 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     m2g::TilesetPtr conveyorBeltTileset;
     m2g::TilesetPtr guiHealthTileset;
     m2g::TilesetPtr timerTileset;
+    m2g::TilesetPtr grinderFrontTileset;
+    m2g::TilesetPtr grinderBackTileset;
+
     const SDL_Color HEALTH_FONT_COLOR = { 131, 60, 60, 255 };
     const SDL_Color TIMER_FONT_COLOR = { 8, 31, 126, 255 };
 
     m2g::Sprite* guiHealth;
     m2g::Sprite* guiTime;
+    m2g::Sprite* grinderFront;
+    m2g::Sprite* grinderBack;
 
     try
     {
@@ -134,6 +139,13 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         graphicsLoader.loadTileset( timerTileset, "data/img/gui", "time.png" );
         guiTime = new m2g::Sprite( timerTileset );
 
+        graphicsLoader.loadTileset( grinderFrontTileset, "data/img/background", "grinder_front.png" );
+        graphicsLoader.loadTileset( grinderBackTileset, "data/img/background", "grinder_back.png" );
+        grinderFront = new m2g::Sprite( grinderFrontTileset );
+        grinderBack = new m2g::Sprite( grinderBackTileset );
+
+        grinderFront->moveTo( 0, -256 );
+        grinderBack->moveTo( 0, -256 );
 
         guiTime->moveTo( 367, 0 );
         //graphicsLoader.loadAnimationData( animationData, "data/img/sandwiches", "sandwich_01.png" );
@@ -243,7 +255,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 // Bind the tileset's buffer.
                 m2g::Tileset::bindBuffer();
 
-                // Draw the conveyor belt.
+                // Draw the conveyor belt and the grinder's back.
+                grinderBack->draw( projectionMatrix );
                 conveyorBelt->draw( projectionMatrix );
 
                 // Draw the sandwiches
@@ -257,6 +270,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                     sandwiches[i]->translate( -speed, 0.0f );
                 }
                 speedMutex.unlock();
+
+                // Draw the grinder's front.
+                grinderFront->draw( projectionMatrix );
 
                 // Draw the tool.
                 tool->draw( projectionMatrix );
@@ -328,6 +344,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         }
         delete guiHealth;
         delete guiTime;
+        delete grinderBack;
+        delete grinderFront;
 
     }catch( std::runtime_error& e ){
         std::cerr << e.what() << std::endl;

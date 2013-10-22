@@ -8,6 +8,18 @@
 			<src>conveyor_belt.png</src>
 			<tile_dimensions width="1024" height="512"/>
 		</tileset>
+
+		<!-- Grinder (front) -->
+		<tileset>
+			<src>grinder_front.png</src>
+			<tile_dimensions width="512" height="1024"/>
+		</tileset>
+
+		<!-- Grinder (back) -->
+		<tileset>
+			<src>grinder_back.png</src>
+			<tile_dimensions width="512" height="1024"/>
+		</tileset>
 	</tilesets>
 </library>
 
