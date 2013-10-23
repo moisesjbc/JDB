@@ -22,7 +22,7 @@
 
 #include "dependencies/dependencies.hpp"
 #include "dependencies/msl/src/shader_loader.hpp"
-#include "dependencies/graphics/src/graphics_loader.hpp"
+#include "dependencies/graphics/src/graphics_library.hpp"
 #include "level.hpp"
 #include "dangers/player_action.hpp"
 #include <SDL2/SDL_ttf.h>

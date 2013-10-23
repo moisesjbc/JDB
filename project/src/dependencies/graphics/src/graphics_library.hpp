@@ -17,8 +17,8 @@
  * along with M2G.  If not, see <http://www.gnu.org/licenses/>.
 ***/
 
-#ifndef GRAPHIC_LOADER_HPP
-#define GRAPHIC_LOADER_HPP
+#ifndef GRAPHICS_LIBRARY_HPP
+#define GRAPHICS_LIBRARY_HPP
 
 #include "drawables/sprite.hpp"
 #include "drawables/animation_data.hpp"
@@ -31,21 +31,37 @@ namespace m2g {
 typedef std::vector< std::shared_ptr<Tileset> > TilesetsVector;
 typedef std::vector< std::shared_ptr<AnimationData> > AnimationDataVector;
 
-class GraphicsLoader
+class GraphicsLibrary
 {
     private:
-        tinyxml2::XMLDocument xmlFile;
+        tinyxml2::XMLDocument xmlFile_;
+
+        TilesetsVector tilesets_;
+        AnimationDataVector animationData_;
 
     public:
         /***
          * 1. Initialization and destruction.
          ***/
-        GraphicsLoader();
+        GraphicsLibrary();
 
 
         /***
          * 2. Loading methods
          ***/
+        void loadAll( std::string libraryFolder );
+
+
+        /***
+         * 3. Getters
+         ***/
+        TilesetPtr getTileset( std::string name ) const ;
+
+        AnimationDataPtr getAnimationData( std::string name ) const ;
+        AnimationDataVector getAnimationDataByPrefix ( std::string prefix ) const ;
+
+
+        /*
         void loadTilesets( TilesetsVector& tilesets, std::string libraryFolder );
         void loadTilesets( TilesetsVector& tilesets, std::string libraryFolder, std::string prefix );
         void loadTileset( TilesetPtr& tileset, std::string libraryFolder, std::string name );
@@ -53,11 +69,12 @@ class GraphicsLoader
         void loadAnimationsData( AnimationDataVector& animationData, std::string libraryFolder );
         void loadAnimationsData( AnimationDataVector& animationData, std::string libraryFolder, std::string prefix );
         void loadAnimationData( AnimationDataPtr& animationData, std::string libraryFolder, std::string name );
-
+        */
 
         /***
-         * 3. Auxiliar methods
+         * 4. Auxiliar methods
          ***/
+        void clear();
     private:
         void getLibraryPaths( std::string libraryFolder, std::string& imagesFolder, std::string& libraryFile );
         tinyxml2::XMLNode* getTilesetsRootNode( std::string libraryFile );
@@ -66,4 +83,4 @@ class GraphicsLoader
 
 } // namespace m2g
 
-#endif // LIBRARY_HPP
+#endif // GRAPHICS_LIBRARY_HPP

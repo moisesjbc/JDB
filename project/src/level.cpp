@@ -83,30 +83,35 @@ void Level::runSurvivalLevel( unsigned int index )
 void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int timeLapse )
 {
     unsigned int i;
+
+    // Jacob's life
+    int jacobHp = 100;
+
+    // Variables used for sandwich reseting.
     unsigned int firstSandwich;
     unsigned int lastSandwich;
+
+    // Conveyor belt's speed management.
     std::mutex speedMutex;
     float speed = initialSpeed;
-    unsigned int nDraws = 0;
-    int jacobHp = 100;
-    char character[2] = { ' ', '\0' };
+
+    // Time management.
+    Uint32 t0;
+    Uint32 t1;
     int seconds, minutes;
-    char buffer[16];
+
+    // Event handling.
     SDL_Event event;
     bool quit = false;
     bool userResponded = false;
-    Uint32 t0;
-    Uint32 t1;
-    m2g::TextRenderer textRenderer;
-    m2g::TilesetPtr conveyorBeltTileset;
-    m2g::TilesetPtr guiHealthTileset;
-    m2g::TilesetPtr timerTileset;
-    m2g::TilesetPtr grinderFrontTileset;
-    m2g::TilesetPtr grinderBackTileset;
 
+    // Text rendering.
+    m2g::TextRenderer textRenderer;
+    char buffer[16];
     const SDL_Color HEALTH_FONT_COLOR = { 131, 60, 60, 255 };
     const SDL_Color TIMER_FONT_COLOR = { 8, 31, 126, 255 };
 
+    // GUI and background's sprites.
     m2g::Sprite* guiHealth;
     m2g::Sprite* guiTime;
     m2g::Sprite* grinderFront;
@@ -120,7 +125,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50, TIMER_FONT_COLOR ) << std::endl;
         coutMutex.unlock();
 
-        // Create the graphic Library and the sprite pointers.
+        // Create the sprite pointers.
         Sandwich* sandwiches[N_SANDWICHES];
         Tool* tool = nullptr;
         m2g::Sprite* conveyorBelt = nullptr;
@@ -128,41 +133,44 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         // Make the cursor invisible.
         SDL_ShowCursor( SDL_DISABLE );
 
-        // Load the rest of the sprites and animations.
-        std::vector< std::shared_ptr< m2g::AnimationData > > toolsData;
-        graphicsLoader.loadAnimationsData( toolsData, "data/img/tools" );
-        tool = new Tool( toolsData[0] );
-        graphicsLoader.loadTileset( conveyorBeltTileset, "data/img/background", "conveyor_belt.png" );
-        conveyorBelt = new m2g::Sprite( conveyorBeltTileset );
-        graphicsLoader.loadTileset( guiHealthTileset, "data/img/gui", "health.png" );
-        guiHealth = new m2g::Sprite( guiHealthTileset );
-        graphicsLoader.loadTileset( timerTileset, "data/img/gui", "time.png" );
-        guiTime = new m2g::Sprite( timerTileset );
+        // Load all the needed tilesets and animations (the graphics for
+        // dangers and sandwiches are loaded in the methods "loadDangers" and
+        // "loadSandwiches".
+        graphicsLibrary_.loadAll( "data/img/tools" );
+        graphicsLibrary_.loadAll( "data/img/background" );
+        graphicsLibrary_.loadAll( "data/img/gui" );
 
-        graphicsLoader.loadTileset( grinderFrontTileset, "data/img/background", "grinder_front.png" );
-        graphicsLoader.loadTileset( grinderBackTileset, "data/img/background", "grinder_back.png" );
-        grinderFront = new m2g::Sprite( grinderFrontTileset );
-        grinderBack = new m2g::Sprite( grinderBackTileset );
+        // Load the player's tool.
+        tool = new Tool( graphicsLibrary_.getAnimationData( "tools.png" ) );
 
+        // Load the GUI and background's sprites
+        conveyorBelt = new m2g::Sprite( graphicsLibrary_.getTileset( "conveyor_belt.png" ) );
+        guiHealth = new m2g::Sprite( graphicsLibrary_.getTileset( "health.png" ) );
+        guiTime = new m2g::Sprite( graphicsLibrary_.getTileset( "time.png" ) );
+        grinderFront = new m2g::Sprite( graphicsLibrary_.getTileset( "grinder_front.png" ) );
+        grinderBack = new m2g::Sprite( graphicsLibrary_.getTileset( "grinder_back.png" )  );
+
+        // Move the GUI and background sprites to their final positions.
+        guiTime->moveTo( 367, 0 );
         grinderFront->moveTo( 0, -256 );
         grinderBack->moveTo( 0, -256 );
+        conveyorBelt->moveTo( 0, 256 );
 
-        guiTime->moveTo( 367, 0 );
-        //graphicsLoader.loadAnimationData( animationData, "data/img/sandwiches", "sandwich_01.png" );
-
-        // Set the conveyor belt's sprite at its final position.
-        conveyorBelt->translate( 0, 256 );
-
-        // Wait for the player to press any key to start.
+        // Wait for the player to press any key to start the game.
         while( !quit ){
+            // Clear the screen and show the user a message asking for a key
+            // stroke.
             glClear ( GL_COLOR_BUFFER_BIT );
             textRenderer.drawText( projectionMatrix, "PRESS ANY KEY TO START", 0, 0, 0 );
             SDL_GL_SwapWindow( window );
+
+            // Wait the user to press a key.
             SDL_WaitEvent( &event );
             quit = ( event.type == SDL_KEYDOWN );
         }
 
-        // Keep rendering until player tell us to stop.
+        // Restarting loop. Keep restarting this level until the player tell us
+        // to stop.
         quit = false;
         while( !quit ){
             // Initialize the variables used for time management.
@@ -174,7 +182,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             firstSandwich = 0;
             lastSandwich = N_SANDWICHES - 1;
 
-            // Start the timer and set its callback function.
+            // Start the timer and make it increase the speed every timeLapse
+            // seconds.
             timer.init( timeLapse, [&](){
                 speedMutex.lock();
                 speed += speedStep;
@@ -185,7 +194,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 coutMutex.unlock();
             });
 
-            // Load the sandwiches' sprites and move them to their positions.
+            // Load the sandwiches, move them to their final positions and
+            // populate them with dangers.
             for( i=0; i < N_SANDWICHES; i++ ){
                 sandwiches[i] = new Sandwich( sandwichData[0], &dangerData );
 
@@ -197,18 +207,25 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             // Main loop: run the game until player ask us for stop or jacob's
             // life reach 0.
             while( !quit && ( jacobHp > 0 ) ){
+                // Clear screen.
                 glClear ( GL_COLOR_BUFFER_BIT );
+
+                // Handle user input.
                 t0 = SDL_GetTicks();
                 while( (t1 - t0) < REFRESH_TIME ){
                     if( SDL_PollEvent( &event ) != 0 ){
                         switch( event.type ){
                             case SDL_QUIT:
+                                // Player wants to exit the game.
                                 quit = true;
                             break;
                             case SDL_MOUSEBUTTONDOWN:
+                                // Player clicked on screen.
                                 tool->handleMouseButtonDown( sandwiches, N_SANDWICHES );
                             break;
                             case SDL_KEYDOWN:
+                                // Player pressed a key. If the key pressed is
+                                // ESCAPE we exit the game.
                                 switch( event.key.keysym.sym ){
                                     case SDLK_ESCAPE:
                                         quit = true;
@@ -216,6 +233,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                                 }
                             break;
                             case SDL_MOUSEMOTION:
+                                // Player wants to move the mouse / tool.
                                 tool->moveTo( event.motion.x, event.motion.y );
                             break;
                         }
@@ -226,17 +244,17 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 t1 = SDL_GetTicks();
 
 
-                // Check if the first sandwich reached the sandwiches end point and, in that case,
-                // translate it and is dangers behind the last sandwich.
+                // Game logic: Check if the first sandwich reached the
+                // sandwiches' end point and, in that case, restart it.
                 if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
 
                     // Hurt Jacob! (muahahaha!)
                     jacobHp -= sandwiches[firstSandwich]->getDamage();
 
-                    // Populate a new sandwich.
+                    // Repopulate the sandwich.
                     sandwiches[firstSandwich]->populate( dangerData );
 
-                    // Sandwich translation.
+                    // Translate the sandwich behind the last one.
                     sandwiches[firstSandwich]->translate(
                                 sandwiches[lastSandwich]->getX()
                                 - sandwiches[firstSandwich]->getX()
@@ -247,7 +265,6 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                     firstSandwich = (firstSandwich + 1) % N_SANDWICHES;
                     lastSandwich = (lastSandwich + 1) % N_SANDWICHES;
                 }
-
 
                 // Clear screen.
                 glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -277,10 +294,6 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 // Draw the tool.
                 tool->draw( projectionMatrix );
 
-                // Draw text.
-                //textRenderer.drawText( projectionMatrix, "MOISES", 0, 0, 0 );
-                //textRenderer.drawText( projectionMatrix, character, 0, 700, 0 );
-
                 // Draw Jacob's life visor.
                 guiHealth->draw( projectionMatrix );
 
@@ -298,12 +311,6 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
                 // Refresh screen.
                 SDL_GL_SwapWindow( window );
-
-                nDraws++;
-                if( nDraws >= FPS ){
-                    nDraws = 0;
-                    character[0]++;
-                }
             }
 
             // Stop the timer.
@@ -338,7 +345,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
         // Free resources
         delete tool;
-        //delete conveyorBelt;
+        delete conveyorBelt;
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];
         }
@@ -364,13 +371,13 @@ void Level::loadSandwichData()
 
     // Load the sandwiches data.
     //graphicsLoader.loadTilesets( sandwichesData, "data/img/sandwiches" );
-
+    graphicsLibrary_.loadAll( "data/img/sandwiches" );
 
     // Load the dangers data.
     document.LoadFile( "./data/config/sandwiches.xml" );
     sandwichXMLElement = ( document.RootElement() )->FirstChildElement( "sandwich" );
     while( sandwichXMLElement ){
-        sandwichData.emplace_back( new SandwichData( sandwichXMLElement ) );
+        sandwichData.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary_ ) );
 
         sandwichXMLElement = sandwichXMLElement->NextSiblingElement();
     }
@@ -382,11 +389,13 @@ void Level::loadDangerData()
     tinyxml2::XMLDocument document;
     tinyxml2::XMLElement* dangerXMLElement = nullptr;
 
+    graphicsLibrary_.loadAll( "data/img/dangers" );
+
     // Load the dangers data.
     document.LoadFile( "./data/config/dangers.xml" );
     dangerXMLElement = ( document.RootElement() )->FirstChildElement( "danger" );
     while( dangerXMLElement ){
-        dangerData.emplace_back( new DangerData( dangerXMLElement ) );
+        dangerData.emplace_back( new DangerData( dangerXMLElement, graphicsLibrary_ ) );
 
         dangerXMLElement = dangerXMLElement->NextSiblingElement();
     }

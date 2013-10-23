@@ -34,7 +34,7 @@ class Tool : public m2g::Animation
         /***
          * 1. Initialization
          ***/
-        Tool( const std::shared_ptr< m2g::AnimationData >& animationData );
+        Tool( m2g::AnimationDataPtr animationData );
 
 
         /***

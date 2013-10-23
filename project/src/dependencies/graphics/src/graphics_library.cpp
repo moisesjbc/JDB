@@ -17,7 +17,7 @@
  * along with M2G.  If not, see <http://www.gnu.org/licenses/>.
 ***/
 
-#include "graphics_loader.hpp"
+#include "graphics_library.hpp"
 
 namespace m2g {
 
@@ -25,7 +25,7 @@ namespace m2g {
  * 1. Initialization and destruction.
  ***/
 
-GraphicsLoader::GraphicsLoader()
+GraphicsLibrary::GraphicsLibrary()
 {}
 
 
@@ -33,7 +33,107 @@ GraphicsLoader::GraphicsLoader()
  * 2. Loading methods
  ***/
 
-void GraphicsLoader::loadTilesets( TilesetsVector& tilesets, std::string libraryFolder )
+void GraphicsLibrary::loadAll( std::string libraryFolder )
+{
+    tinyxml2::XMLNode* xmlNode = nullptr;
+    std::string imagesFolder;
+    std::string libraryFile;
+
+    std::cout << "Loading [" << libraryFolder.c_str() << "] (1)" << std::endl;
+
+    // Use the library folder path to get the paths to the images folder and metadata file.
+    getLibraryPaths( libraryFolder, imagesFolder, libraryFile );
+
+    std::cout << "Loading [" << libraryFolder.c_str() << "] (2)" << std::endl;
+    // Load the "tilesets" XML node.
+    xmlNode = getTilesetsRootNode( libraryFile );
+
+    if( xmlNode ){
+        // Get the first XML tileset node.
+        xmlNode = xmlNode->FirstChildElement();
+
+        // Keep reading XML tileset nodes.
+        while( xmlNode ){
+            // Load the tileset from the current XML element.
+            tilesets_.push_back( std::shared_ptr< Tileset >( new Tileset( xmlNode, imagesFolder.c_str() ) ) );
+
+            // Load next XML element.
+            xmlNode = xmlNode->NextSiblingElement();
+        }
+    }
+
+    std::cout << "Loading [" << libraryFolder.c_str() << "] (3)" << std::endl;
+    // Load the "animations" XML node.
+    xmlNode = getAnimationDataRootNode( libraryFile );
+
+    if( xmlNode ){
+        // Get the first XML animationData node.
+        xmlNode = xmlNode->FirstChildElement();
+
+        // Keep reading XML tileset nodes.
+        while( xmlNode ){
+            // Load the tileset from the current XML element.
+            animationData_.push_back( std::shared_ptr< AnimationData >( new AnimationData( xmlNode, imagesFolder.c_str() ) ) );
+
+            // Load next XML element.
+            xmlNode = xmlNode->NextSiblingElement();
+        }
+    }
+    std::cout << "Loading [" << libraryFolder.c_str() << "] (4)" << std::endl;
+}
+
+
+/***
+ * 3. Getters
+ ***/
+
+TilesetPtr GraphicsLibrary::getTileset( std::string name ) const
+{
+    unsigned int i = 0;
+    TilesetPtr nullPtr;
+
+    for( ; i<tilesets_.size(); i++ ){
+        if( tilesets_[i]->name == name ){
+            return tilesets_[i];
+        }
+    }
+
+    return nullPtr;
+}
+
+
+AnimationDataPtr GraphicsLibrary::getAnimationData( std::string name ) const
+{
+    unsigned int i = 0;
+    AnimationDataPtr nullPtr;
+
+    for( ; i<animationData_.size(); i++ ){
+        if( animationData_[i]->tileset->name == name ){
+            return animationData_[i];
+        }
+    }
+
+    return nullPtr;
+}
+
+
+AnimationDataVector GraphicsLibrary::getAnimationDataByPrefix ( std::string prefix ) const
+{
+    unsigned int i = 0;
+    AnimationDataVector animationData;
+
+    for( ; i<animationData_.size(); i++ ){
+        if( animationData_[i]->tileset->name.compare( 0, prefix.size(), prefix ) == 0  ){
+            animationData.push_back( animationData_[i] );
+        }
+    }
+
+    return animationData;
+}
+
+
+/*
+void GraphicsLibrary::loadTilesets( TilesetsVector& tilesets, std::string libraryFolder )
 {
     tinyxml2::XMLNode* tilesetNode = nullptr;
     std::string imagesFolder;
@@ -61,7 +161,7 @@ void GraphicsLoader::loadTilesets( TilesetsVector& tilesets, std::string library
 }
 
 
-void GraphicsLoader::loadTilesets( TilesetsVector& tilesets, std::string libraryFolder, std::string prefix )
+void GraphicsLibrary::loadTilesets( TilesetsVector& tilesets, std::string libraryFolder, std::string prefix )
 {
     tinyxml2::XMLNode* tilesetNode = nullptr;
     std::string imagesFolder;
@@ -95,7 +195,7 @@ void GraphicsLoader::loadTilesets( TilesetsVector& tilesets, std::string library
 }
 
 
-void GraphicsLoader::loadTileset( TilesetPtr& tileset, std::string libraryFolder, std::string name )
+void GraphicsLibrary::loadTileset( TilesetPtr& tileset, std::string libraryFolder, std::string name )
 {
     tinyxml2::XMLNode* tilesetNode = nullptr;
     std::string imagesFolder;
@@ -129,7 +229,7 @@ void GraphicsLoader::loadTileset( TilesetPtr& tileset, std::string libraryFolder
 }
 
 
-void GraphicsLoader::loadAnimationsData( AnimationDataVector& animationsData, std::string libraryFolder )
+void GraphicsLibrary::loadAnimationsData( AnimationDataVector& animationsData, std::string libraryFolder )
 {
     tinyxml2::XMLNode* animationDataNode = nullptr;
     std::string imagesFolder;
@@ -157,7 +257,7 @@ void GraphicsLoader::loadAnimationsData( AnimationDataVector& animationsData, st
 }
 
 
-void GraphicsLoader::loadAnimationsData( AnimationDataVector& animationsData, std::string libraryFolder, std::string prefix )
+void GraphicsLibrary::loadAnimationsData( AnimationDataVector& animationsData, std::string libraryFolder, std::string prefix )
 {
     tinyxml2::XMLNode* animationDataNode = nullptr;
     std::string imagesFolder;
@@ -190,7 +290,7 @@ void GraphicsLoader::loadAnimationsData( AnimationDataVector& animationsData, st
     }
 }
 
-void GraphicsLoader::loadAnimationData( AnimationDataPtr& animationData, std::string libraryFolder, std::string name )
+void GraphicsLibrary::loadAnimationData( AnimationDataPtr& animationData, std::string libraryFolder, std::string name )
 {
     tinyxml2::XMLNode* animationDataNode = nullptr;
     std::string imagesFolder;
@@ -222,12 +322,21 @@ void GraphicsLoader::loadAnimationData( AnimationDataPtr& animationData, std::st
         }
     }
 }
+*/
+
 
 /***
- * 3. Auxiliar methods
+ * 4. Auxiliar methods
  ***/
 
-void GraphicsLoader::getLibraryPaths( std::string libraryFolder, std::string& imagesFolder, std::string& libraryFile )
+void GraphicsLibrary::clear()
+{
+    tilesets_.clear();
+    animationData_.clear();
+}
+
+
+void GraphicsLibrary::getLibraryPaths( std::string libraryFolder, std::string& imagesFolder, std::string& libraryFile )
 {
     // The library folder's path can contain a '/' or not at the end, so
     // the path is "normarlized" here by removing that last '/', if it exists.
@@ -244,23 +353,23 @@ void GraphicsLoader::getLibraryPaths( std::string libraryFolder, std::string& im
 }
 
 
-tinyxml2::XMLNode* GraphicsLoader::getTilesetsRootNode( std::string libraryFile )
+tinyxml2::XMLNode* GraphicsLibrary::getTilesetsRootNode( std::string libraryFile )
 {
     // Open the requested file.
-    xmlFile.LoadFile( libraryFile.c_str() );
+    xmlFile_.LoadFile( libraryFile.c_str() );
 
     // Return the tilesets root node.
-    return ( xmlFile.FirstChildElement( "library" ) )->FirstChildElement( "tilesets" );
+    return ( xmlFile_.FirstChildElement( "library" ) )->FirstChildElement( "tilesets" );
 }
 
 
-tinyxml2::XMLNode* GraphicsLoader::getAnimationDataRootNode( std::string libraryFile )
+tinyxml2::XMLNode* GraphicsLibrary::getAnimationDataRootNode( std::string libraryFile )
 {
     // Open the requested file.
-    xmlFile.LoadFile( libraryFile.c_str() );
+    xmlFile_.LoadFile( libraryFile.c_str() );
 
     // Return the animationsData root node.
-    return ( xmlFile.FirstChildElement( "library" ) )->FirstChildElement( "animations" );
+    return ( xmlFile_.FirstChildElement( "library" ) )->FirstChildElement( "animations" );
 }
 
 } // namespace m2g

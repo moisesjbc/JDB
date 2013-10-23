@@ -14,7 +14,6 @@ SOURCES += src/main.cpp \
     src/dependencies/graphics/src/utilities/tilesets_buffer.cpp \
     src/dependencies/graphics/src/drawables/animation_data.cpp \
     src/dependencies/graphics/src/drawables/animation.cpp \
-    src/dependencies/graphics/src/graphics_loader.cpp \
     src/level.cpp \
     src/utilities/timer.cpp \
     src/dangers/danger_data.cpp \
@@ -26,7 +25,8 @@ SOURCES += src/main.cpp \
     src/sandwiches/sandwich.cpp \
     src/utilities/base_line.cpp \
     src/dependencies/graphics/src/text/text_renderer.cpp \
-    src/dependencies/graphics/src/text/bitmap_font.cpp
+    src/dependencies/graphics/src/text/bitmap_font.cpp \
+    src/dependencies/graphics/src/graphics_library.cpp
 
 HEADERS += \
     src/jdb.hpp \
@@ -41,7 +41,6 @@ HEADERS += \
     src/dependencies/graphics/src/utilities/tilesets_buffer.hpp \
     src/dependencies/graphics/src/drawables/animation_data.hpp \
     src/dependencies/graphics/src/drawables/animation.hpp \
-    src/dependencies/graphics/src/graphics_loader.hpp \
     src/level.hpp \
     src/utilities/timer.hpp \
     src/dangers/player_action.hpp \
@@ -54,7 +53,8 @@ HEADERS += \
     src/sandwiches/sandwich.hpp \
     src/utilities/base_line.hpp \
     src/dependencies/graphics/src/text/text_renderer.hpp \
-    src/dependencies/graphics/src/text/bitmap_font.hpp
+    src/dependencies/graphics/src/text/bitmap_font.hpp \
+    src/dependencies/graphics/src/graphics_library.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl
 

@@ -21,7 +21,7 @@
 #define LEVEL_HPP
 
 #include <stdexcept>
-#include "dependencies/graphics/src/graphics_loader.hpp"
+#include "dependencies/graphics/src/graphics_library.hpp"
 #include <glm/gtx/matrix_operation.hpp>
 #include <SDL2/SDL_video.h>
 #include <thread>
@@ -52,7 +52,8 @@ class Level
         tinyxml2::XMLDocument xmlFile;
 
         LevelType levelType;
-        m2g::GraphicsLoader graphicsLoader;
+
+        m2g::GraphicsLibrary graphicsLibrary_;
 
         std::vector< DangerDataPtr > dangerData;
         std::vector< SandwichDataPtr > sandwichData;

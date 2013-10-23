@@ -22,7 +22,7 @@
 
 #include "danger_state.hpp"
 #include "../dependencies/graphics/src/drawables/animation_data.hpp"
-#include "../dependencies/graphics/src/graphics_loader.hpp"
+#include "../dependencies/graphics/src/graphics_library.hpp"
 #include <vector>
 #include <iostream>
 #include "../utilities/base_line.hpp"
@@ -51,7 +51,7 @@ struct DangerData
     /***
      * 1. Initialization
      ***/
-    DangerData( tinyxml2::XMLElement* xmlElement  );
+    DangerData( tinyxml2::XMLElement* xmlElement, const m2g::GraphicsLibrary& dangerGraphics );
 };
 
 

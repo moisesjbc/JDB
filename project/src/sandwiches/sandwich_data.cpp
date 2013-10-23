@@ -26,9 +26,9 @@ namespace jdb {
  * 1. Initialization
  ***/
 
-SandwichData::SandwichData( tinyxml2::XMLElement* xmlElement )
+SandwichData::SandwichData( tinyxml2::XMLElement* xmlElement, const m2g::GraphicsLibrary& graphicsLibrary )
 {
-    loadFromXML( xmlElement );
+    loadFromXML( xmlElement, graphicsLibrary );
 }
 
 
@@ -36,13 +36,9 @@ SandwichData::SandwichData( tinyxml2::XMLElement* xmlElement )
  * 2. Loading
  ***/
 
-void SandwichData::loadFromXML( tinyxml2::XMLElement* xmlElement )
+void SandwichData::loadFromXML( tinyxml2::XMLElement* xmlElement, const m2g::GraphicsLibrary& graphicsLibrary )
 {
-    m2g::GraphicsLoader graphicsLoader;
-
-    std::cout << "Loading SandwichData from XML: " << std::endl;
-
-    graphicsLoader.loadAnimationData( animationData, "data/img/sandwiches", "sandwich_01.png" );
+    animationData = graphicsLibrary.getAnimationData( "sandwich_01.png" );
 
     baseLine.loadFromXML( xmlElement->FirstChildElement( "base_line" ) );
     std::cout << "SandwichData - base line: (x: " << baseLine.x << ", y: " << baseLine.y << ", width: " << baseLine.width << ")" << std::endl;

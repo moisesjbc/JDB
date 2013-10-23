@@ -23,7 +23,7 @@
 #include <memory>
 #include <vector>
 #include "../dependencies/graphics/src/drawables/animation_data.hpp"
-#include "../dependencies/graphics/src/graphics_loader.hpp"
+#include "../dependencies/graphics/src/graphics_library.hpp"
 #include <iostream>
 #include "../utilities/base_line.hpp"
 
@@ -41,13 +41,13 @@ struct SandwichData
     /***
      * 1. Initialization
      ***/
-    SandwichData( tinyxml2::XMLElement* xmlElement );
+    SandwichData( tinyxml2::XMLElement* xmlElement, const m2g::GraphicsLibrary& graphicsLibrary );
 
 
     /***
      * 2. Loading
      ***/
-    void loadFromXML( tinyxml2::XMLElement* xmlElement );
+    void loadFromXML( tinyxml2::XMLElement* xmlElement, const m2g::GraphicsLibrary& graphicsLibrary );
 };
 
 typedef std::shared_ptr< const SandwichData > SandwichDataPtr;

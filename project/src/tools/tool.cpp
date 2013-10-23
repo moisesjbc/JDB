@@ -25,7 +25,7 @@ namespace jdb {
  * 1. Initialization
  ***/
 
-Tool::Tool( const std::shared_ptr< m2g::AnimationData >& animationData ) :
+Tool::Tool( m2g::AnimationDataPtr animationData ) :
     Animation( animationData )
 {
 }
