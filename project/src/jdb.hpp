@@ -20,9 +20,9 @@
 #ifndef JDB_HPP
 #define JDB_HPP
 
-#include "dependencies/dependencies.hpp"
-#include "dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp"
+//#include "dependencies/dependencies.hpp"
 #include "dependencies/m2g/src/graphics_library.hpp"
+#include "dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp"
 #include "level.hpp"
 #include "dangers/player_action.hpp"
 #include <SDL2/SDL_ttf.h>

@@ -58,7 +58,8 @@ HEADERS += \
     src/dependencies/m2g/src/dependencies/GL3W/gl3w.h \
     src/dependencies/m2g/src/dependencies/GL3W/gl3.h \
     src/dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.h \
-    src/dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp
+    src/dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp \
+    src/dependencies/m2g/src/dependencies/dependencies.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl
 
