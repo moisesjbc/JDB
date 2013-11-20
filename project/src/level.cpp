@@ -18,7 +18,7 @@
  ***/
 
 #include "level.hpp"
-#include "dependencies/graphics/src/dependencies/tinyxml2/tinyxml2.h"
+#include "dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.h"
 
 namespace jdb {
 
@@ -279,6 +279,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 // Draw the sandwiches
                 for( i=0; i < N_SANDWICHES; i++ ){
                     sandwiches[i]->draw( projectionMatrix );
+                    sandwiches[i]->update();
                 }
 
                 // Move the sandwiches
@@ -293,6 +294,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
                 // Draw the tool.
                 tool->draw( projectionMatrix );
+                tool->update();
 
                 // Draw Jacob's life visor.
                 guiHealth->draw( projectionMatrix );

@@ -22,7 +22,7 @@
 
 #include "player_action.hpp"
 #include "danger_data.hpp"
-#include "../dependencies/graphics/src/drawables/animation.hpp"
+#include "../dependencies/m2g/src/drawables/animation.hpp"
 
 namespace jdb {
 
@@ -45,6 +45,7 @@ class Danger : public m2g::Animation
          * 2. Getters
          ***/
         float getDamage() const ;
+        DangerDataPtr getDangerData() const ;
 
 
         /***

@@ -36,6 +36,7 @@ DangerData::DangerData( tinyxml2::XMLElement* xmlElement, const m2g::GraphicsLib
 
     // Get the danger's animation data.
     animationData = dangerGraphics.getAnimationDataByPrefix( dangerName );
+    //animationData.push_back( dangerGraphics.getAnimationData( dangerName + "_01.png" ) );
 
     // Get the danger's general info.
     initialState = atoi( xmlElement->FirstChildElement( "initial_state")->GetText() );

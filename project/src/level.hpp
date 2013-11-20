@@ -21,7 +21,7 @@
 #define LEVEL_HPP
 
 #include <stdexcept>
-#include "dependencies/graphics/src/graphics_library.hpp"
+#include "dependencies/m2g/src/graphics_library.hpp"
 #include <glm/gtx/matrix_operation.hpp>
 #include <SDL2/SDL_video.h>
 #include <thread>
@@ -31,7 +31,7 @@
 #include "dangers/danger.hpp"
 #include "tools/tool.hpp"
 #include "sandwiches/sandwich.hpp"
-#include "dependencies/graphics/src/text/text_renderer.hpp"
+#include "dependencies/m2g/src/text/text_renderer.hpp"
 
 #include <freetype2/freetype/config/ftheader.h>
 #include <FTGL/ftgl.h>

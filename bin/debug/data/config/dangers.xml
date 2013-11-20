@@ -1,14 +1,33 @@
 <?xml version="1.0"?>
 
 <dangers>
+	
+	<!-- Fire -->
+	<danger name="fire">
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.0</damage_factor>
+		<base_line x="16" y="76" width="213" />
+		
+		<danger_states>
+			<!-- State 0: Intact fire -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="-100:1:-1" />
+			</danger_state>
+			
+			<!-- State 1: Fire disappearing -->
+			<danger_state>
+				<animation_state>1</animation_state>
+			</danger_state>
+		</danger_states> 
+	</danger>
+
 	<!-- Knife -->
 	<danger name="knife">
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.1</damage_factor>
-		<!-- <space_segment x1="9" w="46" />
-		<contact_rect x="9" y="103" w="31" h="10" /> -->
-		<!-- <base_line x="9" y="103" width="31" /> -->
 		<base_line x="9" y="103" width="40" />
 		
 		<danger_states>
@@ -24,4 +43,5 @@
 			</danger_state>
 		</danger_states>
 	</danger>
+	
 </dangers>

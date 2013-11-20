@@ -21,8 +21,8 @@
 #define DANGER_DATA_HPP
 
 #include "danger_state.hpp"
-#include "../dependencies/graphics/src/drawables/animation_data.hpp"
-#include "../dependencies/graphics/src/graphics_library.hpp"
+#include "../dependencies/m2g/src/drawables/animation_data.hpp"
+#include "../dependencies/m2g/src/graphics_library.hpp"
 #include <vector>
 #include <iostream>
 #include "../utilities/base_line.hpp"
@@ -32,7 +32,7 @@ namespace jdb {
 struct DangerData
 {
     // Vector of animation data.
-    std::vector< std::shared_ptr< m2g::AnimationData > > animationData;
+    m2g::AnimationDataVector animationData;
 
     // Initial state and hp of the danger.
     int initialState;

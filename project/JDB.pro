@@ -5,15 +5,6 @@ CONFIG -= qt
 
 SOURCES += src/main.cpp \
     src/jdb.cpp \
-    src/dependencies/msl/src/shader_loader.cpp \
-    src/dependencies/graphics/src/dependencies/tinyxml2/tinyxml2.cpp \
-    src/dependencies/graphics/src/drawables/tileset.cpp \
-    src/dependencies/graphics/src/drawables/sprite.cpp \
-    src/dependencies/graphics/src/drawables/drawable.cpp \
-    src/dependencies/GL3W/gl3w.c \
-    src/dependencies/graphics/src/utilities/tilesets_buffer.cpp \
-    src/dependencies/graphics/src/drawables/animation_data.cpp \
-    src/dependencies/graphics/src/drawables/animation.cpp \
     src/level.cpp \
     src/utilities/timer.cpp \
     src/dangers/danger_data.cpp \
@@ -24,23 +15,23 @@ SOURCES += src/main.cpp \
     src/sandwiches/sandwich_data.cpp \
     src/sandwiches/sandwich.cpp \
     src/utilities/base_line.cpp \
-    src/dependencies/graphics/src/text/text_renderer.cpp \
-    src/dependencies/graphics/src/text/bitmap_font.cpp \
-    src/dependencies/graphics/src/graphics_library.cpp
+    src/dependencies/m2g/src/graphics_library.cpp \
+    src/dependencies/m2g/src/utilities/tilesets_buffer.cpp \
+    src/dependencies/m2g/src/text/text_renderer.cpp \
+    src/dependencies/m2g/src/text/bitmap_font.cpp \
+    src/dependencies/m2g/src/drawables/tileset.cpp \
+    src/dependencies/m2g/src/drawables/sprite.cpp \
+    src/dependencies/m2g/src/drawables/drawable.cpp \
+    src/dependencies/m2g/src/drawables/animation.cpp \
+    src/dependencies/m2g/src/drawables/animation_data.cpp \
+    src/dependencies/m2g/src/drawables/particles_systems/particlesystem.cpp \
+    src/dependencies/m2g/src/drawables/particles_systems/particles_generation.cpp \
+    src/dependencies/m2g/src/dependencies/GL3W/gl3w.c \
+    src/dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.cpp \
+    src/dependencies/m2g/src/dependencies/msl/src/shader_loader.cpp
 
 HEADERS += \
     src/jdb.hpp \
-    src/dependencies/dependencies.hpp \
-    src/dependencies/msl/src/shader_loader.hpp \
-    src/dependencies/graphics/src/dependencies/tinyxml2/tinyxml2.h \
-    src/dependencies/graphics/src/drawables/tileset.hpp \
-    src/dependencies/graphics/src/drawables/sprite.hpp \
-    src/dependencies/graphics/src/drawables/drawable.hpp \
-    src/dependencies/GL3W/gl3w.h \
-    src/dependencies/GL3W/gl3.h \
-    src/dependencies/graphics/src/utilities/tilesets_buffer.hpp \
-    src/dependencies/graphics/src/drawables/animation_data.hpp \
-    src/dependencies/graphics/src/drawables/animation.hpp \
     src/level.hpp \
     src/utilities/timer.hpp \
     src/dangers/player_action.hpp \
@@ -52,9 +43,22 @@ HEADERS += \
     src/sandwiches/sandwich_data.hpp \
     src/sandwiches/sandwich.hpp \
     src/utilities/base_line.hpp \
-    src/dependencies/graphics/src/text/text_renderer.hpp \
-    src/dependencies/graphics/src/text/bitmap_font.hpp \
-    src/dependencies/graphics/src/graphics_library.hpp
+    src/dependencies/m2g/src/graphics_library.hpp \
+    src/dependencies/m2g/src/utilities/tilesets_buffer.hpp \
+    src/dependencies/m2g/src/text/text_renderer.hpp \
+    src/dependencies/m2g/src/text/bitmap_font.hpp \
+    src/dependencies/m2g/src/drawables/tileset.hpp \
+    src/dependencies/m2g/src/drawables/sprite.hpp \
+    src/dependencies/m2g/src/drawables/drawable.hpp \
+    src/dependencies/m2g/src/drawables/animation.hpp \
+    src/dependencies/m2g/src/drawables/animation_data.hpp \
+    src/dependencies/m2g/src/drawables/particles_systems/particlesystem.hpp \
+    src/dependencies/m2g/src/drawables/particles_systems/particles_generation.hpp \
+    src/dependencies/m2g/src/drawables/particles_systems/particle.hpp \
+    src/dependencies/m2g/src/dependencies/GL3W/gl3w.h \
+    src/dependencies/m2g/src/dependencies/GL3W/gl3.h \
+    src/dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.h \
+    src/dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl
 

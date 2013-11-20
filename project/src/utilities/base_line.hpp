@@ -20,7 +20,7 @@
 #ifndef BASE_LINE_HPP
 #define BASE_LINE_HPP
 
-#include "../dependencies/graphics/src/dependencies/tinyxml2/tinyxml2.h"
+#include "../dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.h"
 
 namespace jdb {
 

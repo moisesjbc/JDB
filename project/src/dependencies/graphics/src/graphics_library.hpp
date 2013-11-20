@@ -29,7 +29,7 @@
 namespace m2g {
 
 typedef std::vector< std::shared_ptr<Tileset> > TilesetsVector;
-typedef std::vector< std::shared_ptr<AnimationData> > AnimationDataVector;
+typedef std::vector< AnimationDataPtr > AnimationDataVector;
 
 class GraphicsLibrary
 {

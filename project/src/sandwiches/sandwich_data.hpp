@@ -22,8 +22,8 @@
 
 #include <memory>
 #include <vector>
-#include "../dependencies/graphics/src/drawables/animation_data.hpp"
-#include "../dependencies/graphics/src/graphics_library.hpp"
+#include "../dependencies/m2g/src/drawables/animation_data.hpp"
+#include "../dependencies/m2g/src/graphics_library.hpp"
 #include <iostream>
 #include "../utilities/base_line.hpp"
 

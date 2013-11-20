@@ -28,6 +28,7 @@ namespace jdb {
 Tool::Tool( m2g::AnimationDataPtr animationData ) :
     Animation( animationData )
 {
+    setAnimationState( 2 );
 }
 
 

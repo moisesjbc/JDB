@@ -38,6 +38,11 @@ float Danger::getDamage() const
 }
 
 
+DangerDataPtr Danger::getDangerData() const
+{
+    return dangerData;
+}
+
 /***
  * 3. Setters
  ***/
@@ -45,6 +50,8 @@ float Danger::getDamage() const
 void Danger::setDangerData( DangerDataPtr dangerData_ )
 {
     dangerData = dangerData_;
+
+    setAnimationData( dangerData->animationData[0] );
 
     reset();
 }

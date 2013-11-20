@@ -20,7 +20,7 @@
 #ifndef DANGERSTATE_HPP
 #define DANGERSTATE_HPP
 
-#include "../dependencies/graphics/src/dependencies/tinyxml2/tinyxml2.h"
+#include "../dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.h"
 #include "player_action_response.hpp"
 #include <vector>
 
