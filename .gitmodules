@@ -1,6 +1,3 @@
-[submodule "project/src/dependencies/msl"]
-	path = project/src/dependencies/msl
-	url = git@github.com:Neodivert/msl
 [submodule "project/src/dependencies/m2g"]
 	path = project/src/dependencies/m2g
 	url = git@github.com:Neodivert/m2g
