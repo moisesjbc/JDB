@@ -28,8 +28,19 @@
 
 namespace jdb {
 
+enum class ToolType
+{
+    HAND = 0,
+    EXTINGUISHER
+};
+
+
 class Tool : public m2g::Animation
 {
+    private:
+        ToolType currentToolType_;
+        bool active_;
+
     public:
         /***
          * 1. Initialization
@@ -38,9 +49,22 @@ class Tool : public m2g::Animation
 
 
         /***
-         * 2. Handlers
+         * 2. Getters
+         ***/
+
+
+        /***
+         * 3. Setters
+         ***/
+        void setToolType( ToolType toolType );
+
+
+        /***
+         * 4. Handlers
          ***/
         void handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiches );
+        void handleMouseButtonUp();
+        void handleMouseHover( Sandwich** sandwiches, unsigned int nSandwiches );
 };
 
 } // namespace jdb

@@ -223,12 +223,21 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                                 // Player clicked on screen.
                                 tool->handleMouseButtonDown( sandwiches, N_SANDWICHES );
                             break;
+                            case SDL_MOUSEBUTTONUP:
+                                tool->handleMouseButtonUp();
+                            break;
                             case SDL_KEYDOWN:
                                 // Player pressed a key. If the key pressed is
                                 // ESCAPE we exit the game.
                                 switch( event.key.keysym.sym ){
                                     case SDLK_ESCAPE:
                                         quit = true;
+                                    break;
+                                    case SDLK_a:
+                                        tool->setToolType( ToolType::HAND );
+                                    break;
+                                    case SDLK_s:
+                                        tool->setToolType( ToolType::EXTINGUISHER );
                                     break;
                                 }
                             break;
@@ -242,6 +251,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 }
                 t0 = SDL_GetTicks();
                 t1 = SDL_GetTicks();
+
+
+                tool->handleMouseHover( sandwiches, N_SANDWICHES );
 
 
                 // Game logic: Check if the first sandwich reached the

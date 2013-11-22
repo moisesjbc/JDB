@@ -17,8 +17,11 @@
 				</collision_rects>
 			</tileset>
 			<animation_states>
-				<!-- Hand -->
+				<!-- Hand (Off) -->
 				<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+				<!-- Hand (On) -->
+				<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+
 				<!-- Extinguisher (Off) -->
 				<animation_state firstFrame="9" lastFrame="9" backFrame="9" />
 				<!-- Extinguisher (On) -->

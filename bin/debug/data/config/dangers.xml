@@ -13,7 +13,7 @@
 			<!-- State 0: Intact fire -->
 			<danger_state>
 				<animation_state>0</animation_state>
-				<state_transition conditions="hand_click:0:100" responses="-100:1:-1" />
+				<state_transition conditions="extinguisher_on:0:100" responses="-100:1:-1" />
 			</danger_state>
 			
 			<!-- State 1: Fire disappearing -->

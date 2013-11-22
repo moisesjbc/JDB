@@ -72,6 +72,8 @@ PlayerAction PlayerActionResponse::getPlayerActionFromString( std::string str )
 {
     if( str == "hand_click" ){
         return PlayerAction::HAND_CLICK;
+    }else if( str == "extinguisher_on"){
+        return PlayerAction::EXTINGUISHER_ON;
     }else{
         throw std::runtime_error( "Uknown player action [" + str + "]" );
     }

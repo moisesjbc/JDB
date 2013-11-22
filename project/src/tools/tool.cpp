@@ -26,24 +26,64 @@ namespace jdb {
  ***/
 
 Tool::Tool( m2g::AnimationDataPtr animationData ) :
-    Animation( animationData )
+    Animation( animationData ),
+    currentToolType_( ToolType::HAND )
 {
     setAnimationState( 2 );
 }
 
 
 /***
- * 2. Handlers
+ * 3. Setters
  ***/
 
+void Tool::setToolType( ToolType toolType )
+{
+    currentToolType_ = toolType;
+
+    setAnimationState( 2 * static_cast< int >( currentToolType_  ) );
+}
+
+
+/***
+ * 4. Handlers
+ ***/
 
 void Tool::handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiches )
 {
     unsigned int i = 0;
 
-    while( ( i < nSandwiches ) &&
-           ( !sandwiches[i]->useTool( PlayerAction::HAND_CLICK, this ) ) ){
-        i++;
+    switch( currentToolType_ ){
+        case ToolType::HAND:
+            while( ( i < nSandwiches ) &&
+                   ( !sandwiches[i]->useTool( PlayerAction::HAND_CLICK, this ) ) ){
+                i++;
+            }
+        break;
+        case ToolType::EXTINGUISHER:
+            active_ = true;
+        break;
+    }
+    setAnimationState( getAnimationState() + 1 );
+}
+
+
+void Tool::handleMouseButtonUp()
+{
+    active_ = false;
+    setAnimationState( getAnimationState() - 1 );
+}
+
+
+void Tool::handleMouseHover( Sandwich** sandwiches, unsigned int nSandwiches )
+{
+    unsigned int i = 0;
+
+    if( ( currentToolType_ == ToolType::EXTINGUISHER )  && active_ ){
+        while( ( i < nSandwiches ) &&
+               ( !sandwiches[i]->useTool( PlayerAction::EXTINGUISHER_ON, this ) ) ){
+            i++;
+        }
     }
 }
 
