@@ -27,6 +27,8 @@
 
 namespace jdb {
 
+const int HP_ALL = 156474;
+
 struct PlayerActionResponse
 {
     // Conditions
@@ -38,6 +40,10 @@ struct PlayerActionResponse
     int hpVariation;
     int newState;
     int newDanger;
+
+    // When this is true, the HP variation is divided by the inverse of the
+    // FPS.
+    bool dangerPerSecond;
 
 
     /***

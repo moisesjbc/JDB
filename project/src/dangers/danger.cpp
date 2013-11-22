@@ -94,7 +94,16 @@ bool Danger::playerAction( PlayerAction playerAction )
 
     // If we found the right player action response, we apply it here.
     if( i < dangerData->states[state].playerActionResponses.size() ){
-        hp += playerActionResponse->hpVariation;
+
+        if( playerActionResponse->hpVariation == HP_ALL ){
+            hp = 0;
+        }else{
+            if( playerActionResponse->dangerPerSecond ){
+                hp += playerActionResponse->hpVariation * FPS_INVERSE;
+            }else{
+                hp += playerActionResponse->hpVariation;
+            }
+        }
 
         if( playerActionResponse->newState != -1 ){
             setState( playerActionResponse->newState );

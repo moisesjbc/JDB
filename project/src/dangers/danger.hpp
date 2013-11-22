@@ -26,6 +26,12 @@
 
 namespace jdb {
 
+// TODO: Move back to game's main loop and pass the FPS_INVERSE to the dangers
+// in other way.
+const unsigned int FPS = 25;
+const unsigned int REFRESH_TIME = 1000 / FPS;
+const float FPS_INVERSE = 1.0f / FPS;
+
 class Danger : public m2g::Animation
 {
     public:

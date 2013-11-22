@@ -52,7 +52,11 @@ PlayerActionResponse::PlayerActionResponse( tinyxml2::XMLElement* xmlElement )
 
     // Get the hp variation.
     std::getline( responsesStr, token, ':' );
-    hpVariation = atoi( token.c_str() );
+    if( token == "all" ){
+        hpVariation = HP_ALL;
+    }else{
+        hpVariation = atoi( token.c_str() );
+    }
 
     // Get the new state.
     std::getline( responsesStr, token, ':' );
@@ -61,6 +65,9 @@ PlayerActionResponse::PlayerActionResponse( tinyxml2::XMLElement* xmlElement )
     // Get the new danger.
     std::getline( responsesStr, token, ':' );
     newDanger = atoi( token.c_str() );
+
+    // Is the danger per second or per hit?
+    dangerPerSecond = ( xmlElement->IntAttribute( "dps" )  == 1 );
 }
 
 

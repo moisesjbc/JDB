@@ -6,14 +6,15 @@
 	<danger name="fire">
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
-		<damage_factor>0.0</damage_factor>
+		<damage_factor>0.3</damage_factor>
 		<base_line x="16" y="76" width="213" />
 		
 		<danger_states>
 			<!-- State 0: Intact fire -->
 			<danger_state>
 				<animation_state>0</animation_state>
-				<state_transition conditions="extinguisher_on:0:100" responses="-100:1:-1" />
+				<state_transition conditions="extinguisher_on:10:100" responses="-90:-1:-1" dps="1" />
+				<state_transition conditions="extinguisher_on:0:9" responses="all:1:-1" dps="0" />
 			</danger_state>
 			
 			<!-- State 1: Fire disappearing -->
@@ -34,7 +35,7 @@
 			<!-- State 0: Intact knife -->
 			<danger_state>
 				<animation_state>0</animation_state>
-				<state_transition conditions="hand_click:0:100" responses="-100:1:-1" />
+				<state_transition conditions="hand_click:100:100" responses="all:1:-1" dps="0" />
 			</danger_state>
 
 			<!-- State 1: Knife removed -->

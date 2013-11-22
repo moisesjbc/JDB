@@ -26,8 +26,6 @@ const unsigned int N_SANDWICHES = 5;
 const float SANDWICHES_END_POINT = 0.0f;
 const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
 const unsigned int N_DANGERS = N_SANDWICHES * 3;
-const unsigned int FPS = 25;
-const unsigned int REFRESH_TIME = 1000 / FPS;
 
 
 Level::Level( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight )

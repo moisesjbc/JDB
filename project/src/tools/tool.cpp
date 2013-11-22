@@ -26,10 +26,10 @@ namespace jdb {
  ***/
 
 Tool::Tool( m2g::AnimationDataPtr animationData ) :
-    Animation( animationData ),
-    currentToolType_( ToolType::HAND )
+    Animation( animationData )
 {
-    setAnimationState( 2 );
+    active_ = false;
+    setToolType( ToolType::HAND );
 }
 
 
@@ -41,7 +41,11 @@ void Tool::setToolType( ToolType toolType )
 {
     currentToolType_ = toolType;
 
-    setAnimationState( 2 * static_cast< int >( currentToolType_  ) );
+    if( !active_ ){
+        setAnimationState( 2 * static_cast< int >( currentToolType_  ) );
+    }else{
+        setAnimationState( 2 * static_cast< int >( currentToolType_  ) + 1 );
+    }
 }
 
 
@@ -60,10 +64,9 @@ void Tool::handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiche
                 i++;
             }
         break;
-        case ToolType::EXTINGUISHER:
-            active_ = true;
-        break;
     }
+
+    active_ = true;
     setAnimationState( getAnimationState() + 1 );
 }
 
