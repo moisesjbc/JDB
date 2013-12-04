@@ -240,6 +240,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                                     case SDLK_d:
                                         tool->setToolType( ToolType::LIGHTER );
                                     break;
+                                    case SDLK_f:
+                                        tool->setToolType( ToolType::GAVEL );
+                                    break;
                                 }
                             break;
                             case SDL_MOUSEMOTION:

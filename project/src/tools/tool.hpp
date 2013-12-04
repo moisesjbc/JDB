@@ -32,7 +32,8 @@ enum class ToolType
 {
     HAND = 0,
     EXTINGUISHER,
-    LIGHTER
+    LIGHTER,
+    GAVEL
 };
 
 
