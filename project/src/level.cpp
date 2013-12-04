@@ -237,6 +237,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                                     case SDLK_s:
                                         tool->setToolType( ToolType::EXTINGUISHER );
                                     break;
+                                    case SDLK_d:
+                                        tool->setToolType( ToolType::LIGHTER );
+                                    break;
                                 }
                             break;
                             case SDL_MOUSEMOTION:

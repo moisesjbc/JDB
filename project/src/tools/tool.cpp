@@ -18,6 +18,7 @@
  ***/
 
 #include "tool.hpp"
+#include <map>
 
 namespace jdb {
 
@@ -82,10 +83,19 @@ void Tool::handleMouseHover( Sandwich** sandwiches, unsigned int nSandwiches )
 {
     unsigned int i = 0;
 
-    if( ( currentToolType_ == ToolType::EXTINGUISHER )  && active_ ){
-        while( ( i < nSandwiches ) &&
-               ( !sandwiches[i]->useTool( PlayerAction::EXTINGUISHER_ON, this ) ) ){
-            i++;
+    std::map< ToolType, PlayerAction > toolAction
+    {
+        { ToolType::EXTINGUISHER, PlayerAction::EXTINGUISHER_ON },
+        { ToolType::LIGHTER, PlayerAction::LIGHTER_ON }
+    };
+
+    if( active_ ){
+        if( ( currentToolType_ == ToolType::EXTINGUISHER ) ||
+            ( currentToolType_ == ToolType::LIGHTER ) ){
+            while( ( i < nSandwiches ) &&
+                   ( !sandwiches[i]->useTool( toolAction[currentToolType_], this ) ) ){
+                i++;
+            }
         }
     }
 }

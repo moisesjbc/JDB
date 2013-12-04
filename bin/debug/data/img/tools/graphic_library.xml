@@ -14,6 +14,9 @@
 
 					<!-- Extinguisher (On) -->
 					<collision_rect tiles="10-29" x="10" y="17" width="49" height="50" />
+
+					<!-- Lighter (On) -->
+					<collision_rect tiles="35-64" x="32" y="12" width="29" height="39" />
 				</collision_rects>
 			</tileset>
 			<animation_states>
@@ -26,6 +29,11 @@
 				<animation_state firstFrame="9" lastFrame="9" backFrame="9" />
 				<!-- Extinguisher (On) -->
 				<animation_state firstFrame="10" lastFrame="29" backFrame="10" />
+
+				<!-- Lighter (Off) -->
+				<animation_state firstFrame="34" lastFrame="34" backFrame="34" />
+				<!-- Ligter (On) -->
+				<animation_state firstFrame="35" lastFrame="64" backFrame="35" />
 			</animation_states>
 		</animation>
 	</animations>

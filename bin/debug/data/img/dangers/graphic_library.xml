@@ -37,5 +37,21 @@
 			</animation_states>
 		</animation>
 
+		<!-- Ice stalactites 01 -->
+		<animation>
+			<tileset>
+				<src>ice_crystals_01.png</src>
+				<tile_dimensions width="256" height="128"/>
+				<collision_rects>
+					<collision_rect tiles="0" x="2" y="2" width="152" height="81" />
+				</collision_rects>
+			</tileset>
+			<animation_states>
+				<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+				<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
+			</animation_states>
+		</animation>
+
+
 	</animations>
 </library>

@@ -25,7 +25,8 @@ namespace jdb {
 enum class PlayerAction
 {
     HAND_CLICK,
-    EXTINGUISHER_ON
+    EXTINGUISHER_ON,
+    LIGHTER_ON
 };
 
 }

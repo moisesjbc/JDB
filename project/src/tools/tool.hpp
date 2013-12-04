@@ -31,7 +31,8 @@ namespace jdb {
 enum class ToolType
 {
     HAND = 0,
-    EXTINGUISHER
+    EXTINGUISHER,
+    LIGHTER
 };
 
 
