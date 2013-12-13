@@ -112,8 +112,12 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     // GUI and background's sprites.
     m2g::Sprite* guiHealth;
     m2g::Sprite* guiTime;
+    m2g::Sprite* guiToolSelector;
     m2g::Sprite* grinderFront;
     m2g::Sprite* grinderBack;
+
+    // Text sprites.
+    m2g::SpritePtr pressAnyKeyText;
 
     try
     {
@@ -145,21 +149,32 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         conveyorBelt = new m2g::Sprite( graphicsLibrary_.getTileset( "conveyor_belt.png" ) );
         guiHealth = new m2g::Sprite( graphicsLibrary_.getTileset( "health.png" ) );
         guiTime = new m2g::Sprite( graphicsLibrary_.getTileset( "time.png" ) );
+        guiToolSelector = new m2g::Sprite( graphicsLibrary_.getTileset( "tool_selector.png" ) );
         grinderFront = new m2g::Sprite( graphicsLibrary_.getTileset( "grinder_front.png" ) );
         grinderBack = new m2g::Sprite( graphicsLibrary_.getTileset( "grinder_back.png" )  );
 
         // Move the GUI and background sprites to their final positions.
         guiTime->moveTo( 367, 0 );
+        guiToolSelector->moveTo( 384, 660 );
         grinderFront->moveTo( 0, -256 );
         grinderBack->moveTo( 0, -256 );
         conveyorBelt->moveTo( 0, 256 );
 
         // Wait for the player to press any key to start the game.
+        pressAnyKeyText = textRenderer.drawText( "ABC"/*"PRESS ANY KEY TO START"*/, "data/fonts/LiberationSans-Bold.ttf", 50, HEALTH_FONT_COLOR );
+        coutMutex.lock();
+        std::cout << pressAnyKeyText->getWidth() << " x " << pressAnyKeyText->getHeight() << std::endl;
+        coutMutex.unlock();
+
         while( !quit ){
             // Clear the screen and show the user a message asking for a key
             // stroke.
             glClear ( GL_COLOR_BUFFER_BIT );
-            textRenderer.drawText( projectionMatrix, "PRESS ANY KEY TO START", 0, 0, 0 );
+            pressAnyKeyText->moveTo( 128, 0 );
+            pressAnyKeyText->draw( projectionMatrix );
+            //pressAnyKeyText->translate( 128, 0 );
+            //pressAnyKeyText->draw( projectionMatrix );
+            //textRenderer.drawText( projectionMatrix, "PRESS ANY KEY TO START", 0, 0 );
             SDL_GL_SwapWindow( window );
 
             // Wait the user to press a key.
@@ -233,15 +248,19 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                                     break;
                                     case SDLK_a:
                                         tool->setToolType( ToolType::HAND );
+                                        guiToolSelector->setTile( 0 );
                                     break;
                                     case SDLK_s:
                                         tool->setToolType( ToolType::EXTINGUISHER );
+                                        guiToolSelector->setTile( 1 );
                                     break;
                                     case SDLK_d:
                                         tool->setToolType( ToolType::LIGHTER );
+                                        guiToolSelector->setTile( 2 );
                                     break;
                                     case SDLK_f:
                                         tool->setToolType( ToolType::GAVEL );
+                                        guiToolSelector->setTile( 3 );
                                     break;
                                 }
                             break;
@@ -312,6 +331,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 tool->draw( projectionMatrix );
                 tool->update();
 
+                // Draw the GUI tool selector
+                guiToolSelector->draw( projectionMatrix );
+
                 // Draw Jacob's life visor.
                 guiHealth->draw( projectionMatrix );
 
@@ -369,6 +391,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         }
         delete guiHealth;
         delete guiTime;
+        delete guiToolSelector;
         delete grinderBack;
         delete grinderFront;
 
