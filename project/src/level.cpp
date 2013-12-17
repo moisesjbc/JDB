@@ -118,6 +118,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
     // Text sprites.
     m2g::SpritePtr pressAnyKeyText;
+    m2g::SpritePtr startAgainText;
 
     try
     {
@@ -160,17 +161,20 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         grinderBack->moveTo( 0, -256 );
         conveyorBelt->moveTo( 0, 256 );
 
+        startAgainText = textRenderer.drawText( "START AGAIN? (Y/N)", "data/fonts/LiberationSans-Bold.ttf", 50, HEALTH_FONT_COLOR );
+
         // Wait for the player to press any key to start the game.
-        pressAnyKeyText = textRenderer.drawText( "ABC"/*"PRESS ANY KEY TO START"*/, "data/fonts/LiberationSans-Bold.ttf", 50, HEALTH_FONT_COLOR );
+        pressAnyKeyText = textRenderer.drawText( "PRESS ANY KEY TO START", "data/fonts/LiberationSans-Bold.ttf", 50, HEALTH_FONT_COLOR );
         coutMutex.lock();
         std::cout << pressAnyKeyText->getWidth() << " x " << pressAnyKeyText->getHeight() << std::endl;
         coutMutex.unlock();
 
+        // Bind the tileset's buffer.
+        m2g::Tileset::bindBuffer(); // TODO: Make this line unuseful.
         while( !quit ){
             // Clear the screen and show the user a message asking for a key
             // stroke.
             glClear ( GL_COLOR_BUFFER_BIT );
-            pressAnyKeyText->moveTo( 128, 0 );
             pressAnyKeyText->draw( projectionMatrix );
             //pressAnyKeyText->translate( 128, 0 );
             //pressAnyKeyText->draw( projectionMatrix );
@@ -358,7 +362,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
             if( jacobHp <= 0 ){
                 // Wait for user to press any key to start.
-                textRenderer.drawText( projectionMatrix, "START AGAIN? (y/n)", 0, 150, 150 );
+                m2g::Tileset::bindBuffer();
+                startAgainText->moveTo( 400, 200 );
+                startAgainText->draw( projectionMatrix );
                 SDL_GL_SwapWindow( window );
 
                 userResponded = false;
