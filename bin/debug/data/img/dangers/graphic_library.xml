@@ -52,6 +52,22 @@
 			</animation_states>
 		</animation>
 
-
+		<!-- Rat 01 -->
+		<animation fps="10">
+			<tileset>
+				<src>rat_01.png</src>
+				<tile_dimensions width="256" height="256"/>
+				<collision_rects>
+					<collision_rect tiles="0-5" x="5" y="11" width="59" height="29" />
+					<collision_rect tiles="0-5" x="18" y="40" width="47" height="74" />
+					<collision_rect tiles="6" x="6" y="14" width="70" height="97" />
+				</collision_rects>
+			</tileset>
+			<animation_states>
+				<animation_state firstFrame="0" lastFrame="5" backFrame="0" />
+				<animation_state firstFrame="6" lastFrame="6" backFrame="6" />
+				<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
+			</animation_states>
+		</animation>
 	</animations>
 </library>

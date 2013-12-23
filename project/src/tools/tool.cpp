@@ -65,6 +65,12 @@ void Tool::handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiche
                 i++;
             }
         break;
+        case ToolType::GAVEL:
+            while( ( i < nSandwiches ) &&
+                   ( !sandwiches[i]->useTool( PlayerAction::GAVEL_HIT, this ) ) ){
+                i++;
+            }
+        break;
     }
 
     active_ = true;

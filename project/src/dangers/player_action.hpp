@@ -26,7 +26,8 @@ enum class PlayerAction
 {
     HAND_CLICK,
     EXTINGUISHER_ON,
-    LIGHTER_ON
+    LIGHTER_ON,
+    GAVEL_HIT
 };
 
 }

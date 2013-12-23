@@ -46,6 +46,33 @@
 		</danger_states> 
 	</danger>
 
+	<!-- Rat -->
+	<danger name="rat">
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.3</damage_factor>
+		<base_line x="4" y="115" width="78" />
+		
+		<danger_states>
+			<!-- State 0: Intact rat -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-75:1:-1" dps="0" />
+			</danger_state>
+
+			<!-- State 1: Stun rat -->
+			<danger_state>
+				<animation_state>1</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="all:2:-1" dps="0" />
+			</danger_state>
+
+			<!-- State 2: Danger removed -->
+			<danger_state>
+				<animation_state>2</animation_state>
+			</danger_state>
+		</danger_states>
+	</danger>
+
 	<!-- Knife -->
 	<danger name="knife">
 		<initial_state>0</initial_state>
