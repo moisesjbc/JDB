@@ -28,6 +28,10 @@ const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
 const unsigned int N_DANGERS = N_SANDWICHES * 3;
 
 
+/***
+ * 1. Initialization and destruction
+ ***/
+
 Level::Level( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight )
     : window( window_ ),
       screen( screen_ )
@@ -109,12 +113,13 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     const SDL_Color HEALTH_FONT_COLOR = { 131, 60, 60, 255 };
     const SDL_Color TIMER_FONT_COLOR = { 8, 31, 126, 255 };
 
-    // GUI and background's sprites.
-    m2g::Sprite* guiHealth;
-    m2g::Sprite* guiTime;
-    m2g::Sprite* guiToolSelector;
-    m2g::Sprite* grinderFront;
-    m2g::Sprite* grinderBack;
+    // GUI sprites.
+    m2g::DrawablesSet guiSprites;
+    m2g::SpritePtr guiToolSelector;
+
+    // Background sprites.
+    m2g::DrawablesSet backgroundSprites;
+    m2g::SpritePtr grinderFront;
 
     // Text sprites.
     m2g::SpritePtr pressAnyKeyText;
@@ -130,8 +135,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
         // Create the sprite pointers.
         Sandwich* sandwiches[N_SANDWICHES];
-        Tool* tool = nullptr;
-        m2g::Sprite* conveyorBelt = nullptr;
+        ToolPtr tool;
 
         // Make the cursor invisible.
         SDL_ShowCursor( SDL_DISABLE );
@@ -144,22 +148,18 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         graphicsLibrary_.loadAll( "data/img/gui" );
 
         // Load the player's tool.
-        tool = new Tool( graphicsLibrary_.getAnimationData( "tools.png" ) );
+        tool = ToolPtr( new Tool( graphicsLibrary_.getAnimationData( "tools.png" ) ) );
 
-        // Load the GUI and background's sprites
-        conveyorBelt = new m2g::Sprite( graphicsLibrary_.getTileset( "conveyor_belt.png" ) );
-        guiHealth = new m2g::Sprite( graphicsLibrary_.getTileset( "health.png" ) );
-        guiTime = new m2g::Sprite( graphicsLibrary_.getTileset( "time.png" ) );
-        guiToolSelector = new m2g::Sprite( graphicsLibrary_.getTileset( "tool_selector.png" ) );
-        grinderFront = new m2g::Sprite( graphicsLibrary_.getTileset( "grinder_front.png" ) );
-        grinderBack = new m2g::Sprite( graphicsLibrary_.getTileset( "grinder_back.png" )  );
+        // Load the GUI sprites.
+        guiSprites.addSprite( graphicsLibrary_.getTileset( "health.png" ) );
+        guiSprites.addSprite( graphicsLibrary_.getTileset( "time.png" ), 367.0f, 0.0f );
+        guiToolSelector = guiSprites.addSprite( graphicsLibrary_.getTileset( "tool_selector.png" ), 384.0f, 660.0f );
 
-        // Move the GUI and background sprites to their final positions.
-        guiTime->moveTo( 367, 0 );
-        guiToolSelector->moveTo( 384, 660 );
-        grinderFront->moveTo( 0, -256 );
-        grinderBack->moveTo( 0, -256 );
-        conveyorBelt->moveTo( 0, 256 );
+        // Load the background sprites
+        backgroundSprites.addSprite( graphicsLibrary_.getTileset( "grinder_back.png" ), 0.0f, -256.0f );
+        backgroundSprites.addSprite( graphicsLibrary_.getTileset( "conveyor_belt.png" ), 0.0, 256.0f );
+        grinderFront = m2g::SpritePtr( new m2g::Sprite( graphicsLibrary_.getTileset( "grinder_front.png" ) ) );
+        grinderFront->moveTo( 0.0f, -256.0f );
 
         startAgainText = textRenderer.drawText( "START AGAIN? (Y/N)", "data/fonts/LiberationSans-Bold.ttf", 50, HEALTH_FONT_COLOR );
 
@@ -311,9 +311,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 // Bind the tileset's buffer.
                 m2g::Tileset::bindBuffer();
 
-                // Draw the conveyor belt and the grinder's back.
-                grinderBack->draw( projectionMatrix );
-                conveyorBelt->draw( projectionMatrix );
+                // Draw the background
+                backgroundSprites.draw( projectionMatrix );
 
                 // Draw the sandwiches
                 for( i=0; i < N_SANDWICHES; i++ ){
@@ -335,14 +334,10 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 tool->draw( projectionMatrix );
                 tool->update();
 
-                // Draw the GUI tool selector
-                guiToolSelector->draw( projectionMatrix );
+                // Draw the GUI sprites.
+                guiSprites.draw( projectionMatrix );
 
-                // Draw Jacob's life visor.
-                guiHealth->draw( projectionMatrix );
-
-                // Draw the time visor.
-                guiTime->draw( projectionMatrix );
+                // Compute the current game time.
                 seconds = timer.getSeconds();
                 minutes = seconds / 60;
                 seconds = seconds % 60;
@@ -390,16 +385,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
 
         // Free resources
-        delete tool;
-        delete conveyorBelt;
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];
         }
-        delete guiHealth;
-        delete guiTime;
-        delete guiToolSelector;
-        delete grinderBack;
-        delete grinderFront;
 
     }catch( std::runtime_error& e ){
         std::cerr << e.what() << std::endl;

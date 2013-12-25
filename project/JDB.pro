@@ -26,7 +26,9 @@ SOURCES += src/main.cpp \
     src/dependencies/m2g/src/drawables/animation_data.cpp \
     src/dependencies/m2g/src/dependencies/GL3W/gl3w.c \
     src/dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.cpp \
-    src/dependencies/m2g/src/dependencies/msl/src/shader_loader.cpp
+    src/dependencies/m2g/src/dependencies/msl/src/shader_loader.cpp \
+    src/dependencies/m2g/src/drawables/drawables_set.cpp \
+    src/dependencies/m2g/src/drawables/collidable.cpp
 
 HEADERS += \
     src/jdb.hpp \
@@ -54,7 +56,9 @@ HEADERS += \
     src/dependencies/m2g/src/dependencies/GL3W/gl3.h \
     src/dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.h \
     src/dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp \
-    src/dependencies/m2g/src/dependencies/dependencies.hpp
+    src/dependencies/m2g/src/dependencies/dependencies.hpp \
+    src/dependencies/m2g/src/drawables/drawables_set.hpp \
+    src/dependencies/m2g/src/drawables/collidable.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl
 

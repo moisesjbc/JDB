@@ -69,6 +69,8 @@ class Tool : public m2g::Animation
         void handleMouseHover( Sandwich** sandwiches, unsigned int nSandwiches );
 };
 
+typedef std::shared_ptr< Tool > ToolPtr;
+
 } // namespace jdb
 
 #endif // TOOL_HPP

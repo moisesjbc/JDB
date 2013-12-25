@@ -58,19 +58,16 @@ void Tool::handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiche
 {
     unsigned int i = 0;
 
-    switch( currentToolType_ ){
-        case ToolType::HAND:
-            while( ( i < nSandwiches ) &&
-                   ( !sandwiches[i]->useTool( PlayerAction::HAND_CLICK, this ) ) ){
-                i++;
-            }
-        break;
-        case ToolType::GAVEL:
-            while( ( i < nSandwiches ) &&
-                   ( !sandwiches[i]->useTool( PlayerAction::GAVEL_HIT, this ) ) ){
-                i++;
-            }
-        break;
+    if( currentToolType_ == ToolType::HAND ){
+        while( ( i < nSandwiches ) &&
+               ( !sandwiches[i]->useTool( PlayerAction::HAND_CLICK, this ) ) ){
+            i++;
+        }
+    }else if( currentToolType_ == ToolType::GAVEL ){
+        while( ( i < nSandwiches ) &&
+               ( !sandwiches[i]->useTool( PlayerAction::GAVEL_HIT, this ) ) ){
+            i++;
+        }
     }
 
     active_ = true;

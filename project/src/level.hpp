@@ -22,6 +22,7 @@
 
 #include <stdexcept>
 #include "dependencies/m2g/src/graphics_library.hpp"
+#include "dependencies/m2g/src/drawables/drawables_set.hpp"
 #include <glm/gtx/matrix_operation.hpp>
 #include <SDL2/SDL_video.h>
 #include <thread>
@@ -32,7 +33,7 @@
 #include "tools/tool.hpp"
 #include "sandwiches/sandwich.hpp"
 #include "dependencies/m2g/src/text/text_renderer.hpp"
-
+#include "dependencies/m2g/src/drawables/drawables_set.hpp"
 #include <freetype2/freetype/config/ftheader.h>
 #include <FTGL/ftgl.h>
 #include <SDL2/SDL_ttf.h>
@@ -64,11 +65,19 @@ class Level
 
         std::mutex coutMutex;
 
+        // Players tool
+        ToolPtr tool_;
+
+
         // Timer
         Timer timer;
 
     public:
+        /***
+         * 1. Initialization and destruction
+         ***/
         Level( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight );
+        void initGUI(); // TODO implement.
 
         void runSurvivalLevel( unsigned int index );
 
