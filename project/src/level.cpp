@@ -37,6 +37,19 @@ Level::Level( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidt
       screen( screen_ )
 {
     projectionMatrix = glm::ortho( 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f, -1.0f );
+
+    // Initialize the GUI.
+    initGUI();
+}
+
+
+void Level::initGUI()
+{
+    // Load the "tools" graphics library.
+    graphicsLibrary_.loadAll( "data/img/tools" );
+
+    // Load the player's tool.
+    tool_ = ToolPtr( new Tool( graphicsLibrary_.getAnimationData( "tools.png" ) ) );
 }
 
 
@@ -135,7 +148,6 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
 
         // Create the sprite pointers.
         Sandwich* sandwiches[N_SANDWICHES];
-        ToolPtr tool;
 
         // Make the cursor invisible.
         SDL_ShowCursor( SDL_DISABLE );
@@ -143,12 +155,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         // Load all the needed tilesets and animations (the graphics for
         // dangers and sandwiches are loaded in the methods "loadDangers" and
         // "loadSandwiches".
-        graphicsLibrary_.loadAll( "data/img/tools" );
         graphicsLibrary_.loadAll( "data/img/background" );
         graphicsLibrary_.loadAll( "data/img/gui" );
-
-        // Load the player's tool.
-        tool = ToolPtr( new Tool( graphicsLibrary_.getAnimationData( "tools.png" ) ) );
 
         // Load the GUI sprites.
         guiSprites.addSprite( graphicsLibrary_.getTileset( "health.png" ) );
@@ -238,10 +246,10 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                             break;
                             case SDL_MOUSEBUTTONDOWN:
                                 // Player clicked on screen.
-                                tool->handleMouseButtonDown( sandwiches, N_SANDWICHES );
+                                tool_->handleMouseButtonDown( sandwiches, N_SANDWICHES );
                             break;
                             case SDL_MOUSEBUTTONUP:
-                                tool->handleMouseButtonUp();
+                                tool_->handleMouseButtonUp();
                             break;
                             case SDL_KEYDOWN:
                                 // Player pressed a key. If the key pressed is
@@ -251,26 +259,26 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                                         quit = true;
                                     break;
                                     case SDLK_a:
-                                        tool->setToolType( ToolType::HAND );
+                                        tool_->setToolType( ToolType::HAND );
                                         guiToolSelector->setTile( 0 );
                                     break;
                                     case SDLK_s:
-                                        tool->setToolType( ToolType::EXTINGUISHER );
+                                        tool_->setToolType( ToolType::EXTINGUISHER );
                                         guiToolSelector->setTile( 1 );
                                     break;
                                     case SDLK_d:
-                                        tool->setToolType( ToolType::LIGHTER );
+                                        tool_->setToolType( ToolType::LIGHTER );
                                         guiToolSelector->setTile( 2 );
                                     break;
                                     case SDLK_f:
-                                        tool->setToolType( ToolType::GAVEL );
+                                        tool_->setToolType( ToolType::GAVEL );
                                         guiToolSelector->setTile( 3 );
                                     break;
                                 }
                             break;
                             case SDL_MOUSEMOTION:
                                 // Player wants to move the mouse / tool.
-                                tool->moveTo( event.motion.x, event.motion.y );
+                                tool_->moveTo( event.motion.x, event.motion.y );
                             break;
                         }
                     }
@@ -280,7 +288,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 t1 = SDL_GetTicks();
 
 
-                tool->handleMouseHover( sandwiches, N_SANDWICHES );
+                tool_->handleMouseHover( sandwiches, N_SANDWICHES );
 
 
                 // Game logic: Check if the first sandwich reached the
@@ -331,8 +339,8 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 grinderFront->draw( projectionMatrix );
 
                 // Draw the tool.
-                tool->draw( projectionMatrix );
-                tool->update();
+                tool_->draw( projectionMatrix );
+                tool_->update();
 
                 // Draw the GUI sprites.
                 guiSprites.draw( projectionMatrix );
