@@ -60,7 +60,7 @@ HEADERS += \
     src/dependencies/m2g/src/drawables/drawables_set.hpp \
     src/dependencies/m2g/src/drawables/collidable.hpp
 
-LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl
+LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -lsfml-system -lsfml-audio
 
 CXXFLAGS += -Wall -Werrors -pedantic-errors
 

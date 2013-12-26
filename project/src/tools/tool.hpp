@@ -25,6 +25,7 @@
 #include "../sandwiches/sandwich.hpp"
 #include "../dangers/danger.hpp"
 #include <SDL2/SDL.h>
+#include <SFML/Audio.hpp>
 
 namespace jdb {
 
@@ -42,6 +43,9 @@ class Tool : public m2g::Animation
     private:
         ToolType currentToolType_;
         bool active_;
+
+        sf::SoundBuffer soundBuffers_[4];
+        sf::Sound sounds_[4];
 
     public:
         /***

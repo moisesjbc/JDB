@@ -29,8 +29,35 @@ namespace jdb {
 Tool::Tool( m2g::AnimationDataPtr animationData ) :
     Animation( animationData )
 {
+    unsigned int i = 0;
+
+    const std::string audioFolder = "data/audio/tools/";
+    const std::string audioFiles[] =
+    {
+        "gavel_hit.ogg",
+        "extinguisher.ogg",
+        "lighter.ogg",
+        "gavel_hit.ogg"
+    };
+    bool audioLoop[] =
+    {
+        false,
+        true,
+        true,
+        false
+    };
+
     active_ = false;
     setToolType( ToolType::HAND );
+
+    // Load the sounds.
+    for( i = 0; i < 4; i++ ){
+        if( !soundBuffers_[i].LoadFromFile( ( audioFolder + audioFiles[i] ) ) ){
+            throw std::runtime_error( std::string( "ERROR loading file [" ) + audioFolder + audioFiles[i] + std::string( "]" ) );
+        }
+        sounds_[i].SetBuffer( soundBuffers_[i] );
+        sounds_[i].SetLoop( audioLoop[i] );
+    }
 }
 
 
@@ -41,6 +68,9 @@ Tool::Tool( m2g::AnimationDataPtr animationData ) :
 void Tool::setToolType( ToolType toolType )
 {
     currentToolType_ = toolType;
+
+    // Stop the sound associated to the current tool.
+    sounds_[ static_cast<int>(currentToolType_) ].Stop();
 
     if( !active_ ){
         setAnimationState( 2 * static_cast< int >( currentToolType_  ) );
@@ -57,6 +87,9 @@ void Tool::setToolType( ToolType toolType )
 void Tool::handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiches )
 {
     unsigned int i = 0;
+
+    // Play the sound associated to the current tool.
+    sounds_[ static_cast<int>(currentToolType_) ].Play();
 
     if( currentToolType_ == ToolType::HAND ){
         while( ( i < nSandwiches ) &&
@@ -79,6 +112,9 @@ void Tool::handleMouseButtonUp()
 {
     active_ = false;
     setAnimationState( getAnimationState() - 1 );
+
+    // Stop the sound associated to the current tool.
+    sounds_[ static_cast<int>(currentToolType_) ].Stop();
 }
 
 
