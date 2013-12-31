@@ -120,9 +120,6 @@ JDB::JDB() :
     // Set projection mode.
     projectionMatrix = glm::ortho( 0.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 0.0f, 1.0f, -1.0f );
 
-    // Create the level.
-    level = new Level( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
-
     m2g::checkOpenGL( "JDB constructor" );
 }
 
@@ -132,20 +129,17 @@ JDB::~JDB()
     // Destroy the OpenGL context (muahaha!).
     SDL_GL_DeleteContext( glContext );
 
-    // Delete the level (muahaha! x2)
-    delete level;
-
-    // Destroy the main window (muahaha! x3).
+    // Destroy the main window (muahaha! x2).
     SDL_DestroyWindow( window );
     window = NULL;
 
-    // Destroy TTF (muahaha! x4)
+    // Destroy TTF (muahaha! x3)
     TTF_Quit();
 
-    // Destroy SDL_image (muahaha! x5).
+    // Destroy SDL_image (muahaha! x4).
     IMG_Quit();
 
-    // Destroy SDL (muahaha! x6).
+    // Destroy SDL (muahaha! x5).
     SDL_Quit();
 }
 
@@ -185,11 +179,15 @@ void JDB::run()
     if( event.type != SDL_QUIT ){
         // Run a campaign level or a survival one according to player's selection.
         if(  event.key.keysym.sym == SDLK_s ){
-            level->runSurvivalLevel( 0 );
+            level_ = new SurvivalLevel( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
         }else{
-            level->runCampaignLevel( 0 );
+            // TODO: Change to campaign.
+            level_ = new SurvivalLevel( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
         }
+
+        level_->run( 0 );
     }
+    delete level_;
 }
 
 

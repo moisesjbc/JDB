@@ -17,38 +17,34 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef JDB_HPP
-#define JDB_HPP
+#ifndef SURVIVAL_LEVEL_HPP
+#define SURVIVAL_LEVEL_HPP
 
-//#include "dependencies/dependencies.hpp"
-#include "dependencies/m2g/src/dependencies/dependencies.hpp"
-#include "dependencies/m2g/src/graphics_library.hpp"
-#include "dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp"
-#include "levels/survival_level.hpp"
-#include "dangers/player_action.hpp"
-#include <SDL2/SDL_ttf.h>
+#include "level.hpp"
 
 namespace jdb {
 
-class JDB
+class SurvivalLevel : public Level
 {
-    private:
-        GLuint vao;
-        SDL_Window* window;
-        SDL_Surface* screen;
-        SDL_GLContext glContext;
-        msl::ShaderLoader* shaderLoader;
-        glm::mat4 projectionMatrix;
-
-        Level* level_;
-
     public:
-        JDB();
-        ~JDB();
+        /***
+         * 1. Initialization and destruction
+         ***/
+        SurvivalLevel( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight );
 
-        void run();
+
+        /***
+         * 2. Level loading
+         ***/
+        virtual void load( unsigned int levelIndex );
+
+
+        /***
+         * 3. Main loop
+         ***/
+        virtual bool finishPredicate() const ;
 };
 
 } // namespace jdb
 
-#endif // JDB_HPP
+#endif // SURVIVAL_LEVEL_HPP

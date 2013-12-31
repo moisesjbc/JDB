@@ -5,7 +5,7 @@ CONFIG -= qt
 
 SOURCES += src/main.cpp \
     src/jdb.cpp \
-    src/level.cpp \
+    src/levels/level.cpp \
     src/utilities/timer.cpp \
     src/dangers/danger_data.cpp \
     src/dangers/danger_state.cpp \
@@ -28,11 +28,13 @@ SOURCES += src/main.cpp \
     src/dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.cpp \
     src/dependencies/m2g/src/dependencies/msl/src/shader_loader.cpp \
     src/dependencies/m2g/src/drawables/drawables_set.cpp \
-    src/dependencies/m2g/src/drawables/collidable.cpp
+    src/dependencies/m2g/src/drawables/collidable.cpp \
+    src/levels/survival_level.cpp \
+    src/levels/conveyor_belt.cpp
 
 HEADERS += \
     src/jdb.hpp \
-    src/level.hpp \
+    src/levels/level.hpp \
     src/utilities/timer.hpp \
     src/dangers/player_action.hpp \
     src/dangers/danger_data.hpp \
@@ -58,7 +60,9 @@ HEADERS += \
     src/dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp \
     src/dependencies/m2g/src/dependencies/dependencies.hpp \
     src/dependencies/m2g/src/drawables/drawables_set.hpp \
-    src/dependencies/m2g/src/drawables/collidable.hpp
+    src/dependencies/m2g/src/drawables/collidable.hpp \
+    src/levels/survival_level.hpp \
+    src/levels/conveyor_belt.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -lsfml-system -lsfml-audio
 

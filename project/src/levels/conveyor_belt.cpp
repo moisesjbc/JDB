@@ -17,38 +17,40 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef JDB_HPP
-#define JDB_HPP
-
-//#include "dependencies/dependencies.hpp"
-#include "dependencies/m2g/src/dependencies/dependencies.hpp"
-#include "dependencies/m2g/src/graphics_library.hpp"
-#include "dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp"
-#include "levels/survival_level.hpp"
-#include "dangers/player_action.hpp"
-#include <SDL2/SDL_ttf.h>
+#include "conveyor_belt.hpp"
 
 namespace jdb {
 
-class JDB
+/***
+ * 1. Initialization
+ ***/
+
+void ConveyorBelt::load( tinyxml2::XMLElement* xmlElement )
 {
-    private:
-        GLuint vao;
-        SDL_Window* window;
-        SDL_Surface* screen;
-        SDL_GLContext glContext;
-        msl::ShaderLoader* shaderLoader;
-        glm::mat4 projectionMatrix;
+    initialSpeed_ = xmlElement->FloatAttribute( "initial" );
+    speedStep_ = xmlElement->FloatAttribute( "step" );
+    timeLapse_ = (unsigned int)( xmlElement->IntAttribute( "time_lapse" ) );
+}
 
-        Level* level_;
 
-    public:
-        JDB();
-        ~JDB();
+/***
+ * 2. Getters
+ ***/
 
-        void run();
-};
+float ConveyorBelt::getInitialSpeed() const
+{
+    return initialSpeed_;
+}
+
+float ConveyorBelt::getSpeedStep() const
+{
+    return speedStep_;
+}
+
+
+unsigned int ConveyorBelt::getTimeLapse() const
+{
+    return timeLapse_;
+}
 
 } // namespace jdb
-
-#endif // JDB_HPP

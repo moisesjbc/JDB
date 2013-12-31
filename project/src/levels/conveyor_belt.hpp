@@ -17,38 +17,36 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef JDB_HPP
-#define JDB_HPP
+#ifndef CONVEYOR_BELT_HPP
+#define CONVEYOR_BELT_HPP
 
-//#include "dependencies/dependencies.hpp"
-#include "dependencies/m2g/src/dependencies/dependencies.hpp"
-#include "dependencies/m2g/src/graphics_library.hpp"
-#include "dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp"
-#include "levels/survival_level.hpp"
-#include "dangers/player_action.hpp"
-#include <SDL2/SDL_ttf.h>
+#include "../dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.h"
 
 namespace jdb {
 
-class JDB
+class ConveyorBelt
 {
     private:
-        GLuint vao;
-        SDL_Window* window;
-        SDL_Surface* screen;
-        SDL_GLContext glContext;
-        msl::ShaderLoader* shaderLoader;
-        glm::mat4 projectionMatrix;
+        float initialSpeed_;
+        float speedStep_;
+        unsigned int timeLapse_;
 
-        Level* level_;
 
     public:
-        JDB();
-        ~JDB();
+        /***
+         * 1. Initialization
+         ***/
+        void load( tinyxml2::XMLElement* xmlElement );
 
-        void run();
+
+        /***
+         * 2. Getters
+         ***/
+        float getInitialSpeed() const ;
+        float getSpeedStep() const ;
+        unsigned int getTimeLapse() const ;
 };
 
 } // namespace jdb
 
-#endif // JDB_HPP
+#endif // CONVEYOR_BELT_HPP

@@ -21,23 +21,24 @@
 #define LEVEL_HPP
 
 #include <stdexcept>
-#include "dependencies/m2g/src/graphics_library.hpp"
-#include "dependencies/m2g/src/drawables/drawables_set.hpp"
+#include "../dependencies/m2g/src/graphics_library.hpp"
+#include "../dependencies/m2g/src/drawables/drawables_set.hpp"
 #include <glm/gtx/matrix_operation.hpp>
 #include <SDL2/SDL_video.h>
 #include <thread>
 #include <mutex>
-#include "utilities/timer.hpp"
+#include "../utilities/timer.hpp"
 #include <functional>
-#include "dangers/danger.hpp"
-#include "tools/tool.hpp"
-#include "sandwiches/sandwich.hpp"
-#include "dependencies/m2g/src/text/text_renderer.hpp"
-#include "dependencies/m2g/src/drawables/drawables_set.hpp"
+#include "../dangers/danger.hpp"
+#include "../tools/tool.hpp"
+#include "../sandwiches/sandwich.hpp"
+#include "../dependencies/m2g/src/text/text_renderer.hpp"
+#include "../dependencies/m2g/src/drawables/drawables_set.hpp"
 #include <freetype2/freetype/config/ftheader.h>
 #include <FTGL/ftgl.h>
 #include <SDL2/SDL_ttf.h>
 #include <functional>
+#include "conveyor_belt.hpp"
 
 typedef std::function< bool () > FinishPredicate;
 
@@ -52,10 +53,10 @@ enum class LevelType
 
 class Level
 {
-    private:
-        tinyxml2::XMLDocument xmlFile;
+    protected:
+        ConveyorBelt conveyorBelt_;
 
-        LevelType levelType_;
+        tinyxml2::XMLDocument xmlFile;
 
         m2g::GraphicsLibrary graphicsLibrary_;
 
@@ -71,41 +72,59 @@ class Level
         // Players tool
         ToolPtr tool_;
 
-
         // Timer
         Timer timer;
 
-
         // Jacob's life
         int jacobHp_;
+
+        // GUI sprites.
+        m2g::DrawablesSet guiSprites_;
+        m2g::SpritePtr guiToolSelector_;
+
+        // Does player wants to quit the current level?
+        bool quitLevel_;
 
     public:
         /***
          * 1. Initialization and destruction
          ***/
         Level( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight );
-        void initGUI(); // TODO implement.
-
-        void runSurvivalLevel( unsigned int index );
-        void runCampaignLevel( unsigned int index );
 
     private:
-        void mainLoop( float initialSpeed, float speedStep, unsigned int timeLapse, FinishPredicate finishPredicate );
+        void initGUI();
+
 
         /***
-         * 2. Loading
+         * 2. Level Loading
          ***/
+    protected:
+        virtual void load( unsigned int levelIndex ) = 0;
         void loadSandwichData();
         void loadDangerData();
 
-        void drawTimer( int time );
+
+        /***
+         * 3. Level execution
+         ***/
+    public:
+        void run( unsigned int levelIndex );
 
 
         /***
-         * 3. Predicates
+         * 4. Main loop
          ***/
-        bool isSurvivalLevelFinished();
-        bool isCampaignLevelFinished();
+    protected:
+        void mainLoop();
+        void handleUserInput( const SDL_Event& event, Sandwich** sandwiches );
+        virtual bool finishPredicate() const = 0;
+
+
+        /***
+         * 5. Auxiliar methods
+         ***/
+    private:
+        void drawTimer( int time );
 };
 
 } // namespace jdb

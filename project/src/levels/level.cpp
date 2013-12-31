@@ -18,7 +18,7 @@
  ***/
 
 #include "level.hpp"
-#include "dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.h"
+#include "../dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.h"
 
 namespace jdb {
 
@@ -45,6 +45,14 @@ Level::Level( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidt
 
 void Level::initGUI()
 {
+    // Load the "gui" graphics library.
+    graphicsLibrary_.loadAll( "data/img/gui" );
+
+    // Load the GUI sprites.
+    guiSprites_.addSprite( graphicsLibrary_.getTileset( "health.png" ) );
+    guiSprites_.addSprite( graphicsLibrary_.getTileset( "time.png" ), 367.0f, 0.0f );
+    guiToolSelector_ = guiSprites_.addSprite( graphicsLibrary_.getTileset( "tool_selector.png" ), 384.0f, 660.0f );
+
     // Load the "tools" graphics library.
     graphicsLibrary_.loadAll( "data/img/tools" );
 
@@ -53,98 +61,67 @@ void Level::initGUI()
 }
 
 
-void Level::runSurvivalLevel( unsigned int index )
+/***
+ * 2. Level loading
+ ***/
+
+void Level::loadSandwichData()
 {
-    tinyxml2::XMLNode* levelNode = nullptr;
-    tinyxml2::XMLElement* levelElement = nullptr;
-
-    unsigned int i = 0;
-    float initialSpeed;
-    float speedStep;
-    unsigned int timeLapse;
-
-    // Set the level type.
-    levelType_ = LevelType::SURVIVAL;
-
-    // Open the levels configuration file.
-    xmlFile.LoadFile( "data/config/levels.xml" );
-
-    // Iterate over the survival level XML nodes until de number index.
-    levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "survival_levels" )->FirstChildElement( "survival_level" ) );
-    while( levelNode && ( i < index ) ){
-        levelNode = levelNode->NextSiblingElement( "survival_level" );
-        i++;
-    }
-
-    // If the index XML node doesn't exist, throw an exception.
-    if( i < index ){
-        throw std::runtime_error( "ERROR: Survival level not found" );
-    }
+    tinyxml2::XMLDocument document;
+    tinyxml2::XMLElement* sandwichXMLElement = nullptr;
 
     // Load the sandwiches data.
-    loadSandwichData();
+    //graphicsLoader.loadTilesets( sandwichesData, "data/img/sandwiches" );
+    graphicsLibrary_.loadAll( "data/img/sandwiches" );
 
     // Load the dangers data.
-    loadDangerData();
+    document.LoadFile( "./data/config/sandwiches.xml" );
+    sandwichXMLElement = ( document.RootElement() )->FirstChildElement( "sandwich" );
+    while( sandwichXMLElement ){
+        sandwichData.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary_ ) );
 
-    // Get the level parameters.
-    levelElement = (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" );
-    initialSpeed = levelElement->FloatAttribute( "initial" );
-    speedStep = levelElement->FloatAttribute( "step" );
-    timeLapse = (unsigned int)( levelElement->IntAttribute( "time_lapse" ) );
-
-    // Execute the main loop.
-    mainLoop( initialSpeed, speedStep, timeLapse, std::bind( &Level::isSurvivalLevelFinished, this ) );
+        sandwichXMLElement = sandwichXMLElement->NextSiblingElement();
+    }
 }
 
 
-void Level::runCampaignLevel( unsigned int index )
+void Level::loadDangerData()
 {
-    // Set the level type.
-    levelType_ = LevelType::CAMPAIGN;
+    tinyxml2::XMLDocument document;
+    tinyxml2::XMLElement* dangerXMLElement = nullptr;
 
-    // TODO: Change this when campaign level are fully implemented.
-    tinyxml2::XMLNode* levelNode = nullptr;
-    tinyxml2::XMLElement* levelElement = nullptr;
-
-    unsigned int i = 0;
-    float initialSpeed;
-    float speedStep;
-    unsigned int timeLapse;
-
-    // Open the levels configuration file.
-    xmlFile.LoadFile( "data/config/levels.xml" );
-
-    // Iterate over the survival level XML nodes until de number index.
-    levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "survival_levels" )->FirstChildElement( "survival_level" ) );
-    while( levelNode && ( i < index ) ){
-        levelNode = levelNode->NextSiblingElement( "survival_level" );
-        i++;
-    }
-
-    // If the index XML node doesn't exist, throw an exception.
-    if( i < index ){
-        throw std::runtime_error( "ERROR: Survival level not found" );
-    }
-
-    // Load the sandwiches data.
-    loadSandwichData();
+    graphicsLibrary_.loadAll( "data/img/dangers" );
 
     // Load the dangers data.
-    loadDangerData();
+    document.LoadFile( "./data/config/dangers.xml" );
+    dangerXMLElement = ( document.RootElement() )->FirstChildElement( "danger" );
+    while( dangerXMLElement ){
+        dangerData.emplace_back( new DangerData( dangerXMLElement, graphicsLibrary_ ) );
 
-    // Get the level parameters.
-    levelElement = (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" );
-    initialSpeed = levelElement->FloatAttribute( "initial" );
-    speedStep = levelElement->FloatAttribute( "step" );
-    timeLapse = (unsigned int)( levelElement->IntAttribute( "time_lapse" ) );
-
-    // Execute the main loop.
-    mainLoop( initialSpeed, speedStep, timeLapse, std::bind( &Level::isCampaignLevelFinished, this ) );
+        dangerXMLElement = dangerXMLElement->NextSiblingElement();
+    }
 }
 
 
-void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLapse, FinishPredicate finishPredicate )
+/***
+ * 3. Level execution
+ ***/
+
+void Level::run( unsigned int levelIndex )
+{
+    // Load the required level.
+    load( levelIndex );
+
+    // Run the main loop.
+    mainLoop();
+}
+
+
+/***
+ * 4. Main loop
+ ***/
+
+void Level::mainLoop()
 {
     unsigned int i;
 
@@ -154,7 +131,7 @@ void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLaps
 
     // Conveyor belt's speed management.
     std::mutex speedMutex;
-    float speed = initialSpeed;
+    float speed = conveyorBelt_.getInitialSpeed();
 
     // Time management.
     Uint32 t0;
@@ -166,15 +143,14 @@ void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLaps
     bool quit = false;
     bool userResponded = false;
 
+    // Sandwiches
+    Sandwich* sandwiches[N_SANDWICHES];
+
     // Text rendering.
     m2g::TextRenderer textRenderer;
     char buffer[16];
     const SDL_Color HEALTH_FONT_COLOR = { 131, 60, 60, 255 };
     const SDL_Color TIMER_FONT_COLOR = { 8, 31, 126, 255 };
-
-    // GUI sprites.
-    m2g::DrawablesSet guiSprites;
-    m2g::SpritePtr guiToolSelector;
 
     // Background sprites.
     m2g::DrawablesSet backgroundSprites;
@@ -187,11 +163,14 @@ void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLaps
     int countdown;
 
     // Set the level countdown.
+    /*
     if( levelType_ == LevelType::CAMPAIGN ){
         countdown = 60;
     }else{
         countdown = 0;
     }
+    */
+    countdown = 0;
 
     try
     {
@@ -201,9 +180,6 @@ void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLaps
         std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50, TIMER_FONT_COLOR ) << std::endl;
         coutMutex.unlock();
 
-        // Create the sprite pointers.
-        Sandwich* sandwiches[N_SANDWICHES];
-
         // Make the cursor invisible.
         SDL_ShowCursor( SDL_DISABLE );
 
@@ -211,12 +187,6 @@ void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLaps
         // dangers and sandwiches are loaded in the methods "loadDangers" and
         // "loadSandwiches".
         graphicsLibrary_.loadAll( "data/img/background" );
-        graphicsLibrary_.loadAll( "data/img/gui" );
-
-        // Load the GUI sprites.
-        guiSprites.addSprite( graphicsLibrary_.getTileset( "health.png" ) );
-        guiSprites.addSprite( graphicsLibrary_.getTileset( "time.png" ), 367.0f, 0.0f );
-        guiToolSelector = guiSprites.addSprite( graphicsLibrary_.getTileset( "tool_selector.png" ), 384.0f, 660.0f );
 
         // Load the background sprites
         backgroundSprites.addSprite( graphicsLibrary_.getTileset( "grinder_back.png" ), 0.0f, -256.0f );
@@ -226,8 +196,8 @@ void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLaps
 
         // Restarting loop. Keep restarting this level until the player tell us
         // to stop.
-        quit = false;
-        while( !quit ){
+        quitLevel_ = false;
+        while( !quitLevel_ ){
             // Initialize the variables used for time management.
             t0 = 0;
             t1 = 0;
@@ -239,9 +209,9 @@ void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLaps
 
             // Start the timer and make it increase the speed every timeLapse
             // seconds.
-            timer.init( timeLapse, [&](){
+            timer.init( conveyorBelt_.getTimeLapse(), [&](){
                 speedMutex.lock();
-                speed += speedStep;
+                speed += conveyorBelt_.getSpeedStep();
                 speedMutex.unlock();
 
                 coutMutex.lock();
@@ -261,7 +231,7 @@ void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLaps
 
             // Main loop: run the game until player ask us or the finish
             // predicate is true.
-            while( !quit && !finishPredicate() ){
+            while( !quitLevel_ && !finishPredicate() ){
                 // Clear screen.
                 glClear ( GL_COLOR_BUFFER_BIT );
 
@@ -269,48 +239,7 @@ void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLaps
                 t0 = SDL_GetTicks();
                 while( (t1 - t0) < REFRESH_TIME ){
                     if( SDL_PollEvent( &event ) != 0 ){
-                        switch( event.type ){
-                            case SDL_QUIT:
-                                // Player wants to exit the game.
-                                quit = true;
-                            break;
-                            case SDL_MOUSEBUTTONDOWN:
-                                // Player clicked on screen.
-                                tool_->handleMouseButtonDown( sandwiches, N_SANDWICHES );
-                            break;
-                            case SDL_MOUSEBUTTONUP:
-                                tool_->handleMouseButtonUp();
-                            break;
-                            case SDL_KEYDOWN:
-                                // Player pressed a key. If the key pressed is
-                                // ESCAPE we exit the game.
-                                switch( event.key.keysym.sym ){
-                                    case SDLK_ESCAPE:
-                                        quit = true;
-                                    break;
-                                    case SDLK_a:
-                                        tool_->setToolType( ToolType::HAND );
-                                        guiToolSelector->setTile( 0 );
-                                    break;
-                                    case SDLK_s:
-                                        tool_->setToolType( ToolType::EXTINGUISHER );
-                                        guiToolSelector->setTile( 1 );
-                                    break;
-                                    case SDLK_d:
-                                        tool_->setToolType( ToolType::LIGHTER );
-                                        guiToolSelector->setTile( 2 );
-                                    break;
-                                    case SDLK_f:
-                                        tool_->setToolType( ToolType::GAVEL );
-                                        guiToolSelector->setTile( 3 );
-                                    break;
-                                }
-                            break;
-                            case SDL_MOUSEMOTION:
-                                // Player wants to move the mouse / tool.
-                                tool_->moveTo( event.motion.x, event.motion.y );
-                            break;
-                        }
+                        handleUserInput( event, sandwiches );
                     }
                     t1 = SDL_GetTicks();
                 }
@@ -373,7 +302,7 @@ void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLaps
                 tool_->update();
 
                 // Draw the GUI sprites.
-                guiSprites.draw( projectionMatrix );
+                guiSprites_.draw( projectionMatrix );
 
                 // Compute the current game time.
                 seconds = timer.getSeconds();
@@ -438,80 +367,71 @@ void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLaps
             }
         }
 
-
         // Free resources
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];
         }
-
     }catch( std::runtime_error& e ){
         std::cerr << e.what() << std::endl;
     }
 }
 
+void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
+{
+    switch( event.type ){
+        case SDL_QUIT:
+            // Player wants to quit the level.
+            quitLevel_ = true;
+        break;
+        case SDL_MOUSEBUTTONDOWN:
+            // Player clicked on screen.
+            tool_->handleMouseButtonDown( sandwiches, N_SANDWICHES );
+        break;
+        case SDL_MOUSEBUTTONUP:
+            tool_->handleMouseButtonUp();
+        break;
+        case SDL_KEYDOWN:
+            // Player pressed a key. If the key pressed is
+            // ESCAPE we exit the game.
+            switch( event.key.keysym.sym ){
+                case SDLK_ESCAPE:
+                    // TODO: Change to "exitGame".
+                    quitLevel_ = true;
+                break;
+                case SDLK_a:
+                    tool_->setToolType( ToolType::HAND );
+                    guiToolSelector_->setTile( 0 );
+                break;
+                case SDLK_s:
+                    tool_->setToolType( ToolType::EXTINGUISHER );
+                    guiToolSelector_->setTile( 1 );
+                break;
+                case SDLK_d:
+                    tool_->setToolType( ToolType::LIGHTER );
+                    guiToolSelector_->setTile( 2 );
+                break;
+                case SDLK_f:
+                    tool_->setToolType( ToolType::GAVEL );
+                    guiToolSelector_->setTile( 3 );
+                break;
+            }
+        break;
+        case SDL_MOUSEMOTION:
+            // Player wants to move the mouse / tool.
+            tool_->moveTo( event.motion.x, event.motion.y );
+        break;
+    }
+}
+
 
 /***
- * 2. Loading
+ * 5. Auxiliar methods
  ***/
-
-void Level::loadSandwichData()
-{
-    tinyxml2::XMLDocument document;
-    tinyxml2::XMLElement* sandwichXMLElement = nullptr;
-
-    // Load the sandwiches data.
-    //graphicsLoader.loadTilesets( sandwichesData, "data/img/sandwiches" );
-    graphicsLibrary_.loadAll( "data/img/sandwiches" );
-
-    // Load the dangers data.
-    document.LoadFile( "./data/config/sandwiches.xml" );
-    sandwichXMLElement = ( document.RootElement() )->FirstChildElement( "sandwich" );
-    while( sandwichXMLElement ){
-        sandwichData.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary_ ) );
-
-        sandwichXMLElement = sandwichXMLElement->NextSiblingElement();
-    }
-}
-
-
-void Level::loadDangerData()
-{
-    tinyxml2::XMLDocument document;
-    tinyxml2::XMLElement* dangerXMLElement = nullptr;
-
-    graphicsLibrary_.loadAll( "data/img/dangers" );
-
-    // Load the dangers data.
-    document.LoadFile( "./data/config/dangers.xml" );
-    dangerXMLElement = ( document.RootElement() )->FirstChildElement( "danger" );
-    while( dangerXMLElement ){
-        dangerData.emplace_back( new DangerData( dangerXMLElement, graphicsLibrary_ ) );
-
-        dangerXMLElement = dangerXMLElement->NextSiblingElement();
-    }
-}
-
 
 void Level::drawTimer( int time )
 {
     std::cout << "seconds: " << time << std::endl;
 }
 
-
-/***
- * 3. Predicates
- ***/
-
-
-bool Level::isSurvivalLevelFinished()
-{
-    return( jacobHp_ <= 0 );
-}
-
-
-bool Level::isCampaignLevelFinished()
-{
-    return( ( timer.getSeconds() <= 0 ) || ( jacobHp_ <= 0 ) );
-}
 
 } // namespace jdb
