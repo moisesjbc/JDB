@@ -37,6 +37,9 @@
 #include <freetype2/freetype/config/ftheader.h>
 #include <FTGL/ftgl.h>
 #include <SDL2/SDL_ttf.h>
+#include <functional>
+
+typedef std::function< bool () > FinishPredicate;
 
 namespace jdb {
 
@@ -52,7 +55,7 @@ class Level
     private:
         tinyxml2::XMLDocument xmlFile;
 
-        LevelType levelType;
+        LevelType levelType_;
 
         m2g::GraphicsLibrary graphicsLibrary_;
 
@@ -72,6 +75,10 @@ class Level
         // Timer
         Timer timer;
 
+
+        // Jacob's life
+        int jacobHp_;
+
     public:
         /***
          * 1. Initialization and destruction
@@ -80,9 +87,10 @@ class Level
         void initGUI(); // TODO implement.
 
         void runSurvivalLevel( unsigned int index );
+        void runCampaignLevel( unsigned int index );
 
     private:
-        void survivalLoop( float initialSpeed, float speedStep, unsigned int timeLapse );
+        void mainLoop( float initialSpeed, float speedStep, unsigned int timeLapse, FinishPredicate finishPredicate );
 
         /***
          * 2. Loading
@@ -91,6 +99,13 @@ class Level
         void loadDangerData();
 
         void drawTimer( int time );
+
+
+        /***
+         * 3. Predicates
+         ***/
+        bool isSurvivalLevelFinished();
+        bool isCampaignLevelFinished();
 };
 
 } // namespace jdb

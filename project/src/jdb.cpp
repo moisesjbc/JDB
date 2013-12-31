@@ -150,9 +150,46 @@ JDB::~JDB()
 }
 
 
-void JDB::runInfiniteSandwichesDemo()
+void JDB::run()
 {
-    level->runSurvivalLevel( 0 );
+    // Text rendering.
+    m2g::TextRenderer textRenderer;
+    const SDL_Color FONT_COLOR = { 131, 60, 60, 255 };
+    m2g::SpritePtr menuText;
+    bool quit;
+    SDL_Event event;
+
+    // Create a sprite with the "menu".
+    menuText = textRenderer.drawText( "PRESS C FOR CAMPAIGN OR PRESS S FOR SURVIVAL",   // Text
+                                      "data/fonts/LiberationSans-Bold.ttf",             // Font
+                                                         30,                            // Font size
+                                                         FONT_COLOR                     // Font color
+                                      );
+
+    // Show the "menu" to the player.
+    glClear ( GL_COLOR_BUFFER_BIT );
+    m2g::Tileset::bindBuffer(); // TODO: Make this line unuseful.
+    menuText->draw( projectionMatrix );
+    SDL_GL_SwapWindow( window );
+
+    // Wait for the player to press 'c' or 's'.
+    quit = false;
+    while( !quit ){
+        SDL_WaitEvent( &event );
+        quit = ( event.type == SDL_QUIT ) ||
+               ( ( event.type == SDL_KEYDOWN ) && ( ( event.key.keysym.sym == SDLK_s ) || ( event.key.keysym.sym == SDLK_c ) ) );
+    }
+
+    // If the user didn't exit the menu by trying to quit the game, it means
+    // that he/she selected one game mode.
+    if( event.type != SDL_QUIT ){
+        // Run a campaign level or a survival one according to player's selection.
+        if(  event.key.keysym.sym == SDLK_s ){
+            level->runSurvivalLevel( 0 );
+        }else{
+            level->runCampaignLevel( 0 );
+        }
+    }
 }
 
 

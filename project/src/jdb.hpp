@@ -46,7 +46,7 @@ class JDB
         JDB();
         ~JDB();
 
-        void runInfiniteSandwichesDemo();
+        void run();
 };
 
 } // namespace jdb

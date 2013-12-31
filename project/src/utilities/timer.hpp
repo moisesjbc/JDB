@@ -42,12 +42,14 @@ class Timer
 
         std::thread* thread;
 
+        int step_;
+
     public:
         /***
          * 1. Initialization
          ***/
         Timer();
-        void init( unsigned int timeLapse_, std::function<void (void)> callbackFunction_ );
+        void init( unsigned int timeLapse_, std::function<void (void)> callbackFunction_, int countdown = 0 );
 
 
         /***

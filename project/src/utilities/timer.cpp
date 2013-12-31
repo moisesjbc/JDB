@@ -26,14 +26,21 @@ namespace jdb {
  ***/
 
 Timer::Timer() :
-    thread( nullptr )
+    thread( nullptr ),
+    step_( 1 )
 {
 }
 
 
-void Timer::init( unsigned int timeLapse_, std::function<void (void)> callbackFunction_ )
+void Timer::init( unsigned int timeLapse_, std::function<void (void)> callbackFunction_, int countdown )
 {
-    seconds = -1;
+    if( countdown ){
+        seconds = countdown + 1;
+        step_ = -1;
+    }else{
+        seconds = -1;
+        step_ = 1;
+    }
     remainingSecondsForNewTimeLapse = -1;
     timeLapse = timeLapse_;
     callbackFunction = callbackFunction_;
@@ -81,7 +88,7 @@ void Timer::loop()
 
     while( !stop_ ){
         remainingSecondsForNewTimeLapse--;
-        seconds++;
+        seconds += step_;
 
         if( remainingSecondsForNewTimeLapse == 0 ){
             remainingSecondsForNewTimeLapse = timeLapse;

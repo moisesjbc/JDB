@@ -26,7 +26,7 @@ int main()
 {
     jdb::JDB jdb;
 
-    jdb.runInfiniteSandwichesDemo();
+    jdb.run();
 
     //jdb.runCollisionDemo();
 

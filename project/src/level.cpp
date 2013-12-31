@@ -63,6 +63,9 @@ void Level::runSurvivalLevel( unsigned int index )
     float speedStep;
     unsigned int timeLapse;
 
+    // Set the level type.
+    levelType_ = LevelType::SURVIVAL;
+
     // Open the levels configuration file.
     xmlFile.LoadFile( "data/config/levels.xml" );
 
@@ -91,16 +94,59 @@ void Level::runSurvivalLevel( unsigned int index )
     timeLapse = (unsigned int)( levelElement->IntAttribute( "time_lapse" ) );
 
     // Execute the main loop.
-    survivalLoop( initialSpeed, speedStep, timeLapse );
+    mainLoop( initialSpeed, speedStep, timeLapse, std::bind( &Level::isSurvivalLevelFinished, this ) );
 }
 
 
-void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int timeLapse )
+void Level::runCampaignLevel( unsigned int index )
+{
+    // Set the level type.
+    levelType_ = LevelType::CAMPAIGN;
+
+    // TODO: Change this when campaign level are fully implemented.
+    tinyxml2::XMLNode* levelNode = nullptr;
+    tinyxml2::XMLElement* levelElement = nullptr;
+
+    unsigned int i = 0;
+    float initialSpeed;
+    float speedStep;
+    unsigned int timeLapse;
+
+    // Open the levels configuration file.
+    xmlFile.LoadFile( "data/config/levels.xml" );
+
+    // Iterate over the survival level XML nodes until de number index.
+    levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "survival_levels" )->FirstChildElement( "survival_level" ) );
+    while( levelNode && ( i < index ) ){
+        levelNode = levelNode->NextSiblingElement( "survival_level" );
+        i++;
+    }
+
+    // If the index XML node doesn't exist, throw an exception.
+    if( i < index ){
+        throw std::runtime_error( "ERROR: Survival level not found" );
+    }
+
+    // Load the sandwiches data.
+    loadSandwichData();
+
+    // Load the dangers data.
+    loadDangerData();
+
+    // Get the level parameters.
+    levelElement = (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" );
+    initialSpeed = levelElement->FloatAttribute( "initial" );
+    speedStep = levelElement->FloatAttribute( "step" );
+    timeLapse = (unsigned int)( levelElement->IntAttribute( "time_lapse" ) );
+
+    // Execute the main loop.
+    mainLoop( initialSpeed, speedStep, timeLapse, std::bind( &Level::isCampaignLevelFinished, this ) );
+}
+
+
+void Level::mainLoop( float initialSpeed, float speedStep, unsigned int timeLapse, FinishPredicate finishPredicate )
 {
     unsigned int i;
-
-    // Jacob's life
-    int jacobHp = 100;
 
     // Variables used for sandwich reseting.
     unsigned int firstSandwich;
@@ -135,8 +181,17 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
     m2g::SpritePtr grinderFront;
 
     // Text sprites.
-    m2g::SpritePtr pressAnyKeyText;
     m2g::SpritePtr startAgainText;
+
+    // Level countdown (a countdown of zero means a survival level).
+    int countdown;
+
+    // Set the level countdown.
+    if( levelType_ == LevelType::CAMPAIGN ){
+        countdown = 60;
+    }else{
+        countdown = 0;
+    }
 
     try
     {
@@ -169,31 +224,6 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
         grinderFront = m2g::SpritePtr( new m2g::Sprite( graphicsLibrary_.getTileset( "grinder_front.png" ) ) );
         grinderFront->moveTo( 0.0f, -256.0f );
 
-        startAgainText = textRenderer.drawText( "START AGAIN? (Y/N)", "data/fonts/LiberationSans-Bold.ttf", 50, HEALTH_FONT_COLOR );
-
-        // Wait for the player to press any key to start the game.
-        pressAnyKeyText = textRenderer.drawText( "PRESS ANY KEY TO START", "data/fonts/LiberationSans-Bold.ttf", 50, HEALTH_FONT_COLOR );
-        coutMutex.lock();
-        std::cout << pressAnyKeyText->getWidth() << " x " << pressAnyKeyText->getHeight() << std::endl;
-        coutMutex.unlock();
-
-        // Bind the tileset's buffer.
-        m2g::Tileset::bindBuffer(); // TODO: Make this line unuseful.
-        while( !quit ){
-            // Clear the screen and show the user a message asking for a key
-            // stroke.
-            glClear ( GL_COLOR_BUFFER_BIT );
-            pressAnyKeyText->draw( projectionMatrix );
-            //pressAnyKeyText->translate( 128, 0 );
-            //pressAnyKeyText->draw( projectionMatrix );
-            //textRenderer.drawText( projectionMatrix, "PRESS ANY KEY TO START", 0, 0 );
-            SDL_GL_SwapWindow( window );
-
-            // Wait the user to press a key.
-            SDL_WaitEvent( &event );
-            quit = ( event.type == SDL_KEYDOWN );
-        }
-
         // Restarting loop. Keep restarting this level until the player tell us
         // to stop.
         quit = false;
@@ -203,7 +233,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             t1 = 0;
 
             // Initialize jacob's life and the sandwich indicators.
-            jacobHp = 100;
+            jacobHp_ = 100;
             firstSandwich = 0;
             lastSandwich = N_SANDWICHES - 1;
 
@@ -217,7 +247,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 coutMutex.lock();
                 std::cout << "New speed! (" << speed << ")" << std::endl;
                 coutMutex.unlock();
-            });
+            }, countdown );
 
             // Load the sandwiches, move them to their final positions and
             // populate them with dangers.
@@ -229,9 +259,9 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 sandwiches[i]->populate( dangerData );
             }
 
-            // Main loop: run the game until player ask us for stop or jacob's
-            // life reach 0.
-            while( !quit && ( jacobHp > 0 ) ){
+            // Main loop: run the game until player ask us or the finish
+            // predicate is true.
+            while( !quit && !finishPredicate() ){
                 // Clear screen.
                 glClear ( GL_COLOR_BUFFER_BIT );
 
@@ -296,7 +326,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
 
                     // Hurt Jacob! (muahahaha!)
-                    jacobHp -= sandwiches[firstSandwich]->getDamage();
+                    jacobHp_ -= sandwiches[firstSandwich]->getDamage();
 
                     // Repopulate the sandwich.
                     sandwiches[firstSandwich]->populate( dangerData );
@@ -351,7 +381,7 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                 seconds = seconds % 60;
 
                 // Write Jacob's life and game time.
-                sprintf( buffer, "%03d", (int)jacobHp );
+                sprintf( buffer, "%03d", (int)jacobHp_ );
                 textRenderer.drawText( projectionMatrix, buffer, 0, 75, 5 );
                 sprintf( buffer, "%02d:%02d", minutes, seconds );
                 textRenderer.drawText( projectionMatrix, buffer, 1, 450, 3 );
@@ -363,13 +393,26 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
             // Stop the timer.
             timer.stop();
 
-            if( jacobHp <= 0 ){
-                // Wait for user to press any key to start.
+            startAgainText = textRenderer.drawText( "RESTART? (Y/N)",                       // Text
+                                                    "data/fonts/LiberationSans-Bold.ttf",   // Font
+                                                    50,                                     // Font size
+                                                    HEALTH_FONT_COLOR                       // Font color
+                                                    );
+
+            // Ask the user if he/she wants to play again.
+            std::cout << "quit: " << quit << std::endl;
+            if( !quit ){
+                std::cout << "ENTRA" << std::endl;
+
+                // Show the user a text asking him / her for restarting.
                 m2g::Tileset::bindBuffer();
                 startAgainText->moveTo( 400, 200 );
                 startAgainText->draw( projectionMatrix );
                 SDL_GL_SwapWindow( window );
 
+                std::cout << "1" << std::endl;
+
+                // Wait for user to respond.
                 userResponded = false;
                 while( !userResponded ){
                     SDL_WaitEvent( &event );
@@ -388,6 +431,10 @@ void Level::survivalLoop( float initialSpeed, float speedStep, unsigned int time
                         }
                     }
                 }
+
+                std::cout << "2" << std::endl;
+            }else{
+                std::cout << "NO ENTRA (WTF!)" << std::endl;
             }
         }
 
@@ -450,5 +497,21 @@ void Level::drawTimer( int time )
     std::cout << "seconds: " << time << std::endl;
 }
 
+
+/***
+ * 3. Predicates
+ ***/
+
+
+bool Level::isSurvivalLevelFinished()
+{
+    return( jacobHp_ <= 0 );
+}
+
+
+bool Level::isCampaignLevelFinished()
+{
+    return( ( timer.getSeconds() <= 0 ) || ( jacobHp_ <= 0 ) );
+}
 
 } // namespace jdb
