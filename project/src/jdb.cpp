@@ -150,7 +150,8 @@ void JDB::run()
     m2g::TextRenderer textRenderer;
     const SDL_Color FONT_COLOR = { 131, 60, 60, 255 };
     m2g::SpritePtr menuText;
-    bool quit;
+    bool quitGame;
+    bool optionSelected;
     SDL_Event event;
 
     // Create a sprite with the "menu".
@@ -160,33 +161,39 @@ void JDB::run()
                                                          FONT_COLOR                     // Font color
                                       );
 
-    // Show the "menu" to the player.
-    glClear ( GL_COLOR_BUFFER_BIT );
-    m2g::Tileset::bindBuffer(); // TODO: Make this line unuseful.
-    menuText->draw( projectionMatrix );
-    SDL_GL_SwapWindow( window );
+    quitGame = false;
+    while( !quitGame ){
+        // Show the "menu" to the player.
+        glClear ( GL_COLOR_BUFFER_BIT );
+        m2g::Tileset::bindBuffer(); // TODO: Make this line unuseful.
+        menuText->draw( projectionMatrix );
+        SDL_GL_SwapWindow( window );
 
-    // Wait for the player to press 'c' or 's'.
-    quit = false;
-    while( !quit ){
-        SDL_WaitEvent( &event );
-        quit = ( event.type == SDL_QUIT ) ||
-               ( ( event.type == SDL_KEYDOWN ) && ( ( event.key.keysym.sym == SDLK_s ) || ( event.key.keysym.sym == SDLK_c ) ) );
-    }
+        // Wait for the player to press 'c' or 's'.
+        optionSelected = false;
+        while( !optionSelected ){
+            SDL_WaitEvent( &event );
 
-    // If the user didn't exit the menu by trying to quit the game, it means
-    // that he/she selected one game mode.
-    if( event.type != SDL_QUIT ){
-        // Run a campaign level or a survival one according to player's selection.
-        if(  event.key.keysym.sym == SDLK_s ){
-            level_ = new SurvivalLevel( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
-        }else{
-            level_ = new CampaignLevel( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
+            quitGame = ( event.type == SDL_QUIT ) || ( ( event.type == SDL_KEYDOWN ) && ( event.key.keysym.sym == SDLK_ESCAPE ) );
+            optionSelected = quitGame ||
+                    ( ( event.type == SDL_KEYDOWN ) && ( ( event.key.keysym.sym == SDLK_s ) || ( event.key.keysym.sym == SDLK_c ) ) );
         }
 
-        level_->run( 0 );
+        // If the user didn't exit the menu by trying to quit the game, it means
+        // that he/she selected one game mode.
+        if( !quitGame ){
+            // Run a campaign level or a survival one according to player's selection.
+            if(  event.key.keysym.sym == SDLK_s ){
+                level_ = new SurvivalLevel( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
+            }else{
+                level_ = new CampaignLevel( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
+            }
+
+            level_->run( 0 );
+        }
+        delete level_;
+        level_ = nullptr;
     }
-    delete level_;
 }
 
 

@@ -140,7 +140,6 @@ void Level::mainLoop()
 
     // Event handling.
     SDL_Event event;
-    bool quit = false;
     bool userResponded = false;
 
     // Sandwiches
@@ -230,7 +229,6 @@ void Level::mainLoop()
 
                 tool_->handleMouseHover( sandwiches, N_SANDWICHES );
 
-
                 // Game logic: Check if the first sandwich reached the
                 // sandwiches' end point and, in that case, restart it.
                 if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
@@ -310,17 +308,12 @@ void Level::mainLoop()
                                                     );
 
             // Ask the user if he/she wants to play again.
-            std::cout << "quit: " << quit << std::endl;
-            if( !quit ){
-                std::cout << "ENTRA" << std::endl;
-
+            if( !quitLevel_ ){
                 // Show the user a text asking him / her for restarting.
                 m2g::Tileset::bindBuffer();
                 startAgainText->moveTo( 400, 200 );
                 startAgainText->draw( projectionMatrix );
                 SDL_GL_SwapWindow( window );
-
-                std::cout << "1" << std::endl;
 
                 // Wait for user to respond.
                 userResponded = false;
@@ -330,10 +323,10 @@ void Level::mainLoop()
                         userResponded = true;
                         switch( event.key.keysym.sym ){
                             case SDLK_y:
-                                quit = false;
+                                quitLevel_ = false;
                             break;
                             case SDLK_n:
-                                quit = true;
+                                quitLevel_ = true;
                             break;
                             default:
                                 userResponded = false;
@@ -341,10 +334,6 @@ void Level::mainLoop()
                         }
                     }
                 }
-
-                std::cout << "2" << std::endl;
-            }else{
-                std::cout << "NO ENTRA (WTF!)" << std::endl;
             }
         }
 
@@ -362,7 +351,7 @@ void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
 {
     switch( event.type ){
         case SDL_QUIT:
-            // Player wants to quit the level.
+            // Player wants to exit the game.
             quitLevel_ = true;
         break;
         case SDL_MOUSEBUTTONDOWN:
@@ -377,7 +366,6 @@ void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
             // ESCAPE we exit the game.
             switch( event.key.keysym.sym ){
                 case SDLK_ESCAPE:
-                    // TODO: Change to "exitGame".
                     quitLevel_ = true;
                 break;
                 case SDLK_a:
