@@ -29,44 +29,55 @@ namespace jdb {
 class Timer
 {
     private:
-        std::mutex mutex;
+        mutable std::mutex mutex_;
 
-        int timeLapse;
-        int seconds;
+        int timeLapse_;
+        int seconds_;
 
-        int remainingSecondsForNewTimeLapse;
+        int remainingSecondsForNewTimeLapse_;
 
-        std::function<void (void)> callbackFunction;
+        std::function<void (void)> callbackFunction_;
 
         bool stop_;
 
-        std::thread* thread;
+        std::thread* thread_;
 
         int step_;
 
+
     public:
         /***
-         * 1. Initialization
+         * 1. Initialization and destruction
          ***/
         Timer();
-        void init( unsigned int timeLapse_, std::function<void (void)> callbackFunction_, int countdown = 0 );
+        ~Timer();
+
+        void init( unsigned int countdown, unsigned int timeLapse, std::function<void (void)> callbackFunction );
 
 
         /***
-         * 2. Handlers
+         * 2. Getters
          ***/
+        int getSeconds() const ;
+
+
+        /***
+         * 3. Setters
+         ***/
+        //void setCountdown( unsigned int countdown );
+        //void setTimeLapse( unsigned int timeLapse );
+
+
+        /***
+         * 4. Handlers
+         ***/
+        void play();
         void stop();
-
-
-        /***
-         * 3. Getters
-         ***/
-        int getSeconds();
 
 
     private:
         /***
-         * 4. Main loop
+         * 5. Main loop
          ***/
         void loop();
 };

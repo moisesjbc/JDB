@@ -159,19 +159,6 @@ void Level::mainLoop()
     // Text sprites.
     m2g::SpritePtr startAgainText;
 
-    // Level countdown (a countdown of zero means a survival level).
-    int countdown;
-
-    // Set the level countdown.
-    /*
-    if( levelType_ == LevelType::CAMPAIGN ){
-        countdown = 60;
-    }else{
-        countdown = 0;
-    }
-    */
-    countdown = 0;
-
     try
     {
         // Initialize the text renderer.
@@ -207,18 +194,6 @@ void Level::mainLoop()
             firstSandwich = 0;
             lastSandwich = N_SANDWICHES - 1;
 
-            // Start the timer and make it increase the speed every timeLapse
-            // seconds.
-            timer.init( conveyorBelt_.getTimeLapse(), [&](){
-                speedMutex.lock();
-                speed += conveyorBelt_.getSpeedStep();
-                speedMutex.unlock();
-
-                coutMutex.lock();
-                std::cout << "New speed! (" << speed << ")" << std::endl;
-                coutMutex.unlock();
-            }, countdown );
-
             // Load the sandwiches, move them to their final positions and
             // populate them with dangers.
             for( i=0; i < N_SANDWICHES; i++ ){
@@ -228,6 +203,12 @@ void Level::mainLoop()
 
                 sandwiches[i]->populate( dangerData );
             }
+
+            // Reset the timer.
+            resetTimer();
+
+            // Start the timer.
+            timer_.play();
 
             // Main loop: run the game until player ask us or the finish
             // predicate is true.
@@ -305,7 +286,7 @@ void Level::mainLoop()
                 guiSprites_.draw( projectionMatrix );
 
                 // Compute the current game time.
-                seconds = timer.getSeconds();
+                seconds = timer_.getSeconds();
                 minutes = seconds / 60;
                 seconds = seconds % 60;
 
@@ -320,7 +301,7 @@ void Level::mainLoop()
             }
 
             // Stop the timer.
-            timer.stop();
+            timer_.stop();
 
             startAgainText = textRenderer.drawText( "RESTART? (Y/N)",                       // Text
                                                     "data/fonts/LiberationSans-Bold.ttf",   // Font
@@ -371,6 +352,7 @@ void Level::mainLoop()
         for( i=0; i < N_SANDWICHES; i++ ){
             delete sandwiches[i];
         }
+
     }catch( std::runtime_error& e ){
         std::cerr << e.what() << std::endl;
     }
@@ -428,9 +410,16 @@ void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
  * 5. Auxiliar methods
  ***/
 
+
 void Level::drawTimer( int time )
 {
     std::cout << "seconds: " << time << std::endl;
+}
+
+
+int Level::getSeconds() const
+{
+    return timer_.getSeconds();
 }
 
 

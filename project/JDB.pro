@@ -30,7 +30,8 @@ SOURCES += src/main.cpp \
     src/dependencies/m2g/src/drawables/drawables_set.cpp \
     src/dependencies/m2g/src/drawables/collidable.cpp \
     src/levels/survival_level.cpp \
-    src/levels/conveyor_belt.cpp
+    src/levels/conveyor_belt.cpp \
+    src/levels/campaign_level.cpp
 
 HEADERS += \
     src/jdb.hpp \
@@ -62,7 +63,8 @@ HEADERS += \
     src/dependencies/m2g/src/drawables/drawables_set.hpp \
     src/dependencies/m2g/src/drawables/collidable.hpp \
     src/levels/survival_level.hpp \
-    src/levels/conveyor_belt.hpp
+    src/levels/conveyor_belt.hpp \
+    src/levels/campaign_level.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -lsfml-system -lsfml-audio
 

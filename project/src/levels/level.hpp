@@ -54,6 +54,8 @@ enum class LevelType
 class Level
 {
     protected:
+        Timer timer_;
+
         ConveyorBelt conveyorBelt_;
 
         tinyxml2::XMLDocument xmlFile;
@@ -71,9 +73,6 @@ class Level
 
         // Players tool
         ToolPtr tool_;
-
-        // Timer
-        Timer timer;
 
         // Jacob's life
         int jacobHp_;
@@ -118,13 +117,15 @@ class Level
         void mainLoop();
         void handleUserInput( const SDL_Event& event, Sandwich** sandwiches );
         virtual bool finishPredicate() const = 0;
+        virtual void resetTimer() = 0;
 
 
         /***
          * 5. Auxiliar methods
          ***/
-    private:
+    protected:
         void drawTimer( int time );
+        int getSeconds() const ;
 };
 
 } // namespace jdb

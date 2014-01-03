@@ -17,11 +17,15 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "survival_level.hpp"
+#include "campaign_level.hpp"
 
 namespace jdb {
 
-SurvivalLevel::SurvivalLevel( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight ) :
+/***
+ * 1. Initialization and destruction
+ ***/
+
+CampaignLevel::CampaignLevel( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight ) :
     Level( window_, screen_, screenWidth, screenHeight )
 {
 }
@@ -31,13 +35,16 @@ SurvivalLevel::SurvivalLevel( SDL_Window* window_, SDL_Surface* screen_, unsigne
  * 2. Level loading
  ***/
 
-void SurvivalLevel::load( unsigned int index )
+void CampaignLevel::load( unsigned int index )
 {
     tinyxml2::XMLNode* levelNode = nullptr;
     unsigned int i = 0;
 
     // Open the levels configuration file.
     xmlFile.LoadFile( "data/config/levels.xml" );
+
+    // TODO: Load this from file.
+    countdown_ = 15;
 
     // Iterate over the survival level XML nodes until de number index.
     levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "survival_levels" )->FirstChildElement( "survival_level" ) );
@@ -66,16 +73,16 @@ void SurvivalLevel::load( unsigned int index )
  * 3. Main loop
  ***/
 
-bool SurvivalLevel::finishPredicate() const
+bool CampaignLevel::finishPredicate() const
 {
-    return ( jacobHp_ <= 0.0f );
+    return ( getSeconds() <= 0 ) || ( jacobHp_ <= 0.0f );
 }
 
 
-void SurvivalLevel::resetTimer()
+void CampaignLevel::resetTimer()
 {
     // Init the timer.
-    timer_.init( 0, conveyorBelt_.getTimeLapse(), [&](){
+    timer_.init( 30, conveyorBelt_.getTimeLapse(), [&](){
         conveyorBelt_.updateSpeed();
 
         coutMutex.lock();

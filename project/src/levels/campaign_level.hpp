@@ -17,46 +17,38 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef CONVEYOR_BELT_HPP
-#define CONVEYOR_BELT_HPP
+#ifndef CAMPAIGN_LEVEL_HPP
+#define CAMPAIGN_LEVEL_HPP
 
-#include "../dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.h"
+#include "level.hpp"
 
 namespace jdb {
 
-class ConveyorBelt
+class CampaignLevel : public Level
 {
     private:
-        float initialSpeed_;
-        float speedStep_;
-        unsigned int timeLapse_;
-
-        // Current speed
-        float speed_;
-
+        unsigned int countdown_;
 
     public:
         /***
-         * 1. Initialization
+         * 1. Initialization and destruction
          ***/
-        void load( tinyxml2::XMLElement* xmlElement );
+        CampaignLevel( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight );
 
 
         /***
-         * 2. Getters
+         * 2. Level loading
          ***/
-        float getInitialSpeed() const ;
-        float getSpeedStep() const ;
-        unsigned int getTimeLapse() const ;
-        float getSpeed() const ;
+        virtual void load( unsigned int levelIndex );
 
 
         /***
-         * 3. Updating
+         * 3. Main loop
          ***/
-        void updateSpeed();
+        virtual bool finishPredicate() const ;
+        virtual void resetTimer();
 };
 
 } // namespace jdb
 
-#endif // CONVEYOR_BELT_HPP
+#endif // CAMPAIGN_LEVEL_HPP

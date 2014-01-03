@@ -42,6 +42,7 @@ float ConveyorBelt::getInitialSpeed() const
     return initialSpeed_;
 }
 
+
 float ConveyorBelt::getSpeedStep() const
 {
     return speedStep_;
@@ -51,6 +52,22 @@ float ConveyorBelt::getSpeedStep() const
 unsigned int ConveyorBelt::getTimeLapse() const
 {
     return timeLapse_;
+}
+
+
+float ConveyorBelt::getSpeed() const
+{
+    return speed_;
+}
+
+
+/***
+ * 3. Updating
+ ***/
+
+void ConveyorBelt::updateSpeed()
+{
+    speed_ += speedStep_;
 }
 
 } // namespace jdb

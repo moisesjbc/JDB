@@ -181,8 +181,7 @@ void JDB::run()
         if(  event.key.keysym.sym == SDLK_s ){
             level_ = new SurvivalLevel( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
         }else{
-            // TODO: Change to campaign.
-            level_ = new SurvivalLevel( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
+            level_ = new CampaignLevel( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
         }
 
         level_->run( 0 );

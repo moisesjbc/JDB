@@ -22,89 +22,115 @@
 namespace jdb {
 
 /***
- * 1. Initialization
+ * 1. Initialization and destruction
  ***/
 
 Timer::Timer() :
-    thread( nullptr ),
+    thread_( nullptr ),
     step_( 1 )
 {
 }
 
 
-void Timer::init( unsigned int timeLapse_, std::function<void (void)> callbackFunction_, int countdown )
+void Timer::init( unsigned int countdown, unsigned int timeLapse, std::function<void (void)> callbackFunction )
 {
+    callbackFunction_ = callbackFunction;
+
     if( countdown ){
-        seconds = countdown + 1;
+        seconds_ = countdown + 1;
         step_ = -1;
     }else{
-        seconds = -1;
+        seconds_ = -1;
         step_ = 1;
     }
-    remainingSecondsForNewTimeLapse = -1;
-    timeLapse = timeLapse_;
-    callbackFunction = callbackFunction_;
-    remainingSecondsForNewTimeLapse = 0;
 
-    thread = new std::thread( &Timer::loop, this );
+    remainingSecondsForNewTimeLapse_ = -1;
+    timeLapse_ = timeLapse;
+    remainingSecondsForNewTimeLapse_ = 0;
 }
 
 
-int Timer::getSeconds()
+Timer::~Timer()
+{
+    if( thread_ ){
+        thread_->join();
+        delete thread_;
+        thread_ = nullptr;
+    }
+}
+
+
+/***
+ * 2. Getters
+ ***/
+
+int Timer::getSeconds() const
 {
     int res;
 
-    mutex.lock();
-    res = seconds;
-    mutex.unlock();
+    mutex_.lock();
+    res = seconds_;
+    mutex_.unlock();
 
     return res;
 }
 
 
+/***
+ * 4. Handlers
+ ***/
+
+void Timer::play()
+{
+    thread_ = new std::thread( &Timer::loop, this );
+}
+
+
 void Timer::stop()
 {
-    mutex.lock();
+    mutex_.lock();
     stop_ = true;
-    mutex.unlock();
+    mutex_.unlock();
 
-    thread->join();
+    thread_->join();
+    delete thread_;
+    thread_ = nullptr;
 }
 
 
 /***
- * 4. Main loop
+ * 5. Main loop
  ***/
 
 void Timer::loop()
 {
     // TODO: ¿Create loopWithCallback method.?
     //  - Keep in mind: what to do if the callback function delays the timer?
-    mutex.lock();
+    mutex_.lock();
     stop_ = false;
     std::thread* callbackThread = nullptr;
 
-    remainingSecondsForNewTimeLapse = timeLapse;
+    remainingSecondsForNewTimeLapse_ = timeLapse_;
 
     while( !stop_ ){
-        remainingSecondsForNewTimeLapse--;
-        seconds += step_;
+        remainingSecondsForNewTimeLapse_--;
+        seconds_ += step_;
 
-        if( remainingSecondsForNewTimeLapse == 0 ){
-            remainingSecondsForNewTimeLapse = timeLapse;
-            mutex.unlock();
-            callbackThread = new std::thread( callbackFunction );
+        if( remainingSecondsForNewTimeLapse_ == 0 ){
+            remainingSecondsForNewTimeLapse_ = timeLapse_;
+            mutex_.unlock();
+            callbackThread = new std::thread( callbackFunction_ );
             callbackThread->join();
             delete callbackThread;
         }else{
-            mutex.unlock();
+            mutex_.unlock();
         }
 
         std::this_thread::sleep_for( std::chrono::seconds( 1 ) );
 
-        mutex.lock();
+        mutex_.lock();
     }
-    mutex.unlock();
+    mutex_.unlock();
 }
 
 

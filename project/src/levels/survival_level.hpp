@@ -43,6 +43,7 @@ class SurvivalLevel : public Level
          * 3. Main loop
          ***/
         virtual bool finishPredicate() const ;
+        virtual void resetTimer();
 };
 
 } // namespace jdb
