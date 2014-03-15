@@ -158,8 +158,8 @@ void JDB::run()
     menuText = textRenderer.drawText( "MENU\n---\nPRESS A KEY\n---\n\nC - CAMPAIGN MODE\nS - SURVIVAL MODE\nESC - EXIT",   // Text
                                       "data/fonts/LiberationSans-Bold.ttf",             // Font
                                                          30,                            // Font size
-                                                         FONT_COLOR,                    // Font color
-                                                         TextAlign::RIGHT              // Text align
+                                                         FONT_COLOR/*,                    // Font color
+                                                         TextAlign::RIGHT    */          // Text align
                                       );
 
     quitGame = false;
