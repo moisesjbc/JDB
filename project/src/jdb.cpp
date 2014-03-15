@@ -155,10 +155,11 @@ void JDB::run()
     SDL_Event event;
 
     // Create a sprite with the "menu".
-    menuText = textRenderer.drawText( "PRESS C FOR CAMPAIGN OR PRESS S FOR SURVIVAL",   // Text
+    menuText = textRenderer.drawText( "MENU\n---\nPRESS A KEY\n---\n\nC - CAMPAIGN MODE\nS - SURVIVAL MODE\nESC - EXIT",   // Text
                                       "data/fonts/LiberationSans-Bold.ttf",             // Font
                                                          30,                            // Font size
-                                                         FONT_COLOR                     // Font color
+                                                         FONT_COLOR,                    // Font color
+                                                         TextAlign::RIGHT              // Text align
                                       );
 
     quitGame = false;

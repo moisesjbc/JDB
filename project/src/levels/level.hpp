@@ -34,8 +34,8 @@
 #include "../sandwiches/sandwich.hpp"
 #include "../dependencies/m2g/src/text/text_renderer.hpp"
 #include "../dependencies/m2g/src/drawables/drawables_set.hpp"
-#include <freetype2/freetype/config/ftheader.h>
-#include <FTGL/ftgl.h>
+//#include <freetype2/freetype/config/ftheader.h>
+//#include <FTGL/ftgl.h>
 #include <SDL2/SDL_ttf.h>
 #include <functional>
 #include "conveyor_belt.hpp"

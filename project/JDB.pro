@@ -70,7 +70,39 @@ LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -lsfml-system -lsfml-au
 
 CXXFLAGS += -Wall -Werrors -pedantic-errors
 
-INCLUDEPATH += /usr/include/freetype2/
-
 # http://qt-project.org/forums/viewthread/19989
 CONFIG += c++11
+
+
+win32 {
+    debug {
+        DESTDIR = ../debug-win32
+    }
+
+    INCLUDEPATH += /home/moises/cross-compiling-windows/mxe/usr/include/
+    INCLUDEPATH += /home/moises/cross-compiling-windows/mxe/usr/i686-w64-mingw32/include/
+    INCLUDEPATH += /home/moises/cross-compiling-windows/mxe/usr/i686-w64-mingw32/include/freetype2/
+
+    message( "Compiling for Windows 32" )
+
+    CXXFLAGS += -std=c++11
+    #CXXFLAGS += -std=c++11
+}
+
+unix {
+    debug {
+        DESTDIR = .
+    }
+
+
+
+    INCLUDEPATH += /usr/include/freetype2/
+
+    message( "Compiling for UNIX" )
+}
+
+BUILD_DATA_DIR = $$DESTDIR/.build_data
+OBJECTS_DIR = $$BUILD_DATA_DIR/obj
+MOC_DIR = $$BUILD_DATA_DIR/moc
+RCC_DIR = $$BUILD_DATA_DIR/qrc
+UI_DIR = $$BUILD_DATA_DIR/ui
