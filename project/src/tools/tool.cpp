@@ -52,11 +52,11 @@ Tool::Tool( m2g::AnimationDataPtr animationData ) :
 
     // Load the sounds.
     for( i = 0; i < 4; i++ ){
-        if( !soundBuffers_[i].LoadFromFile( ( audioFolder + audioFiles[i] ) ) ){
+        if( !soundBuffers_[i].loadFromFile( ( audioFolder + audioFiles[i] ) ) ){
             throw std::runtime_error( std::string( "ERROR loading file [" ) + audioFolder + audioFiles[i] + std::string( "]" ) );
         }
-        sounds_[i].SetBuffer( soundBuffers_[i] );
-        sounds_[i].SetLoop( audioLoop[i] );
+        sounds_[i].setBuffer( soundBuffers_[i] );
+        sounds_[i].setLoop( audioLoop[i] );
     }
 }
 
@@ -70,7 +70,7 @@ void Tool::setToolType( ToolType toolType )
     currentToolType_ = toolType;
 
     // Stop the sound associated to the current tool.
-    sounds_[ static_cast<int>(currentToolType_) ].Stop();
+    sounds_[ static_cast<int>(currentToolType_) ].stop();
 
     if( !active_ ){
         setAnimationState( 2 * static_cast< int >( currentToolType_  ) );
@@ -89,7 +89,7 @@ void Tool::handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiche
     unsigned int i = 0;
 
     // Play the sound associated to the current tool.
-    sounds_[ static_cast<int>(currentToolType_) ].Play();
+    sounds_[ static_cast<int>(currentToolType_) ].play();
 
     if( currentToolType_ == ToolType::HAND ){
         while( ( i < nSandwiches ) &&
@@ -114,7 +114,7 @@ void Tool::handleMouseButtonUp()
     setAnimationState( getAnimationState() - 1 );
 
     // Stop the sound associated to the current tool.
-    sounds_[ static_cast<int>(currentToolType_) ].Stop();
+    sounds_[ static_cast<int>(currentToolType_) ].stop();
 }
 
 
