@@ -17,18 +17,13 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include <iostream>
 #include "jdb.hpp"
-
-using namespace std;
 
 int main()
 {
     jdb::JDB jdb;
 
     jdb.run();
-
-    //jdb.runCollisionDemo();
 
     return 0;
 }
