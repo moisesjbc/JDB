@@ -25,13 +25,19 @@ namespace jdb {
 const GLfloat WINDOW_WIDTH = 1024;
 const GLfloat WINDOW_HEIGHT = 768;
 
+
+/***
+ * 1. Construction
+ ***/
+
 JDB::JDB() :
     window( NULL ),
     screen( NULL )
 {
     // Initialize SDL
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
-        throw std::runtime_error( std::string( "ERROR initializing SDL: " ) + SDL_GetError() );
+        throw std::runtime_error( std::string( "ERROR initializing SDL: " ) +
+                                  SDL_GetError() );
     }
 
     // Initialize SDL_image
@@ -41,7 +47,8 @@ JDB::JDB() :
 
     // Init TTF
     if( TTF_Init() < 0 ){
-        throw std::runtime_error( std::string( "ERROR initializing TTF: " ) + std::string( TTF_GetError() ) );
+        throw std::runtime_error( std::string( "ERROR initializing TTF: " ) +
+                                  std::string( TTF_GetError() ) );
     }
 
     // Initialize some OpenGL attributes.
@@ -63,10 +70,11 @@ JDB::JDB() :
       SDL_WINDOWPOS_CENTERED,
       WINDOW_WIDTH,
       WINDOW_HEIGHT,
-      /*SDL_WINDOW_SHOWN |*/ SDL_WINDOW_OPENGL );
+      SDL_WINDOW_OPENGL );
 
     if( window == NULL ){
-        throw std::runtime_error( std::string( "ERROR creating window: " ) + std::string( SDL_GetError() ) );
+        throw std::runtime_error( std::string( "ERROR creating window: " ) +
+                                  std::string( SDL_GetError() ) );
     }
 
     // Retrieve the window's screen.
@@ -83,7 +91,7 @@ JDB::JDB() :
         throw std::runtime_error( "OpenGL 4.2 not supported" );
     }
 
-     std::cout << "OpenGL " << glGetString(GL_VERSION) << ", GLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+    std::cout << "OpenGL " << glGetString(GL_VERSION) << ", GLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
     // Retrieve and display the context's version.
     int majorVersion, minorVersion;
@@ -91,11 +99,11 @@ JDB::JDB() :
     SDL_GL_GetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, &minorVersion );
     std::cout << "Context version (SDL/OpenGL): " << majorVersion << "." << minorVersion << std::endl;
 
-
     // Display a string with the OpenGL version.
     const unsigned char* version = glGetString( GL_VERSION );
     if( version == NULL ){
-        std::runtime_error( std::string( "ERROR retrieving OpenGL's version: " ) + std::string( (GLchar* )( gluErrorString( glGetError() ) ) ) );
+        std::runtime_error( std::string( "ERROR retrieving OpenGL's version: " ) +
+                            std::string( (GLchar* )( gluErrorString( glGetError() ) ) ) );
     }else{
         std::cout << "Version: " << version << std::endl;
     }
@@ -124,6 +132,10 @@ JDB::JDB() :
 }
 
 
+/***
+ * 2. Destruction
+ ***/
+
 JDB::~JDB()
 {
     // Destroy the OpenGL context (muahaha!).
@@ -144,6 +156,10 @@ JDB::~JDB()
 }
 
 
+/***
+ * 3. Game run
+ ***/
+
 void JDB::run()
 {
     // Text rendering.
@@ -155,12 +171,11 @@ void JDB::run()
     SDL_Event event;
 
     // Create a sprite with the "menu".
-    menuText = textRenderer.drawText( "MENU\n---\nPRESS A KEY\n---\n\nC - CAMPAIGN MODE\nS - SURVIVAL MODE\nESC - EXIT",   // Text
-                                      "data/fonts/LiberationSans-Bold.ttf",             // Font
-                                                         30,                            // Font size
-                                                         FONT_COLOR/*,                    // Font color
-                                                         TextAlign::RIGHT    */          // Text align
-                                      );
+    menuText = textRenderer.drawText(
+                "MENU\n---\nPRESS A KEY\n---\n\nC - CAMPAIGN MODE\nS - SURVIVAL MODE\nESC - EXIT",   // Text
+                "data/fonts/LiberationSans-Bold.ttf",   // Font
+                30,                                     // Font size
+                FONT_COLOR );                           // Font color
 
     quitGame = false;
     while( !quitGame ){

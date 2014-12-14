@@ -33,6 +33,25 @@ namespace jdb {
 
 class JDB
 {
+    public:
+        /***
+         * 1. Construction
+         ***/
+        JDB();
+
+
+        /***
+         * 2. Destruction
+         ***/
+        ~JDB();
+
+
+        /***
+         * 3. Game run
+         ***/
+        void run();
+
+
     private:
         GLuint vao;
         SDL_Window* window;
@@ -42,12 +61,6 @@ class JDB
         glm::mat4 projectionMatrix;
 
         Level* level_;
-
-    public:
-        JDB();
-        ~JDB();
-
-        void run();
 };
 
 } // namespace jdb
