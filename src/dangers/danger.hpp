@@ -45,6 +45,7 @@ class Danger : public m2g::Animation
          * 1. Initialization and destruction
          ***/
         Danger( DangerDataPtr dangerData_ );
+        virtual ~Danger() = default;
 
 
         /***
