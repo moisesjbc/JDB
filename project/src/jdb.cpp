@@ -191,15 +191,21 @@ void JDB::run()
         if( !quitGame ){
             // Run a campaign level or a survival one according to player's selection.
             if(  event.key.keysym.sym == SDLK_s ){
-                level_ = new SurvivalLevel( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
+                level_ = std::unique_ptr< Level >(
+                            new SurvivalLevel( window,
+                                               screen,
+                                               WINDOW_WIDTH,
+                                               WINDOW_HEIGHT ) );
             }else{
-                level_ = new CampaignLevel( window, screen, WINDOW_WIDTH, WINDOW_HEIGHT );
+                level_ = std::unique_ptr< Level >(
+                            new CampaignLevel( window,
+                                               screen,
+                                               WINDOW_WIDTH,
+                                               WINDOW_HEIGHT ) );
             }
 
             level_->run( 0 );
         }
-        delete level_;
-        level_ = nullptr;
     }
 }
 

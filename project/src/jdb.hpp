@@ -60,7 +60,7 @@ class JDB
         msl::ShaderLoader* shaderLoader;
         glm::mat4 projectionMatrix;
 
-        Level* level_;
+        std::unique_ptr< Level > level_;
 };
 
 } // namespace jdb
