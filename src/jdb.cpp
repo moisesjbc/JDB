@@ -17,7 +17,6 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "dependencies/m2g/src/dependencies/GL3W/gl3w.h"
 #include "jdb.hpp"
 
 namespace jdb {
