@@ -94,18 +94,6 @@ JDB::JDB() :
         throw std::runtime_error( "OpenGL 4.2 not supported" );
     }
 
-    // Retrieve and display the context's version.
-    int majorVersion, minorVersion;
-    SDL_GL_GetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, &majorVersion );
-    SDL_GL_GetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, &minorVersion );
-
-    // Display a string with the OpenGL version.
-    const unsigned char* version = glGetString( GL_VERSION );
-    if( version == NULL ){
-        std::runtime_error( std::string( "ERROR retrieving OpenGL's version: " ) +
-                            std::string( (GLchar* )( gluErrorString( glGetError() ) ) ) );
-    }
-
     // Load and use shaders.
     msl::ShaderLoader* shaderLoader =
             msl::ShaderLoader::getInstance();
