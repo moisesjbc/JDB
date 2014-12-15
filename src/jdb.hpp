@@ -52,7 +52,6 @@ class JDB
 
 
     private:
-        GLuint vao;
         SDL_Window* window;
         SDL_Surface* screen;
         SDL_GLContext glContext;
