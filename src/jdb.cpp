@@ -159,6 +159,7 @@ void JDB::run()
     bool quitGame;
     bool optionSelected;
     SDL_Event event;
+    std::unique_ptr< Level > level = nullptr;
 
     // Set projection mode.
     const glm::mat4 projectionMatrix =
@@ -199,20 +200,20 @@ void JDB::run()
         if( !quitGame ){
             // Run a campaign level or a survival one according to player's selection.
             if(  event.key.keysym.sym == SDLK_s ){
-                level_ = std::unique_ptr< Level >(
+                level = std::unique_ptr< Level >(
                             new SurvivalLevel( window,
                                                screen,
                                                WINDOW_WIDTH,
                                                WINDOW_HEIGHT ) );
             }else{
-                level_ = std::unique_ptr< Level >(
-                            new CampaignLevel( window,
-                                               screen,
-                                               WINDOW_WIDTH,
-                                               WINDOW_HEIGHT ) );
+                level = std::unique_ptr< Level >(
+                           new CampaignLevel( window,
+                                              screen,
+                                              WINDOW_WIDTH,
+                                              WINDOW_HEIGHT ) );
             }
 
-            level_->run( 0 );
+            level->run( 0 );
         }
     }
 }
