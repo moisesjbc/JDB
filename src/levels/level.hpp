@@ -53,7 +53,58 @@ enum class LevelType
 
 class Level
 {
+    public:
+        /***
+         * 1. Construction
+         ***/
+        Level( SDL_Window* window_,
+               SDL_Surface* screen_,
+               unsigned int screenWidth,
+               unsigned int screenHeight );
+
+
+        /***
+         * 2. Level execution
+         ***/
+        void run( unsigned int levelIndex );
+
+
     protected:
+        /***
+         * 3. Level Loading
+         ***/
+        virtual void load( unsigned int levelIndex ) = 0;
+        void loadSandwichData();
+        void loadDangerData();
+
+
+        /***
+         * 4. Main loop
+         ***/
+        void mainLoop();
+        void handleUserInput( const SDL_Event& event, Sandwich** sandwiches );
+        virtual bool finishPredicate() const = 0;
+        virtual void resetTimer() = 0;
+
+
+        /***
+         * 5. Auxiliar methods
+         ***/
+        void drawTimer( int time );
+        int getSeconds() const ;
+
+
+    private:
+        /***
+         * 6. Initialization
+         ***/
+        void initGUI();
+
+
+    protected:
+        /***
+         * Attributes
+         ***/
         Timer timer_;
 
         ConveyorBelt conveyorBelt_;
@@ -85,49 +136,6 @@ class Level
 
     private:
         glm::mat4 projectionMatrix;
-
-    public:
-        /***
-         * 1. Initialization and destruction
-         ***/
-        Level( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight );
-
-    private:
-        void initGUI();
-
-
-        /***
-         * 2. Level Loading
-         ***/
-    protected:
-        virtual void load( unsigned int levelIndex ) = 0;
-        void loadSandwichData();
-        void loadDangerData();
-
-
-        /***
-         * 3. Level execution
-         ***/
-    public:
-        void run( unsigned int levelIndex );
-
-
-        /***
-         * 4. Main loop
-         ***/
-    protected:
-        void mainLoop();
-        void handleUserInput( const SDL_Event& event, Sandwich** sandwiches );
-        virtual bool finishPredicate() const = 0;
-        virtual void resetTimer() = 0;
-
-
-        /***
-         * 5. Auxiliar methods
-         ***/
-    protected:
-        void drawTimer( int time );
-        int getSeconds() const ;
 };
 
 } // namespace jdb

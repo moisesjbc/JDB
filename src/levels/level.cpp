@@ -29,10 +29,13 @@ const unsigned int N_DANGERS = N_SANDWICHES * 3;
 
 
 /***
- * 1. Initialization and destruction
+ * 1. Construction
  ***/
 
-Level::Level( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight )
+Level::Level( SDL_Window* window_,
+              SDL_Surface* screen_,
+              unsigned int screenWidth,
+              unsigned int screenHeight )
     : window( window_ ),
       screen( screen_ )
 {
@@ -43,26 +46,22 @@ Level::Level( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidt
 }
 
 
-void Level::initGUI()
+/***
+ * 2. Level execution
+ ***/
+
+void Level::run( unsigned int levelIndex )
 {
-    // Load the "gui" graphics library.
-    graphicsLibrary_.loadAll( "data/img/gui" );
+    // Load the required level.
+    load( levelIndex );
 
-    // Load the GUI sprites.
-    guiSprites_.addSprite( graphicsLibrary_.getTileset( "health.png" ) );
-    guiSprites_.addSprite( graphicsLibrary_.getTileset( "time.png" ), 367.0f, 0.0f );
-    guiToolSelector_ = guiSprites_.addSprite( graphicsLibrary_.getTileset( "tool_selector.png" ), 384.0f, 660.0f );
-
-    // Load the "tools" graphics library.
-    graphicsLibrary_.loadAll( "data/img/tools" );
-
-    // Load the player's tool.
-    tool_ = ToolPtr( new Tool( graphicsLibrary_.getAnimationData( "tools.png" ) ) );
+    // Run the main loop.
+    mainLoop();
 }
 
 
 /***
- * 2. Level loading
+ * 3. Level Loading
  ***/
 
 void Level::loadSandwichData()
@@ -103,17 +102,21 @@ void Level::loadDangerData()
 }
 
 
-/***
- * 3. Level execution
- ***/
-
-void Level::run( unsigned int levelIndex )
+void Level::initGUI()
 {
-    // Load the required level.
-    load( levelIndex );
+    // Load the "gui" graphics library.
+    graphicsLibrary_.loadAll( "data/img/gui" );
 
-    // Run the main loop.
-    mainLoop();
+    // Load the GUI sprites.
+    guiSprites_.addSprite( graphicsLibrary_.getTileset( "health.png" ) );
+    guiSprites_.addSprite( graphicsLibrary_.getTileset( "time.png" ), 367.0f, 0.0f );
+    guiToolSelector_ = guiSprites_.addSprite( graphicsLibrary_.getTileset( "tool_selector.png" ), 384.0f, 660.0f );
+
+    // Load the "tools" graphics library.
+    graphicsLibrary_.loadAll( "data/img/tools" );
+
+    // Load the player's tool.
+    tool_ = ToolPtr( new Tool( graphicsLibrary_.getAnimationData( "tools.png" ) ) );
 }
 
 
@@ -397,7 +400,6 @@ void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
 /***
  * 5. Auxiliar methods
  ***/
-
 
 void Level::drawTimer( int time )
 {
