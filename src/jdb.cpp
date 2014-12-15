@@ -118,9 +118,6 @@ JDB::JDB() :
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glClearColor( 0xF5/255.0f, 0xF6/255.0f, 0xCE/255.0f, 1.0f );
 
-    // Set projection mode.
-    projectionMatrix = glm::ortho( 0.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 0.0f, 1.0f, -1.0f );
-
     m2g::checkOpenGL( "JDB constructor" );
 }
 
@@ -162,6 +159,15 @@ void JDB::run()
     bool quitGame;
     bool optionSelected;
     SDL_Event event;
+
+    // Set projection mode.
+    const glm::mat4 projectionMatrix =
+            glm::ortho( 0.0f,
+                        WINDOW_WIDTH,
+                        WINDOW_HEIGHT,
+                        0.0f,
+                        1.0f,
+                        -1.0f );
 
     // Create a sprite with the "menu".
     menuText = textRenderer.drawText(

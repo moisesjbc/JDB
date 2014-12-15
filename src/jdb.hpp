@@ -55,7 +55,6 @@ class JDB
         SDL_Window* window;
         SDL_Surface* screen;
         SDL_GLContext glContext;
-        glm::mat4 projectionMatrix;
 
         std::unique_ptr< Level > level_;
 };
