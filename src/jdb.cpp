@@ -19,6 +19,8 @@
 
 #include "jdb.hpp"
 #include "dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp"
+#include "levels/survival_level.hpp"
+#include "levels/campaign_level.hpp"
 
 namespace jdb {
 
