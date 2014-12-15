@@ -20,25 +20,14 @@
 #ifndef LEVEL_HPP
 #define LEVEL_HPP
 
-#include <stdexcept>
-#include "../dependencies/m2g/src/graphics_library.hpp"
-#include "../dependencies/m2g/src/drawables/drawables_set.hpp"
-#include <glm/gtx/matrix_operation.hpp>
-#include <SDL2/SDL_video.h>
-#include <thread>
-#include <mutex>
+#include <SDL2/SDL.h>
+#include "../sandwiches/sandwich.hpp"
 #include "../utilities/timer.hpp"
-#include <functional>
 #include "../dangers/danger.hpp"
 #include "../tools/tool.hpp"
-#include "../sandwiches/sandwich.hpp"
-#include "../dependencies/m2g/src/text/text_renderer.hpp"
-#include "../dependencies/m2g/src/drawables/drawables_set.hpp"
-//#include <freetype2/freetype/config/ftheader.h>
-//#include <FTGL/ftgl.h>
-#include <SDL2/SDL_ttf.h>
-#include <functional>
 #include "conveyor_belt.hpp"
+#include "../dependencies/m2g/src/drawables/drawables_set.hpp"
+#include "../dependencies/m2g/src/text/text_renderer.hpp"
 
 namespace jdb {
 
