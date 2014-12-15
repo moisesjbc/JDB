@@ -18,6 +18,7 @@
  ***/
 
 #include "jdb.hpp"
+#include "dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp"
 
 namespace jdb {
 
@@ -103,7 +104,8 @@ JDB::JDB() :
     }
 
     // Load and use shaders.
-    shaderLoader = msl::ShaderLoader::getInstance();
+    msl::ShaderLoader* shaderLoader =
+            msl::ShaderLoader::getInstance();
     shaderLoader->loadMinimumShaderProgram( "data/shaders/basicVertexShader.shader", "data/shaders/basicFragmentShader.shader" );
     shaderLoader->destroy();
 

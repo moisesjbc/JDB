@@ -23,7 +23,6 @@
 //#include "dependencies/dependencies.hpp"
 #include "dependencies/m2g/src/dependencies/dependencies.hpp"
 #include "dependencies/m2g/src/graphics_library.hpp"
-#include "dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp"
 #include "levels/survival_level.hpp"
 #include "levels/campaign_level.hpp"
 #include "dangers/player_action.hpp"
@@ -57,7 +56,6 @@ class JDB
         SDL_Window* window;
         SDL_Surface* screen;
         SDL_GLContext glContext;
-        msl::ShaderLoader* shaderLoader;
         glm::mat4 projectionMatrix;
 
         std::unique_ptr< Level > level_;
