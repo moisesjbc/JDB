@@ -44,13 +44,6 @@ typedef std::function< bool () > FinishPredicate;
 
 namespace jdb {
 
-enum class LevelType
-{
-    CAMPAIGN,
-    SURVIVAL
-};
-
-
 class Level
 {
     public:
