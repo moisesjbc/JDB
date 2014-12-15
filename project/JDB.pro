@@ -31,7 +31,8 @@ SOURCES += ../src/main.cpp \
     ../src/dependencies/m2g/src/drawables/collidable.cpp \
     ../src/levels/survival_level.cpp \
     ../src/levels/conveyor_belt.cpp \
-    ../src/levels/campaign_level.cpp
+    ../src/levels/campaign_level.cpp \
+    ../src/utilities/game_state.cpp
 
 HEADERS += \
     ../src/jdb.hpp \
@@ -64,7 +65,8 @@ HEADERS += \
     ../src/dependencies/m2g/src/drawables/collidable.hpp \
     ../src/levels/survival_level.hpp \
     ../src/levels/conveyor_belt.hpp \
-    ../src/levels/campaign_level.hpp
+    ../src/levels/campaign_level.hpp \
+    ../src/utilities/game_state.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -ldl -lsfml-system -lsfml-audio
 
