@@ -40,8 +40,6 @@
 #include <functional>
 #include "conveyor_belt.hpp"
 
-typedef std::function< bool () > FinishPredicate;
-
 namespace jdb {
 
 class Level
