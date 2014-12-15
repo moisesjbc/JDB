@@ -39,17 +39,20 @@ JDB::JDB() :
         throw std::runtime_error( std::string( "ERROR initializing SDL: " ) +
                                   SDL_GetError() );
     }
+    atexit( SDL_Quit );
 
     // Initialize SDL_image
     if( IMG_Init( IMG_INIT_PNG ) != IMG_INIT_PNG ){
         throw std::runtime_error( IMG_GetError() );
     }
+    atexit( IMG_Quit );
 
     // Init TTF
     if( TTF_Init() < 0 ){
         throw std::runtime_error( std::string( "ERROR initializing TTF: " ) +
                                   std::string( TTF_GetError() ) );
     }
+    atexit( TTF_Quit );
 
     // Initialize some OpenGL attributes.
     SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8 );
