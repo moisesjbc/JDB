@@ -67,7 +67,6 @@ class Level
 
         SDL_Window* window;
         SDL_Surface* screen;
-        glm::mat4 projectionMatrix;
 
         std::mutex coutMutex;
 
@@ -83,6 +82,9 @@ class Level
 
         // Does player wants to quit the current level?
         bool quitLevel_;
+
+    private:
+        glm::mat4 projectionMatrix;
 
     public:
         /***
