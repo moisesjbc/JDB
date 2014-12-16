@@ -49,8 +49,6 @@ void GameState::run()
 
         draw();
     }
-
-    cleanUp();
 }
 
 

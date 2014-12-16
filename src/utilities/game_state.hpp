@@ -51,7 +51,6 @@ class GameState
          * 4. Initialization and cleanup
          ***/
         virtual void init() = 0;
-        virtual void cleanUp() = 0;
 
 
         /***
