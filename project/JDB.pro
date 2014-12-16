@@ -33,7 +33,8 @@ SOURCES += ../src/main.cpp \
     ../src/levels/conveyor_belt.cpp \
     ../src/levels/campaign_level.cpp \
     ../src/utilities/game_state.cpp \
-    ../src/game_states/main_menu.cpp
+    ../src/game_states/main_menu.cpp \
+    ../src/utilities/window.cpp
 
 HEADERS += \
     ../src/jdb.hpp \

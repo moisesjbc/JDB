@@ -17,29 +17,20 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef WINDOW_HPP
-#define WINDOW_HPP
-
-#include <SDL2/SDL.h>
-#include <glm/vec2.hpp>
+#include "window.hpp"
 
 namespace jdb {
 
-class Window
-{
-    public:
-        /***
-         * 1. Construction
-         ***/
-        Window( SDL_Window* window,
-                SDL_Surface* screen,
-                const glm::ivec2 dimensions );
+/***
+ * 1. Construction
+ ***/
 
-        SDL_Window* window;
-        SDL_Surface* screen;
-        const glm::ivec2 dimensions;
-};
+Window::Window( SDL_Window* window,
+                SDL_Surface* screen,
+                const glm::ivec2 dimensions ) :
+    window( window ),
+    screen( screen ),
+    dimensions( dimensions )
+{}
 
 } // namespace jdb
-
-#endif // WINDOW_HPP
