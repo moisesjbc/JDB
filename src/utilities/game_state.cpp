@@ -26,8 +26,8 @@ namespace jdb {
  ***/
 
 GameState::GameState( Window& window ) :
-    exitState_( false ),
-    window_( window )
+    window_( window ),
+    exitState_( false )
 {}
 
 
