@@ -66,7 +66,8 @@ HEADERS += \
     ../src/levels/survival_level.hpp \
     ../src/levels/conveyor_belt.hpp \
     ../src/levels/campaign_level.hpp \
-    ../src/utilities/game_state.hpp
+    ../src/utilities/game_state.hpp \
+    ../src/utilities/window.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -ldl -lsfml-system -lsfml-audio
 
