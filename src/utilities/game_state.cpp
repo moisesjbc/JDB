@@ -19,6 +19,7 @@
 
 #include "game_state.hpp"
 
+namespace jdb {
 
 /***
  * 1. Construction
@@ -70,3 +71,5 @@ void GameState::requestStateExit()
 {
     exitState_ = true;
 }
+
+} // namespace jdb

@@ -23,6 +23,8 @@
 #include <SDL2/SDL.h>
 #include <glm/vec2.hpp>
 
+namespace jdb {
+
 class GameState
 {
     public:
@@ -82,5 +84,7 @@ class GameState
         SDL_Surface const* screen_;
         const glm::ivec2 windowDimensions_;
 };
+
+} // namespace jdb
 
 #endif // GAME_STATE_HPP
