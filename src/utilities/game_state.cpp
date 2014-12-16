@@ -24,10 +24,14 @@
  * 1. Construction
  ***/
 
-GameState::GameState()
-{
-    exitState_ = false;
-}
+GameState::GameState( SDL_Window const* window,
+                      SDL_Surface const* screen,
+                      const glm::ivec2 &windowDimensions ) :
+    exitState_( false ),
+    window_( window ),
+    screen_( screen ),
+    windowDimensions_( windowDimensions )
+{}
 
 
 /***

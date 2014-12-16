@@ -20,13 +20,18 @@
 #ifndef GAME_STATE_HPP
 #define GAME_STATE_HPP
 
+#include <SDL2/SDL.h>
+#include <glm/vec2.hpp>
+
 class GameState
 {
     public:
         /***
          * 1. Construction
          ***/
-        GameState();
+        GameState( SDL_Window const* window,
+                   SDL_Surface const* screen,
+                   const glm::ivec2 &windowDimensions );
 
 
         /***
@@ -73,6 +78,10 @@ class GameState
 
     private:
         bool exitState_;
+
+        SDL_Window const* window_;
+        SDL_Surface const* screen_;
+        const glm::ivec2 windowDimensions_;
 };
 
 #endif // GAME_STATE_HPP
