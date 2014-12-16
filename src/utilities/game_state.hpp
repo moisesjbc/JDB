@@ -20,8 +20,7 @@
 #ifndef GAME_STATE_HPP
 #define GAME_STATE_HPP
 
-#include <SDL2/SDL.h>
-#include <glm/vec2.hpp>
+#include "window.hpp"
 
 namespace jdb {
 
@@ -31,9 +30,7 @@ class GameState
         /***
          * 1. Construction
          ***/
-        GameState( SDL_Window const* window,
-                   SDL_Surface const* screen,
-                   const glm::ivec2 &windowDimensions );
+        GameState( Window& window );
 
 
         /***
@@ -80,9 +77,7 @@ class GameState
     private:
         bool exitState_;
 
-        SDL_Window const* window_;
-        SDL_Surface const* screen_;
-        const glm::ivec2 windowDimensions_;
+        Window& window_;
 };
 
 } // namespace jdb
