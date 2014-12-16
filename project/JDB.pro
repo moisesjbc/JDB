@@ -79,6 +79,7 @@ CXXFLAGS += -Wall -Werrors -pedantic-errors
 # http://qt-project.org/forums/viewthread/19989
 CONFIG += c++11
 
+INCLUDEPATH += ../src
 
 win32 {
     debug {
