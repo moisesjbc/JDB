@@ -20,7 +20,7 @@
 #ifndef GAME_STATE_HPP
 #define GAME_STATE_HPP
 
-#include "window.hpp"
+#include "../utilities/window.hpp"
 
 namespace jdb {
 

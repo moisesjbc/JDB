@@ -20,7 +20,7 @@
 #ifndef MAIN_MENU_HPP
 #define MAIN_MENU_HPP
 
-#include "../utilities/game_state.hpp"
+#include "game_state.hpp"
 #include "../dependencies/m2g/src/drawables/sprite.hpp"
 
 namespace jdb {

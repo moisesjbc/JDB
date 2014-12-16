@@ -32,7 +32,7 @@ SOURCES += ../src/main.cpp \
     ../src/levels/survival_level.cpp \
     ../src/levels/conveyor_belt.cpp \
     ../src/levels/campaign_level.cpp \
-    ../src/utilities/game_state.cpp \
+    ../src/game_states/game_state.cpp \
     ../src/game_states/main_menu.cpp \
     ../src/utilities/window.cpp
 
@@ -68,7 +68,7 @@ HEADERS += \
     ../src/levels/survival_level.hpp \
     ../src/levels/conveyor_belt.hpp \
     ../src/levels/campaign_level.hpp \
-    ../src/utilities/game_state.hpp \
+    ../src/game_states/game_state.hpp \
     ../src/utilities/window.hpp \
     ../src/game_states/main_menu.hpp
 
