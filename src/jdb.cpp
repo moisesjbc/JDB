@@ -19,8 +19,7 @@
 
 #include "jdb.hpp"
 #include "dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp"
-#include "levels/survival_level.hpp"
-#include "levels/campaign_level.hpp"
+#include "game_states/main_menu.hpp"
 
 namespace jdb {
 
@@ -35,7 +34,7 @@ const GLfloat WINDOW_HEIGHT = 768;
 JDB::JDB() :
     window( NULL ),
     screen( NULL )
-{
+{    
     // Initialize SDL
     if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
         throw std::runtime_error( std::string( "ERROR initializing SDL: " ) +
@@ -145,70 +144,14 @@ JDB::~JDB()
 
 void JDB::run()
 {
-    // Text rendering.
-    m2g::TextRenderer textRenderer;
-    const SDL_Color FONT_COLOR = { 131, 60, 60, 255 };
-    m2g::SpritePtr menuText;
-    bool quitGame;
-    bool optionSelected;
-    SDL_Event event;
-    std::unique_ptr< Level > level = nullptr;
+    Window window(
+                this->window,
+                screen,
+                glm::ivec2( WINDOW_WIDTH, WINDOW_HEIGHT ) );
 
-    // Set projection mode.
-    const glm::mat4 projectionMatrix =
-            glm::ortho( 0.0f,
-                        WINDOW_WIDTH,
-                        WINDOW_HEIGHT,
-                        0.0f,
-                        1.0f,
-                        -1.0f );
+    MainMenu mainMenu( window );
 
-    // Create a sprite with the "menu".
-    menuText = textRenderer.drawText(
-                "MENU\n---\nPRESS A KEY\n---\n\nC - CAMPAIGN MODE\nS - SURVIVAL MODE\nESC - EXIT",   // Text
-                "data/fonts/LiberationSans-Bold.ttf",   // Font
-                30,                                     // Font size
-                FONT_COLOR );                           // Font color
-
-    quitGame = false;
-    while( !quitGame ){
-        // Show the "menu" to the player.
-        glClear ( GL_COLOR_BUFFER_BIT );
-        m2g::Tileset::bindBuffer(); // TODO: Make this line unuseful.
-        menuText->draw( projectionMatrix );
-        SDL_GL_SwapWindow( window );
-
-        // Wait for the player to press 'c' or 's'.
-        optionSelected = false;
-        while( !optionSelected ){
-            SDL_WaitEvent( &event );
-
-            quitGame = ( event.type == SDL_QUIT ) || ( ( event.type == SDL_KEYDOWN ) && ( event.key.keysym.sym == SDLK_ESCAPE ) );
-            optionSelected = quitGame ||
-                    ( ( event.type == SDL_KEYDOWN ) && ( ( event.key.keysym.sym == SDLK_s ) || ( event.key.keysym.sym == SDLK_c ) ) );
-        }
-
-        // If the user didn't exit the menu by trying to quit the game, it means
-        // that he/she selected one game mode.
-        if( !quitGame ){
-            // Run a campaign level or a survival one according to player's selection.
-            if(  event.key.keysym.sym == SDLK_s ){
-                level = std::unique_ptr< Level >(
-                            new SurvivalLevel( window,
-                                               screen,
-                                               WINDOW_WIDTH,
-                                               WINDOW_HEIGHT ) );
-            }else{
-                level = std::unique_ptr< Level >(
-                           new CampaignLevel( window,
-                                              screen,
-                                              WINDOW_WIDTH,
-                                              WINDOW_HEIGHT ) );
-            }
-
-            level->run( 0 );
-        }
-    }
+    mainMenu.run();
 }
 
 

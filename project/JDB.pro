@@ -32,7 +32,8 @@ SOURCES += ../src/main.cpp \
     ../src/levels/survival_level.cpp \
     ../src/levels/conveyor_belt.cpp \
     ../src/levels/campaign_level.cpp \
-    ../src/utilities/game_state.cpp
+    ../src/utilities/game_state.cpp \
+    ../src/game_states/main_menu.cpp
 
 HEADERS += \
     ../src/jdb.hpp \
@@ -67,7 +68,8 @@ HEADERS += \
     ../src/levels/conveyor_belt.hpp \
     ../src/levels/campaign_level.hpp \
     ../src/utilities/game_state.hpp \
-    ../src/utilities/window.hpp
+    ../src/utilities/window.hpp \
+    ../src/game_states/main_menu.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -ldl -lsfml-system -lsfml-audio
 

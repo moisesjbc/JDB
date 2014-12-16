@@ -17,28 +17,44 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef WINDOW_HPP
-#define WINDOW_HPP
+#ifndef MAIN_MENU_HPP
+#define MAIN_MENU_HPP
 
-#include <SDL2/SDL.h>
-#include <glm/vec2.hpp>
+#include "../utilities/game_state.hpp"
+#include "../dependencies/m2g/src/drawables/sprite.hpp"
 
 namespace jdb {
 
-struct Window
+class MainMenu : public GameState
 {
-    SDL_Window* window;
-    SDL_Surface* screen;
-    const glm::ivec2 dimensions;
+    public:
+        /***
+         * 1. Creation
+         ****/
+        MainMenu( Window& window );
 
-    Window( SDL_Window* window,
-            SDL_Surface* screen,
-            const glm::ivec2 dimensions ) :
-        window( window ),
-        screen( screen ),
-        dimensions( dimensions ){}
+
+        /***
+         * 2. Destruction
+         ***/
+        virtual ~MainMenu() = default;
+
+    protected:
+        /***
+         * 3. GameState interface
+         ***/
+        virtual void init();
+        virtual void handleEvents();
+        virtual void update();
+        virtual void draw();
+        virtual void pause();
+        virtual void resume();
+
+
+    private:
+        m2g::SpritePtr menuText_;
 };
 
 } // namespace jdb
 
-#endif // WINDOW_HPP
+#endif // MAIN_MENU_HPP

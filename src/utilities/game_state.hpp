@@ -57,7 +57,7 @@ class GameState
          ***/
         virtual void handleEvents() = 0;
         virtual void update() = 0;
-        virtual void draw() const = 0;
+        virtual void draw() = 0;
 
 
         /***
@@ -74,10 +74,9 @@ class GameState
         virtual void resume() = 0;
 
 
+        Window& window_;
     private:
         bool exitState_;
-
-        Window& window_;
 };
 
 } // namespace jdb
