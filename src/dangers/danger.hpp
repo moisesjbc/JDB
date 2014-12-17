@@ -34,7 +34,7 @@ const float FPS_INVERSE = 1.0f / FPS;
 
 class Danger : public m2g::Animation
 {
-    public:
+    private:
         float hp;
         unsigned int state;
 
