@@ -20,7 +20,7 @@
 #ifndef CONVEYOR_BELT_HPP
 #define CONVEYOR_BELT_HPP
 
-#include "../dependencies/m2g/src/dependencies/tinyxml2/tinyxml2.h"
+#include <tinyxml2.h>
 
 namespace jdb {
 
