@@ -28,25 +28,25 @@
 #include "conveyor_belt.hpp"
 #include "../dependencies/m2g/src/drawables/drawables_set.hpp"
 #include "../dependencies/m2g/src/text/text_renderer.hpp"
+#include <game_states/game_state.hpp>
 
 namespace jdb {
 
-class Level
+const unsigned int N_SANDWICHES = 5;
+
+class Level : public GameState
 {
     public:
         /***
          * 1. Construction
          ***/
-        Level( SDL_Window* window_,
-               SDL_Surface* screen_,
-               unsigned int screenWidth,
-               unsigned int screenHeight );
+        Level( Window& window, unsigned int levelIndex );
 
 
         /***
-         * 2. Level execution
+         * 2. Destruction
          ***/
-        void run( unsigned int levelIndex );
+        virtual ~Level();
 
 
     protected:
@@ -61,7 +61,6 @@ class Level
         /***
          * 4. Main loop
          ***/
-        void mainLoop();
         void handleUserInput( const SDL_Event& event, Sandwich** sandwiches );
         virtual bool finishPredicate() const = 0;
         virtual void resetTimer() = 0;
@@ -74,9 +73,20 @@ class Level
         int getSeconds() const ;
 
 
+        /***
+         * 6. GameState interface
+         ***/
+        virtual void init();
+        virtual void handleEvents();
+        virtual void update();
+        virtual void draw();
+        virtual void pause(){}
+        virtual void resume(){}
+
+
     private:
         /***
-         * 6. Initialization
+         * 7. Initialization
          ***/
         void initGUI();
 
@@ -96,9 +106,6 @@ class Level
         std::vector< DangerDataPtr > dangerData;
         std::vector< SandwichDataPtr > sandwichData;
 
-        SDL_Window* window;
-        SDL_Surface* screen;
-
         std::mutex coutMutex;
 
         // Players tool
@@ -116,6 +123,25 @@ class Level
 
     private:
         glm::mat4 projectionMatrix;
+
+        const unsigned int levelIndex_;
+
+        // Variables used for sandwich reseting.
+        unsigned int firstSandwich;
+        unsigned int lastSandwich;
+
+        std::mutex speedMutex;
+
+        // Sandwiches
+        Sandwich* sandwiches[N_SANDWICHES];
+
+        m2g::TextRenderer textRenderer;
+
+        const SDL_Color HEALTH_FONT_COLOR = { 131, 60, 60, 255 };
+
+        // Background sprites.
+        m2g::DrawablesSet backgroundSprites;
+        m2g::SpritePtr grinderFront;
 };
 
 } // namespace jdb

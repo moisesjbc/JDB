@@ -21,10 +21,9 @@
 
 namespace jdb {
 
-SurvivalLevel::SurvivalLevel( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight ) :
-    Level( window_, screen_, screenWidth, screenHeight )
-{
-}
+SurvivalLevel::SurvivalLevel( Window& window, unsigned int levelIndex ) :
+    Level( window, levelIndex )
+{}
 
 
 /***

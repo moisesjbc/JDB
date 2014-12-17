@@ -66,19 +66,13 @@ void MainMenu::handleEvents()
             break;
             case SDLK_c:
                 level = std::unique_ptr< Level >(
-                           new CampaignLevel( window_.window,
-                                              window_.screen,
-                                              window_.dimensions.x,
-                                              window_.dimensions.y ) );
-                level->run( 0 );
+                           new CampaignLevel( window_, 0 ) );
+                level->run();
             break;
             case SDLK_s:
                 level = std::unique_ptr< Level >(
-                            new SurvivalLevel( window_.window,
-                                               window_.screen,
-                                               window_.dimensions.x,
-                                               window_.dimensions.y ) );
-                level->run( 0 );
+                            new SurvivalLevel( window_, 0 ) );
+                level->run();
             break;
             default:
             break;

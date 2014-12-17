@@ -25,10 +25,9 @@ namespace jdb {
  * 1. Initialization and destruction
  ***/
 
-CampaignLevel::CampaignLevel( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight ) :
-    Level( window_, screen_, screenWidth, screenHeight )
-{
-}
+CampaignLevel::CampaignLevel( Window& window, unsigned int levelIndex ) :
+    Level( window, levelIndex )
+{}
 
 
 /***

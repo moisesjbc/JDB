@@ -33,7 +33,7 @@ class CampaignLevel : public Level
         /***
          * 1. Initialization and destruction
          ***/
-        CampaignLevel( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight );
+        CampaignLevel( Window& window, unsigned int levelIndex );
 
 
         /***

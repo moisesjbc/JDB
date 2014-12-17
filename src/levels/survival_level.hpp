@@ -30,7 +30,7 @@ class SurvivalLevel : public Level
         /***
          * 1. Initialization and destruction
          ***/
-        SurvivalLevel( SDL_Window* window_, SDL_Surface* screen_, unsigned int screenWidth, unsigned int screenHeight );
+        SurvivalLevel( Window& window, unsigned int levelIndex );
 
 
         /***
