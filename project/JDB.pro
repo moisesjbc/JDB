@@ -70,7 +70,7 @@ HEADERS += \
     ../src/utilities/window.hpp \
     ../src/game_states/main_menu.hpp
 
-LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -ldl -lsfml-system -lsfml-audio
+LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -ldl -lsfml-system -lsfml-audio -ltinyxml2
 
 CXXFLAGS += -Wall -Werrors -pedantic-errors
 
