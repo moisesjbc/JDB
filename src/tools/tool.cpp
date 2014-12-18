@@ -139,4 +139,26 @@ void Tool::handleMouseHover( Sandwich** sandwiches, unsigned int nSandwiches )
     }
 }
 
+
+/***
+ * 5. Auxiliar methods
+ ***/
+
+void Tool::applyTaunt( Sandwich **sandwiches, unsigned int N_SANDWICHES )
+{
+    unsigned int i;
+    TauntType tauntType;
+    int mouseX, mouseY;
+
+    SDL_PumpEvents();
+    SDL_GetMouseState( &mouseX, &mouseY );
+
+    for( i = 0; i < N_SANDWICHES; i++ ){
+        tauntType = sandwiches[i]->taunts( *this, currentToolType_ );
+        if( tauntType != TauntType::NONE ){
+            SDL_WarpMouseInWindow( nullptr, mouseX, mouseY - 75 );
+        }
+    }
+}
+
 } // namespace jdb

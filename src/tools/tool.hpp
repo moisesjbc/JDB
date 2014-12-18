@@ -29,15 +29,6 @@
 
 namespace jdb {
 
-enum class ToolType
-{
-    HAND = 0,
-    EXTINGUISHER,
-    LIGHTER,
-    GAVEL
-};
-
-
 class Tool : public m2g::Animation
 {
     private:
@@ -71,6 +62,12 @@ class Tool : public m2g::Animation
         void handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiches );
         void handleMouseButtonUp();
         void handleMouseHover( Sandwich** sandwiches, unsigned int nSandwiches );
+
+
+        /***
+         * 5. Auxiliar methods
+         ***/
+        void applyTaunt( Sandwich** sandwiches, unsigned int N_SANDWICHES );
 };
 
 typedef std::shared_ptr< Tool > ToolPtr;

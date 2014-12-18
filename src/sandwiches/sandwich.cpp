@@ -213,6 +213,21 @@ bool Sandwich::useTool( PlayerAction playerAction, Sprite* tool )
 }
 
 
+TauntType Sandwich::taunts( const m2g::Sprite &tool, ToolType toolType )
+{
+    unsigned int i=0;
+    TauntType tauntType;
+
+    for( ; i<nDangers_; i++ ){
+        tauntType = dangers_[i]->taunts( tool, toolType );
+        if( tauntType != TauntType::NONE ){
+            return tauntType;
+        }
+    }
+    return TauntType::NONE;
+}
+
+
 void Sandwich::reset()
 {
     for( unsigned int i=0; i<nDangers_; i++ ){

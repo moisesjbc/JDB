@@ -55,5 +55,4 @@ DangerData::DangerData( tinyxml2::XMLElement* xmlElement, const m2g::GraphicsLib
     }
 }
 
-
 } // namespace jdb

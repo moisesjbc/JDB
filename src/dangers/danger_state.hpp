@@ -23,8 +23,27 @@
 #include <tinyxml2.h>
 #include "player_action_response.hpp"
 #include <vector>
+#include <set>
 
 namespace jdb {
+
+// TODO: Move to another file?
+enum class ToolType
+{
+    HAND = 0,
+    EXTINGUISHER,
+    LIGHTER,
+    GAVEL
+};
+
+enum class TauntType
+{
+    NONE = 0,
+    BURN,
+    FREEZING,
+    ELECTROCUTION,
+    BITE
+};
 
 struct DangerState
 {
@@ -33,6 +52,9 @@ struct DangerState
 
     // Respones to player actions.
     std::vector< PlayerActionResponse > playerActionResponses;
+
+    std::set< ToolType > tauntedTools;
+    TauntType tauntType;
 
 
     /***

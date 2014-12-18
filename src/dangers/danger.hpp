@@ -68,6 +68,7 @@ class Danger : public m2g::Animation
          ***/
         bool playerAction( PlayerAction playerAction );
         void reset();
+        TauntType taunts( const m2g::Sprite &tool, ToolType toolType ) const;
 };
 
 } // namespace jdb

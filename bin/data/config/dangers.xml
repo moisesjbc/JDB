@@ -15,6 +15,10 @@
 				<animation_state>0</animation_state>
 				<state_transition conditions="extinguisher_on:10:100" responses="-150:-1:-1" dps="1" />
 				<state_transition conditions="extinguisher_on:0:9" responses="all:1:-1" dps="0" />
+				<taunt type="burn">
+					<tool>hand</tool>
+					<tool>gavel</tool>
+				</taunt>
 			</danger_state>
 			
 			<!-- State 1: Fire disappearing -->
@@ -37,6 +41,9 @@
 				<animation_state>0</animation_state>
 				<state_transition conditions="lighter_on:10:100" responses="-150:-1:-1" dps="1" />
 				<state_transition conditions="lighter_on:0:9" responses="all:1:-1" dps="0" />
+				<taunt type="freezing">
+					<tool>hand</tool>
+				</taunt>
 			</danger_state>
 			
 			<!-- State 1: Danger removed -->
@@ -58,6 +65,9 @@
 			<danger_state>
 				<animation_state>0</animation_state>
 				<state_transition conditions="gavel_hit:0:100" responses="-75:1:-1" dps="0" />
+				<taunt type="bite">
+					<tool>hand</tool>
+				</taunt>
 			</danger_state>
 
 			<!-- State 1: Stun rat -->

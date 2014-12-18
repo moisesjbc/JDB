@@ -26,15 +26,53 @@
 
 namespace jdb {
 
-DangerState::DangerState( tinyxml2::XMLElement* xmlElement )
+DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
+    tauntType( TauntType::NONE )
 {
-    animationState = atoi( xmlElement->FirstChildElement( "animation_state" )->GetText() );
+    tinyxml2::XMLElement* xmlElement = nullptr;
 
-    xmlElement = xmlElement->FirstChildElement( "state_transition" );
+    animationState = atoi( rootXMLElement->FirstChildElement( "animation_state" )->GetText() );
+
+    xmlElement = rootXMLElement->FirstChildElement( "state_transition" );
     while( xmlElement ){
         playerActionResponses.emplace_back( xmlElement );
 
         xmlElement = xmlElement->NextSiblingElement( "state_transition" );
+    }
+
+    // Get the danger's taunts.
+    xmlElement = rootXMLElement->FirstChildElement( "taunt" );
+    if( xmlElement ){
+        std::string tauntTypeStr = xmlElement->Attribute( "type" );
+        if( tauntTypeStr == "burn" ){
+            tauntType = TauntType::BURN;
+        }else if( tauntTypeStr == "freezing" ){
+            tauntType = TauntType::FREEZING;
+        }else if( tauntTypeStr == "electrocution" ){
+            tauntType = TauntType::ELECTROCUTION;
+        }else if( tauntTypeStr == "bite" ){
+            tauntType = TauntType::BITE;
+        }else{
+            throw std::runtime_error( "Unrecognized taunt" );
+        }
+
+        xmlElement = xmlElement->FirstChildElement( "tool" );
+        while( xmlElement ){
+            std::string toolStr = xmlElement->GetText();
+            if( toolStr == "hand" ){
+                tauntedTools.insert( ToolType::HAND );
+            }else if( toolStr == "extinguisher" ){
+                tauntedTools.insert( ToolType::EXTINGUISHER );
+            }else if( toolStr == "lighter" ){
+                tauntedTools.insert( ToolType::LIGHTER );
+            }else if( toolStr == "gavel" ){
+                tauntedTools.insert( ToolType::GAVEL );
+            }else{
+                throw std::runtime_error( "Unrecognized taunted tool" );
+            }
+
+            xmlElement = xmlElement->NextSiblingElement();
+        }
     }
 }
 
