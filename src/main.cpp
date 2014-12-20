@@ -22,8 +22,11 @@
 
 int main()
 {
-    jdb::JDB jdb;
+    // Make sure the random numbers generator gets a new seed each time the
+    // game is run.
+    srand( time( nullptr ) );
 
+    jdb::JDB jdb;
     jdb.run();
 
     return 0;
