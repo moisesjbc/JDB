@@ -40,7 +40,7 @@ class Level : public GameState
         /***
          * 1. Construction
          ***/
-        Level( Window& window, unsigned int levelIndex );
+        Level( Window& window, SoundManager* soundManager, unsigned int levelIndex );
 
 
         /***
@@ -142,6 +142,8 @@ class Level : public GameState
         // Background sprites.
         m2g::DrawablesSet backgroundSprites;
         m2g::SpritePtr grinderFront;
+
+        SoundManager& soundManager_;
 };
 
 } // namespace jdb

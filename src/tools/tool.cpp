@@ -26,8 +26,9 @@ namespace jdb {
  * 1. Initialization
  ***/
 
-Tool::Tool( m2g::AnimationDataPtr animationData ) :
-    Animation( animationData )
+Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
+    Animation( animationData ),
+    soundManager_( soundManager )
 {
     unsigned int i = 0;
 
@@ -58,6 +59,11 @@ Tool::Tool( m2g::AnimationDataPtr animationData ) :
         sounds_[i].setBuffer( soundBuffers_[i] );
         sounds_[i].setLoop( audioLoop[i] );
     }
+    soundBuffer_.loadFromFile( "data/audio/player/cry-1.ogg" );
+    sound_.setBuffer( soundBuffer_ );
+    sound_.setLoop( false );
+
+    crySoundIndex_ = soundManager_.loadSounds( "player", "cry-" );
 }
 
 
@@ -157,6 +163,9 @@ void Tool::applyTaunt( Sandwich **sandwiches, unsigned int N_SANDWICHES )
         tauntType = sandwiches[i]->taunts( *this, currentToolType_ );
         if( tauntType != TauntType::NONE ){
             SDL_WarpMouseInWindow( nullptr, mouseX, mouseY - 75 );
+
+            soundManager_.playSound( crySoundIndex_ );
+            //sound_.play();
         }
     }
 }

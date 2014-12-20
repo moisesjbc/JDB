@@ -31,9 +31,10 @@ const unsigned int N_DANGERS = N_SANDWICHES * 3;
  * 1. Construction
  ***/
 
-Level::Level( Window& window, unsigned int levelIndex )
+Level::Level( Window& window, SoundManager* soundManager, unsigned int levelIndex )
     : GameState( window ),
-      levelIndex_( levelIndex )
+      levelIndex_( levelIndex ),
+      soundManager_( *soundManager )
 {}
 
 
@@ -111,7 +112,7 @@ void Level::initGUI()
     graphicsLibrary_.loadAll( "data/img/tools" );
 
     // Load the player's tool.
-    tool_ = ToolPtr( new Tool( graphicsLibrary_.getAnimationData( "tools.png" ) ) );
+    tool_ = ToolPtr( new Tool( graphicsLibrary_.getAnimationData( "tools.png" ), soundManager_ ) );
 }
 
 

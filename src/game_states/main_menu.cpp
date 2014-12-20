@@ -28,8 +28,9 @@ namespace jdb {
  * 1. Creation
  ****/
 
-MainMenu::MainMenu( Window &window ) :
-    GameState( window )
+MainMenu::MainMenu( Window &window, SoundManager* soundManager ) :
+    GameState( window ),
+    soundManager_( *soundManager )
 {}
 
 
@@ -66,12 +67,12 @@ void MainMenu::handleEvents()
             break;
             case SDLK_c:
                 level = std::unique_ptr< Level >(
-                           new CampaignLevel( window_, 0 ) );
+                           new CampaignLevel( window_, &soundManager_, 0 ) );
                 level->run();
             break;
             case SDLK_s:
                 level = std::unique_ptr< Level >(
-                            new SurvivalLevel( window_, 0 ) );
+                            new SurvivalLevel( window_, &soundManager_, 0 ) );
                 level->run();
             break;
             default:

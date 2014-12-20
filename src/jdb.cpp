@@ -148,8 +148,9 @@ void JDB::run()
                 this->window,
                 screen,
                 glm::ivec2( WINDOW_WIDTH, WINDOW_HEIGHT ) );
+    SoundManager soundManager( "data/audio" );
 
-    MainMenu mainMenu( window );
+    MainMenu mainMenu( window, &soundManager );
 
     mainMenu.run();
 }

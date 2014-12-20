@@ -33,7 +33,8 @@ SOURCES += ../src/main.cpp \
     ../src/levels/campaign_level.cpp \
     ../src/game_states/game_state.cpp \
     ../src/game_states/main_menu.cpp \
-    ../src/utilities/window.cpp
+    ../src/utilities/window.cpp \
+    ../src/utilities/sound_manager.cpp
 
 HEADERS += \
     ../src/jdb.hpp \
@@ -68,9 +69,11 @@ HEADERS += \
     ../src/levels/campaign_level.hpp \
     ../src/game_states/game_state.hpp \
     ../src/utilities/window.hpp \
-    ../src/game_states/main_menu.hpp
+    ../src/game_states/main_menu.hpp \
+    ../src/utilities/sound_manager.hpp
 
 LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -ldl -lsfml-system -lsfml-audio -ltinyxml2
+LIBS += -lboost_system -lboost_filesystem
 
 CXXFLAGS += -Wall -Werrors -pedantic-errors
 

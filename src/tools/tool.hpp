@@ -26,6 +26,7 @@
 #include "../dangers/danger.hpp"
 #include <SDL2/SDL.h>
 #include <SFML/Audio.hpp>
+#include <utilities/sound_manager.hpp>
 
 namespace jdb {
 
@@ -38,11 +39,18 @@ class Tool : public m2g::Animation
         sf::SoundBuffer soundBuffers_[4];
         sf::Sound sounds_[4];
 
+        sf::SoundBuffer soundBuffer_;
+        sf::Sound sound_;
+
+        SoundManager& soundManager_;
+
+        SoundIndex crySoundIndex_;
+
     public:
         /***
          * 1. Initialization
          ***/
-        Tool( m2g::AnimationDataPtr animationData );
+        Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager );
 
 
         /***

@@ -18,6 +18,7 @@
  ***/
 
 #include "jdb.hpp"
+#include <utilities/sound_manager.hpp>
 
 int main()
 {

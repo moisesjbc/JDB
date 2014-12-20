@@ -17,46 +17,60 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef MAIN_MENU_HPP
-#define MAIN_MENU_HPP
+#ifndef SOUND_MANAGER_HPP
+#define SOUND_MANAGER_HPP
 
-#include "game_state.hpp"
-#include "../dependencies/m2g/src/drawables/sprite.hpp"
-#include <utilities/sound_manager.hpp>
+#include <string>
+#include <SFML/Audio.hpp>
+#include <map>
+#include <vector>
 
 namespace jdb {
 
-class MainMenu : public GameState
+typedef unsigned int SoundIndex;
+
+struct Sound {
+    sf::SoundBuffer buffer;
+    sf::Sound sound;
+};
+
+class SoundManager
 {
     public:
         /***
-         * 1. Creation
-         ****/
-        MainMenu( Window& window, SoundManager* soundManager );
+         * 1. Construction
+         ***/
+        SoundManager( const char* soundsDirPath );
 
 
         /***
          * 2. Destruction
          ***/
-        virtual ~MainMenu() = default;
+        ~SoundManager() = default;
 
-    protected:
+
         /***
-         * 3. GameState interface
+         * 3. Sounds loading
          ***/
-        virtual void init();
-        virtual void handleEvents();
-        virtual void update();
-        virtual void draw();
-        virtual void pause();
-        virtual void resume();
+
+        // Load all the sounds whose paths are in the form
+        // SOUNDS_DIR_PATH/category/prefix*
+        SoundIndex loadSounds( const std::string& category,
+                               const std::string& prefix );
+
+
+        /***
+         * 4. Playing
+         ***/
+        void playSound( SoundIndex soundIndex );
 
 
     private:
-        m2g::SpritePtr menuText_;
-        SoundManager& soundManager_;
+        const std::string SOUNDS_DIR_PATH;
+
+        std::map< SoundIndex, std::vector< Sound > > sounds_;
 };
 
 } // namespace jdb
 
-#endif // MAIN_MENU_HPP
+#endif // SOUND_MANAGER_HPP

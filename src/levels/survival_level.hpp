@@ -30,7 +30,7 @@ class SurvivalLevel : public Level
         /***
          * 1. Initialization and destruction
          ***/
-        SurvivalLevel( Window& window, unsigned int levelIndex );
+        SurvivalLevel( Window& window, SoundManager* soundManager, unsigned int levelIndex );
 
 
         /***
