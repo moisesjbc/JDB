@@ -19,6 +19,7 @@
 
 #include "level.hpp"
 #include <tinyxml2.h>
+#include <algorithm>
 
 namespace jdb {
 
@@ -95,6 +96,14 @@ void Level::loadDangerData()
 
         dangerXMLElement = dangerXMLElement->NextSiblingElement();
     }
+
+    // Sort the vector of dangers with a descending order in their
+    // base lines' widths.
+    std::sort( dangerData.begin(),
+                dangerData.end(),
+                []( DangerDataPtr a, DangerDataPtr b ){
+        return (a->baseLine.width > b->baseLine.width );
+    });
 }
 
 
