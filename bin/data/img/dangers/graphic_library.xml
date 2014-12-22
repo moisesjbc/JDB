@@ -69,5 +69,21 @@
 				<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
 			</animation_states>
 		</animation>
+
+		<!-- Shell 01 -->
+		<animation>
+			<tileset>
+				<src>shell_01.png</src>
+				<tile_dimensions width="256" height="128"/>
+				<collision_rects>
+					<collision_rect tiles="0" x="3" y="15" width="145" height="50" />
+					<collision_rect tiles="0" x="64" y="1" width="29" height="15" />
+				</collision_rects>
+			</tileset>
+			<animation_states>
+				<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+			</animation_states>
+		</animation>
+
 	</animations>
 </library>

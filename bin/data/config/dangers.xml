@@ -103,5 +103,21 @@
 			</danger_state>
 		</danger_states>
 	</danger>
+
+
+	<!-- Shell -->
+	<danger name="shell">
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0</damage_factor>
+		<base_line x="3" y="67" width="148" />
+		
+		<danger_states>
+			<!-- State 0: Intact shell -->
+			<danger_state>
+				<animation_state>0</animation_state>
+			</danger_state>
+		</danger_states>
+	</danger>
 	
 </dangers>
