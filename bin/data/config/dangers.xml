@@ -109,14 +109,69 @@
 	<danger name="shell">
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
-		<damage_factor>0</damage_factor>
+		<damage_factor>0.30</damage_factor>
 		<base_line x="3" y="67" width="148" />
 		
 		<danger_states>
 			<!-- State 0: Intact shell -->
 			<danger_state>
 				<animation_state>0</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:1:-1" dps="0" />
 			</danger_state>
+
+			<!-- State 1: Damaged shell (I) -->
+			<danger_state>
+				<animation_state>1</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:2:-1" dps="0" />
+			</danger_state>
+
+			<!-- State 2: Damaged shell (II) -->
+			<danger_state>
+				<animation_state>2</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:3:-1" dps="0" />
+			</danger_state>
+
+			
+			<!-- State 3: Damaged shell (III) -->
+			<danger_state>
+				<animation_state>3</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:4:-1" dps="0" />
+			</danger_state>
+
+			
+			<!-- State 4: Damaged shell (IV) -->
+			<danger_state>
+				<animation_state>4</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:5:-1" dps="0" />
+			</danger_state>
+
+
+			<!-- State 5: Open empty shell -->
+			<danger_state>
+				<animation_state>5</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:6:-1" dps="0" />
+			</danger_state>
+
+
+			<!-- State 6: Open shell with pearl -->
+			<danger_state>
+				<animation_state>6</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:7:-1" dps="0" />
+			</danger_state>
+
+
+			<!-- State 7: Open shell with broken pearl -->
+			<danger_state>
+				<animation_state>7</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
+			</danger_state>
+
+
+			<!-- State 8: Shell removed -->
+			<danger_state>
+				<animation_state>8</animation_state>
+			</danger_state>
+			
 		</danger_states>
 	</danger>
 	

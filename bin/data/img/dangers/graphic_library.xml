@@ -76,12 +76,20 @@
 				<src>shell_01.png</src>
 				<tile_dimensions width="256" height="128"/>
 				<collision_rects>
-					<collision_rect tiles="0" x="3" y="15" width="145" height="50" />
-					<collision_rect tiles="0" x="64" y="1" width="29" height="15" />
+					<collision_rect tiles="all" x="3" y="15" width="145" height="50" />
+					<collision_rect tiles="all" x="64" y="1" width="29" height="15" />
 				</collision_rects>
 			</tileset>
 			<animation_states>
 				<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+				<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
+				<animation_state firstFrame="2" lastFrame="2" backFrame="2" />
+				<animation_state firstFrame="3" lastFrame="3" backFrame="3" />
+				<animation_state firstFrame="4" lastFrame="4" backFrame="4" />
+				<animation_state firstFrame="5" lastFrame="5" backFrame="5" />
+				<animation_state firstFrame="6" lastFrame="6" backFrame="6" />
+				<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
+				<animation_state firstFrame="8" lastFrame="8" backFrame="8" />
 			</animation_states>
 		</animation>
 
