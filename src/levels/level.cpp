@@ -116,6 +116,7 @@ void Level::initGUI()
     // Load the GUI sprites.
     guiSprites_.addSprite( graphicsLibrary_.getTileset( "health.png" ) );
     guiSprites_.addSprite( graphicsLibrary_.getTileset( "time.png" ), 367.0f, 0.0f );
+    guiSprites_.addSprite( graphicsLibrary_.getTileset( "score.png" ), 768.0f, 0.0f );
     guiToolSelector_ = guiSprites_.addSprite( graphicsLibrary_.getTileset( "tool_selector.png" ), 384.0f, 660.0f );
 
     // Load the "tools" graphics library.
@@ -203,6 +204,7 @@ void Level::init()
     quitLevel_ = false;
 
     const SDL_Color TIMER_FONT_COLOR = { 8, 31, 126, 255 };
+    const SDL_Color SCORE_FONT_COLOR = { 11, 109, 36, 255 };
 
     projectionMatrix = glm::ortho( 0.0f,
                                    (float)( window_.dimensions.x ),
@@ -221,6 +223,7 @@ void Level::init()
     coutMutex.lock();
     std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50, HEALTH_FONT_COLOR ) << std::endl;
     std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50, TIMER_FONT_COLOR ) << std::endl;
+    std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50, SCORE_FONT_COLOR ) << std::endl;
     coutMutex.unlock();
 
     // Make the cursor invisible.
@@ -370,11 +373,13 @@ void Level::draw()
     minutes = seconds / 60;
     seconds = seconds % 60;
 
-    // Write Jacob's life and game time.
+    // Write Jacob's life, game time and score.
     sprintf( buffer, "%03d", (int)jacobHp_ );
     textRenderer.drawText( projectionMatrix, buffer, 0, 75, 5 );
     sprintf( buffer, "%02d:%02d", minutes, seconds );
     textRenderer.drawText( projectionMatrix, buffer, 1, 450, 3 );
+    sprintf( buffer, "%08u", score_ );
+    textRenderer.drawText( projectionMatrix, buffer, 2, 785, 5 );
 
     // Refresh screen.
     SDL_GL_SwapWindow( window_.window );
