@@ -164,7 +164,7 @@
 			<danger_state>
 				<animation_state>6</animation_state>
 				<state_transition conditions="gavel_hit:0:100" responses="-10:7:-1" dps="0" />
-				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" score_bonus="100" dps="0" />
 			</danger_state>
 
 

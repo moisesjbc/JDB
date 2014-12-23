@@ -45,6 +45,9 @@ struct PlayerActionResponse
     // FPS.
     bool dangerPerSecond;
 
+    // When this transition is done, add this "score bonus" to player's score.
+    unsigned int scoreBonus;
+
 
     /***
      * 1. Initialization

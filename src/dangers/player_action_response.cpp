@@ -68,6 +68,9 @@ PlayerActionResponse::PlayerActionResponse( tinyxml2::XMLElement* xmlElement )
 
     // Is the danger per second or per hit?
     dangerPerSecond = ( xmlElement->IntAttribute( "dps" )  == 1 );
+
+    // Retrieve the score bonus associated to this response.
+    scoreBonus = xmlElement->IntAttribute( "score_bonus" );
 }
 
 
