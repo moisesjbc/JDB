@@ -35,7 +35,8 @@ const unsigned int N_DANGERS = N_SANDWICHES * 3;
 Level::Level( Window& window, SoundManager* soundManager, unsigned int levelIndex )
     : GameState( window ),
       levelIndex_( levelIndex ),
-      soundManager_( *soundManager )
+      soundManager_( *soundManager ),
+      score_( 0 )
 {}
 
 
@@ -139,7 +140,7 @@ void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
         break;
         case SDL_MOUSEBUTTONDOWN:
             // Player clicked on screen.
-            tool_->handleMouseButtonDown( sandwiches, N_SANDWICHES );
+            tool_->handleMouseButtonDown( sandwiches, N_SANDWICHES, score_ );
         break;
         case SDL_MOUSEBUTTONUP:
             tool_->handleMouseButtonUp();
@@ -275,7 +276,7 @@ void Level::handleEvents()
         t1 = SDL_GetTicks();
     }
 
-    tool_->handleMouseHover( sandwiches, N_SANDWICHES );
+    tool_->handleMouseHover( sandwiches, N_SANDWICHES, score_ );
 }
 
 

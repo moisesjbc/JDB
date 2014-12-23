@@ -199,13 +199,13 @@ void Sandwich::update()
 }
 
 
-bool Sandwich::useTool( PlayerAction playerAction, Sprite* tool )
+bool Sandwich::useTool( PlayerAction playerAction, Sprite* tool, unsigned int& score )
 {
     unsigned int i=0;
 
     for( ; i<nDangers_; i++ ){
         if( dangers_[i]->collide( *tool ) &&
-            dangers_[i]->playerAction( playerAction ) ){
+            dangers_[i]->playerAction( playerAction, score ) ){
                 return true;
         }
     }

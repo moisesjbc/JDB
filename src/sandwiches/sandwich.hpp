@@ -68,7 +68,7 @@ class Sandwich : public m2g::Animation
          * 5. Updating
          ***/
         virtual void update();
-        bool useTool( PlayerAction playerAction, Sprite* tool );
+        bool useTool( PlayerAction playerAction, Sprite* tool, unsigned int& score );
         TauntType taunts( const m2g::Sprite &tool, ToolType toolType );
         void reset();
 

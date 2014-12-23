@@ -66,7 +66,7 @@ class Danger : public m2g::Animation
         /***
          * 4. Updating
          ***/
-        bool playerAction( PlayerAction playerAction );
+        bool playerAction( PlayerAction playerAction, unsigned int& score );
         void reset();
         TauntType taunts( const m2g::Sprite &tool, ToolType toolType ) const;
 };

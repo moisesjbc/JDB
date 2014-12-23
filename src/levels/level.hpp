@@ -144,6 +144,8 @@ class Level : public GameState
         m2g::SpritePtr grinderFront;
 
         SoundManager& soundManager_;
+
+        unsigned int score_;
 };
 
 } // namespace jdb
