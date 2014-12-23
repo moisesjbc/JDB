@@ -71,12 +71,11 @@ void Danger::setState( int newState )
 bool Danger::playerAction( PlayerAction playerAction )
 {
     unsigned int i = 0;
-    bool foundResponse = false;
     const PlayerActionResponse* playerActionResponse;
+    std::vector< PlayerActionResponse > validPlayerResponses;
 
     // Iterate over the current state's vector of player action responses.
-    while( ( i < dangerData->states[state].playerActionResponses.size() )
-           && !foundResponse ){
+    while( i < dangerData->states[state].playerActionResponses.size() ){
 
         // Get the current player action response.
         playerActionResponse = &( dangerData->states[state].playerActionResponses[i] );
@@ -86,14 +85,16 @@ bool Danger::playerAction( PlayerAction playerAction )
         if( ( playerAction == playerActionResponse->playerAction ) &&
               ( hp >= playerActionResponse->minHp ) &&
               ( hp <= playerActionResponse->maxHp ) ){
-            foundResponse = true;
-        }else{
-            i++;
+            validPlayerResponses.push_back( *playerActionResponse );
         }
+        i++;
     }
 
-    // If we found the right player action response, we apply it here.
-    if( i < dangerData->states[state].playerActionResponses.size() ){
+
+    // If we found one or more valid action responses, we randomly select one
+    // and apply it here.
+    if( validPlayerResponses.size() > 0 ){
+        playerActionResponse = &validPlayerResponses[ rand() % validPlayerResponses.size() ];
 
         if( playerActionResponse->hpVariation == HP_ALL ){
             hp = 0;

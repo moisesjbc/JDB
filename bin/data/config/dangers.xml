@@ -117,18 +117,21 @@
 			<danger_state>
 				<animation_state>0</animation_state>
 				<state_transition conditions="gavel_hit:0:100" responses="-10:1:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
 			</danger_state>
 
 			<!-- State 1: Damaged shell (I) -->
 			<danger_state>
 				<animation_state>1</animation_state>
 				<state_transition conditions="gavel_hit:0:100" responses="-10:2:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
 			</danger_state>
 
 			<!-- State 2: Damaged shell (II) -->
 			<danger_state>
 				<animation_state>2</animation_state>
 				<state_transition conditions="gavel_hit:0:100" responses="-10:3:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
 			</danger_state>
 
 			
@@ -136,6 +139,7 @@
 			<danger_state>
 				<animation_state>3</animation_state>
 				<state_transition conditions="gavel_hit:0:100" responses="-10:4:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
 			</danger_state>
 
 			
@@ -143,13 +147,16 @@
 			<danger_state>
 				<animation_state>4</animation_state>
 				<state_transition conditions="gavel_hit:0:100" responses="-10:5:-1" dps="0" />
+				<state_transition conditions="gavel_hit:0:100" responses="-10:6:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
 			</danger_state>
 
 
 			<!-- State 5: Open empty shell -->
 			<danger_state>
 				<animation_state>5</animation_state>
-				<state_transition conditions="gavel_hit:0:100" responses="-10:6:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="-10:8:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
 			</danger_state>
 
 
@@ -157,12 +164,14 @@
 			<danger_state>
 				<animation_state>6</animation_state>
 				<state_transition conditions="gavel_hit:0:100" responses="-10:7:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
 			</danger_state>
 
 
 			<!-- State 7: Open shell with broken pearl -->
 			<danger_state>
 				<animation_state>7</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
 				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
 			</danger_state>
 
