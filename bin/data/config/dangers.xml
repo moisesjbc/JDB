@@ -183,5 +183,27 @@
 			
 		</danger_states>
 	</danger>
+
+
+	<!-- Tesla coils -->
+	<danger name="tesla_coils">
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.40</damage_factor>
+		<base_line x="4" y="118" width="115" />
+		
+		<danger_states>
+			<!-- State 0: Intact tesla coils (off) -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="all:1:-1" dps="0" />
+			</danger_state>
+
+			<!-- State 2: Tesla coils removed -->
+			<danger_state>
+				<animation_state>1</animation_state>
+			</danger_state>
+		</danger_states>
+	</danger>
 	
 </dangers>
