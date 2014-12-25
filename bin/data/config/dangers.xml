@@ -202,6 +202,9 @@
 			<!-- State 1: Intact tesla coils (on) -->
 			<danger_state>
 				<animation_state>1</animation_state>
+				<taunt type="electrocution">
+					<tool>hand</tool>
+				</taunt>
 			</danger_state>
 
 			<!-- State 2: Tesla coils removed -->
