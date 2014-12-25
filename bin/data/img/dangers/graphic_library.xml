@@ -95,7 +95,7 @@
 
 
 		<!-- Tesla coils 01 -->
-		<animation>
+		<animation fps="10">
 			<tileset>
 				<src>tesla_coils_01.png</src>
 				<tile_dimensions width="128" height="128"/>
@@ -109,6 +109,7 @@
 			</tileset>
 			<animation_states>
 				<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+				<animation_state firstFrame="1" lastFrame="6" backFrame="1" />
 				<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
 			</animation_states>
 		</animation>
