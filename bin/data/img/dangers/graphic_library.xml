@@ -109,7 +109,8 @@
 			</tileset>
 			<animation_states>
 				<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
-				<animation_state firstFrame="1" lastFrame="6" backFrame="1" />
+				<animation_state firstFrame="1" lastFrame="5" backFrame="1" />
+				<animation_state firstFrame="6" lastFrame="6" backFrame="6" />
 				<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
 			</animation_states>
 		</animation>
