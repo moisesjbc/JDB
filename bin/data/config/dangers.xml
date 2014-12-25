@@ -197,7 +197,7 @@
 			<danger_state>
 				<animation_state>0</animation_state>
 				<state_transition conditions="hand_click:0:100" responses="all:2:-1" dps="0" />
-				<state_time_transition min="2" max="4" new_state="1" />
+				<state_time_transition min="2500" max="4000" new_state="1" />
 			</danger_state>
 
 			<!-- State 1: Intact tesla coils (on) -->
@@ -206,7 +206,7 @@
 				<taunt type="electrocution">
 					<tool>hand</tool>
 				</taunt>
-				<state_time_transition min="2" max="4" new_state="0" />
+				<state_time_transition min="2500" max="4000" new_state="0" />
 			</danger_state>
 
 			<!-- State 2: Tesla coils removed -->

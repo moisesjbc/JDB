@@ -79,7 +79,7 @@ void Danger::update()
         static Uint32 currentTimeout =
                 dangerData->states[state].stateTimeTransition->generateTimeout();
 
-        if( SDL_GetTicks() - lastTimeout >= currentTimeout * 1000 ){
+        if( SDL_GetTicks() - lastTimeout >= currentTimeout ){
             setState( dangerData->states[state].stateTimeTransition->newState );
             lastTimeout = SDL_GetTicks();
             currentTimeout =
