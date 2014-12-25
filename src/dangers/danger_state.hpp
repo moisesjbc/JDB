@@ -24,6 +24,7 @@
 #include "player_action_response.hpp"
 #include <vector>
 #include <set>
+#include <memory>
 
 namespace jdb {
 
@@ -45,6 +46,16 @@ enum class TauntType
     BITE
 };
 
+struct StateTimeTransition {
+    unsigned int minTimeout;
+    unsigned int maxTimeout;
+    unsigned int newState;
+
+    unsigned int generateTimeout(){
+        return minTimeout + rand() % (maxTimeout - minTimeout + 1);
+    }
+};
+
 struct DangerState
 {
     // Index of the animation state associated with this state.
@@ -52,6 +63,9 @@ struct DangerState
 
     // Respones to player actions.
     std::vector< PlayerActionResponse > playerActionResponses;
+
+    // State time-based transitions.
+    std::unique_ptr< StateTimeTransition > stateTimeTransition;
 
     std::set< ToolType > tauntedTools;
     TauntType tauntType;

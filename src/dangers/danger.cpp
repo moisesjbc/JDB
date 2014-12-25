@@ -68,6 +68,27 @@ void Danger::setState( int newState )
  * 4. Updating
  ***/
 
+void Danger::update()
+{
+    m2g::Animation::update();
+
+    // Check if we have any time-based state transition and apply it if
+    // applicable.
+    static Uint32 lastTimeout = SDL_GetTicks();
+    if( dangerData->states[state].stateTimeTransition != nullptr ){
+        static Uint32 currentTimeout =
+                dangerData->states[state].stateTimeTransition->generateTimeout();
+
+        if( SDL_GetTicks() - lastTimeout >= currentTimeout * 1000 ){
+            setState( dangerData->states[state].stateTimeTransition->newState );
+            lastTimeout = SDL_GetTicks();
+            currentTimeout =
+                    dangerData->states[state].stateTimeTransition->generateTimeout();
+        }
+    }
+}
+
+
 bool Danger::playerAction( PlayerAction playerAction, unsigned int& score )
 {
     unsigned int i = 0;

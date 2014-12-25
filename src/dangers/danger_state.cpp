@@ -27,6 +27,7 @@
 namespace jdb {
 
 DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
+    stateTimeTransition( nullptr ),
     tauntType( TauntType::NONE )
 {
     tinyxml2::XMLElement* xmlElement = nullptr;
@@ -73,6 +74,16 @@ DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
 
             xmlElement = xmlElement->NextSiblingElement();
         }
+    }
+
+    // Get the danger's time-based transition (if any).
+    xmlElement = rootXMLElement->FirstChildElement( "state_time_transition" );
+    if( xmlElement != nullptr ){
+        stateTimeTransition =
+                std::unique_ptr< StateTimeTransition >( new StateTimeTransition );
+        stateTimeTransition->minTimeout = xmlElement->IntAttribute( "min" );
+        stateTimeTransition->maxTimeout = xmlElement->IntAttribute( "max" );
+        stateTimeTransition->newState = xmlElement->IntAttribute( "new_state" );
     }
 }
 
