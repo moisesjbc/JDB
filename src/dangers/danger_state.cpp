@@ -28,7 +28,7 @@ namespace jdb {
 
 DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
     stateTimeTransition( nullptr ),
-    tauntType( TauntType::NONE )
+    stunType( StunType::NONE )
 {
     tinyxml2::XMLElement* xmlElement = nullptr;
 
@@ -41,37 +41,37 @@ DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
         xmlElement = xmlElement->NextSiblingElement( "state_transition" );
     }
 
-    // Get the danger's taunts.
-    xmlElement = rootXMLElement->FirstChildElement( "taunt" );
+    // Get the danger's stuns.
+    xmlElement = rootXMLElement->FirstChildElement( "stun" );
     if( xmlElement ){
-        std::string tauntTypeStr = xmlElement->Attribute( "type" );
-        if( tauntTypeStr == "burn" ){
-            tauntType = TauntType::BURN;
-        }else if( tauntTypeStr == "freezing" ){
-            tauntType = TauntType::FREEZING;
-        }else if( tauntTypeStr == "electrocution" ){
-            tauntType = TauntType::ELECTROCUTION;
-        }else if( tauntTypeStr == "bite" ){
-            tauntType = TauntType::BITE;
-        }else if( tauntTypeStr == "hypnotism" ){
-            tauntType = TauntType::HYPNOTISM;
+        std::string stunTypeStr = xmlElement->Attribute( "type" );
+        if( stunTypeStr == "burn" ){
+            stunType = StunType::BURN;
+        }else if( stunTypeStr == "freezing" ){
+            stunType = StunType::FREEZING;
+        }else if( stunTypeStr == "electrocution" ){
+            stunType = StunType::ELECTROCUTION;
+        }else if( stunTypeStr == "bite" ){
+            stunType = StunType::BITE;
+        }else if( stunTypeStr == "hypnotism" ){
+            stunType = StunType::HYPNOTISM;
         }else{
-            throw std::runtime_error( "Unrecognized taunt" );
+            throw std::runtime_error( "Unrecognized stun" );
         }
 
         xmlElement = xmlElement->FirstChildElement( "tool" );
         while( xmlElement ){
             std::string toolStr = xmlElement->GetText();
             if( toolStr == "hand" ){
-                tauntedTools.insert( ToolType::HAND );
+                stunnedTools.insert( ToolType::HAND );
             }else if( toolStr == "extinguisher" ){
-                tauntedTools.insert( ToolType::EXTINGUISHER );
+                stunnedTools.insert( ToolType::EXTINGUISHER );
             }else if( toolStr == "lighter" ){
-                tauntedTools.insert( ToolType::LIGHTER );
+                stunnedTools.insert( ToolType::LIGHTER );
             }else if( toolStr == "gavel" ){
-                tauntedTools.insert( ToolType::GAVEL );
+                stunnedTools.insert( ToolType::GAVEL );
             }else{
-                throw std::runtime_error( "Unrecognized taunted tool" );
+                throw std::runtime_error( "Unrecognized stunned tool" );
             }
 
             xmlElement = xmlElement->NextSiblingElement( "tool" );

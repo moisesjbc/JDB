@@ -159,13 +159,13 @@ void Danger::reset()
 }
 
 
-TauntType Danger::taunts( const m2g::Sprite &tool, ToolType toolType ) const
+StunType Danger::stuns( const m2g::Sprite &tool, ToolType toolType ) const
 {
     (void)( toolType );
-    if( collide( tool ) && dangerData->states[ state ].tauntedTools.count( toolType ) ){
-        return dangerData->states[ state ].tauntType;
+    if( collide( tool ) && dangerData->states[ state ].stunnedTools.count( toolType ) ){
+        return dangerData->states[ state ].stunType;
     }
-    return TauntType::NONE;
+    return StunType::NONE;
 }
 
 } // namespace jdb

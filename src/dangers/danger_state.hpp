@@ -37,7 +37,7 @@ enum class ToolType
     GAVEL
 };
 
-enum class TauntType
+enum class StunType
 {
     NONE = 0,
     BURN,
@@ -78,8 +78,8 @@ struct DangerState
     // Distance-based state transition.
     std::unique_ptr< StateDistanceTransition > stateDistanceTransition;
 
-    std::set< ToolType > tauntedTools;
-    TauntType tauntType;
+    std::set< ToolType > stunnedTools;
+    StunType stunType;
 
 
     /***

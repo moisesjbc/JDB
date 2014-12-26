@@ -75,7 +75,7 @@ class Tool : public m2g::Animation
         /***
          * 5. Auxiliar methods
          ***/
-        void applyTaunt( Sandwich** sandwiches, unsigned int N_SANDWICHES );
+        void applyStun( Sandwich** sandwiches, unsigned int N_SANDWICHES );
 };
 
 typedef std::shared_ptr< Tool > ToolPtr;

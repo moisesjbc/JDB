@@ -150,18 +150,18 @@ void Tool::handleMouseHover( Sandwich** sandwiches, unsigned int nSandwiches, un
  * 5. Auxiliar methods
  ***/
 
-void Tool::applyTaunt( Sandwich **sandwiches, unsigned int N_SANDWICHES )
+void Tool::applyStun( Sandwich **sandwiches, unsigned int N_SANDWICHES )
 {
     unsigned int i;
-    TauntType tauntType;
+    StunType stunType;
     int mouseX, mouseY;
 
     SDL_PumpEvents();
     SDL_GetMouseState( &mouseX, &mouseY );
 
     for( i = 0; i < N_SANDWICHES; i++ ){
-        tauntType = sandwiches[i]->taunts( *this, currentToolType_ );
-        if( tauntType != TauntType::NONE ){
+        stunType = sandwiches[i]->stuns( *this, currentToolType_ );
+        if( stunType != StunType::NONE ){
             SDL_WarpMouseInWindow( nullptr, mouseX, mouseY - 75 );
 
             soundManager_.playSound( crySoundIndex_ );

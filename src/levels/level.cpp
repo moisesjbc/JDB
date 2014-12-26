@@ -287,7 +287,7 @@ void Level::update()
 {
     unsigned int i;
 
-    tool_->applyTaunt( sandwiches, N_SANDWICHES );
+    tool_->applyStun( sandwiches, N_SANDWICHES );
 
     // Game logic: Check if the first sandwich reached the
     // sandwiches' end point and, in that case, restart it.
