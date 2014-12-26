@@ -108,7 +108,7 @@ JDB::JDB() :
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
     glEnable( GL_BLEND );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    glClearColor( 0xF5/255.0f, 0xF6/255.0f, 0xCE/255.0f, 1.0f );
+    glClearColor( 0xDC/255.0f, 0xF1/255.0f, 0xF1/255.0f, 1.0f );
 
     m2g::checkOpenGL( "JDB constructor" );
 }
