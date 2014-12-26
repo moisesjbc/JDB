@@ -133,5 +133,22 @@
 			</animation_states>
 		</animation>
 
+
+		<!-- Enigma bomb 01 -->
+		<animation fps="10">
+			<tileset>
+				<src>enigma_bomb_01.png</src>
+				<tile_dimensions width="128" height="128"/>
+				<collision_rects>
+					<collision_rect tiles="all" x="84" y="34" width="32" height="20" />
+				</collision_rects>
+			</tileset>
+			<animation_states>
+				<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+				<animation_state firstFrame="1" lastFrame="7" backFrame="7" />
+				<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
+			</animation_states>
+		</animation>
+
 	</animations>
 </library>
