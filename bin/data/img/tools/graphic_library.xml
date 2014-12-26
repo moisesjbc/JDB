@@ -12,11 +12,11 @@
 					<collision_rect tiles="0" x="19" y="4" width="34" height="60" />
 					<collision_rect tiles="0" x="9" y="37" width="10" height="16" />
 
-					<!-- Extinguisher (On) -->
-					<collision_rect tiles="10-29" x="10" y="17" width="49" height="50" />
+					<!-- Extinguisher (On/off) -->
+					<collision_rect tiles="9-29" x="10" y="17" width="49" height="50" />
 
-					<!-- Lighter (On) -->
-					<collision_rect tiles="35-64" x="32" y="12" width="29" height="39" />
+					<!-- Lighter (On/off) -->
+					<collision_rect tiles="30-64" x="32" y="12" width="29" height="39" />
 
 					<!-- Gavel -->
 					<collision_rect tiles="65" x="24" y="2" width="36" height="55" />

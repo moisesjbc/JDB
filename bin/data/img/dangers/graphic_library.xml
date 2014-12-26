@@ -115,5 +115,23 @@
 			</animation_states>
 		</animation>
 
+
+		<!-- Coward hypnotist rat 01 -->
+		<animation fps="10">
+			<tileset>
+				<src>coward_hypnotist_rat_01.png</src>
+				<tile_dimensions width="128" height="256"/>
+				<collision_rects>
+					<collision_rect tiles="all" x="51" y="13" width="40" height="31" />
+					<collision_rect tiles="all" x="19" y="44" width="72" height="51" />
+					<collision_rect tiles="all" x="39" y="95" width="53" height="50" />
+				</collision_rects>
+			</tileset>
+			<animation_states>
+				<animation_state firstFrame="0" lastFrame="3" backFrame="0" />
+				<animation_state firstFrame="4" lastFrame="7" backFrame="7" />
+			</animation_states>
+		</animation>
+
 	</animations>
 </library>

@@ -53,6 +53,8 @@ DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
             tauntType = TauntType::ELECTROCUTION;
         }else if( tauntTypeStr == "bite" ){
             tauntType = TauntType::BITE;
+        }else if( tauntTypeStr == "hypnotism" ){
+            tauntType = TauntType::HYPNOTISM;
         }else{
             throw std::runtime_error( "Unrecognized taunt" );
         }
@@ -72,7 +74,7 @@ DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
                 throw std::runtime_error( "Unrecognized taunted tool" );
             }
 
-            xmlElement = xmlElement->NextSiblingElement();
+            xmlElement = xmlElement->NextSiblingElement( "tool" );
         }
     }
 
@@ -84,6 +86,15 @@ DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
         stateTimeTransition->minTimeout = xmlElement->IntAttribute( "min" );
         stateTimeTransition->maxTimeout = xmlElement->IntAttribute( "max" );
         stateTimeTransition->newState = xmlElement->IntAttribute( "new_state" );
+    }
+
+    // Get the danger's distance-based transition (if any).
+    xmlElement = rootXMLElement->FirstChildElement( "state_distance_transition" );
+    if( xmlElement != nullptr ){
+        stateDistanceTransition =
+                std::unique_ptr< StateDistanceTransition >( new StateDistanceTransition );
+        stateDistanceTransition->distance = xmlElement->IntAttribute( "distance" );
+        stateDistanceTransition->newState = xmlElement->IntAttribute( "new_state" );
     }
 }
 

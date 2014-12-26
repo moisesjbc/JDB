@@ -56,6 +56,7 @@ void Danger::setDangerData( DangerDataPtr dangerData_ )
     reset();
 }
 
+
 void Danger::setState( int newState )
 {
     state = newState;
@@ -80,10 +81,19 @@ void Danger::update()
                 dangerData->states[state].stateTimeTransition->generateTimeout();
 
         if( SDL_GetTicks() - lastTimeout >= currentTimeout ){
-            setState( dangerData->states[state].stateTimeTransition->newState );
             lastTimeout = SDL_GetTicks();
             currentTimeout =
                     dangerData->states[state].stateTimeTransition->generateTimeout();
+            setState( dangerData->states[state].stateTimeTransition->newState );
+        }
+    }
+
+
+    // Check if we have any distance-based state transition and apply it if
+    // applicable.
+    if( dangerData->states[state].stateDistanceTransition != nullptr ){
+        if( this->getBoundaryBox()->x < dangerData->states[state].stateDistanceTransition->distance ){
+            setState( dangerData->states[state].stateDistanceTransition->newState );
         }
     }
 }

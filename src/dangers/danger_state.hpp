@@ -43,7 +43,8 @@ enum class TauntType
     BURN,
     FREEZING,
     ELECTROCUTION,
-    BITE
+    BITE,
+    HYPNOTISM
 };
 
 struct StateTimeTransition {
@@ -56,6 +57,13 @@ struct StateTimeTransition {
     }
 };
 
+struct StateDistanceTransition {
+    // Distance to the *left border* of the window.
+    // TODO: Make this depend on effective distance to grinder.
+    unsigned int distance;
+    unsigned int newState;
+};
+
 struct DangerState
 {
     // Index of the animation state associated with this state.
@@ -66,6 +74,9 @@ struct DangerState
 
     // State time-based transitions.
     std::unique_ptr< StateTimeTransition > stateTimeTransition;
+
+    // Distance-based state transition.
+    std::unique_ptr< StateDistanceTransition > stateDistanceTransition;
 
     std::set< ToolType > tauntedTools;
     TauntType tauntType;

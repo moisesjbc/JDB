@@ -223,5 +223,33 @@
 			</danger_state>
 		</danger_states>
 	</danger>
+
+
+	<!-- Coward hypnotist rat -->
+	<danger name="coward_hypnotist_rat">
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0</damage_factor>
+		<base_line x="12" y="142" width="101" />
+		
+		<danger_states>
+			<!-- State 0: Intact coward hypnotis rat -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_distance_transition distance="300" new_state="1" />
+				<taunt type="hypnotism">
+					<tool>hand</tool>
+					<tool>extinguisher</tool>
+					<tool>lighter</tool>
+					<tool>gavel</tool>
+				</taunt>
+			</danger_state>
+
+			<!-- State 1: Coward hypnotis rat removed -->
+			<danger_state>
+				<animation_state>1</animation_state>
+			</danger_state>
+		</danger_states>
+	</danger>
 	
 </dangers>
