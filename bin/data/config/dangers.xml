@@ -272,6 +272,7 @@
 			<!-- State 1: Intact enigma bomb (on) -->
 			<danger_state>
 				<animation_state>1</animation_state>
+				<random_danger_on_animation_state_end/>
 			</danger_state>
 			
 			<!-- State 2: Enigma bomb removed -->

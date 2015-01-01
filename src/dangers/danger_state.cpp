@@ -96,6 +96,12 @@ DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
         stateDistanceTransition->distance = xmlElement->IntAttribute( "distance" );
         stateDistanceTransition->newState = xmlElement->IntAttribute( "new_state" );
     }
+
+    // Check if we must change the current danger when the current animation
+    // state ends.
+    randomDangerOnAnimationStateEnd =
+            ( rootXMLElement->FirstChildElement( "random_danger_on_animation_state_end" )
+              != nullptr );
 }
 
 } // nameSpace jdb.

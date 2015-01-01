@@ -73,6 +73,17 @@ void Danger::update()
 {
     m2g::Animation::update();
 
+    if( dangerData->states[state].randomDangerOnAnimationStateEnd &&
+        this->Animation::finished() ){
+
+        DangerDataPtr newDangerData =
+                dangerData->dangersDataVector[ rand() % dangerData->dangersDataVector.size() ];
+        translate( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
+                   dangerData->baseLine.y - newDangerData->baseLine.y );
+        setDangerData( newDangerData );
+
+    }
+
     // Check if we have any time-based state transition and apply it if
     // applicable.
     static Uint32 lastTimeout = SDL_GetTicks();

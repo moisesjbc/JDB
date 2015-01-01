@@ -78,6 +78,8 @@ struct DangerState
     // Distance-based state transition.
     std::unique_ptr< StateDistanceTransition > stateDistanceTransition;
 
+    bool randomDangerOnAnimationStateEnd;
+
     std::set< ToolType > stunnedTools;
     StunType stunType;
 
