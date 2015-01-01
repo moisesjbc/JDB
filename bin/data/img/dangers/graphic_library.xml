@@ -140,6 +140,7 @@
 				<src>enigma_bomb_01.png</src>
 				<tile_dimensions width="128" height="128"/>
 				<collision_rects>
+					<collision_rect tiles="all" x="23" y="46" width="78" height="75" />
 					<collision_rect tiles="all" x="84" y="34" width="32" height="20" />
 				</collision_rects>
 			</tileset>
