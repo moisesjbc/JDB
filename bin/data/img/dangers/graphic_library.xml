@@ -150,5 +150,17 @@
 			</animation_states>
 		</animation>
 
+
+		<!-- Enigma bomb's explosion -->
+		<animation fps="10">
+			<tileset>
+				<src>enigma_bomb_explosion.png</src>
+				<tile_dimensions width="256" height="128"/>
+			</tileset>
+			<animation_states>
+				<animation_state firstFrame="0" lastFrame="4" backFrame="0" />
+			</animation_states>
+		</animation>
+
 	</animations>
 </library>
