@@ -96,10 +96,11 @@ JDB::JDB() :
     }
 
     // Load and use shaders.
-    msl::ShaderLoader* shaderLoader =
-            msl::ShaderLoader::getInstance();
-    shaderLoader->loadMinimumShaderProgram( "data/shaders/basicVertexShader.shader", "data/shaders/basicFragmentShader.shader" );
-    shaderLoader->destroy();
+    msl::ShaderLoader shaderLoader;
+    const GLuint shaderProgram =
+            shaderLoader.loadShaderProgram( "data/shaders/basicVertexShader.shader",
+                                            "data/shaders/basicFragmentShader.shader" );
+    glUseProgram( shaderProgram );
 
     // Initialize OpenGL.
     glDisable( GL_DEPTH_TEST );
