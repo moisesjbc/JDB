@@ -148,7 +148,7 @@ bool Danger::playerAction( PlayerAction playerAction, unsigned int& score )
         if( playerActionResponse->newDanger != -1 ){
             DangerDataPtr newDangerData =
                     dangerData->dangersDataVector[ rand() % dangerData->dangersDataVector.size() ];
-            translate( dangerData->baseLine.x - newDangerData->baseLine.x,
+            translate( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
                        dangerData->baseLine.y - newDangerData->baseLine.y );
             setDangerData( newDangerData );
         }
