@@ -26,7 +26,10 @@ namespace jdb {
  * 1. Initialization
  ***/
 
-DangerData::DangerData( tinyxml2::XMLElement* xmlElement, const m2g::GraphicsLibrary& dangerGraphics  )
+DangerData::DangerData( tinyxml2::XMLElement* xmlElement,
+                        const m2g::GraphicsLibrary& dangerGraphics,
+                        const std::vector< DangerDataPtr >& dangersDataVector ) :
+    dangersDataVector( dangersDataVector )
 {
     tinyxml2::XMLElement* dangerStateXMLElement;
     std::string dangerName;

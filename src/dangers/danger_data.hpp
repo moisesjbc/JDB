@@ -29,6 +29,9 @@
 
 namespace jdb {
 
+struct DangerData;
+typedef std::shared_ptr< const DangerData > DangerDataPtr;
+
 struct DangerData
 {
     // Vector of animation data.
@@ -47,15 +50,16 @@ struct DangerData
     // Vector of danger states.
     std::vector< DangerState > states;
 
+    const std::vector< DangerDataPtr >& dangersDataVector;
+
 
     /***
      * 1. Initialization
      ***/
-    DangerData( tinyxml2::XMLElement* xmlElement, const m2g::GraphicsLibrary& dangerGraphics );
+    DangerData( tinyxml2::XMLElement* xmlElement,
+                const m2g::GraphicsLibrary& dangerGraphics,
+                const std::vector< DangerDataPtr >& dangersDataVector );
 };
-
-
-typedef std::shared_ptr< const DangerData > DangerDataPtr;
 
 } // namespace jdb
 

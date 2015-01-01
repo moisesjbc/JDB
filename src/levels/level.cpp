@@ -93,7 +93,7 @@ void Level::loadDangerData()
     document.LoadFile( "./data/config/dangers.xml" );
     dangerXMLElement = ( document.RootElement() )->FirstChildElement( "danger" );
     while( dangerXMLElement ){
-        dangerData.emplace_back( new DangerData( dangerXMLElement, graphicsLibrary_ ) );
+        dangerData.emplace_back( new DangerData( dangerXMLElement, graphicsLibrary_, dangerData ) );
 
         dangerXMLElement = dangerXMLElement->NextSiblingElement();
     }
