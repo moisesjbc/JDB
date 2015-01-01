@@ -73,9 +73,12 @@ void Danger::update()
 {
     m2g::Animation::update();
 
+    // Check if we must change the current danger when the current animation
+    // state ends, and apply it if applicable.
     if( dangerData->states[state].randomDangerOnAnimationStateEnd &&
         this->Animation::finished() ){
 
+        // FIXME: Duplicated code.
         DangerDataPtr newDangerData =
                 dangerData->dangersDataVector[ rand() % dangerData->dangersDataVector.size() ];
         translate( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
@@ -157,6 +160,7 @@ bool Danger::playerAction( PlayerAction playerAction, unsigned int& score )
         }
 
         if( playerActionResponse->newDanger != -1 ){
+            // FIXME: Duplicated code.
             DangerDataPtr newDangerData =
                     dangerData->dangersDataVector[ rand() % dangerData->dangersDataVector.size() ];
             translate( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
