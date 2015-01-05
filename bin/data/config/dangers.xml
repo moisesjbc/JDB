@@ -255,9 +255,9 @@
 
 	<!-- Enigma bomb -->
 	<danger name="enigma_bomb">
-		<initial_state>0.4</initial_state>
+		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
-		<damage_factor>0</damage_factor>
+		<damage_factor>0.4</damage_factor>
 		<base_line x="-85" y="117" width="213" />
 		
 		<danger_states>
