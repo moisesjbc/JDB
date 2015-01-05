@@ -294,7 +294,7 @@
 			<!-- State 0: Intact medic kit -->
 			<danger_state>
 				<animation_state>0</animation_state>
-				<state_transition conditions="hand_click:0:100" responses="all:1:-1" /> <!-- TODO: Add hp bonus -->
+				<state_transition conditions="hand_click:0:100" responses="all:1:-1" hp_bonus="30" />
 			</danger_state>
 
 			<!-- State 1: Medic kit removed -->

@@ -129,7 +129,9 @@ void Danger::update()
 }
 
 
-bool Danger::playerAction( PlayerAction playerAction, unsigned int& score )
+bool Danger::playerAction( PlayerAction playerAction,
+                           unsigned int& score,
+                           unsigned int& hpBonus )
 {
     unsigned int i = 0;
     const PlayerActionResponse* playerActionResponse;
@@ -170,6 +172,8 @@ bool Danger::playerAction( PlayerAction playerAction, unsigned int& score )
         // TODO: Use hp variation instead.
         score += 10;
         score += playerActionResponse->scoreBonus;
+
+        hpBonus = playerActionResponse->hpBonus;
 
         if( playerActionResponse->newState != -1 ){
             setState( playerActionResponse->newState );

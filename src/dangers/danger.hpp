@@ -77,7 +77,9 @@ class Danger : public m2g::Animation
          * 4. Updating
          ***/
         virtual void update();
-        bool playerAction( PlayerAction playerAction, unsigned int& score );
+        bool playerAction( PlayerAction playerAction,
+                           unsigned int& score,
+                           unsigned int& hpBonus );
         void reset();
         StunType stuns( const m2g::Sprite &tool, ToolType toolType ) const;
 

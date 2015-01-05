@@ -139,10 +139,16 @@ void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
             quitLevel_ = true;
             exit( 0 );
         break;
-        case SDL_MOUSEBUTTONDOWN:
+        case SDL_MOUSEBUTTONDOWN:{
             // Player clicked on screen.
-            tool_->handleMouseButtonDown( sandwiches, N_SANDWICHES, score_ );
-        break;
+            unsigned int hpBonus = 0;
+            tool_->handleMouseButtonDown( sandwiches, N_SANDWICHES, score_, hpBonus );
+            // FIXME: Duplicated code.
+            jacobHp_ += hpBonus;
+            if( jacobHp_ > 130 ){
+                jacobHp_ = 130;
+            }
+        }break;
         case SDL_MOUSEBUTTONUP:
             tool_->handleMouseButtonUp();
         break;
@@ -279,7 +285,13 @@ void Level::handleEvents()
         t1 = SDL_GetTicks();
     }
 
-    tool_->handleMouseHover( sandwiches, N_SANDWICHES, score_ );
+    unsigned int hpBonus = 0;
+    tool_->handleMouseHover( sandwiches, N_SANDWICHES, score_, hpBonus );
+    // FIXME: Duplicated code.
+    jacobHp_ += hpBonus;
+    if( jacobHp_ > 130 ){
+        jacobHp_ = 130;
+    }
 }
 
 

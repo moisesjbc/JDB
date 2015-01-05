@@ -70,7 +70,10 @@ class Sandwich : public m2g::Animation
          * 5. Updating
          ***/
         virtual void update();
-        bool useTool( PlayerAction playerAction, Sprite* tool, unsigned int& score );
+        bool useTool( PlayerAction playerAction,
+                      Sprite* tool,
+                      unsigned int& score,
+                      unsigned int& hpBonus );
         StunType stuns( const m2g::Sprite &tool, ToolType toolType );
         void reset();
 

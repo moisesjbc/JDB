@@ -48,6 +48,9 @@ struct PlayerActionResponse
     // When this transition is done, add this "score bonus" to player's score.
     unsigned int scoreBonus;
 
+    // When this transitions is done, add this "hp bonuts" to player's hp.
+    unsigned int hpBonus;
+
 
     /***
      * 1. Initialization
