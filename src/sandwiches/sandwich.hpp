@@ -41,7 +41,9 @@ class Sandwich : public m2g::Animation
         /***
          * 1. Initialization and destruction
          ***/
-        Sandwich( SandwichDataPtr sandwichData, const std::vector< DangerDataPtr >* dangerData );
+        Sandwich( SandwichDataPtr sandwichData,
+                  const std::vector< DangerDataPtr >* dangerData,
+                  const m2g::GraphicsLibrary& graphicsLibrary );
         virtual ~Sandwich();
 
         /***

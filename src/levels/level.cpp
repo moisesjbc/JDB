@@ -248,7 +248,7 @@ void Level::init()
     // Load the sandwiches, move them to their final positions and
     // populate them with dangers.
     for( unsigned int i=0; i < N_SANDWICHES; i++ ){
-        sandwiches[i] = new Sandwich( sandwichData[0], &dangerData );
+        sandwiches[i] = new Sandwich( sandwichData[0], &dangerData, graphicsLibrary_ );
 
         sandwiches[i]->moveTo( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
 

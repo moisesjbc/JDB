@@ -21,10 +21,13 @@
 
 namespace jdb {
 
-Danger::Danger( DangerDataPtr dangerData_ ) :
-    Animation( dangerData_->animationData[ rand() % dangerData_->animationData.size()] )
+Danger::Danger( DangerDataPtr dangerData_,
+                const m2g::GraphicsLibrary& graphicsLibrary,
+                m2g::AnimationDataPtr appearanceAnimationData ) :
+    Animation( dangerData_->animationData[ rand() % dangerData_->animationData.size()] ),
+    graphicsLibrary_( graphicsLibrary )
 {
-    setDangerData( dangerData_ );
+    setDangerData( dangerData_, appearanceAnimationData );
 }
 
 
@@ -43,13 +46,23 @@ DangerDataPtr Danger::getDangerData() const
     return dangerData;
 }
 
+
 /***
  * 3. Setters
  ***/
 // TODO: Overload Animation setters.
-void Danger::setDangerData( DangerDataPtr dangerData_ )
+void Danger::setDangerData( DangerDataPtr dangerData_,
+                            m2g::AnimationDataPtr appearanceAnimationData )
 {
     dangerData = dangerData_;
+
+    if( appearanceAnimationData != nullptr ){
+        appearanceAnimation =
+                std::unique_ptr< m2g::Animation >(
+                    new m2g::Animation( appearanceAnimationData ) );
+        appearanceAnimation->moveTo( getBoundaryBox()->x + ( getWidth() - appearanceAnimation->getWidth() ) / 2,
+                                     getBoundaryBox()->y + ( getHeight() - appearanceAnimation->getHeight() ) / 2 );
+    }
 
     setAnimationData( dangerData->animationData[0] );
 
@@ -72,6 +85,9 @@ void Danger::setState( int newState )
 void Danger::update()
 {
     m2g::Animation::update();
+    if( appearanceAnimation ){
+        appearanceAnimation->update();
+    }
 
     // Check if we must change the current danger when the current animation
     // state ends, and apply it if applicable.
@@ -83,8 +99,8 @@ void Danger::update()
                 dangerData->dangersDataVector[ rand() % dangerData->dangersDataVector.size() ];
         translate( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
                    dangerData->baseLine.y - newDangerData->baseLine.y );
-        setDangerData( newDangerData );
-
+        setDangerData( newDangerData,
+                       graphicsLibrary_.getAnimationData( dangerData->states[state].appearanceAnimationLabel ) );
     }
 
     // Check if we have any time-based state transition and apply it if
@@ -189,6 +205,19 @@ StunType Danger::stuns( const m2g::Sprite &tool, ToolType toolType ) const
         return dangerData->states[ state ].stunType;
     }
     return StunType::NONE;
+}
+
+
+/***
+ * 5. Drawing
+ ***/
+
+void Danger::draw( const glm::mat4 &projectionMatrix ) const
+{
+    Animation::draw( projectionMatrix );
+    if( appearanceAnimation ){
+        appearanceAnimation->draw( projectionMatrix );
+    }
 }
 
 } // namespace jdb

@@ -99,9 +99,13 @@ DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
 
     // Check if we must change the current danger when the current animation
     // state ends.
-    randomDangerOnAnimationStateEnd =
-            ( rootXMLElement->FirstChildElement( "random_danger_on_animation_state_end" )
-              != nullptr );
+    xmlElement = rootXMLElement->FirstChildElement( "random_danger_on_animation_state_end" );
+    if( xmlElement != nullptr ){
+        randomDangerOnAnimationStateEnd = true;
+        appearanceAnimationLabel = xmlElement->Attribute( "appearance_animation" );
+    }else{
+        randomDangerOnAnimationStateEnd = false;
+    }
 }
 
 } // nameSpace jdb.

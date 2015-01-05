@@ -79,6 +79,7 @@ struct DangerState
     std::unique_ptr< StateDistanceTransition > stateDistanceTransition;
 
     bool randomDangerOnAnimationStateEnd;
+    std::string appearanceAnimationLabel;
 
     std::set< ToolType > stunnedTools;
     StunType stunType;

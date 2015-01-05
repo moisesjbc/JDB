@@ -159,7 +159,7 @@
 				<tile_dimensions width="256" height="128"/>
 			</tileset>
 			<animation_states>
-				<animation_state firstFrame="0" lastFrame="4" backFrame="0" />
+				<animation_state firstFrame="0" lastFrame="4" backFrame="4" />
 			</animation_states>
 		</animation>
 

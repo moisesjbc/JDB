@@ -40,11 +40,20 @@ class Danger : public m2g::Animation
 
         DangerDataPtr dangerData;
 
+        // This is an extra animation displayed over the danger when this
+        // firstly appears.
+        std::unique_ptr< m2g::Animation > appearanceAnimation;
+
+
+        const m2g::GraphicsLibrary& graphicsLibrary_;
+
     public:
         /***
          * 1. Initialization and destruction
          ***/
-        Danger( DangerDataPtr dangerData_ );
+        Danger( DangerDataPtr dangerData_,
+                const m2g::GraphicsLibrary& graphicsLibrary,
+                m2g::AnimationDataPtr appearanceAnimationData = nullptr );
         virtual ~Danger() = default;
 
 
@@ -59,7 +68,8 @@ class Danger : public m2g::Animation
          * 3. Setters
          ***/
         // TODO: Overload Animation setters.
-        void setDangerData( DangerDataPtr dangerData_ );
+        void setDangerData( DangerDataPtr dangerData_,
+                            m2g::AnimationDataPtr appearanceAnimationData = nullptr );
         void setState( int newState );
 
 
@@ -70,6 +80,12 @@ class Danger : public m2g::Animation
         bool playerAction( PlayerAction playerAction, unsigned int& score );
         void reset();
         StunType stuns( const m2g::Sprite &tool, ToolType toolType ) const;
+
+
+        /***
+         * 5. Drawing
+         ***/
+        virtual void draw(const glm::mat4 &projectionMatrix) const;
 };
 
 } // namespace jdb
