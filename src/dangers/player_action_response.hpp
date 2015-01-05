@@ -29,6 +29,8 @@ namespace jdb {
 
 const int HP_ALL = 156474;
 
+// TODO: Separate two structs "PlayerActionConditions" and
+// "PlayerActionResponses" (affects XML).
 struct PlayerActionResponse
 {
     // Conditions
@@ -39,7 +41,8 @@ struct PlayerActionResponse
     // Responses
     int hpVariation;
     int newState;
-    int newDanger;
+    int newDanger; // TODO: Remove this attribute or at least invalid
+    // silmultaneus state and danger transitions (affects XML).
 
     // When this is true, the HP variation is divided by the inverse of the
     // FPS.
