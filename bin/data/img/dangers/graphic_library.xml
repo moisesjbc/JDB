@@ -152,6 +152,22 @@
 		</animation>
 
 
+		<!-- Medic kit 01 -->
+		<animation>
+			<tileset>
+				<src>medic_kit_01.png</src>
+				<tile_dimensions width="128" height="128"/>
+				<collision_rects>
+					<collision_rect tiles="all" x="8" y="40" width="104" height="66" />
+				</collision_rects>
+			</tileset>
+			<animation_states>
+				<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+				<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
+			</animation_states>
+		</animation>
+
+
 		<!-- Enigma bomb's explosion -->
 		<animation fps="10">
 			<tileset>

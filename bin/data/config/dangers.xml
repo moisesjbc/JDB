@@ -281,5 +281,27 @@
 			</danger_state>
 		</danger_states>
 	</danger>
+
+
+	<!-- Medic kit -->
+	<danger name="medic_kit">
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.3</damage_factor>
+		<base_line x="3" y="107" width="115" />
+		
+		<danger_states>
+			<!-- State 0: Intact medic kit -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="all:1:-1" /> <!-- TODO: Add hp bonus -->
+			</danger_state>
+
+			<!-- State 1: Medic kit removed -->
+			<danger_state>
+				<animation_state>1</animation_state>
+			</danger_state>
+		</danger_states>
+	</danger>
 	
 </dangers>
