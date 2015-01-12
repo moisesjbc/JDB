@@ -18,9 +18,11 @@
  ***/
 
 #include "main_menu.hpp"
-#include "../dependencies/m2g/src/text/text_renderer.hpp"
+#include <m2g/text/text_renderer.hpp>
 #include "../levels/campaign_level.hpp"
 #include "../levels/survival_level.hpp"
+#define GLM_FORCE_RADIANS
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace jdb {
 

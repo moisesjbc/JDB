@@ -21,7 +21,7 @@
 #define MAIN_MENU_HPP
 
 #include "game_state.hpp"
-#include "../dependencies/m2g/src/drawables/sprite.hpp"
+#include <m2g/drawables/sprite.hpp>
 #include <utilities/sound_manager.hpp>
 
 namespace jdb {

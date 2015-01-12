@@ -1,3 +1,0 @@
-[submodule "project/src/dependencies/m2g"]
-	path = src/dependencies/m2g
-	url = git@github.com:moisesjbc/m2g

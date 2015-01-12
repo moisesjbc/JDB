@@ -22,7 +22,7 @@
 
 #include "player_action.hpp"
 #include "danger_data.hpp"
-#include "../dependencies/m2g/src/drawables/animation.hpp"
+#include <m2g/drawables/animation.hpp>
 
 namespace jdb {
 

@@ -26,8 +26,8 @@
 #include "../dangers/danger.hpp"
 #include "../tools/tool.hpp"
 #include "conveyor_belt.hpp"
-#include "../dependencies/m2g/src/drawables/drawables_set.hpp"
-#include "../dependencies/m2g/src/text/text_renderer.hpp"
+#include <m2g/drawables/drawables_set.hpp>
+#include <m2g/text/text_renderer.hpp>
 #include <game_states/game_state.hpp>
 
 namespace jdb {

@@ -20,7 +20,7 @@
 #ifndef JDB_HPP
 #define JDB_HPP
 
-#include "dependencies/m2g/src/dependencies/dependencies.hpp"
+#include <SDL2/SDL.h>
 
 namespace jdb {
 

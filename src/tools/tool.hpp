@@ -20,7 +20,7 @@
 #ifndef TOOL_HPP
 #define TOOL_HPP
 
-#include "../dependencies/m2g/src/drawables/animation.hpp"
+#include <m2g/drawables/animation.hpp>
 
 #include "../sandwiches/sandwich.hpp"
 #include "../dangers/danger.hpp"

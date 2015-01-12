@@ -15,19 +15,6 @@ SOURCES += ../src/main.cpp \
     ../src/sandwiches/sandwich_data.cpp \
     ../src/sandwiches/sandwich.cpp \
     ../src/utilities/base_line.cpp \
-    ../src/dependencies/m2g/src/graphics_library.cpp \
-    ../src/dependencies/m2g/src/utilities/tilesets_buffer.cpp \
-    ../src/dependencies/m2g/src/text/text_renderer.cpp \
-    ../src/dependencies/m2g/src/text/bitmap_font.cpp \
-    ../src/dependencies/m2g/src/drawables/tileset.cpp \
-    ../src/dependencies/m2g/src/drawables/sprite.cpp \
-    ../src/dependencies/m2g/src/drawables/drawable.cpp \
-    ../src/dependencies/m2g/src/drawables/animation.cpp \
-    ../src/dependencies/m2g/src/drawables/animation_data.cpp \
-    ../src/dependencies/m2g/src/dependencies/GL3W/gl3w.c \
-    ../src/dependencies/m2g/src/dependencies/msl/src/shader_loader.cpp \
-    ../src/dependencies/m2g/src/drawables/drawables_set.cpp \
-    ../src/dependencies/m2g/src/drawables/collidable.cpp \
     ../src/levels/survival_level.cpp \
     ../src/levels/conveyor_belt.cpp \
     ../src/levels/campaign_level.cpp \
@@ -49,21 +36,6 @@ HEADERS += \
     ../src/sandwiches/sandwich_data.hpp \
     ../src/sandwiches/sandwich.hpp \
     ../src/utilities/base_line.hpp \
-    ../src/dependencies/m2g/src/graphics_library.hpp \
-    ../src/dependencies/m2g/src/utilities/tilesets_buffer.hpp \
-    ../src/dependencies/m2g/src/text/text_renderer.hpp \
-    ../src/dependencies/m2g/src/text/bitmap_font.hpp \
-    ../src/dependencies/m2g/src/drawables/tileset.hpp \
-    ../src/dependencies/m2g/src/drawables/sprite.hpp \
-    ../src/dependencies/m2g/src/drawables/drawable.hpp \
-    ../src/dependencies/m2g/src/drawables/animation.hpp \
-    ../src/dependencies/m2g/src/drawables/animation_data.hpp \
-    ../src/dependencies/m2g/src/dependencies/GL3W/gl3w.h \
-    ../src/dependencies/m2g/src/dependencies/GL3W/gl3.h \
-    ../src/dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp \
-    ../src/dependencies/m2g/src/dependencies/dependencies.hpp \
-    ../src/dependencies/m2g/src/drawables/drawables_set.hpp \
-    ../src/dependencies/m2g/src/drawables/collidable.hpp \
     ../src/levels/survival_level.hpp \
     ../src/levels/conveyor_belt.hpp \
     ../src/levels/campaign_level.hpp \
@@ -72,7 +44,7 @@ HEADERS += \
     ../src/game_states/main_menu.hpp \
     ../src/utilities/sound_manager.hpp
 
-LIBS += -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -ldl -lsfml-system -lsfml-audio -ltinyxml2
+LIBS += -lm2g -lsml -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -ldl -lsfml-system -lsfml-audio -ltinyxml2
 LIBS += -lboost_system -lboost_filesystem
 
 CXXFLAGS += -Wall -Werrors -pedantic-errors

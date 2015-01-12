@@ -18,8 +18,9 @@
  ***/
 
 #include "jdb.hpp"
-#include "dependencies/m2g/src/dependencies/msl/src/shader_loader.hpp"
+#include <msl/shader_loader.hpp>
 #include "game_states/main_menu.hpp"
+#include <SDL2/SDL_image.h>
 
 namespace jdb {
 
@@ -86,14 +87,6 @@ JDB::JDB() :
 
     // Create an OpenGL context.
     glContext = SDL_GL_CreateContext( window );
-
-    // Initialize OpenGL and create a GL context.
-    if( gl3wInit() ){
-        throw std::runtime_error( "ERROR when using gl3wInit()" );
-    }
-    if (!gl3wIsSupported(4, 2)) {
-        throw std::runtime_error( "OpenGL 4.2 not supported" );
-    }
 
     // Load and use shaders.
     msl::ShaderLoader shaderLoader;

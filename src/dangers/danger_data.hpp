@@ -21,8 +21,8 @@
 #define DANGER_DATA_HPP
 
 #include "danger_state.hpp"
-#include "../dependencies/m2g/src/drawables/animation_data.hpp"
-#include "../dependencies/m2g/src/graphics_library.hpp"
+#include <m2g/drawables/animation_data.hpp>
+#include <m2g/graphics_library.hpp>
 #include <vector>
 #include <iostream>
 #include "../utilities/base_line.hpp"

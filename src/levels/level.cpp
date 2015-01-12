@@ -20,6 +20,8 @@
 #include "level.hpp"
 #include <tinyxml2.h>
 #include <algorithm>
+#define GLM_FORCE_RADIANS
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace jdb {
 
