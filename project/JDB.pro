@@ -44,7 +44,7 @@ HEADERS += \
     ../src/game_states/main_menu.hpp \
     ../src/utilities/sound_manager.hpp
 
-LIBS += -lm2g -lsml -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lftgl -ldl -lsfml-system -lsfml-audio -ltinyxml2
+LIBS += -lm2g -lSDL2 -lSDL2_image -lSDL2_ttf -ldl -lsfml-system -lsfml-audio -ltinyxml2
 LIBS += -lboost_system -lboost_filesystem
 
 CXXFLAGS += -Wall -Werrors -pedantic-errors
