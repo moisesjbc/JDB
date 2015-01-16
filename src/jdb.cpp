@@ -20,7 +20,7 @@
 #include "jdb.hpp"
 #include <msl/shader_loader.hpp>
 #include "game_states/main_menu.hpp"
-#include <SDL2/SDL_image.h>
+#include <m2g/m2g.hpp>
 
 namespace jdb {
 
@@ -33,28 +33,9 @@ const GLfloat WINDOW_HEIGHT = 768;
  ***/
 
 JDB::JDB() :
-    window( NULL ),
-    screen( NULL )
+    window( NULL )
 {    
-    // Initialize SDL
-    if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
-        throw std::runtime_error( std::string( "ERROR initializing SDL: " ) +
-                                  SDL_GetError() );
-    }
-    atexit( SDL_Quit );
-
-    // Initialize SDL_image
-    if( IMG_Init( IMG_INIT_PNG ) != IMG_INIT_PNG ){
-        throw std::runtime_error( IMG_GetError() );
-    }
-    atexit( IMG_Quit );
-
-    // Init TTF
-    if( TTF_Init() < 0 ){
-        throw std::runtime_error( std::string( "ERROR initializing TTF: " ) +
-                                  std::string( TTF_GetError() ) );
-    }
-    atexit( TTF_Quit );
+    m2g::init();
 
     // Initialize some OpenGL attributes.
     SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8 );
@@ -83,28 +64,10 @@ JDB::JDB() :
     }
 
     // Retrieve the window's screen.
-    screen = SDL_GetWindowSurface( window );
+    //screen = SDL_GetWindowSurface( window );
 
     // Create an OpenGL context.
     glContext = SDL_GL_CreateContext( window );
-
-    // Load and use shaders.
-    msl::ShaderLoader shaderLoader;
-    const GLuint shaderProgram =
-            shaderLoader.loadShaderProgram( "data/shaders/basicVertexShader.shader",
-                                            "data/shaders/basicFragmentShader.shader" );
-    glUseProgram( shaderProgram );
-
-    // Initialize OpenGL.
-    glDisable( GL_DEPTH_TEST );
-    glDepthFunc( GL_LEQUAL );
-    glViewport( 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT );
-    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-    glEnable( GL_BLEND );
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    glClearColor( 0xDC/255.0f, 0xF1/255.0f, 0xF1/255.0f, 1.0f );
-
-    m2g::checkOpenGL( "JDB constructor" );
 }
 
 
@@ -120,15 +83,6 @@ JDB::~JDB()
     // Destroy the main window (muahaha! x2).
     SDL_DestroyWindow( window );
     window = NULL;
-
-    // Destroy TTF (muahaha! x3)
-    TTF_Quit();
-
-    // Destroy SDL_image (muahaha! x4).
-    IMG_Quit();
-
-    // Destroy SDL (muahaha! x5).
-    SDL_Quit();
 }
 
 
@@ -140,7 +94,6 @@ void JDB::run()
 {
     Window window(
                 this->window,
-                screen,
                 glm::ivec2( WINDOW_WIDTH, WINDOW_HEIGHT ) );
     SoundManager soundManager( "data/audio" );
 

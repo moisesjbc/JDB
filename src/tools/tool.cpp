@@ -26,8 +26,8 @@ namespace jdb {
  * 1. Initialization
  ***/
 
-Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
-    Animation( animationData ),
+Tool::Tool( SDL_Renderer* renderer, m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
+    Animation( renderer, animationData ),
     soundManager_( soundManager )
 {
     unsigned int i = 0;

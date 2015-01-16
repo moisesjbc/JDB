@@ -26,14 +26,14 @@ namespace jdb {
  * 1. Initialization and destruction
  ***/
 
-Sandwich::Sandwich( SandwichDataPtr sandwichData, const std::vector< DangerDataPtr >* dangerData, const m2g::GraphicsLibrary& graphicsLibrary ) :
-    Animation( sandwichData->animationData ),
+Sandwich::Sandwich( SDL_Renderer* renderer, SandwichDataPtr sandwichData, const std::vector< DangerDataPtr >* dangerData, const m2g::GraphicsLibrary& graphicsLibrary ) :
+    Animation( renderer, sandwichData->animationData ),
     nDangers_( MAX_DANGERS_PER_SANDWICH )
 {
     setSandwichData( sandwichData );
 
     for( unsigned int i = 0; i<MAX_DANGERS_PER_SANDWICH; i++ ){
-        dangers_[i] = new Danger( (*dangerData)[0], graphicsLibrary );
+        dangers_[i] = new Danger( renderer, (*dangerData)[0], graphicsLibrary );
     }
 }
 
@@ -68,7 +68,7 @@ void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData )
     int freeWidth = sandwichData_->baseLine.width;
 
     // Horizontal position for next danger.
-    GLfloat newDangerX = sandwichData_->baseLine.x;
+    float newDangerX = sandwichData_->baseLine.x;
 
     // Index of the first danger data which fits in the free space.
     unsigned int firstValidDanger = 0;
@@ -242,12 +242,12 @@ void Sandwich::reset()
  * 6. Drawing
  ***/
 
-void Sandwich::draw( const glm::mat4& projectionMatrix ) const
+void Sandwich::draw() const
 {
-    Animation::draw( projectionMatrix );
+    Animation::draw();
 
     for( unsigned int i=0; i<nDangers_; i++ ){
-        dangers_[i]->draw( projectionMatrix );
+        dangers_[i]->draw();
     }
 }
 

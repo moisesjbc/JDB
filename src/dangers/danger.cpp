@@ -21,10 +21,11 @@
 
 namespace jdb {
 
-Danger::Danger( DangerDataPtr dangerData_,
+Danger::Danger( SDL_Renderer* renderer,
+                DangerDataPtr dangerData_,
                 const m2g::GraphicsLibrary& graphicsLibrary,
                 m2g::AnimationDataPtr appearanceAnimationData ) :
-    Animation( dangerData_->animationData[ rand() % dangerData_->animationData.size()] ),
+    Animation( renderer, dangerData_->animationData[ rand() % dangerData_->animationData.size()] ),
     graphicsLibrary_( graphicsLibrary )
 {
     setDangerData( dangerData_, appearanceAnimationData );
@@ -59,9 +60,9 @@ void Danger::setDangerData( DangerDataPtr dangerData_,
     if( appearanceAnimationData != nullptr ){
         appearanceAnimation =
                 std::unique_ptr< m2g::Animation >(
-                    new m2g::Animation( appearanceAnimationData ) );
-        appearanceAnimation->moveTo( getBoundaryBox()->x + ( getWidth() - appearanceAnimation->getWidth() ) / 2,
-                                     getBoundaryBox()->y + ( getHeight() - appearanceAnimation->getHeight() ) / 2 );
+                    new m2g::Animation( renderer_, appearanceAnimationData ) );
+        appearanceAnimation->moveTo( getBoundaryBox().x + ( getWidth() - appearanceAnimation->getWidth() ) / 2,
+                                     getBoundaryBox().y + ( getHeight() - appearanceAnimation->getHeight() ) / 2 );
     }
 
     setAnimationData( dangerData->animationData[0] );
@@ -122,7 +123,7 @@ void Danger::update()
     // Check if we have any distance-based state transition and apply it if
     // applicable.
     if( dangerData->states[state].stateDistanceTransition != nullptr ){
-        if( this->getBoundaryBox()->x < dangerData->states[state].stateDistanceTransition->distance ){
+        if( this->getBoundaryBox().x < static_cast< int >( dangerData->states[state].stateDistanceTransition->distance ) ){
             setState( dangerData->states[state].stateDistanceTransition->newState );
         }
     }
@@ -216,11 +217,11 @@ StunType Danger::stuns( const m2g::Sprite &tool, ToolType toolType ) const
  * 5. Drawing
  ***/
 
-void Danger::draw( const glm::mat4 &projectionMatrix ) const
+void Danger::draw() const
 {
-    Animation::draw( projectionMatrix );
+    Animation::draw();
     if( appearanceAnimation ){
-        appearanceAnimation->draw( projectionMatrix );
+        appearanceAnimation->draw();
     }
 }
 

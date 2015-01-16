@@ -122,8 +122,6 @@ class Level : public GameState
         bool quitLevel_;
 
     private:
-        glm::mat4 projectionMatrix;
-
         const unsigned int levelIndex_;
 
         // Variables used for sandwich reseting.
@@ -146,6 +144,10 @@ class Level : public GameState
         SoundManager& soundManager_;
 
         unsigned int score_;
+
+        unsigned int healthFontIndex_;
+        unsigned int timerFontIndex_;
+        unsigned int scoreFontIndex_;
 };
 
 } // namespace jdb

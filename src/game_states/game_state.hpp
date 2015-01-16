@@ -73,7 +73,6 @@ class GameState
         virtual void pause() = 0;
         virtual void resume() = 0;
 
-
         Window& window_;
     private:
         bool exitState_;

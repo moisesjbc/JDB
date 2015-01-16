@@ -18,6 +18,7 @@
  ***/
 
 #include "window.hpp"
+#include <stdexcept>
 
 namespace jdb {
 
@@ -26,11 +27,14 @@ namespace jdb {
  ***/
 
 Window::Window( SDL_Window* window,
-                SDL_Surface* screen,
                 const glm::ivec2 dimensions ) :
     window( window ),
-    screen( screen ),
     dimensions( dimensions )
-{}
+{
+    renderer = SDL_CreateRenderer( window, -1, 0 );
+    if( !renderer ){
+        throw std::runtime_error( SDL_GetError() );
+    }
+}
 
 } // namespace jdb

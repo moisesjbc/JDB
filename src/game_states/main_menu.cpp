@@ -42,15 +42,17 @@ MainMenu::MainMenu( Window &window, SoundManager* soundManager ) :
 
 void MainMenu::init()
 {
-    m2g::TextRenderer textRenderer;
+    m2g::TextRenderer textRenderer( window_.renderer );
     const SDL_Color FONT_COLOR = { 131, 60, 60, 255 };
 
     // Create a sprite with the "menu".
+    const unsigned int menuFontIndex =
+            textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 30 );
+
     menuText_ = textRenderer.drawText(
                 "MENU\n---\nPRESS A KEY\n---\n\nC - CAMPAIGN MODE\nS - SURVIVAL MODE\nESC - EXIT",   // Text
-                "data/fonts/LiberationSans-Bold.ttf",   // Font
-                30,                                     // Font size
-                FONT_COLOR );                           // Font color
+                menuFontIndex,
+                FONT_COLOR );
 }
 
 
@@ -92,20 +94,12 @@ void MainMenu::update()
 
 void MainMenu::draw()
 {
-    // Set projection mode.
-    const glm::mat4 projectionMatrix =
-            glm::ortho( 0.0f,
-                        (float)( window_.dimensions.x ),
-                        (float)( window_.dimensions.y ),
-                        0.0f,
-                        1.0f,
-                        -1.0f );
+    SDL_SetRenderDrawColor( window_.renderer, 0xDC, 0xF1, 0xF1, 0xFF );
+    SDL_RenderClear( window_.renderer );
 
-    // Show the "menu" to the player.
-    glClear ( GL_COLOR_BUFFER_BIT );
-    m2g::Tileset::bindBuffer(); // TODO: Make this line unuseful.
-    menuText_->draw( projectionMatrix );
-    SDL_GL_SwapWindow( window_.window );
+    menuText_->draw();
+
+    SDL_RenderPresent( window_.renderer );
 }
 
 void MainMenu::pause()

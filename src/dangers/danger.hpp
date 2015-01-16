@@ -51,7 +51,8 @@ class Danger : public m2g::Animation
         /***
          * 1. Initialization and destruction
          ***/
-        Danger( DangerDataPtr dangerData_,
+        Danger( SDL_Renderer* renderer,
+                DangerDataPtr dangerData_,
                 const m2g::GraphicsLibrary& graphicsLibrary,
                 m2g::AnimationDataPtr appearanceAnimationData = nullptr );
         virtual ~Danger() = default;
@@ -87,7 +88,7 @@ class Danger : public m2g::Animation
         /***
          * 5. Drawing
          ***/
-        virtual void draw(const glm::mat4 &projectionMatrix) const;
+        virtual void draw() const;
 };
 
 } // namespace jdb

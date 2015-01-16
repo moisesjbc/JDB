@@ -36,8 +36,12 @@ const unsigned int N_DANGERS = N_SANDWICHES * 3;
 
 Level::Level( Window& window, SoundManager* soundManager, unsigned int levelIndex )
     : GameState( window ),
+      graphicsLibrary_( window.renderer ),
+      guiSprites_( window.renderer ),
       levelIndex_( levelIndex ),
-      soundManager_( *soundManager ),
+      textRenderer( window.renderer ),
+      backgroundSprites( window.renderer ),
+      soundManager_( *soundManager ), 
       score_( 0 )
 {}
 
@@ -116,16 +120,39 @@ void Level::initGUI()
     graphicsLibrary_.loadAll( "data/img/gui" );
 
     // Load the GUI sprites.
-    guiSprites_.addSprite( graphicsLibrary_.getTileset( "health.png" ) );
-    guiSprites_.addSprite( graphicsLibrary_.getTileset( "time.png" ), 367.0f, 0.0f );
-    guiSprites_.addSprite( graphicsLibrary_.getTileset( "score.png" ), 768.0f, 0.0f );
-    guiToolSelector_ = guiSprites_.addSprite( graphicsLibrary_.getTileset( "tool_selector.png" ), 384.0f, 660.0f );
+    guiSprites_.addDrawable(
+                m2g::DrawablePtr(
+                    new m2g::Sprite( window_.renderer,
+                                     graphicsLibrary_.getTileset( "health.png" ) ) ) );
+
+    guiSprites_.addDrawable(
+                m2g::DrawablePtr(
+                    new m2g::Sprite( window_.renderer,
+                                     graphicsLibrary_.getTileset( "time.png" ) ) ),
+                367.0f,
+                0.0f );
+
+    guiSprites_.addDrawable(
+                m2g::DrawablePtr(
+                    new m2g::Sprite( window_.renderer,
+                                     graphicsLibrary_.getTileset( "score.png" ) ) ),
+                    768.0f,
+                    0.0f );
+
+    guiToolSelector_ =
+            std::dynamic_pointer_cast< m2g::Sprite >(
+                guiSprites_.addDrawable(
+                    m2g::DrawablePtr(
+                        new m2g::Sprite( window_.renderer,
+                                         graphicsLibrary_.getTileset( "tool_selector.png" ) ) ),
+                384.0f,
+                660.0f ) );
 
     // Load the "tools" graphics library.
     graphicsLibrary_.loadAll( "data/img/tools" );
 
     // Load the player's tool.
-    tool_ = ToolPtr( new Tool( graphicsLibrary_.getAnimationData( "tools.png" ), soundManager_ ) );
+    tool_ = ToolPtr( new Tool( window_.renderer, graphicsLibrary_.getAnimationData( "tools.png" ), soundManager_ ) );
 }
 
 
@@ -211,16 +238,6 @@ void Level::init()
 {
     quitLevel_ = false;
 
-    const SDL_Color TIMER_FONT_COLOR = { 8, 31, 126, 255 };
-    const SDL_Color SCORE_FONT_COLOR = { 11, 109, 36, 255 };
-
-    projectionMatrix = glm::ortho( 0.0f,
-                                   (float)( window_.dimensions.x ),
-                                   (float)( window_.dimensions.y ),
-                                   0.0f,
-                                   1.0f,
-                                   -1.0f );
-
     // Initialize the GUI.
     initGUI();
 
@@ -229,9 +246,9 @@ void Level::init()
 
     // Initialize the text renderer.
     coutMutex.lock();
-    std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50, HEALTH_FONT_COLOR ) << std::endl;
-    std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50, TIMER_FONT_COLOR ) << std::endl;
-    std::cout << "loadFont: " << textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50, SCORE_FONT_COLOR ) << std::endl;
+    healthFontIndex_ = textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 );
+    timerFontIndex_ = textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 );
+    scoreFontIndex_ = textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 );
     coutMutex.unlock();
 
     // Make the cursor invisible.
@@ -243,9 +260,24 @@ void Level::init()
     graphicsLibrary_.loadAll( "data/img/background" );
 
     // Load the background sprites
-    backgroundSprites.addSprite( graphicsLibrary_.getTileset( "grinder_back.png" ), 0.0f, -256.0f );
-    backgroundSprites.addSprite( graphicsLibrary_.getTileset( "conveyor_belt.png" ), 0.0, 256.0f );
-    grinderFront = m2g::SpritePtr( new m2g::Sprite( graphicsLibrary_.getTileset( "grinder_front.png" ) ) );
+    backgroundSprites.addDrawable(
+                m2g::DrawablePtr(
+                    new m2g::Sprite( window_.renderer,
+                                     graphicsLibrary_.getTileset( "grinder_back.png" ) ) ),
+                0.0f,
+                -256.0f );
+
+    backgroundSprites.addDrawable(
+                m2g::DrawablePtr(
+                    new m2g::Sprite( window_.renderer,
+                                     graphicsLibrary_.getTileset( "conveyor_belt.png" ) ) ),
+                0.0,
+                256.0f );
+
+    grinderFront =
+            m2g::SpritePtr(
+                new m2g::Sprite( window_.renderer,
+                                 graphicsLibrary_.getTileset( "grinder_front.png" ) ) );
     grinderFront->moveTo( 0.0f, -256.0f );
 
     // Initialize jacob's life and the sandwich indicators.
@@ -256,7 +288,8 @@ void Level::init()
     // Load the sandwiches, move them to their final positions and
     // populate them with dangers.
     for( unsigned int i=0; i < N_SANDWICHES; i++ ){
-        sandwiches[i] = new Sandwich( sandwichData[0], &dangerData, graphicsLibrary_ );
+        sandwiches[i] = new Sandwich( window_.renderer,
+                                      sandwichData[0], &dangerData, graphicsLibrary_ );
 
         sandwiches[i]->moveTo( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
 
@@ -359,28 +392,25 @@ void Level::draw()
     // Text rendering.
     char buffer[16];
 
-    // Clear screen.
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-    // Bind the tileset's buffer.
-    m2g::Tileset::bindBuffer();
+    // Clear the screen.
+    SDL_RenderClear( window_.renderer );
 
     // Draw the background
-    backgroundSprites.draw( projectionMatrix );
+    backgroundSprites.draw();
 
     // Draw the sandwiches
     for( i=0; i < N_SANDWICHES; i++ ){
-        sandwiches[i]->draw( projectionMatrix );
+        sandwiches[i]->draw();
     }
 
     // Draw the grinder's front.
-    grinderFront->draw( projectionMatrix );
+    grinderFront->draw();
 
     // Draw the tool.
-    tool_->draw( projectionMatrix );
+    tool_->draw();
 
     // Draw the GUI sprites.
-    guiSprites_.draw( projectionMatrix );
+    guiSprites_.draw();
 
     // Compute the current game time.
     seconds = timer_.getSeconds();
@@ -388,15 +418,18 @@ void Level::draw()
     seconds = seconds % 60;
 
     // Write Jacob's life, game time and score.
+    const SDL_Color TIMER_FONT_COLOR = { 8, 31, 126, 255 };
+    const SDL_Color SCORE_FONT_COLOR = { 11, 109, 36, 255 };
+
     sprintf( buffer, "%03d", (int)jacobHp_ );
-    textRenderer.drawText( projectionMatrix, buffer, 0, 75, 5 );
+    textRenderer.drawText( buffer, healthFontIndex_, HEALTH_FONT_COLOR, 75, 5 );
     sprintf( buffer, "%02d:%02d", minutes, seconds );
-    textRenderer.drawText( projectionMatrix, buffer, 1, 450, 3 );
+    textRenderer.drawText( buffer, timerFontIndex_, TIMER_FONT_COLOR, 450, 3 );
     sprintf( buffer, "%08u", score_ );
-    textRenderer.drawText( projectionMatrix, buffer, 2, 785, 5 );
+    textRenderer.drawText( buffer, scoreFontIndex_, SCORE_FONT_COLOR, 785, 5 );
 
     // Refresh screen.
-    SDL_GL_SwapWindow( window_.window );
+    SDL_RenderPresent( window_.renderer );
 }
 
 

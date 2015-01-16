@@ -32,11 +32,10 @@ class Window
          * 1. Construction
          ***/
         Window( SDL_Window* window,
-                SDL_Surface* screen,
                 const glm::ivec2 dimensions );
 
         SDL_Window* window;
-        SDL_Surface* screen;
+        SDL_Renderer* renderer;
         const glm::ivec2 dimensions;
 };
 

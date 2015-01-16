@@ -41,7 +41,8 @@ class Sandwich : public m2g::Animation
         /***
          * 1. Initialization and destruction
          ***/
-        Sandwich( SandwichDataPtr sandwichData,
+        Sandwich( SDL_Renderer* renderer,
+                  SandwichDataPtr sandwichData,
                   const std::vector< DangerDataPtr >* dangerData,
                   const m2g::GraphicsLibrary& graphicsLibrary );
         virtual ~Sandwich();
@@ -81,7 +82,7 @@ class Sandwich : public m2g::Animation
         /***
          * 6. Drawing
          ***/
-        virtual void draw( const glm::mat4& projectionMatrix ) const;
+        virtual void draw() const;
 };
 
 } // namespace jdb
