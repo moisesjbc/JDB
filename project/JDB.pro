@@ -54,33 +54,7 @@ CONFIG += c++11
 
 INCLUDEPATH += ../src
 
-win32 {
-    debug {
-        DESTDIR = ../debug-win32
-    }
-
-    INCLUDEPATH += /home/moises/cross-compiling-windows/mxe/usr/include/
-    INCLUDEPATH += /home/moises/cross-compiling-windows/mxe/usr/i686-w64-mingw32/include/
-    INCLUDEPATH += /home/moises/cross-compiling-windows/mxe/usr/i686-w64-mingw32/include/freetype2/
-
-    message( "Compiling for Windows 32" )
-
-    CXXFLAGS += -std=c++11
-    #CXXFLAGS += -std=c++11
-}
-
-unix {
-    debug {
-        DESTDIR = .
-    }
-
-
-
-    INCLUDEPATH += /usr/include/freetype2/
-
-    message( "Compiling for UNIX" )
-}
-
+DESTDIR = .
 BUILD_DATA_DIR = $$DESTDIR/.build_data
 OBJECTS_DIR = $$BUILD_DATA_DIR/obj
 MOC_DIR = $$BUILD_DATA_DIR/moc
