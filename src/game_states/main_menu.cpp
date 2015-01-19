@@ -47,14 +47,14 @@ void MainMenu::init()
     startCampaignButton->setPressCallback( [this](){
         std::unique_ptr< Level > level = std::unique_ptr< Level >(
                    new CampaignLevel( window_, &soundManager_, 0 ) );
-        level->run();
+        switchState( *level );
     });
 
     m2g::TextButtonPtr startSurvivalButton( new m2g::TextButton( window_.renderer, "Play survival" ) );
     startSurvivalButton->setPressCallback( [this](){
         std::unique_ptr< Level > level = std::unique_ptr< Level >(
                    new SurvivalLevel( window_, &soundManager_, 0 ) );
-        level->run();
+        switchState( *level );
     });
 
     m2g::TextButtonPtr exitButton( new m2g::TextButton( window_.renderer, "Exit" ) );
@@ -105,7 +105,6 @@ void MainMenu::pause()
 
 void MainMenu::resume()
 {
-
 }
 
 } // namespace jdb
