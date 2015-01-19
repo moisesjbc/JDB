@@ -23,6 +23,8 @@
 #include "game_state.hpp"
 #include <m2g/drawables/sprite.hpp>
 #include <utilities/sound_manager.hpp>
+#include <m2g/gui/gui.hpp>
+#include <m2g/gui/widgets/text_button.hpp>
 
 namespace jdb {
 
@@ -53,7 +55,7 @@ class MainMenu : public GameState
 
 
     private:
-        m2g::SpritePtr menuText_;
+        m2g::GUI gui_;
         SoundManager& soundManager_;
 };
 

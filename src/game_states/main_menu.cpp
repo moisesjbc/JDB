@@ -32,6 +32,7 @@ namespace jdb {
 
 MainMenu::MainMenu( Window &window, SoundManager* soundManager ) :
     GameState( window ),
+    gui_( window.renderer, { 0, 0, 800, 600 } ), // TODO: Retrieve dimensions from window.
     soundManager_( *soundManager )
 {}
 
@@ -42,17 +43,28 @@ MainMenu::MainMenu( Window &window, SoundManager* soundManager ) :
 
 void MainMenu::init()
 {
-    m2g::TextRenderer textRenderer( window_.renderer );
-    const SDL_Color FONT_COLOR = { 131, 60, 60, 255 };
+    m2g::TextButtonPtr startCampaignButton( new m2g::TextButton( window_.renderer, "Play campaign" ) );
+    startCampaignButton->setPressCallback( [this](){
+        std::unique_ptr< Level > level = std::unique_ptr< Level >(
+                   new CampaignLevel( window_, &soundManager_, 0 ) );
+        level->run();
+    });
 
-    // Create a sprite with the "menu".
-    const unsigned int menuFontIndex =
-            textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 30 );
+    m2g::TextButtonPtr startSurvivalButton( new m2g::TextButton( window_.renderer, "Play survival" ) );
+    startSurvivalButton->setPressCallback( [this](){
+        std::unique_ptr< Level > level = std::unique_ptr< Level >(
+                   new SurvivalLevel( window_, &soundManager_, 0 ) );
+        level->run();
+    });
 
-    menuText_ = textRenderer.drawText(
-                "MENU\n---\nPRESS A KEY\n---\n\nC - CAMPAIGN MODE\nS - SURVIVAL MODE\nESC - EXIT",   // Text
-                menuFontIndex,
-                FONT_COLOR );
+    m2g::TextButtonPtr exitButton( new m2g::TextButton( window_.renderer, "Exit" ) );
+    exitButton->setPressCallback( [this](){
+        requestStateExit();
+    });
+
+    gui_.addWidget( std::move( startCampaignButton) );
+    gui_.addWidget( std::move( startSurvivalButton ) );
+    gui_.addWidget( std::move( exitButton ) );
 }
 
 
@@ -62,33 +74,18 @@ void MainMenu::handleEvents()
     std::unique_ptr< Level > level = nullptr;
 
     SDL_PollEvent( &event );
-    if( event.type == SDL_QUIT ){
+    if( gui_.handleEvent( event ) ){
+        return;
+    }
+    if( ( event.type == SDL_QUIT ) ||
+            ( event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE ) ){
         requestStateExit();
-    }else if( event.type == SDL_KEYDOWN ){
-        switch( event.key.keysym.sym ){
-            case SDLK_ESCAPE:
-                requestStateExit();
-            break;
-            case SDLK_c:
-                level = std::unique_ptr< Level >(
-                           new CampaignLevel( window_, &soundManager_, 0 ) );
-                level->run();
-            break;
-            case SDLK_s:
-                level = std::unique_ptr< Level >(
-                            new SurvivalLevel( window_, &soundManager_, 0 ) );
-                level->run();
-            break;
-            default:
-            break;
-        }
     }
 }
 
 
 void MainMenu::update()
 {
-
 }
 
 
@@ -97,7 +94,7 @@ void MainMenu::draw()
     SDL_SetRenderDrawColor( window_.renderer, 0xDC, 0xF1, 0xF1, 0xFF );
     SDL_RenderClear( window_.renderer );
 
-    menuText_->draw();
+    gui_.draw();
 
     SDL_RenderPresent( window_.renderer );
 }

@@ -25,6 +25,7 @@ Danger::Danger( SDL_Renderer* renderer,
                 DangerDataPtr dangerData_,
                 const m2g::GraphicsLibrary& graphicsLibrary,
                 m2g::AnimationDataPtr appearanceAnimationData ) :
+    Drawable( renderer ),
     Animation( renderer, dangerData_->animationData[ rand() % dangerData_->animationData.size()] ),
     graphicsLibrary_( graphicsLibrary )
 {

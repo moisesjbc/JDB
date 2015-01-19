@@ -27,6 +27,7 @@ namespace jdb {
  ***/
 
 Sandwich::Sandwich( SDL_Renderer* renderer, SandwichDataPtr sandwichData, const std::vector< DangerDataPtr >* dangerData, const m2g::GraphicsLibrary& graphicsLibrary ) :
+    Drawable( renderer ),
     Animation( renderer, sandwichData->animationData ),
     nDangers_( MAX_DANGERS_PER_SANDWICH )
 {

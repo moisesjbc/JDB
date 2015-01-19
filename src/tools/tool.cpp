@@ -27,6 +27,7 @@ namespace jdb {
  ***/
 
 Tool::Tool( SDL_Renderer* renderer, m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
+    Drawable( renderer ),
     Animation( renderer, animationData ),
     soundManager_( soundManager )
 {
