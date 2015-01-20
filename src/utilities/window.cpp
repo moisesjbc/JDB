@@ -26,10 +26,8 @@ namespace jdb {
  * 1. Construction
  ***/
 
-Window::Window( SDL_Window* window,
-                const glm::ivec2 dimensions ) :
-    window( window ),
-    dimensions( dimensions )
+Window::Window( SDL_Window* window ) :
+    window( window )
 {
     renderer = SDL_CreateRenderer( window, -1, 0 );
     if( !renderer ){

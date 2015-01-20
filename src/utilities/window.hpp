@@ -31,12 +31,10 @@ class Window
         /***
          * 1. Construction
          ***/
-        Window( SDL_Window* window,
-                const glm::ivec2 dimensions );
+        Window( SDL_Window* window );
 
         SDL_Window* window;
         SDL_Renderer* renderer;
-        const glm::ivec2 dimensions;
 };
 
 } // namespace jdb

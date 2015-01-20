@@ -92,9 +92,7 @@ JDB::~JDB()
 
 void JDB::run()
 {
-    Window window(
-                this->window,
-                glm::ivec2( WINDOW_WIDTH, WINDOW_HEIGHT ) );
+    Window window( this->window );
     SoundManager soundManager( "data/audio" );
 
     MainMenu mainMenu( window, &soundManager );
