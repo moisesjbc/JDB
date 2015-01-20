@@ -35,7 +35,7 @@ GameState::GameState( Window& window ) :
  * 3. Main loop
  ***/
 
-void GameState::run()
+int GameState::run()
 {
     init();
 
@@ -46,6 +46,8 @@ void GameState::run()
 
         draw();
     }
+
+    return exitStatus_;
 }
 
 
@@ -63,9 +65,10 @@ void GameState::switchState( GameState &newState )
 }
 
 
-void GameState::requestStateExit()
+void GameState::requestStateExit( int status )
 {
     exitState_ = true;
+    exitStatus_ = status;
 }
 
 } // namespace jdb

@@ -42,7 +42,7 @@ class GameState
         /***
          * 3. Main loop
          ***/
-        void run();
+        int run();
 
 
     protected:
@@ -64,7 +64,7 @@ class GameState
          * 6. State switching
          ***/
         void switchState( GameState& newState );
-        void requestStateExit();
+        void requestStateExit( int status = 0 );
 
 
         /***
@@ -76,6 +76,7 @@ class GameState
         Window& window_;
     private:
         bool exitState_;
+        int exitStatus_;
 };
 
 } // namespace jdb
