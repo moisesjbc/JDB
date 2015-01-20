@@ -43,21 +43,44 @@ MainMenu::MainMenu( Window &window, SoundManager* soundManager ) :
 
 void MainMenu::init()
 {
-    m2g::TextButtonPtr startCampaignButton( new m2g::TextButton( window_.renderer, "Play campaign" ) );
+    m2g::FontInfo normalButtonFont =
+    {
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+        30,
+        { 0, 0, 0, 255 }
+    };
+    m2g::FontInfo hoverButtonFont =
+    {
+        normalButtonFont.path,
+        35,
+        { 150, 150, 150, 255 }
+    };
+    m2g::FontInfo pressedButtonFont =
+    {
+        normalButtonFont.path,
+        35,
+        { 200, 200, 200, 255 }
+    };
+    std::array< m2g::FontInfo, 3 > fontsInfo =
+        { normalButtonFont,
+          hoverButtonFont,
+          pressedButtonFont };
+
+    m2g::TextButtonPtr startCampaignButton( new m2g::TextButton( window_.renderer, "Play campaign", fontsInfo ) );
     startCampaignButton->setPressCallback( [this](){
         std::unique_ptr< Level > level = std::unique_ptr< Level >(
                    new CampaignLevel( window_, &soundManager_, 0 ) );
         switchState( *level );
     });
 
-    m2g::TextButtonPtr startSurvivalButton( new m2g::TextButton( window_.renderer, "Play survival" ) );
+    m2g::TextButtonPtr startSurvivalButton( new m2g::TextButton( window_.renderer, "Play survival", fontsInfo ) );
     startSurvivalButton->setPressCallback( [this](){
         std::unique_ptr< Level > level = std::unique_ptr< Level >(
                    new SurvivalLevel( window_, &soundManager_, 0 ) );
         switchState( *level );
     });
 
-    m2g::TextButtonPtr exitButton( new m2g::TextButton( window_.renderer, "Exit" ) );
+    m2g::TextButtonPtr exitButton( new m2g::TextButton( window_.renderer, "Exit", fontsInfo ) );
     exitButton->setPressCallback( [this](){
         requestStateExit();
     });
