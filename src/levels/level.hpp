@@ -30,6 +30,7 @@
 #include <m2g/text/text_renderer.hpp>
 #include <game_states/game_state.hpp>
 #include <game_states/pause_menu.hpp>
+#include <game_states/level_intro.hpp>
 
 namespace jdb {
 

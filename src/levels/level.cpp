@@ -306,6 +306,11 @@ void Level::init()
 
     // Start the timer.
     timer_.play(); // TODO: Move to another place?
+
+    // Present level intro to player.
+    LevelIntro levelIntro( window_, levelIndex_ );
+    levelIntro.run(); // TODO: freeze if I call switchState() instead.
+    //switchState( levelIntro );
 }
 
 
