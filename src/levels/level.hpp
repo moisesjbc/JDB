@@ -81,7 +81,7 @@ class Level : public GameState
         virtual void handleEvents();
         virtual void update();
         virtual void draw();
-        virtual void pause(){}
+        virtual void pause();
         virtual void resume();
 
 

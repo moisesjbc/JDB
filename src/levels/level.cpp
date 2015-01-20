@@ -436,8 +436,18 @@ void Level::draw()
 }
 
 
+void Level::pause()
+{
+    // TODO: Timer::stop doesn't stop the timer inmediatly, but wait until the
+    // current second finishes and then stops. Fix this or find another
+    // alternative.
+    timer_.stop();
+}
+
+
 void Level::resume()
 {
+    timer_.play();
     SDL_ShowCursor( SDL_DISABLE );
 }
 
