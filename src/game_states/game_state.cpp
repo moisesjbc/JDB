@@ -44,7 +44,9 @@ int GameState::run()
 
         update();
 
+        SDL_RenderClear( window_.renderer );
         draw();
+        SDL_RenderPresent( window_.renderer );
     }
 
     return exitStatus_;

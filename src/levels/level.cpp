@@ -403,9 +403,6 @@ void Level::draw() const
     // Text rendering.
     char buffer[16];
 
-    // Clear the screen.
-    SDL_RenderClear( window_.renderer );
-
     // Draw the background
     backgroundSprites.draw();
 
@@ -438,9 +435,6 @@ void Level::draw() const
     textRenderer.drawText( buffer, timerFontIndex_, TIMER_FONT_COLOR, 450, 3 );
     sprintf( buffer, "%08u", score_ );
     textRenderer.drawText( buffer, scoreFontIndex_, SCORE_FONT_COLOR, 785, 5 );
-
-    // Refresh screen.
-    SDL_RenderPresent( window_.renderer );
 }
 
 

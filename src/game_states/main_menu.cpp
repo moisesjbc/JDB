@@ -115,17 +115,13 @@ void MainMenu::handleEvents()
 
 void MainMenu::update()
 {
+    SDL_SetRenderDrawColor( window_.renderer, 0xDC, 0xF1, 0xF1, 0xFF );
 }
 
 
 void MainMenu::draw() const
 {
-    SDL_SetRenderDrawColor( window_.renderer, 0xDC, 0xF1, 0xF1, 0xFF );
-    SDL_RenderClear( window_.renderer );
-
     gui_.draw();
-
-    SDL_RenderPresent( window_.renderer );
 }
 
 void MainMenu::pause()

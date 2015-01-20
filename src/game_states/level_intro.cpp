@@ -83,8 +83,6 @@ void LevelIntro::draw() const
 {
     parentGameState_.draw();
     levelIntroText_->draw();
-
-    SDL_RenderPresent( window_.renderer );
 }
 
 
