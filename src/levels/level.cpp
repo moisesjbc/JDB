@@ -434,4 +434,10 @@ void Level::draw()
 }
 
 
+void Level::resume()
+{
+    SDL_ShowCursor( SDL_DISABLE );
+}
+
+
 } // namespace jdb

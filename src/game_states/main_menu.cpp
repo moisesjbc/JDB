@@ -92,6 +92,8 @@ void MainMenu::init()
     gui_.addWidget( std::move( startCampaignButton) );
     gui_.addWidget( std::move( startSurvivalButton ) );
     gui_.addWidget( std::move( exitButton ) );
+
+    SDL_ShowCursor( SDL_ENABLE );
 }
 
 

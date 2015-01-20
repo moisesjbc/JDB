@@ -82,7 +82,7 @@ class Level : public GameState
         virtual void update();
         virtual void draw();
         virtual void pause(){}
-        virtual void resume(){}
+        virtual void resume();
 
 
     private:
