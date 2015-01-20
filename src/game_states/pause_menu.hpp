@@ -34,14 +34,14 @@ class PauseMenu : public GameState
         PauseMenu( Window& window );
 
 
-    protected:
         /***
          * 3. GameState interface
          ***/
+        virtual void draw() const;
+    protected:
         virtual void init();
         virtual void handleEvents();
         virtual void update();
-        virtual void draw();
         virtual void pause();
         virtual void resume();
 

@@ -301,16 +301,17 @@ void Level::init()
         sandwiches[i]->populate( dangerData );
     }
 
+
+    // Present level intro to player.
+    LevelIntro levelIntro( *this, window_, levelIndex_ );
+    levelIntro.run(); // TODO: freeze if I call switchState() instead.
+    //switchState( levelIntro );
+
     // Reset the timer.
     resetTimer();
 
     // Start the timer.
     timer_.play(); // TODO: Move to another place?
-
-    // Present level intro to player.
-    LevelIntro levelIntro( window_, levelIndex_ );
-    levelIntro.run(); // TODO: freeze if I call switchState() instead.
-    //switchState( levelIntro );
 }
 
 
@@ -392,7 +393,7 @@ void Level::update()
 }
 
 
-void Level::draw()
+void Level::draw() const
 {
     unsigned int i;
 

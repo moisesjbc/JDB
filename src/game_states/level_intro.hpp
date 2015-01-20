@@ -31,7 +31,7 @@ class LevelIntro : public GameState
         /***
          * 1. Construction
          ***/
-        LevelIntro( Window& window, unsigned int levelIndex );
+        LevelIntro( const GameState& parentGameState, Window& window, unsigned int levelIndex );
 
 
     protected:
@@ -41,7 +41,7 @@ class LevelIntro : public GameState
         virtual void init();
         virtual void handleEvents();
         virtual void update();
-        virtual void draw();
+        virtual void draw() const;
         virtual void pause();
         virtual void resume();
 
@@ -49,6 +49,7 @@ class LevelIntro : public GameState
     private:
         unsigned int levelIndex_;
         m2g::SpritePtr levelIntroText_;
+        const GameState& parentGameState_;
 };
 
 } // namespace jdb

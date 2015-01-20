@@ -43,6 +43,7 @@ class GameState
          * 3. Main loop
          ***/
         int run();
+        virtual void draw() const = 0;
 
 
     protected:
@@ -57,7 +58,6 @@ class GameState
          ***/
         virtual void handleEvents() = 0;
         virtual void update() = 0;
-        virtual void draw() = 0;
 
 
         /***

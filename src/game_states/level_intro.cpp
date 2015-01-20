@@ -25,9 +25,12 @@ namespace jdb {
  * 1. Construction
  ***/
 
-LevelIntro::LevelIntro( Window &window, unsigned int levelIndex ) :
+LevelIntro::LevelIntro( const GameState& parentGameState,
+                        Window &window,
+                        unsigned int levelIndex ) :
     GameState( window ),
-    levelIndex_( levelIndex )
+    levelIndex_( levelIndex ),
+    parentGameState_( parentGameState )
 {}
 
 
@@ -76,11 +79,9 @@ void LevelIntro::update()
 }
 
 
-void LevelIntro::draw()
+void LevelIntro::draw() const
 {
-    SDL_SetRenderDrawColor( window_.renderer, 0xDC, 0xF1, 0xF1, 0xFF );
-    SDL_RenderClear( window_.renderer );
-
+    parentGameState_.draw();
     levelIntroText_->draw();
 
     SDL_RenderPresent( window_.renderer );

@@ -51,6 +51,9 @@ class Level : public GameState
         virtual ~Level();
 
 
+        virtual void draw() const;
+
+
     protected:
         /***
          * 3. Level Loading
@@ -81,7 +84,6 @@ class Level : public GameState
         virtual void init();
         virtual void handleEvents();
         virtual void update();
-        virtual void draw();
         virtual void pause();
         virtual void resume();
 
