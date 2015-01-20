@@ -3,7 +3,7 @@
 <dangers>
 
 	<!-- Fire -->
-	<danger name="fire">
+	<danger name="fire" first_level="0" >
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.3</damage_factor>
@@ -29,7 +29,7 @@
 	</danger>
 
 	<!-- Ice crystals -->
-	<danger name="ice_crystals">
+	<danger name="ice_crystals" first_level="0" >
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.3</damage_factor>
@@ -54,7 +54,7 @@
 	</danger>
 
 	<!-- Rat -->
-	<danger name="rat">
+	<danger name="rat" first_level="0" >
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.3</damage_factor>
@@ -84,7 +84,7 @@
 	</danger>
 
 	<!-- Knife -->
-	<danger name="knife">
+	<danger name="knife" first_level="0" >
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.1</damage_factor>
@@ -106,7 +106,7 @@
 
 
 	<!-- Shell -->
-	<danger name="shell">
+	<danger name="shell" first_level="1">
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.30</damage_factor>
@@ -186,7 +186,7 @@
 
 
 	<!-- Tesla coils -->
-	<danger name="tesla_coils">
+	<danger name="tesla_coils" first_level="2">
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.40</damage_factor>
@@ -226,7 +226,7 @@
 
 
 	<!-- Coward hypnotist rat -->
-	<danger name="coward_hypnotist_rat">
+	<danger name="coward_hypnotist_rat" first_level="1">
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
 		<damage_factor>0</damage_factor>
@@ -254,7 +254,7 @@
 
 
 	<!-- Enigma bomb -->
-	<danger name="enigma_bomb">
+	<danger name="enigma_bomb" first_level="2">
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.4</damage_factor>
@@ -284,7 +284,7 @@
 
 
 	<!-- Medic kit -->
-	<danger name="medic_kit">
+	<danger name="medic_kit" first_level="2">
 		<initial_state>0</initial_state>
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.3</damage_factor>

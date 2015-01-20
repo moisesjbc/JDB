@@ -98,9 +98,11 @@ void Level::loadDangerData()
     // Load the dangers data.
     document.LoadFile( "./data/config/dangers.xml" );
     dangerXMLElement = ( document.RootElement() )->FirstChildElement( "danger" );
-    while( dangerXMLElement ){
-        dangerData.emplace_back( new DangerData( dangerXMLElement, graphicsLibrary_, dangerData ) );
 
+    while( dangerXMLElement ){
+        if( static_cast< unsigned int >( dangerXMLElement->IntAttribute( "first_level" ) ) <= levelIndex_ ){
+            dangerData.emplace_back( new DangerData( dangerXMLElement, graphicsLibrary_, dangerData ) );
+        }
         dangerXMLElement = dangerXMLElement->NextSiblingElement();
     }
 
