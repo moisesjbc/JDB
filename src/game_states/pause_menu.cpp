@@ -72,7 +72,17 @@ void PauseMenu::init()
         requestStateExit();
     });
 
+    m2g::TextButtonPtr returnToMenuButton(
+                new m2g::TextButton(
+                    window_.renderer,
+                    "Return to main menu - NOTE: Game progress won't be saved in this demo!",
+                    fontsInfo ) );
+    returnToMenuButton->setPressCallback( [this](){
+        requestStateExit( -1 );
+    });
+
     gui_.addWidget( std::move( resumeButton ) );
+    gui_.addWidget( std::move( returnToMenuButton ) );
 
     SDL_ShowCursor( SDL_ENABLE );
 }

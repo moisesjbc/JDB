@@ -187,7 +187,9 @@ void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
             switch( event.key.keysym.sym ){
                 case SDLK_ESCAPE:{
                     PauseMenu pauseMenu( window_ );
-                    switchState( pauseMenu );
+                    if( switchState( pauseMenu ) == -1 ){
+                        requestStateExit( -1 );
+                    }
                 }break;
                 case SDLK_a:
                     tool_->setToolType( ToolType::HAND );
