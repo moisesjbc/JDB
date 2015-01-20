@@ -33,6 +33,17 @@ class Window
          ***/
         Window( SDL_Window* window );
 
+
+        /***
+         * 2. Getters
+         ***/
+        int width() const;
+        int height() const;
+
+
+        /***
+         * Attributes
+         ***/
         SDL_Window* window;
         SDL_Renderer* renderer;
 };

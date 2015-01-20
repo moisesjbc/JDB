@@ -35,4 +35,24 @@ Window::Window( SDL_Window* window ) :
     }
 }
 
+
+/***
+ * 2. Getters
+ ***/
+
+int Window::width() const
+{
+    int width = 0;
+    SDL_GetWindowSize( window, &width, nullptr );
+    return width;
+}
+
+
+int Window::height() const
+{
+    int height = 0;
+    SDL_GetWindowSize( window, nullptr, &height );
+    return height;
+}
+
 } // namespace jdb
