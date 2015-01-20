@@ -29,6 +29,7 @@
 #include <m2g/drawables/drawables_set.hpp>
 #include <m2g/text/text_renderer.hpp>
 #include <game_states/game_state.hpp>
+#include <game_states/pause_menu.hpp>
 
 namespace jdb {
 

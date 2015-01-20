@@ -185,9 +185,10 @@ void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
             // Player pressed a key. If the key pressed is
             // ESCAPE we exit the game.
             switch( event.key.keysym.sym ){
-                case SDLK_ESCAPE:
-                    quitLevel_ = true;
-                break;
+                case SDLK_ESCAPE:{
+                    PauseMenu pauseMenu( window_ );
+                    switchState( pauseMenu );
+                }break;
                 case SDLK_a:
                     tool_->setToolType( ToolType::HAND );
                     guiToolSelector_->setTile( 0 );
