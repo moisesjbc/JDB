@@ -56,7 +56,8 @@ void LevelIntro::init()
                                    fontIndex,
                                    fontColor );
     levelIntroText_->moveTo(
-                ( window_.width() - levelIntroText_->getWidth() ) >> 1,
+                ( ( window_.width() - levelIntroText_->getWidth() ) >> 1 ) +
+                ( ( window_.width() - levelIntroText_->getWidth() ) >> 2 ),
                 ( window_.height() - levelIntroText_->getHeight() ) >> 1 );
 }
 
