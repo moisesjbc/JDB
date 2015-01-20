@@ -63,7 +63,7 @@ class GameState
         /***
          * 6. State switching
          ***/
-        void switchState( GameState& newState );
+        int switchState( GameState& newState );
         void requestStateExit( int status = 0 );
 
 

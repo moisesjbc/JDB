@@ -55,13 +55,15 @@ int GameState::run()
  * 5. State switching
  ***/
 
-void GameState::switchState( GameState &newState )
+int GameState::switchState( GameState &newState )
 {
     pause();
 
-    newState.run();
+    const int exitStatus = newState.run();
 
     resume();
+
+    return exitStatus;
 }
 
 
