@@ -32,7 +32,11 @@ namespace jdb {
 
 MainMenu::MainMenu( Window &window, SoundManager* soundManager ) :
     GameState( window ),
-    gui_( window.renderer, { 0, 0, 800, 600 } ), // TODO: Retrieve dimensions from window.
+    gui_( window.renderer,
+          { 0,
+          0,
+          static_cast< unsigned int >( window.width() ),
+          static_cast< unsigned int >( window.height() ) } ),
     soundManager_( *soundManager )
 {}
 
