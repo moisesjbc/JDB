@@ -36,14 +36,11 @@ CampaignLevel::CampaignLevel( Window& window, SoundManager* soundManager, unsign
 
 void CampaignLevel::load( unsigned int index )
 {
-    tinyxml2::XMLNode* levelNode = nullptr;
+    tinyxml2::XMLElement* levelNode = nullptr;
     unsigned int i = 0;
 
     // Open the levels configuration file.
     xmlFile.LoadFile( "data/config/levels.xml" );
-
-    // TODO: Load this from file.
-    countdown_ = 15;
 
     // Iterate over the survival level XML nodes until de number index.
     levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "survival_levels" )->FirstChildElement( "survival_level" ) );
@@ -56,6 +53,9 @@ void CampaignLevel::load( unsigned int index )
     if( i < index ){
         throw std::runtime_error( "ERROR: Survival level not found" );
     }
+
+    // Retrieve the level's countdown from file.
+    countdown_ = levelNode->IntAttribute( "countdow" );
 
     // Load the sandwiches data.
     loadSandwichData();
@@ -81,7 +81,7 @@ bool CampaignLevel::finishPredicate() const
 void CampaignLevel::resetTimer()
 {
     // Init the timer.
-    timer_.init( 30, conveyorBelt_.getTimeLapse(), [&](){
+    timer_.init( countdown_, conveyorBelt_.getTimeLapse(), [&](){
         conveyorBelt_.updateSpeed();
 
         coutMutex.lock();
