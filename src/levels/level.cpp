@@ -38,10 +38,10 @@ Level::Level( Window& window, SoundManager* soundManager, unsigned int levelInde
     : GameState( window ),
       graphicsLibrary_( window.renderer ),
       guiSprites_( window.renderer ),
+      soundManager_( *soundManager ),
       levelIndex_( levelIndex ),
       textRenderer( window.renderer ),
       backgroundSprites( window.renderer ),
-      soundManager_( *soundManager ), 
       score_( 0 )
 {}
 
@@ -232,6 +232,12 @@ void Level::drawTimer( int time )
 int Level::getSeconds() const
 {
     return timer_.getSeconds();
+}
+
+
+unsigned int Level::levelIndex() const
+{
+    return levelIndex_;
 }
 
 

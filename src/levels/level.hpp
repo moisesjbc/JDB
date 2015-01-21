@@ -76,6 +76,7 @@ class Level : public GameState
          ***/
         void drawTimer( int time );
         int getSeconds() const ;
+        unsigned int levelIndex() const;
 
 
         /***
@@ -125,6 +126,8 @@ class Level : public GameState
         // Does player wants to quit the current level?
         bool quitLevel_;
 
+        SoundManager& soundManager_;
+
     private:
         const unsigned int levelIndex_;
 
@@ -144,8 +147,6 @@ class Level : public GameState
         // Background sprites.
         m2g::DrawablesSet backgroundSprites;
         m2g::SpritePtr grinderFront;
-
-        SoundManager& soundManager_;
 
         unsigned int score_;
 

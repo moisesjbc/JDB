@@ -9,9 +9,16 @@
 		<!-- Survival level 01 -->
 		<survival_level>
 			<speed initial="5.0" step="0.5" time_lapse="10" />
-			<dangers>
-				<danger>fire</danger>
-			</dangers>
+		</survival_level>
+
+		<!-- Survival level 02 -->
+		<survival_level>
+			<speed initial="6.0" step="0.5" time_lapse="10" />
+		</survival_level>
+
+		<!-- Survival level 03 -->
+		<survival_level>
+			<speed initial="7.0" step="0.5" time_lapse="10" />
 		</survival_level>
 	</survival_levels>
 </levels>

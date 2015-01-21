@@ -47,6 +47,13 @@ class CampaignLevel : public Level
          ***/
         virtual bool finishPredicate() const ;
         virtual void resetTimer();
+
+
+    protected:
+        /***
+         * 4. GameState interface
+         ***/
+        virtual void cleanUp();
 };
 
 } // namespace jdb

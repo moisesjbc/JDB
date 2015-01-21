@@ -90,4 +90,18 @@ void CampaignLevel::resetTimer()
     });
 }
 
+
+/***
+ * 4. GameState interface
+ ***/
+
+void CampaignLevel::cleanUp()
+{
+    // Remove '3' and retrieve the number of levels from levels.xml.
+    if( levelIndex() < 2 ){
+        CampaignLevel nextLevel( window_, &soundManager_, levelIndex()+1 );
+        switchState( nextLevel );
+    }
+}
+
 } // namespace jdb
