@@ -2,7 +2,7 @@
 
 [English translation](README.md)
 
-![JDB game](blow/master/img/jdb.jpg "JDB game")
+![JDB game](img/jdb.jpg "JDB game")
 
 **Estado del proyecto: Activo** (rama "experimental").
 
