@@ -1,5 +1,7 @@
 # JDB
 
+**Project status: Active** (branch "experimental").
+
 ## About
 
 The Sandwiches game, or JDB (Juego De los Bocadillos, in spanish), is an ability 2D game where the player have to combine multiple tools in order to remove the dangers that travel on delicious sandwiches.
@@ -12,8 +14,6 @@ As our hero's best friend, your mission with consist in removing all the threats
 ## Game mechanics
 
 The action in The Sandwiches game focuses on the conveyor belt carrying the dangers-infected sandwiches to the giant grinder and our hero. The player will habe to combine multiple tools in order to remove the dangers from the sandwiches before they get to the giant grinder and damage his/her best friend.
-
-**Project status: Active** (branch "experimental").
 
 ## Multimedia
 
