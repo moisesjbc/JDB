@@ -2,7 +2,7 @@
 
 (Traducción al Español)[README_ES.md]
 
-![JDB game](blow/master/img/jdb.jpg "JDB game")
+![JDB game](img/jdb.jpg "JDB game")
 
 **Project status: Active** (branch "experimental").
 
