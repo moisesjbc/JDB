@@ -1,6 +1,6 @@
 # JDB
 
-(Traducción al Español)[README_ES.md]
+[Traducción al Español](README_ES.md)
 
 ![JDB game](img/jdb.jpg "JDB game")
 
