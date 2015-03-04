@@ -1,5 +1,7 @@
 # JDB
 
+![JDB game](blow/master/img/jdb.jpg "JDB game")
+
 **Project status: Active** (branch "experimental").
 
 ## About
