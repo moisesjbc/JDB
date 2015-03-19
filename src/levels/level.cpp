@@ -114,7 +114,7 @@ void Level::loadDangerData()
 void Level::initGUI()
 {
     // Load the "gui" graphics library.
-    m2g::GraphicsLibrary guiGraphicsLibrary( "data/img/gui" );
+    m2g::GraphicsLibrary guiGraphicsLibrary( "data/img/gui/gui.xml" );
 
     // Load the GUI sprites.
     guiSprites_.push_back( m2g::TileSpritePtr( new m2g::TileSprite( guiGraphicsLibrary.getTilesetByName( "health.png" ) ) ) );
