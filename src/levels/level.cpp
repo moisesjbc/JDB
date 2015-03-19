@@ -255,7 +255,7 @@ void Level::init()
     // Load all the needed tilesets and animations (the graphics for
     // dangers and sandwiches are loaded in the methods "loadDangers" and
     // "loadSandwiches".
-    m2g::GraphicsLibrary graphicsLibrary( "data/img/background" );
+    m2g::GraphicsLibrary graphicsLibrary( "data/img/background/background.xml" );
 
     // Load the background sprites
     backgroundSprites.push_back(
