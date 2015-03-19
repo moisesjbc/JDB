@@ -70,7 +70,7 @@ void Level::loadSandwichData()
     tinyxml2::XMLElement* sandwichXMLElement = nullptr;
 
     // Load the sandwiches data.
-    m2g::GraphicsLibrary graphicsLibrary( "data/img/sandwiches" );
+    m2g::GraphicsLibrary graphicsLibrary( "data/img/sandwiches/sandwiches.xml" );
 
     // Load the dangers data.
     document.LoadFile( "./data/config/sandwiches.xml" );
