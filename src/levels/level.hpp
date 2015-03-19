@@ -26,8 +26,6 @@
 #include "../dangers/danger.hpp"
 #include "../tools/tool.hpp"
 #include "conveyor_belt.hpp"
-#include <m2g/drawables/drawables_set.hpp>
-#include <m2g/text/text_renderer.hpp>
 #include <game_states/game_state.hpp>
 #include <game_states/pause_menu.hpp>
 #include <game_states/level_intro.hpp>
@@ -42,7 +40,7 @@ class Level : public GameState
         /***
          * 1. Construction
          ***/
-        Level( Window& window, SoundManager* soundManager, unsigned int levelIndex );
+        Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex );
 
 
         /***
@@ -51,7 +49,7 @@ class Level : public GameState
         virtual ~Level();
 
 
-        virtual void draw() const;
+        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 
     protected:
@@ -84,7 +82,7 @@ class Level : public GameState
          ***/
         virtual void init();
         virtual void handleEvents();
-        virtual void update();
+        virtual void update( unsigned int ms );
         virtual void pause();
         virtual void resume();
 
@@ -106,8 +104,6 @@ class Level : public GameState
 
         tinyxml2::XMLDocument xmlFile;
 
-        m2g::GraphicsLibrary graphicsLibrary_;
-
         std::vector< DangerDataPtr > dangerData;
         std::vector< SandwichDataPtr > sandwichData;
 
@@ -120,8 +116,9 @@ class Level : public GameState
         int jacobHp_;
 
         // GUI sprites.
-        m2g::DrawablesSet guiSprites_;
-        m2g::SpritePtr guiToolSelector_;
+        std::vector< m2g::TilesetPtr > guiTilesets_;
+        std::vector< m2g::TileSpritePtr > guiSprites_;
+        m2g::TileSpritePtr guiToolSelector_;
 
         // Does player wants to quit the current level?
         bool quitLevel_;
@@ -140,13 +137,11 @@ class Level : public GameState
         // Sandwiches
         Sandwich* sandwiches[N_SANDWICHES];
 
-        m2g::TextRenderer textRenderer;
-
         const SDL_Color HEALTH_FONT_COLOR = { 131, 60, 60, 255 };
 
         // Background sprites.
-        m2g::DrawablesSet backgroundSprites;
-        m2g::SpritePtr grinderFront;
+        std::vector< m2g::TileSpritePtr > backgroundSprites;
+        m2g::TileSpritePtr grinderFront;
 
         unsigned int score_;
 

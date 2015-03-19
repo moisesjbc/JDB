@@ -21,11 +21,8 @@
 #define MAIN_MENU_HPP
 
 #include "game_state.hpp"
-#include <m2g/drawables/sprite.hpp>
+#include <m2g/drawables/tile_sprite.hpp>
 #include <utilities/sound_manager.hpp>
-#include <m2g/gui/gui.hpp>
-#include <m2g/gui/widgets/text_button.hpp>
-
 namespace jdb {
 
 class MainMenu : public GameState
@@ -34,7 +31,7 @@ class MainMenu : public GameState
         /***
          * 1. Creation
          ****/
-        MainMenu( Window& window, SoundManager* soundManager );
+        MainMenu( sf::RenderWindow& window, SoundManager* soundManager );
 
 
         /***
@@ -46,17 +43,17 @@ class MainMenu : public GameState
         /***
          * 3. GameState interface
          ***/
-        virtual void draw() const;
+        virtual void draw( sf::RenderTarget &target, sf::RenderStates states ) const;
     protected:
         virtual void init();
         virtual void handleEvents();
-        virtual void update();
+        virtual void update( unsigned int ms );
         virtual void pause();
         virtual void resume();
 
 
     private:
-        m2g::GUI gui_;
+        //m2g::GUI gui_;
         SoundManager& soundManager_;
 };
 

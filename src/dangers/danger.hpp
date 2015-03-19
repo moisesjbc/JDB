@@ -45,15 +45,14 @@ class Danger : public m2g::Animation
         std::unique_ptr< m2g::Animation > appearanceAnimation;
 
 
-        const m2g::GraphicsLibrary& graphicsLibrary_;
+        m2g::GraphicsLibrary& graphicsLibrary_;
 
     public:
         /***
          * 1. Initialization and destruction
          ***/
-        Danger( SDL_Renderer* renderer,
-                DangerDataPtr dangerData_,
-                const m2g::GraphicsLibrary& graphicsLibrary,
+        Danger( DangerDataPtr dangerData_,
+                m2g::GraphicsLibrary& graphicsLibrary,
                 m2g::AnimationDataPtr appearanceAnimationData = nullptr );
         virtual ~Danger() = default;
 
@@ -77,18 +76,18 @@ class Danger : public m2g::Animation
         /***
          * 4. Updating
          ***/
-        virtual void update();
+        virtual void update( unsigned int ms );
         bool playerAction( PlayerAction playerAction,
                            unsigned int& score,
                            unsigned int& hpBonus );
         void reset();
-        StunType stuns( const m2g::Sprite &tool, ToolType toolType ) const;
+        StunType stuns( const m2g::TileSprite &tool, ToolType toolType ) const;
 
 
         /***
          * 5. Drawing
          ***/
-        virtual void draw() const;
+        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 };
 
 } // namespace jdb

@@ -21,16 +21,18 @@
 #define GAME_STATE_HPP
 
 #include "../utilities/window.hpp"
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Drawable.hpp>
 
 namespace jdb {
 
-class GameState
+class GameState : public sf::Drawable
 {
     public:
         /***
          * 1. Construction
          ***/
-        GameState( Window& window );
+        GameState( sf::RenderWindow& window );
 
 
         /***
@@ -43,7 +45,6 @@ class GameState
          * 3. Main loop
          ***/
         int run();
-        virtual void draw() const = 0;
 
 
     protected:
@@ -58,7 +59,7 @@ class GameState
          * 5.  Main loop
          ***/
         virtual void handleEvents() = 0;
-        virtual void update() = 0;
+        virtual void update( unsigned int ms ) = 0;
 
 
         /***
@@ -74,7 +75,7 @@ class GameState
         virtual void pause() = 0;
         virtual void resume() = 0;
 
-        Window& window_;
+        sf::RenderWindow& window_;
     private:
         bool exitState_;
         int exitStatus_;

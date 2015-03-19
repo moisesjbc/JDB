@@ -33,7 +33,7 @@ class CampaignLevel : public Level
         /***
          * 1. Initialization and destruction
          ***/
-        CampaignLevel( Window& window, SoundManager* soundManager, unsigned int levelIndex );
+        CampaignLevel( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex );
 
 
         /***

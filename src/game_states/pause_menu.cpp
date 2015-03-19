@@ -18,7 +18,6 @@
  ***/
 
 #include "pause_menu.hpp"
-#include <m2g/gui/widgets/text_button.hpp>
 
 namespace jdb {
 
@@ -26,15 +25,15 @@ namespace jdb {
  * 1. Construction
  ***/
 
-PauseMenu::PauseMenu( Window& window ) :
-    GameState( window ),
+PauseMenu::PauseMenu( sf::RenderWindow& window ) :
+    GameState( window )/*,
     gui_( window.renderer,
     {
           0,
           0,
           static_cast< unsigned int >( window.width() ),
           static_cast< unsigned int >( window.height() )
-    })
+      })*/
 {}
 
 
@@ -44,6 +43,7 @@ PauseMenu::PauseMenu( Window& window ) :
 
 void PauseMenu::init()
 {
+    /*
     m2g::FontInfo normalButtonFont =
     {
         "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
@@ -85,11 +85,13 @@ void PauseMenu::init()
     gui_.addWidget( std::move( returnToMenuButton ) );
 
     SDL_ShowCursor( SDL_ENABLE );
+    */
 }
 
 
 void PauseMenu::handleEvents()
 {
+    /*
     SDL_Event event;
     SDL_PollEvent( &event );
 
@@ -98,18 +100,22 @@ void PauseMenu::handleEvents()
     }
 
     gui_.handleEvent( event );
+    */
 }
 
 
-void PauseMenu::update()
+void PauseMenu::update( unsigned int ms )
 {
-    SDL_SetRenderDrawColor( window_.renderer, 0xDC, 0xF1, 0xF1, 0xFF );
+    (void)( ms );
+    //SDL_SetRenderDrawColor( window_.renderer, 0xDC, 0xF1, 0xF1, 0xFF );
 }
 
 
-void PauseMenu::draw() const
+void PauseMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    gui_.draw();
+    (void)( target );
+    (void)( states );
+    //gui_.draw();
 }
 
 

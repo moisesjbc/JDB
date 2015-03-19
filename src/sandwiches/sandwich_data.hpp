@@ -41,13 +41,13 @@ struct SandwichData
     /***
      * 1. Initialization
      ***/
-    SandwichData( tinyxml2::XMLElement* xmlElement, const m2g::GraphicsLibrary& graphicsLibrary );
+    SandwichData( tinyxml2::XMLElement* xmlElement, m2g::GraphicsLibrary& graphicsLibrary );
 
 
     /***
      * 2. Loading
      ***/
-    void loadFromXML( tinyxml2::XMLElement* xmlElement, const m2g::GraphicsLibrary& graphicsLibrary );
+    void loadFromXML( tinyxml2::XMLElement* xmlElement, m2g::GraphicsLibrary& graphicsLibrary );
 };
 
 typedef std::shared_ptr< const SandwichData > SandwichDataPtr;

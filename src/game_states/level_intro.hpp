@@ -21,7 +21,7 @@
 #define LEVEL_INTRO_HPP
 
 #include "game_state.hpp"
-#include <m2g/text/text_renderer.hpp>
+#include <m2g/drawables/tile_sprite.hpp>
 
 namespace jdb {
 
@@ -31,7 +31,7 @@ class LevelIntro : public GameState
         /***
          * 1. Construction
          ***/
-        LevelIntro( const GameState& parentGameState, Window& window, unsigned int levelIndex );
+        LevelIntro( const GameState& parentGameState, sf::RenderWindow& window, unsigned int levelIndex );
 
 
     protected:
@@ -40,15 +40,15 @@ class LevelIntro : public GameState
          ***/
         virtual void init();
         virtual void handleEvents();
-        virtual void update();
-        virtual void draw() const;
+        virtual void update( unsigned int ms );
+        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
         virtual void pause();
         virtual void resume();
 
 
     private:
         unsigned int levelIndex_;
-        m2g::SpritePtr levelIntroText_;
+        m2g::TileSpritePtr levelIntroText_;
         const GameState& parentGameState_;
 };
 

@@ -41,10 +41,9 @@ class Sandwich : public m2g::Animation
         /***
          * 1. Initialization and destruction
          ***/
-        Sandwich( SDL_Renderer* renderer,
-                  SandwichDataPtr sandwichData,
+        Sandwich( SandwichDataPtr sandwichData,
                   const std::vector< DangerDataPtr >* dangerData,
-                  const m2g::GraphicsLibrary& graphicsLibrary );
+                  m2g::GraphicsLibrary& graphicsLibrary );
         virtual ~Sandwich();
 
         /***
@@ -70,19 +69,19 @@ class Sandwich : public m2g::Animation
         /***
          * 5. Updating
          ***/
-        virtual void update();
+        virtual void update( unsigned int ms );
         bool useTool( PlayerAction playerAction,
-                      Sprite* tool,
+                      TileSprite* tool,
                       unsigned int& score,
                       unsigned int& hpBonus );
-        StunType stuns( const m2g::Sprite &tool, ToolType toolType );
+        StunType stuns( const m2g::TileSprite &tool, ToolType toolType );
         void reset();
 
 
         /***
          * 6. Drawing
          ***/
-        virtual void draw() const;
+        virtual void draw( sf::RenderTarget &target, sf::RenderStates states ) const;
 };
 
 } // namespace jdb

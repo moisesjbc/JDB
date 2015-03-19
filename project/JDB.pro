@@ -48,7 +48,7 @@ HEADERS += \
     ../src/game_states/pause_menu.hpp \
     ../src/game_states/level_intro.hpp
 
-LIBS += -lm2g -lSDL2 -lSDL2_image -lSDL2_ttf -ldl -lsfml-system -lsfml-audio -ltinyxml2
+LIBS += -lm2g -lSDL2 -lSDL2_image -lSDL2_ttf -ldl -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -ltinyxml2
 LIBS += -lboost_system -lboost_filesystem
 
 CXXFLAGS += -Wall -Werrors -pedantic-errors

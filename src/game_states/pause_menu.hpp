@@ -21,7 +21,6 @@
 #define PAUSE_MENU_HPP
 
 #include "game_state.hpp"
-#include <m2g/gui/gui.hpp>
 
 namespace jdb {
 
@@ -31,23 +30,23 @@ class PauseMenu : public GameState
         /***
          * 1. Construction
          ***/
-        PauseMenu( Window& window );
+        PauseMenu( sf::RenderWindow& window );
 
 
         /***
          * 3. GameState interface
          ***/
-        virtual void draw() const;
+        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
     protected:
         virtual void init();
         virtual void handleEvents();
-        virtual void update();
+        virtual void update( unsigned int ms );
         virtual void pause();
         virtual void resume();
 
 
     private:
-        m2g::GUI gui_;
+        //m2g::GUI gui_;
 };
 
 } // namespace jdb

@@ -26,7 +26,7 @@ namespace jdb {
  ***/
 
 LevelIntro::LevelIntro( const GameState& parentGameState,
-                        Window &window,
+                        sf::RenderWindow& window,
                         unsigned int levelIndex ) :
     GameState( window ),
     levelIndex_( levelIndex ),
@@ -40,6 +40,7 @@ LevelIntro::LevelIntro( const GameState& parentGameState,
 
 void LevelIntro::init()
 {
+    /*
     m2g::TextRenderer textRenderer( window_.renderer );
     SDL_Color fontColor = { 0, 0, 0, 255 };
 
@@ -59,6 +60,7 @@ void LevelIntro::init()
                 ( ( window_.width() - levelIntroText_->getWidth() ) >> 1 ) +
                 ( ( window_.width() - levelIntroText_->getWidth() ) >> 2 ),
                 ( window_.height() - levelIntroText_->getHeight() ) >> 1 );
+    */
 }
 
 
@@ -74,16 +76,16 @@ void LevelIntro::handleEvents()
     }
 }
 
-void LevelIntro::update()
+void LevelIntro::update( unsigned int ms )
 {
-
+    (void)( ms );
 }
 
 
-void LevelIntro::draw() const
+void LevelIntro::draw( sf::RenderTarget &target, sf::RenderStates states ) const
 {
-    parentGameState_.draw();
-    levelIntroText_->draw();
+    target.draw( parentGameState_, states );
+    target.draw( *levelIntroText_, states );
 }
 
 

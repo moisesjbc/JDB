@@ -18,6 +18,7 @@
  ***/
 
 #include "sandwich.hpp"
+#include <SFML/Graphics/RenderTarget.hpp>
 
 namespace jdb {
 
@@ -26,15 +27,14 @@ namespace jdb {
  * 1. Initialization and destruction
  ***/
 
-Sandwich::Sandwich( SDL_Renderer* renderer, SandwichDataPtr sandwichData, const std::vector< DangerDataPtr >* dangerData, const m2g::GraphicsLibrary& graphicsLibrary ) :
-    Drawable( renderer ),
-    Animation( renderer, sandwichData->animationData ),
+Sandwich::Sandwich( SandwichDataPtr sandwichData, const std::vector< DangerDataPtr >* dangerData, m2g::GraphicsLibrary& graphicsLibrary ) :
+    Animation( *( sandwichData->animationData ) ),
     nDangers_( MAX_DANGERS_PER_SANDWICH )
 {
     setSandwichData( sandwichData );
 
     for( unsigned int i = 0; i<MAX_DANGERS_PER_SANDWICH; i++ ){
-        dangers_[i] = new Danger( renderer, (*dangerData)[0], graphicsLibrary );
+        dangers_[i] = new Danger( (*dangerData)[0], graphicsLibrary );
     }
 }
 
@@ -136,8 +136,8 @@ void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData )
         std::cout << "minSpace: " << minSpace << std::endl
                   << "space: " << space << std::endl;
 
-        dangers_[i]->moveTo( boundaryBox.x + newDangerX + space - dangers_[i]->getDangerData()->baseLine.x,
-                             boundaryBox.y + sandwichData_->baseLine.y - dangers_[i]->getDangerData()->baseLine.y );
+        dangers_[i]->move( getBoundaryBox().left + newDangerX + space - dangers_[i]->getDangerData()->baseLine.x,
+                           getBoundaryBox().top + sandwichData_->baseLine.y - dangers_[i]->getDangerData()->baseLine.y );
 
         newDangerX += dangers_[i]->getDangerData()->baseLine.width + space;
 
@@ -168,20 +168,20 @@ float Sandwich::getDamage() const
 
 void Sandwich::translate( const float& tx, const float& ty )
 {
-    Drawable::translate( tx, ty );
+    Animation::move( tx, ty );
 
     for( unsigned int i=0; i<nDangers_; i++ ){
-        dangers_[i]->translate( tx, ty );
+        dangers_[i]->move( tx, ty );
     }
 }
 
 
 void Sandwich::moveTo( const float& x, const float& y )
 {
-    Drawable::moveTo( x, y );
+    Animation::setPosition( x, y );
 
     for( unsigned int i=0; i<nDangers_; i++ ){
-        dangers_[i]->moveTo( boundaryBox.x+30.0f+i*75.0f, boundaryBox.y-75.0f );
+        dangers_[i]->setPosition( getBoundaryBox().left+30.0f+i*75.0f, getBoundaryBox().top-75.0f );
     }
 }
 
@@ -190,17 +190,17 @@ void Sandwich::moveTo( const float& x, const float& y )
  * 5. Updating
  ***/
 
-void Sandwich::update()
+void Sandwich::update( unsigned int ms )
 {
-    Animation::update();
+    Animation::update( ms );
 
     for( unsigned int i=0; i<nDangers_; i++ ){
-        dangers_[i]->update();
+        dangers_[i]->update( ms );
     }
 }
 
 
-bool Sandwich::useTool( PlayerAction playerAction, Sprite* tool,
+bool Sandwich::useTool( PlayerAction playerAction, TileSprite* tool,
                         unsigned int& score,
                         unsigned int& hpBonus )
 {
@@ -216,7 +216,7 @@ bool Sandwich::useTool( PlayerAction playerAction, Sprite* tool,
 }
 
 
-StunType Sandwich::stuns( const m2g::Sprite &tool, ToolType toolType )
+StunType Sandwich::stuns( const m2g::TileSprite &tool, ToolType toolType )
 {
     unsigned int i=0;
     StunType stunType;
@@ -243,14 +243,13 @@ void Sandwich::reset()
  * 6. Drawing
  ***/
 
-void Sandwich::draw() const
+void Sandwich::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    Animation::draw();
+    Animation::draw( target, states );
 
     for( unsigned int i=0; i<nDangers_; i++ ){
-        dangers_[i]->draw();
+        target.draw( *( dangers_[i] ), states );
     }
 }
-
 
 } // namespace jdb

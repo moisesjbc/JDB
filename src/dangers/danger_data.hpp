@@ -35,7 +35,7 @@ typedef std::shared_ptr< const DangerData > DangerDataPtr;
 struct DangerData
 {
     // Vector of animation data.
-    m2g::AnimationDataVector animationData;
+    std::vector< m2g::AnimationDataPtr > animationData;
 
     // Initial state and hp of the danger.
     int initialState;
@@ -57,7 +57,7 @@ struct DangerData
      * 1. Initialization
      ***/
     DangerData( tinyxml2::XMLElement* xmlElement,
-                const m2g::GraphicsLibrary& dangerGraphics,
+                m2g::GraphicsLibrary& dangerGraphics,
                 const std::vector< DangerDataPtr >& dangersDataVector );
 };
 

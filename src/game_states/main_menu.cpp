@@ -18,11 +18,11 @@
  ***/
 
 #include "main_menu.hpp"
-#include <m2g/text/text_renderer.hpp>
 #include "../levels/campaign_level.hpp"
 #include "../levels/survival_level.hpp"
 #define GLM_FORCE_RADIANS
 #include <glm/gtc/matrix_transform.hpp>
+#include <SFML/Window.hpp>
 
 namespace jdb {
 
@@ -30,13 +30,13 @@ namespace jdb {
  * 1. Creation
  ****/
 
-MainMenu::MainMenu( Window &window, SoundManager* soundManager ) :
-    GameState( window ),
+MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
+    GameState( window )/*,
     gui_( window.renderer,
           { 0,
           0,
           static_cast< unsigned int >( window.width() ),
-          static_cast< unsigned int >( window.height() ) } ),
+          static_cast< unsigned int >( window.height() ) } )*/,
     soundManager_( *soundManager )
 {}
 
@@ -47,6 +47,7 @@ MainMenu::MainMenu( Window &window, SoundManager* soundManager ) :
 
 void MainMenu::init()
 {
+    /*
     m2g::FontInfo normalButtonFont =
     {
         "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
@@ -94,35 +95,43 @@ void MainMenu::init()
     gui_.addWidget( std::move( exitButton ) );
 
     SDL_ShowCursor( SDL_ENABLE );
+    */
 }
 
 
 void MainMenu::handleEvents()
 {
-    SDL_Event event;
+    sf::Event event;
     std::unique_ptr< Level > level = nullptr;
 
-    SDL_PollEvent( &event );
-    if( gui_.handleEvent( event ) ){
+    /*if( gui_.handleEvent( event ) ){
         return;
+    }*/
+    if( window_.pollEvent( event ) ){
+        if( event.type == sf::Event::Closed ||
+            ( ( event.type == sf::Event::KeyPressed ) &&
+              event.key.code == sf::Keyboard::Escape ) ){
+            requestStateExit();
+        }
     }
-    if( ( event.type == SDL_QUIT ) ||
-            ( event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE ) ){
-        requestStateExit();
-    }
 }
 
 
-void MainMenu::update()
+void MainMenu::update( unsigned int ms )
 {
-    SDL_SetRenderDrawColor( window_.renderer, 0xDC, 0xF1, 0xF1, 0xFF );
+    (void)( ms );
+    //SDL_SetRenderDrawColor( window_.renderer, 0xDC, 0xF1, 0xF1, 0xFF );
 }
 
 
-void MainMenu::draw() const
+void MainMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    gui_.draw();
+    (void)( target );
+    (void)( states );
+    window_.clear( sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ) );
+    // gui_.draw();
 }
+
 
 void MainMenu::pause()
 {

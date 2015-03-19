@@ -21,6 +21,7 @@
 #define JDB_HPP
 
 #include <SDL2/SDL.h>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 namespace jdb {
 
@@ -34,20 +35,13 @@ class JDB
 
 
         /***
-         * 2. Destruction
-         ***/
-        ~JDB();
-
-
-        /***
-         * 3. Game run
+         * 2. Game run
          ***/
         void run();
 
 
     private:
-        SDL_Window* window;
-        SDL_GLContext glContext;
+        sf::RenderWindow window_;
 };
 
 } // namespace jdb

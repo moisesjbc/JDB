@@ -34,14 +34,10 @@ const unsigned int N_DANGERS = N_SANDWICHES * 3;
  * 1. Construction
  ***/
 
-Level::Level( Window& window, SoundManager* soundManager, unsigned int levelIndex )
+Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex )
     : GameState( window ),
-      graphicsLibrary_( window.renderer ),
-      guiSprites_( window.renderer ),
       soundManager_( *soundManager ),
       levelIndex_( levelIndex ),
-      textRenderer( window.renderer ),
-      backgroundSprites( window.renderer ),
       score_( 0 )
 {}
 
@@ -74,14 +70,13 @@ void Level::loadSandwichData()
     tinyxml2::XMLElement* sandwichXMLElement = nullptr;
 
     // Load the sandwiches data.
-    //graphicsLoader.loadTilesets( sandwichesData, "data/img/sandwiches" );
-    graphicsLibrary_.loadAll( "data/img/sandwiches" );
+    m2g::GraphicsLibrary graphicsLibrary( "data/img/sandwiches" );
 
     // Load the dangers data.
     document.LoadFile( "./data/config/sandwiches.xml" );
     sandwichXMLElement = ( document.RootElement() )->FirstChildElement( "sandwich" );
     while( sandwichXMLElement ){
-        sandwichData.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary_ ) );
+        sandwichData.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary ) );
 
         sandwichXMLElement = sandwichXMLElement->NextSiblingElement();
     }
@@ -93,7 +88,7 @@ void Level::loadDangerData()
     tinyxml2::XMLDocument document;
     tinyxml2::XMLElement* dangerXMLElement = nullptr;
 
-    graphicsLibrary_.loadAll( "data/img/dangers" );
+    m2g::GraphicsLibrary graphicsLibrary( "data/img/dangers" );
 
     // Load the dangers data.
     document.LoadFile( "./data/config/dangers.xml" );
@@ -101,7 +96,7 @@ void Level::loadDangerData()
 
     while( dangerXMLElement ){
         if( static_cast< unsigned int >( dangerXMLElement->IntAttribute( "first_level" ) ) <= levelIndex_ ){
-            dangerData.emplace_back( new DangerData( dangerXMLElement, graphicsLibrary_, dangerData ) );
+            dangerData.emplace_back( new DangerData( dangerXMLElement, graphicsLibrary, dangerData ) );
         }
         dangerXMLElement = dangerXMLElement->NextSiblingElement();
     }
@@ -119,42 +114,34 @@ void Level::loadDangerData()
 void Level::initGUI()
 {
     // Load the "gui" graphics library.
-    graphicsLibrary_.loadAll( "data/img/gui" );
+    m2g::GraphicsLibrary guiGraphicsLibrary( "data/img/gui" );
 
     // Load the GUI sprites.
-    guiSprites_.addDrawable(
-                m2g::DrawablePtr(
-                    new m2g::Sprite( window_.renderer,
-                                     graphicsLibrary_.getTileset( "health.png" ) ) ) );
+    guiSprites_.push_back( m2g::TileSpritePtr( new m2g::TileSprite( guiGraphicsLibrary.getTilesetByName( "health.png" ) ) ) );
 
-    guiSprites_.addDrawable(
-                m2g::DrawablePtr(
-                    new m2g::Sprite( window_.renderer,
-                                     graphicsLibrary_.getTileset( "time.png" ) ) ),
-                367.0f,
-                0.0f );
+    guiTilesets_.push_back( guiGraphicsLibrary.getTilesetByName( "time.png" ) );
+    m2g::TileSpritePtr tileSprite =
+            m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets_.back() ) ) );
+    tileSprite->move( 367.0f, 0.0f );
+    guiSprites_.push_back( std::move( tileSprite ) );
 
-    guiSprites_.addDrawable(
-                m2g::DrawablePtr(
-                    new m2g::Sprite( window_.renderer,
-                                     graphicsLibrary_.getTileset( "score.png" ) ) ),
-                    768.0f,
-                    0.0f );
+    guiTilesets_.push_back( guiGraphicsLibrary.getTilesetByName( "score.png" ) );
+    tileSprite =
+            m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets_.back() ) ) );
+    tileSprite->move( 768.0f, 0.0f );
+    guiSprites_.push_back( std::move( tileSprite ) );
 
-    guiToolSelector_ =
-            std::dynamic_pointer_cast< m2g::Sprite >(
-                guiSprites_.addDrawable(
-                    m2g::DrawablePtr(
-                        new m2g::Sprite( window_.renderer,
-                                         graphicsLibrary_.getTileset( "tool_selector.png" ) ) ),
-                384.0f,
-                660.0f ) );
+    guiTilesets_.push_back( guiGraphicsLibrary.getTilesetByName( "tool_selector.png" ) );
+    tileSprite =
+            m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets_.back() ) ) );
+    tileSprite->move( 384.0f, 660.0f );
+    guiSprites_.push_back( std::move( tileSprite ) );
 
     // Load the "tools" graphics library.
-    graphicsLibrary_.loadAll( "data/img/tools" );
+    m2g::GraphicsLibrary toolsGraphicsLibrary( "data/img/tools" );
 
     // Load the player's tool.
-    tool_ = ToolPtr( new Tool( window_.renderer, graphicsLibrary_.getAnimationData( "tools.png" ), soundManager_ ) );
+    tool_ = ToolPtr( new Tool( toolsGraphicsLibrary.getAnimationDataByName( "tools.png" ), soundManager_ ) );
 }
 
 
@@ -213,7 +200,7 @@ void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
         break;
         case SDL_MOUSEMOTION:
             // Player wants to move the mouse / tool.
-            tool_->moveTo( event.motion.x, event.motion.y );
+            tool_->move( event.motion.x, event.motion.y );
         break;
     }
 }
@@ -256,11 +243,11 @@ void Level::init()
     load( levelIndex_ );
 
     // Initialize the text renderer.
-    coutMutex.lock();
+    /*coutMutex.lock();
     healthFontIndex_ = textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 );
     timerFontIndex_ = textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 );
     scoreFontIndex_ = textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 );
-    coutMutex.unlock();
+    coutMutex.unlock();*/
 
     // Make the cursor invisible.
     SDL_ShowCursor( SDL_DISABLE );
@@ -268,28 +255,25 @@ void Level::init()
     // Load all the needed tilesets and animations (the graphics for
     // dangers and sandwiches are loaded in the methods "loadDangers" and
     // "loadSandwiches".
-    graphicsLibrary_.loadAll( "data/img/background" );
+    m2g::GraphicsLibrary graphicsLibrary( "data/img/background" );
 
     // Load the background sprites
-    backgroundSprites.addDrawable(
-                m2g::DrawablePtr(
-                    new m2g::Sprite( window_.renderer,
-                                     graphicsLibrary_.getTileset( "grinder_back.png" ) ) ),
-                0.0f,
-                -256.0f );
+    backgroundSprites.push_back(
+                m2g::TileSpritePtr(
+                    new m2g::TileSprite(
+                        std::move( graphicsLibrary.getTilesetByName( "grinder_back.png" ) ) ) ) );
+    backgroundSprites.back()->move( 0.0f, -256.0f );
 
-    backgroundSprites.addDrawable(
-                m2g::DrawablePtr(
-                    new m2g::Sprite( window_.renderer,
-                                     graphicsLibrary_.getTileset( "conveyor_belt.png" ) ) ),
-                0.0,
-                256.0f );
+    backgroundSprites.push_back(
+                m2g::TileSpritePtr(
+                    new m2g::TileSprite(
+                        std::move( graphicsLibrary.getTilesetByName( "conveyor_belt.png" ) ) ) ) );
+    backgroundSprites.back()->move( 0.0, 256.0f );
 
     grinderFront =
-            m2g::SpritePtr(
-                new m2g::Sprite( window_.renderer,
-                                 graphicsLibrary_.getTileset( "grinder_front.png" ) ) );
-    grinderFront->moveTo( 0.0f, -256.0f );
+            m2g::TileSpritePtr(
+                new m2g::TileSprite( graphicsLibrary.getTilesetByName( "grinder_front.png" ) ) );
+    grinderFront->move( 0.0f, -256.0f );
 
     // Initialize jacob's life and the sandwich indicators.
     jacobHp_ = 100;
@@ -299,8 +283,7 @@ void Level::init()
     // Load the sandwiches, move them to their final positions and
     // populate them with dangers.
     for( unsigned int i=0; i < N_SANDWICHES; i++ ){
-        sandwiches[i] = new Sandwich( window_.renderer,
-                                      sandwichData[0], &dangerData, graphicsLibrary_ );
+        sandwiches[i] = new Sandwich( sandwichData[0], &dangerData, graphicsLibrary );
 
         sandwiches[i]->moveTo( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
 
@@ -347,7 +330,7 @@ void Level::handleEvents()
 }
 
 
-void Level::update()
+void Level::update( unsigned int ms )
 {
     unsigned int i;
 
@@ -355,7 +338,7 @@ void Level::update()
 
     // Game logic: Check if the first sandwich reached the
     // sandwiches' end point and, in that case, restart it.
-    if( sandwiches[firstSandwich]->getX() < SANDWICHES_END_POINT ){
+    if( sandwiches[firstSandwich]->getBoundaryBox().left < SANDWICHES_END_POINT ){
 
         // Hurt Jacob! (muahahaha!)
         jacobHp_ -= sandwiches[firstSandwich]->getDamage();
@@ -365,8 +348,8 @@ void Level::update()
 
         // Translate the sandwich behind the last one.
         sandwiches[firstSandwich]->translate(
-                    sandwiches[lastSandwich]->getX()
-                    - sandwiches[firstSandwich]->getX()
+                    sandwiches[lastSandwich]->getBoundaryBox().left
+                    - sandwiches[firstSandwich]->getBoundaryBox().left
                     + DISTANCE_BETWEEN_SANDWICHES,
                     0.0f );
 
@@ -377,7 +360,7 @@ void Level::update()
 
     // Update the sandwiches
     for( i=0; i < N_SANDWICHES; i++ ){
-        sandwiches[i]->update();
+        sandwiches[i]->update( ms );
     }
 
     // Move the sandwiches
@@ -390,7 +373,7 @@ void Level::update()
     speedMutex.unlock();
 
     // Update the tool
-    tool_->update();
+    tool_->update( ms );
 
     if( finishPredicate() || quitLevel_ ){
         // TODO: Switch to appropiate state.
@@ -399,7 +382,8 @@ void Level::update()
 }
 
 
-void Level::draw() const
+
+void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     unsigned int i;
 
@@ -410,21 +394,25 @@ void Level::draw() const
     char buffer[16];
 
     // Draw the background
-    backgroundSprites.draw();
+    for( const m2g::TileSpritePtr& backgroundSprite : backgroundSprites ){
+        target.draw( *backgroundSprite, states );
+    }
 
     // Draw the sandwiches
     for( i=0; i < N_SANDWICHES; i++ ){
-        sandwiches[i]->draw();
+        target.draw( *( sandwiches[i] ), states );
     }
 
     // Draw the grinder's front.
-    grinderFront->draw();
+    target.draw( *grinderFront, states );
 
     // Draw the tool.
-    tool_->draw();
+    target.draw( *tool_, states );
 
     // Draw the GUI sprites.
-    guiSprites_.draw();
+    for( const m2g::TileSpritePtr& guiSprite : guiSprites_ ){
+        target.draw( *guiSprite, states );
+    }
 
     // Compute the current game time.
     seconds = timer_.getSeconds();
@@ -435,12 +423,14 @@ void Level::draw() const
     const SDL_Color TIMER_FONT_COLOR = { 8, 31, 126, 255 };
     const SDL_Color SCORE_FONT_COLOR = { 11, 109, 36, 255 };
 
+    /*
     sprintf( buffer, "%03d", (int)jacobHp_ );
     textRenderer.drawText( buffer, healthFontIndex_, HEALTH_FONT_COLOR, 75, 5 );
     sprintf( buffer, "%02d:%02d", minutes, seconds );
     textRenderer.drawText( buffer, timerFontIndex_, TIMER_FONT_COLOR, 450, 3 );
     sprintf( buffer, "%08u", score_ );
     textRenderer.drawText( buffer, scoreFontIndex_, SCORE_FONT_COLOR, 785, 5 );
+    */
 }
 
 

@@ -27,7 +27,7 @@ namespace jdb {
  ***/
 
 DangerData::DangerData( tinyxml2::XMLElement* xmlElement,
-                        const m2g::GraphicsLibrary& dangerGraphics,
+                        m2g::GraphicsLibrary& dangerGraphics,
                         const std::vector< DangerDataPtr >& dangersDataVector ) :
     dangersDataVector( dangersDataVector )
 {
@@ -38,7 +38,10 @@ DangerData::DangerData( tinyxml2::XMLElement* xmlElement,
     dangerName = xmlElement->Attribute( "name" );
 
     // Get the danger's animation data.
-    animationData = dangerGraphics.getAnimationDataByPrefix( dangerName );
+    m2g::AnimationDataList animDataList = dangerGraphics.getAnimationDataByPrefix( dangerName );
+    animationData = std::vector< m2g::AnimationDataPtr >{
+            std::make_move_iterator(std::begin(animDataList)),
+            std::make_move_iterator(std::end(animDataList)) };
     //animationData.push_back( dangerGraphics.getAnimationData( dangerName + "_01.png" ) );
 
     // Get the danger's general info.

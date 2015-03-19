@@ -25,7 +25,7 @@ namespace jdb {
  * 1. Construction
  ***/
 
-GameState::GameState( Window& window ) :
+GameState::GameState( sf::RenderWindow& window ) :
     window_( window ),
     exitState_( false )
 {}
@@ -39,14 +39,15 @@ int GameState::run()
 {
     init();
 
+    sf::Clock clock;
     while( !exitState_ ){
         handleEvents();
 
-        update();
+        update( clock.restart().asMilliseconds() );
 
-        SDL_RenderClear( window_.renderer );
-        draw();
-        SDL_RenderPresent( window_.renderer );
+        window_.clear();
+        window_.draw( *this );
+        window_.display();
     }
 
     cleanUp();

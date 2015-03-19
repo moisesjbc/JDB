@@ -18,18 +18,17 @@
  ***/
 
 #include "danger.hpp"
+#include <SFML/Graphics/RenderTarget.hpp>
 
 namespace jdb {
 
-Danger::Danger( SDL_Renderer* renderer,
-                DangerDataPtr dangerData_,
-                const m2g::GraphicsLibrary& graphicsLibrary,
+Danger::Danger( DangerDataPtr dangerData_,
+                m2g::GraphicsLibrary& graphicsLibrary,
                 m2g::AnimationDataPtr appearanceAnimationData ) :
-    Drawable( renderer ),
-    Animation( renderer, dangerData_->animationData[ rand() % dangerData_->animationData.size()] ),
+    Animation( *( dangerData_->animationData[rand() % dangerData_->animationData.size()] ) ),
     graphicsLibrary_( graphicsLibrary )
 {
-    setDangerData( dangerData_, appearanceAnimationData );
+    setDangerData( dangerData_, std::move( appearanceAnimationData ) );
 }
 
 
@@ -61,12 +60,12 @@ void Danger::setDangerData( DangerDataPtr dangerData_,
     if( appearanceAnimationData != nullptr ){
         appearanceAnimation =
                 std::unique_ptr< m2g::Animation >(
-                    new m2g::Animation( renderer_, appearanceAnimationData ) );
-        appearanceAnimation->moveTo( getBoundaryBox().x + ( getWidth() - appearanceAnimation->getWidth() ) / 2,
-                                     getBoundaryBox().y + ( getHeight() - appearanceAnimation->getHeight() ) / 2 );
+                    new m2g::Animation( *appearanceAnimationData ) );
+        appearanceAnimation->move( getBoundaryBox().left + ( getBoundaryBox().width - appearanceAnimation->getBoundaryBox().width ) / 2,
+                                   getBoundaryBox().top + ( getBoundaryBox().height - appearanceAnimation->getBoundaryBox().height ) / 2 );
     }
 
-    setAnimationData( dangerData->animationData[0] );
+    setAnimationData( *( dangerData->animationData[0] ) );
 
     reset();
 }
@@ -76,7 +75,7 @@ void Danger::setState( int newState )
 {
     state = newState;
 
-    setAnimationState( (dangerData->states[newState]).animationState );
+    Animation::setState( (dangerData->states[newState]).animationState );
 }
 
 
@@ -84,11 +83,11 @@ void Danger::setState( int newState )
  * 4. Updating
  ***/
 
-void Danger::update()
+void Danger::update( unsigned int ms )
 {
-    m2g::Animation::update();
+    m2g::Animation::update( ms );
     if( appearanceAnimation ){
-        appearanceAnimation->update();
+        appearanceAnimation->update( ms );
     }
 
     // Check if we must change the current danger when the current animation
@@ -99,24 +98,26 @@ void Danger::update()
         // FIXME: Duplicated code.
         DangerDataPtr newDangerData =
                 dangerData->dangersDataVector[ rand() % dangerData->dangersDataVector.size() ];
-        translate( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
+        move( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
                    dangerData->baseLine.y - newDangerData->baseLine.y );
         setDangerData( newDangerData,
-                       graphicsLibrary_.getAnimationData( dangerData->states[state].appearanceAnimationLabel ) );
+                       std::move( graphicsLibrary_.getAnimationDataByName( dangerData->states[state].appearanceAnimationLabel ) ) );
     }
 
     // Check if we have any time-based state transition and apply it if
     // applicable.
-    static Uint32 lastTimeout = SDL_GetTicks();
+    unsigned int timeElapsedFromLastTimeout = 0;
     if( dangerData->states[state].stateTimeTransition != nullptr ){
-        static Uint32 currentTimeout =
+        static unsigned int currentTimeout =
                 dangerData->states[state].stateTimeTransition->generateTimeout();
 
-        if( SDL_GetTicks() - lastTimeout >= currentTimeout ){
-            lastTimeout = SDL_GetTicks();
+        if( ms + timeElapsedFromLastTimeout >= currentTimeout ){
+            timeElapsedFromLastTimeout = 0;
             currentTimeout =
                     dangerData->states[state].stateTimeTransition->generateTimeout();
             setState( dangerData->states[state].stateTimeTransition->newState );
+        }else{
+            timeElapsedFromLastTimeout += ms;
         }
     }
 
@@ -124,7 +125,7 @@ void Danger::update()
     // Check if we have any distance-based state transition and apply it if
     // applicable.
     if( dangerData->states[state].stateDistanceTransition != nullptr ){
-        if( this->getBoundaryBox().x < static_cast< int >( dangerData->states[state].stateDistanceTransition->distance ) ){
+        if( this->getBoundaryBox().left < static_cast< int >( dangerData->states[state].stateDistanceTransition->distance ) ){
             setState( dangerData->states[state].stateDistanceTransition->newState );
         }
     }
@@ -185,7 +186,7 @@ bool Danger::playerAction( PlayerAction playerAction,
             // FIXME: Duplicated code.
             DangerDataPtr newDangerData =
                     dangerData->dangersDataVector[ rand() % dangerData->dangersDataVector.size() ];
-            translate( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
+            move( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
                        dangerData->baseLine.y - newDangerData->baseLine.y );
             setDangerData( newDangerData );
         }
@@ -204,7 +205,7 @@ void Danger::reset()
 }
 
 
-StunType Danger::stuns( const m2g::Sprite &tool, ToolType toolType ) const
+StunType Danger::stuns( const m2g::TileSprite &tool, ToolType toolType ) const
 {
     (void)( toolType );
     if( collide( tool ) && dangerData->states[ state ].stunnedTools.count( toolType ) ){
@@ -218,11 +219,12 @@ StunType Danger::stuns( const m2g::Sprite &tool, ToolType toolType ) const
  * 5. Drawing
  ***/
 
-void Danger::draw() const
+void Danger::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    Animation::draw();
+    Animation::draw( target, states );
+
     if( appearanceAnimation ){
-        appearanceAnimation->draw();
+        target.draw( *appearanceAnimation, states );
     }
 }
 

@@ -26,9 +26,8 @@ namespace jdb {
  * 1. Initialization
  ***/
 
-Tool::Tool( SDL_Renderer* renderer, m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
-    Drawable( renderer ),
-    Animation( renderer, animationData ),
+Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
+    Animation( *animationData ),
     soundManager_( soundManager )
 {
     unsigned int i = 0;
@@ -80,9 +79,9 @@ void Tool::setToolType( ToolType toolType )
     sounds_[ static_cast<int>(currentToolType_) ].stop();
 
     if( !active_ ){
-        setAnimationState( 2 * static_cast< int >( currentToolType_  ) );
+        setState( 2 * static_cast< int >( currentToolType_  ) );
     }else{
-        setAnimationState( 2 * static_cast< int >( currentToolType_  ) + 1 );
+        setState( 2 * static_cast< int >( currentToolType_  ) + 1 );
     }
 }
 
@@ -114,14 +113,14 @@ void Tool::handleMouseButtonDown( Sandwich** sandwiches,
     }
 
     active_ = true;
-    setAnimationState( getAnimationState() + 1 );
+    setState( currentState() + 1 );
 }
 
 
 void Tool::handleMouseButtonUp()
 {
     active_ = false;
-    setAnimationState( getAnimationState() - 1 );
+    setState( currentState() - 1 );
 
     // Stop the sound associated to the current tool.
     sounds_[ static_cast<int>(currentToolType_) ].stop();

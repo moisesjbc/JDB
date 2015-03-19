@@ -50,7 +50,7 @@ class Tool : public m2g::Animation
         /***
          * 1. Initialization
          ***/
-        Tool( SDL_Renderer* renderer, m2g::AnimationDataPtr animationData, SoundManager& soundManager );
+        Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager );
 
 
         /***
