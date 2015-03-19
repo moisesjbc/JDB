@@ -40,27 +40,18 @@ LevelIntro::LevelIntro( const GameState& parentGameState,
 
 void LevelIntro::init()
 {
-    /*
-    m2g::TextRenderer textRenderer( window_.renderer );
-    SDL_Color fontColor = { 0, 0, 0, 255 };
-
-    const unsigned int fontIndex =
-            textRenderer.loadFont(
-                "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
-                30 );
+    levelIntroFont_.loadFromFile( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" );
+    levelIntroText_.setFont( levelIntroFont_ );
+    levelIntroText_.setColor( sf::Color::Black );
 
     char text[250];
     sprintf( text, "Level %u\nPress any key to start", levelIndex_ );
+    levelIntroText_.setString( text );
 
-    levelIntroText_ =
-            textRenderer.drawText( text,
-                                   fontIndex,
-                                   fontColor );
-    levelIntroText_->moveTo(
-                ( ( window_.width() - levelIntroText_->getWidth() ) >> 1 ) +
-                ( ( window_.width() - levelIntroText_->getWidth() ) >> 2 ),
-                ( window_.height() - levelIntroText_->getHeight() ) >> 1 );
-    */
+    levelIntroText_.setPosition(
+                ( ( window_.getSize().x - levelIntroText_.getGlobalBounds().width ) / 2 ) +
+                ( ( window_.getSize().x - levelIntroText_.getGlobalBounds().width ) / 4 ),
+                ( window_.getSize().x - levelIntroText_.getGlobalBounds().width ) / 2 );
 }
 
 
@@ -85,7 +76,7 @@ void LevelIntro::update( unsigned int ms )
 void LevelIntro::draw( sf::RenderTarget &target, sf::RenderStates states ) const
 {
     target.draw( parentGameState_, states );
-    target.draw( *levelIntroText_, states );
+    target.draw( levelIntroText_, states );
 }
 
 

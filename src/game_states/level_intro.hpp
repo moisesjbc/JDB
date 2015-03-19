@@ -22,6 +22,7 @@
 
 #include "game_state.hpp"
 #include <m2g/drawables/tile_sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 namespace jdb {
 
@@ -48,7 +49,8 @@ class LevelIntro : public GameState
 
     private:
         unsigned int levelIndex_;
-        m2g::TileSpritePtr levelIntroText_;
+        sf::Font levelIntroFont_;
+        sf::Text levelIntroText_;
         const GameState& parentGameState_;
 };
 
