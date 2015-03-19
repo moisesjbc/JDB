@@ -23,6 +23,9 @@
 #include "game_state.hpp"
 #include <m2g/drawables/tile_sprite.hpp>
 #include <utilities/sound_manager.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
+
 namespace jdb {
 
 class MainMenu : public GameState
@@ -53,8 +56,9 @@ class MainMenu : public GameState
 
 
     private:
-        //m2g::GUI gui_;
         SoundManager& soundManager_;
+        sf::Font font_;
+        sf::Text menuText_;
 };
 
 } // namespace jdb

@@ -23,6 +23,7 @@
 #define GLM_FORCE_RADIANS
 #include <glm/gtc/matrix_transform.hpp>
 #include <SFML/Window.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 namespace jdb {
 
@@ -31,12 +32,7 @@ namespace jdb {
  ****/
 
 MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
-    GameState( window )/*,
-    gui_( window.renderer,
-          { 0,
-          0,
-          static_cast< unsigned int >( window.width() ),
-          static_cast< unsigned int >( window.height() ) } )*/,
+    GameState( window ),
     soundManager_( *soundManager )
 {}
 
@@ -47,55 +43,13 @@ MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
 
 void MainMenu::init()
 {
-    /*
-    m2g::FontInfo normalButtonFont =
-    {
-        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
-        30,
-        { 0, 0, 0, 255 }
-    };
-    m2g::FontInfo hoverButtonFont =
-    {
-        normalButtonFont.path,
-        35,
-        { 150, 150, 150, 255 }
-    };
-    m2g::FontInfo pressedButtonFont =
-    {
-        normalButtonFont.path,
-        35,
-        { 200, 200, 200, 255 }
-    };
-    std::array< m2g::FontInfo, 3 > fontsInfo =
-        { normalButtonFont,
-          hoverButtonFont,
-          pressedButtonFont };
+    if( !font_.loadFromFile( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" ) ){
+        throw std::runtime_error( "Couldn't load font" );
+    }
 
-    m2g::TextButtonPtr startCampaignButton( new m2g::TextButton( window_.renderer, "Play campaign", fontsInfo ) );
-    startCampaignButton->setPressCallback( [this](){
-        std::unique_ptr< Level > level = std::unique_ptr< Level >(
-                   new CampaignLevel( window_, &soundManager_, 0 ) );
-        switchState( *level );
-    });
-
-    m2g::TextButtonPtr startSurvivalButton( new m2g::TextButton( window_.renderer, "Play survival", fontsInfo ) );
-    startSurvivalButton->setPressCallback( [this](){
-        std::unique_ptr< Level > level = std::unique_ptr< Level >(
-                   new SurvivalLevel( window_, &soundManager_, 0 ) );
-        switchState( *level );
-    });
-
-    m2g::TextButtonPtr exitButton( new m2g::TextButton( window_.renderer, "Exit", fontsInfo ) );
-    exitButton->setPressCallback( [this](){
-        requestStateExit();
-    });
-
-    gui_.addWidget( std::move( startCampaignButton) );
-    gui_.addWidget( std::move( startSurvivalButton ) );
-    gui_.addWidget( std::move( exitButton ) );
-
-    SDL_ShowCursor( SDL_ENABLE );
-    */
+    menuText_.setFont( font_ );
+    menuText_.setColor( sf::Color::Black );
+    menuText_.setString( "C - Play campaign\nS - Play survival\nESC - Exit" );
 }
 
 
@@ -104,14 +58,21 @@ void MainMenu::handleEvents()
     sf::Event event;
     std::unique_ptr< Level > level = nullptr;
 
-    /*if( gui_.handleEvent( event ) ){
-        return;
-    }*/
     if( window_.pollEvent( event ) ){
-        if( event.type == sf::Event::Closed ||
-            ( ( event.type == sf::Event::KeyPressed ) &&
-              event.key.code == sf::Keyboard::Escape ) ){
+        if( event.type == sf::Event::Closed ){
             requestStateExit();
+        }else if( event.type == sf::Event::KeyPressed ){
+            if( event.key.code == sf::Keyboard::Escape ){
+                requestStateExit();
+            }else if( event.key.code == sf::Keyboard::C ){
+                std::unique_ptr< Level > level = std::unique_ptr< Level >(
+                           new SurvivalLevel( window_, &soundManager_, 0 ) );
+                switchState( *level );
+            }else if( event.key.code == sf::Keyboard::S ){
+                std::unique_ptr< Level > level = std::unique_ptr< Level >(
+                           new SurvivalLevel( window_, &soundManager_, 0 ) );
+                switchState( *level );
+            }
         }
     }
 }
@@ -120,7 +81,6 @@ void MainMenu::handleEvents()
 void MainMenu::update( unsigned int ms )
 {
     (void)( ms );
-    //SDL_SetRenderDrawColor( window_.renderer, 0xDC, 0xF1, 0xF1, 0xFF );
 }
 
 
@@ -129,7 +89,8 @@ void MainMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const
     (void)( target );
     (void)( states );
     window_.clear( sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ) );
-    // gui_.draw();
+
+    window_.draw( menuText_ );
 }
 
 
