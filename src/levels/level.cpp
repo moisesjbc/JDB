@@ -138,7 +138,7 @@ void Level::initGUI()
     guiSprites_.push_back( std::move( tileSprite ) );
 
     // Load the "tools" graphics library.
-    m2g::GraphicsLibrary toolsGraphicsLibrary( "data/img/tools" );
+    m2g::GraphicsLibrary toolsGraphicsLibrary( "data/img/tools/tools.xml" );
 
     // Load the player's tool.
     tool_ = ToolPtr( new Tool( toolsGraphicsLibrary.getAnimationDataByName( "tools.png" ), soundManager_ ) );
