@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+
+<library>
+	<!-- Knife 01 -->
+	<animation>
+		<tileset>
+			<src>knife_01.png</src>
+			<tile_dimensions width="64" height="128"/>
+			<collision_rects>
+				<collision_rect tiles="0" x="15" y="5" width="25" height="41" />
+				<collision_rect tiles="0" x="17" y="46" width="38" height="61" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+			<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
+		</animation_states>
+	</animation>
+
+	<!-- Fire 01 -->
+	<animation>
+		<tileset>
+			<src>fire_01.png</src>
+			<tile_dimensions width="256" height="128"/>
+			<collision_rects>
+				<collision_rect tiles="0-59" x="19" y="23" width="209" height="54" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state firstFrame="0" lastFrame="59" backFrame="0" />
+			<animation_state firstFrame="60" lastFrame="119" backFrame="119" />
+		</animation_states>
+	</animation>
+
+	<!-- Ice stalactites 01 -->
+	<animation>
+		<tileset>
+			<src>ice_crystals_01.png</src>
+			<tile_dimensions width="256" height="128"/>
+			<collision_rects>
+				<collision_rect tiles="0" x="2" y="2" width="152" height="81" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+			<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
+		</animation_states>
+	</animation>
+
+	<!-- Rat 01 -->
+	<animation fps="10">
+		<tileset>
+			<src>rat_01.png</src>
+			<tile_dimensions width="256" height="256"/>
+			<collision_rects>
+				<collision_rect tiles="0-5" x="5" y="11" width="59" height="29" />
+				<collision_rect tiles="0-5" x="18" y="40" width="47" height="74" />
+				<collision_rect tiles="6" x="6" y="14" width="70" height="97" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state firstFrame="0" lastFrame="5" backFrame="0" />
+			<animation_state firstFrame="6" lastFrame="6" backFrame="6" />
+			<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
+		</animation_states>
+	</animation>
+
+	<!-- Shell 01 -->
+	<animation>
+		<tileset>
+			<src>shell_01.png</src>
+			<tile_dimensions width="256" height="128"/>
+			<collision_rects>
+				<collision_rect tiles="all" x="3" y="15" width="145" height="50" />
+				<collision_rect tiles="all" x="64" y="1" width="29" height="15" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+			<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
+			<animation_state firstFrame="2" lastFrame="2" backFrame="2" />
+			<animation_state firstFrame="3" lastFrame="3" backFrame="3" />
+			<animation_state firstFrame="4" lastFrame="4" backFrame="4" />
+			<animation_state firstFrame="5" lastFrame="5" backFrame="5" />
+			<animation_state firstFrame="6" lastFrame="6" backFrame="6" />
+			<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
+			<animation_state firstFrame="8" lastFrame="8" backFrame="8" />
+		</animation_states>
+	</animation>
+
+
+	<!-- Tesla coils 01 -->
+	<animation fps="25">
+		<tileset>
+			<src>tesla_coils_01.png</src>
+			<tile_dimensions width="128" height="128"/>
+			<collision_rects>
+				<collision_rect tiles="all" x="10" y="81" width="105" height="40" />
+				<collision_rect tiles="all" x="26" y="43" width="11" height="39" />
+				<collision_rect tiles="all" x="19" y="20" width="25" height="24" />
+				<collision_rect tiles="all" x="90" y="43" width="11" height="39" />
+				<collision_rect tiles="all" x="83" y="20" width="25" height="24" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+			<animation_state firstFrame="1" lastFrame="5" backFrame="1" />
+			<animation_state firstFrame="6" lastFrame="6" backFrame="6" />
+			<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
+		</animation_states>
+	</animation>
+
+
+	<!-- Coward hypnotist rat 01 -->
+	<animation fps="10">
+		<tileset>
+			<src>coward_hypnotist_rat_01.png</src>
+			<tile_dimensions width="128" height="256"/>
+			<collision_rects>
+				<collision_rect tiles="all" x="51" y="13" width="40" height="31" />
+				<collision_rect tiles="all" x="19" y="44" width="72" height="51" />
+				<collision_rect tiles="all" x="39" y="95" width="53" height="50" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state firstFrame="0" lastFrame="3" backFrame="0" />
+			<animation_state firstFrame="4" lastFrame="7" backFrame="7" />
+		</animation_states>
+	</animation>
+
+
+	<!-- Enigma bomb 01 -->
+	<animation fps="10">
+		<tileset>
+			<src>enigma_bomb_01.png</src>
+			<tile_dimensions width="128" height="128"/>
+			<collision_rects>
+				<collision_rect tiles="all" x="23" y="46" width="78" height="75" />
+				<collision_rect tiles="all" x="84" y="34" width="32" height="20" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+			<animation_state firstFrame="1" lastFrame="7" backFrame="7" />
+			<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
+		</animation_states>
+	</animation>
+
+
+	<!-- Medic kit 01 -->
+	<animation>
+		<tileset>
+			<src>medic_kit_01.png</src>
+			<tile_dimensions width="128" height="128"/>
+			<collision_rects>
+				<collision_rect tiles="all" x="8" y="40" width="104" height="66" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+			<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
+		</animation_states>
+	</animation>
+
+
+	<!-- Enigma bomb's explosion -->
+	<animation fps="10">
+		<tileset>
+			<src>enigma_bomb_explosion.png</src>
+			<tile_dimensions width="256" height="128"/>
+		</tileset>
+		<animation_states>
+			<animation_state firstFrame="0" lastFrame="4" backFrame="4" />
+		</animation_states>
+	</animation>
+</library>

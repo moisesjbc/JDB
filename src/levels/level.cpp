@@ -88,7 +88,7 @@ void Level::loadDangerData()
     tinyxml2::XMLDocument document;
     tinyxml2::XMLElement* dangerXMLElement = nullptr;
 
-    m2g::GraphicsLibrary graphicsLibrary( "data/img/dangers" );
+    m2g::GraphicsLibrary graphicsLibrary( "data/img/dangers/dangers.xml" );
 
     // Load the dangers data.
     document.LoadFile( "./data/config/dangers.xml" );
