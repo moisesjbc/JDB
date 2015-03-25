@@ -145,7 +145,7 @@ class Level : public GameState
 
         sf::Font guiFont_;
         mutable sf::Text healthText_;
-        unsigned int timerFontIndex_;
+        mutable sf::Text timerText_;
         unsigned int scoreFontIndex_;
 };
 
