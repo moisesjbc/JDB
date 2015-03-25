@@ -393,6 +393,8 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
     // Text rendering.
     char buffer[16];
 
+    window_.clear( sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ) );
+
     // Draw the background
     for( const m2g::TileSpritePtr& backgroundSprite : backgroundSprites ){
         target.draw( *backgroundSprite, states );
