@@ -146,7 +146,7 @@ class Level : public GameState
         sf::Font guiFont_;
         mutable sf::Text healthText_;
         mutable sf::Text timerText_;
-        unsigned int scoreFontIndex_;
+        mutable sf::Text scoreText_;
 };
 
 } // namespace jdb

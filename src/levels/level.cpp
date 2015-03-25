@@ -255,10 +255,10 @@ void Level::init()
     timerText_.setColor( sf::Color( 8, 31, 126, 255 ) );
     timerText_.setPosition( 450, 3 );
 
-    // Initialize the text renderer.
-    /*coutMutex.lock();
-    scoreFontIndex_ = textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 );
-    coutMutex.unlock();*/
+    scoreText_.setFont( guiFont_ );
+    scoreText_.setCharacterSize( 50 );
+    scoreText_.setColor( sf::Color( 11, 109, 36, 255 ) );
+    scoreText_.setPosition( 785, 5 );
 
     // Make the cursor invisible.
     SDL_ShowCursor( SDL_DISABLE );
@@ -433,8 +433,6 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
     seconds = seconds % 60;
 
     // Write Jacob's life, game time and score.
-    const SDL_Color SCORE_FONT_COLOR = { 11, 109, 36, 255 };
-
     sprintf( buffer, "%03d", (int)jacobHp_ );
     healthText_.setString( buffer );
     window_.draw( healthText_ );
@@ -443,10 +441,9 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
     timerText_.setString( buffer );
     window_.draw( timerText_ );
 
-    /*
     sprintf( buffer, "%08u", score_ );
-    textRenderer.drawText( buffer, scoreFontIndex_, SCORE_FONT_COLOR, 785, 5 );
-    */
+    scoreText_.setString( buffer );
+    window_.draw( scoreText_ );
 }
 
 
