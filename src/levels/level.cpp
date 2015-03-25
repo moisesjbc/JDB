@@ -149,15 +149,15 @@ void Level::initGUI()
  * 4. Main loop
  ***/
 
-void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
+void Level::handleUserInput( const sf::Event& event, Sandwich** sandwiches )
 {
     switch( event.type ){
-        case SDL_QUIT:
+        case sf::Event::Closed:
             // Player wants to exit the game.
             quitLevel_ = true;
             exit( 0 );
         break;
-        case SDL_MOUSEBUTTONDOWN:{
+        case sf::Event::MouseButtonPressed:{
             // Player clicked on screen.
             unsigned int hpBonus = 0;
             tool_->handleMouseButtonDown( sandwiches, N_SANDWICHES, score_, hpBonus );
@@ -167,40 +167,44 @@ void Level::handleUserInput( const SDL_Event& event, Sandwich** sandwiches )
                 jacobHp_ = 130;
             }
         }break;
-        case SDL_MOUSEBUTTONUP:
+        case sf::Event::MouseButtonReleased:
             tool_->handleMouseButtonUp();
         break;
-        case SDL_KEYDOWN:
+        case sf::Event::KeyPressed:
             // Player pressed a key. If the key pressed is
             // ESCAPE we exit the game.
-            switch( event.key.keysym.sym ){
-                case SDLK_ESCAPE:{
+            switch( event.key.code ){
+                case sf::Keyboard::Escape:{
                     PauseMenu pauseMenu( window_ );
                     if( switchState( pauseMenu ) == -1 ){
                         requestStateExit( -1 );
                     }
                 }break;
-                case SDLK_a:
+                case sf::Keyboard::A:
                     tool_->setToolType( ToolType::HAND );
                     guiToolSelector_->setTile( 0 );
                 break;
-                case SDLK_s:
+                case sf::Keyboard::S:
                     tool_->setToolType( ToolType::EXTINGUISHER );
                     guiToolSelector_->setTile( 1 );
                 break;
-                case SDLK_d:
+                case sf::Keyboard::D:
                     tool_->setToolType( ToolType::LIGHTER );
                     guiToolSelector_->setTile( 2 );
                 break;
-                case SDLK_f:
+                case sf::Keyboard::F:
                     tool_->setToolType( ToolType::GAVEL );
                     guiToolSelector_->setTile( 3 );
                 break;
+                default:
+                break;
             }
         break;
-        case SDL_MOUSEMOTION:
+        case sf::Event::MouseMoved:
             // Player wants to move the mouse / tool.
-            tool_->move( event.motion.x, event.motion.y );
+            tool_->setPosition( event.mouseMove.x, event.mouseMove.y );
+        break;
+        default:
         break;
     }
 }
@@ -319,13 +323,13 @@ void Level::handleEvents()
 {
     Uint32 t0 = 0;
     Uint32 t1 = 0;
-    SDL_Event event;
+    sf::Event event;
 
     // Handle user input.
     t0 = SDL_GetTicks();
     t1 = SDL_GetTicks();
     while( (t1 - t0) < REFRESH_TIME ){
-        if( SDL_PollEvent( &event ) != 0 ){
+        if( window_.pollEvent( event ) != 0 ){
             handleUserInput( event, sandwiches );
         }
         t1 = SDL_GetTicks();

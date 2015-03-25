@@ -21,6 +21,7 @@
 #define LEVEL_HPP
 
 #include <SDL2/SDL.h>
+#include <SFML/Window/Event.hpp>
 #include "../sandwiches/sandwich.hpp"
 #include "../utilities/timer.hpp"
 #include "../dangers/danger.hpp"
@@ -64,7 +65,7 @@ class Level : public GameState
         /***
          * 4. Main loop
          ***/
-        void handleUserInput( const SDL_Event& event, Sandwich** sandwiches );
+        void handleUserInput( const sf::Event& event, Sandwich** sandwiches );
         virtual bool finishPredicate() const = 0;
         virtual void resetTimer() = 0;
 
