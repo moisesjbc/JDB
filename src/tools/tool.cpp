@@ -27,7 +27,7 @@ namespace jdb {
  ***/
 
 Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
-    Animation( *animationData ),
+    Animation( std::move( animationData ) ),
     soundManager_( soundManager )
 {
     unsigned int i = 0;
