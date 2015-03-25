@@ -242,9 +242,16 @@ void Level::init()
     // Load the required level.
     load( levelIndex_ );
 
+    // Initialize GUI's texts.
+    guiFont_.loadFromFile( "data/fonts/LiberationSans-Bold.ttf" );
+
+    healthText_.setFont( guiFont_ );
+    healthText_.setCharacterSize( 50 );
+    healthText_.setColor( sf::Color( 131, 60, 60, 255 ) );
+    healthText_.setPosition( 75, 5 );
+
     // Initialize the text renderer.
     /*coutMutex.lock();
-    healthFontIndex_ = textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 );
     timerFontIndex_ = textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 );
     scoreFontIndex_ = textRenderer.loadFont( "data/fonts/LiberationSans-Bold.ttf", 50 );
     coutMutex.unlock();*/
@@ -425,9 +432,10 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
     const SDL_Color TIMER_FONT_COLOR = { 8, 31, 126, 255 };
     const SDL_Color SCORE_FONT_COLOR = { 11, 109, 36, 255 };
 
-    /*
     sprintf( buffer, "%03d", (int)jacobHp_ );
-    textRenderer.drawText( buffer, healthFontIndex_, HEALTH_FONT_COLOR, 75, 5 );
+    healthText_.setString( buffer );
+    window_.draw( healthText_ );
+    /*
     sprintf( buffer, "%02d:%02d", minutes, seconds );
     textRenderer.drawText( buffer, timerFontIndex_, TIMER_FONT_COLOR, 450, 3 );
     sprintf( buffer, "%08u", score_ );

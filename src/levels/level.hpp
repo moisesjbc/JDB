@@ -137,15 +137,14 @@ class Level : public GameState
         // Sandwiches
         Sandwich* sandwiches[N_SANDWICHES];
 
-        const SDL_Color HEALTH_FONT_COLOR = { 131, 60, 60, 255 };
-
         // Background sprites.
         std::vector< m2g::TileSpritePtr > backgroundSprites;
         m2g::TileSpritePtr grinderFront;
 
         unsigned int score_;
 
-        unsigned int healthFontIndex_;
+        sf::Font guiFont_;
+        mutable sf::Text healthText_;
         unsigned int timerFontIndex_;
         unsigned int scoreFontIndex_;
 };
