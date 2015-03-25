@@ -18,6 +18,7 @@
  ***/
 
 #include "level_intro.hpp"
+#include <SFML/Window/Event.hpp>
 
 namespace jdb {
 
@@ -57,19 +58,21 @@ void LevelIntro::init()
 
 void LevelIntro::handleEvents()
 {
-    SDL_Event event;
-    SDL_PollEvent( &event );
+    sf::Event event;
 
-    if( event.type == SDL_QUIT ){
-        exit( 0 );
-    }else if( event.type == SDL_KEYDOWN ){
-        requestStateExit();
+    while( window_.pollEvent( event ) ){
+        if( event.type == sf::Event::Closed ){
+            exit( 0 );
+        }else if( event.type == sf::Event::KeyPressed ){
+            requestStateExit();
+        }
     }
 }
 
 void LevelIntro::update( unsigned int ms )
 {
-    (void)( ms );
+    (void)(ms);
+    handleEvents();
 }
 
 
