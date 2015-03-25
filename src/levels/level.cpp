@@ -142,6 +142,8 @@ void Level::initGUI()
 
     // Load the player's tool.
     tool_ = ToolPtr( new Tool( toolsGraphicsLibrary.getAnimationDataByName( "tools.png" ), soundManager_ ) );
+
+    window_.setMouseCursorVisible( false );
 }
 
 
