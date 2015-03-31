@@ -136,8 +136,8 @@ void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData )
         std::cout << "minSpace: " << minSpace << std::endl
                   << "space: " << space << std::endl;
 
-        dangers_[i]->move( getBoundaryBox().left + newDangerX + space - dangers_[i]->getDangerData()->baseLine.x,
-                           getBoundaryBox().top + sandwichData_->baseLine.y - dangers_[i]->getDangerData()->baseLine.y );
+        dangers_[i]->setPosition( getBoundaryBox().left + newDangerX + space - dangers_[i]->getDangerData()->baseLine.x,
+                                  getBoundaryBox().top + sandwichData_->baseLine.y - dangers_[i]->getDangerData()->baseLine.y );
 
         newDangerX += dangers_[i]->getDangerData()->baseLine.width + space;
 

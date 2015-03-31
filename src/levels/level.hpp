@@ -119,7 +119,7 @@ class Level : public GameState
         // GUI sprites.
         std::vector< m2g::TilesetPtr > guiTilesets_;
         std::vector< m2g::TileSpritePtr > guiSprites_;
-        m2g::TileSpritePtr guiToolSelector_;
+        m2g::TileSprite* guiToolSelector_;
 
         // Does player wants to quit the current level?
         bool quitLevel_;

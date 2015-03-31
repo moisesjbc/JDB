@@ -135,6 +135,7 @@ void Level::initGUI()
     tileSprite =
             m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets_.back() ) ) );
     tileSprite->move( 384.0f, 660.0f );
+    guiToolSelector_ = tileSprite.get();
     guiSprites_.push_back( std::move( tileSprite ) );
 
     // Load the "tools" graphics library.
