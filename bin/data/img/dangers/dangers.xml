@@ -12,8 +12,9 @@
 			</collision_rects>
 		</tileset>
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
-			<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
+			<animation_state first_frame="0" last_frame="0" back_frame="0" />
+			<animation_state first_frame="1" last_frame="1" back_frame="1" />
+
 		</animation_states>
 	</animation>
 
@@ -27,8 +28,8 @@
 			</collision_rects>
 		</tileset>
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="59" backFrame="0" />
-			<animation_state firstFrame="60" lastFrame="119" backFrame="119" />
+			<animation_state first_frame="0" last_frame="59" back_frame="0" />
+			<animation_state first_frame="60" last_frame="119" back_frame="119" />
 		</animation_states>
 	</animation>
 
@@ -42,8 +43,8 @@
 			</collision_rects>
 		</tileset>
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
-			<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
+			<animation_state first_frame="0" last_frame="0" back_frame="0" />
+			<animation_state first_frame="1" last_frame="1" back_frame="1" />
 		</animation_states>
 	</animation>
 
@@ -59,9 +60,9 @@
 			</collision_rects>
 		</tileset>
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="5" backFrame="0" />
-			<animation_state firstFrame="6" lastFrame="6" backFrame="6" />
-			<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
+			<animation_state first_frame="0" last_frame="5" back_frame="0" />
+			<animation_state first_frame="6" last_frame="6" back_frame="6" />
+			<animation_state first_frame="7" last_frame="7" back_frame="7" />
 		</animation_states>
 	</animation>
 
@@ -76,15 +77,15 @@
 			</collision_rects>
 		</tileset>
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
-			<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
-			<animation_state firstFrame="2" lastFrame="2" backFrame="2" />
-			<animation_state firstFrame="3" lastFrame="3" backFrame="3" />
-			<animation_state firstFrame="4" lastFrame="4" backFrame="4" />
-			<animation_state firstFrame="5" lastFrame="5" backFrame="5" />
-			<animation_state firstFrame="6" lastFrame="6" backFrame="6" />
-			<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
-			<animation_state firstFrame="8" lastFrame="8" backFrame="8" />
+			<animation_state first_frame="0" last_frame="0" back_frame="0" />
+			<animation_state first_frame="1" last_frame="1" back_frame="1" />
+			<animation_state first_frame="2" last_frame="2" back_frame="2" />
+			<animation_state first_frame="3" last_frame="3" back_frame="3" />
+			<animation_state first_frame="4" last_frame="4" back_frame="4" />
+			<animation_state first_frame="5" last_frame="5" back_frame="5" />
+			<animation_state first_frame="6" last_frame="6" back_frame="6" />
+			<animation_state first_frame="7" last_frame="7" back_frame="7" />
+			<animation_state first_frame="8" last_frame="8" back_frame="8" />
 		</animation_states>
 	</animation>
 
@@ -103,10 +104,10 @@
 			</collision_rects>
 		</tileset>
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
-			<animation_state firstFrame="1" lastFrame="5" backFrame="1" />
-			<animation_state firstFrame="6" lastFrame="6" backFrame="6" />
-			<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
+			<animation_state first_frame="0" last_frame="0" back_frame="0" />
+			<animation_state first_frame="1" last_frame="5" back_frame="1" />
+			<animation_state first_frame="6" last_frame="6" back_frame="6" />
+			<animation_state first_frame="7" last_frame="7" back_frame="7" />
 		</animation_states>
 	</animation>
 
@@ -123,8 +124,8 @@
 			</collision_rects>
 		</tileset>
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="3" backFrame="0" />
-			<animation_state firstFrame="4" lastFrame="7" backFrame="7" />
+			<animation_state first_frame="0" last_frame="3" back_frame="0" />
+			<animation_state first_frame="4" last_frame="7" back_frame="7" />
 		</animation_states>
 	</animation>
 
@@ -140,9 +141,9 @@
 			</collision_rects>
 		</tileset>
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
-			<animation_state firstFrame="1" lastFrame="7" backFrame="7" />
-			<animation_state firstFrame="7" lastFrame="7" backFrame="7" />
+			<animation_state first_frame="0" last_frame="0" back_frame="0" />
+			<animation_state first_frame="1" last_frame="7" back_frame="7" />
+			<animation_state first_frame="7" last_frame="7" back_frame="7" />
 		</animation_states>
 	</animation>
 
@@ -157,8 +158,8 @@
 			</collision_rects>
 		</tileset>
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
-			<animation_state firstFrame="1" lastFrame="1" backFrame="1" />
+			<animation_state first_frame="0" last_frame="0" back_frame="0" />
+			<animation_state first_frame="1" last_frame="1" back_frame="1" />
 		</animation_states>
 	</animation>
 
@@ -170,7 +171,7 @@
 			<tile_dimensions width="256" height="128"/>
 		</tileset>
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="4" backFrame="4" />
+			<animation_state first_frame="0" last_frame="4" back_frame="4" />
 		</animation_states>
 	</animation>
 </library>

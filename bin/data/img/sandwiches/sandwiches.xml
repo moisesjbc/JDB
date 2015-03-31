@@ -7,7 +7,7 @@
 			<tile_dimensions width="256" height="128"/>
 		</tileset>
 		<animation_states>
-			<animation_state firstFrame="0" lastFrame="0" backFrame="0" />
+			<animation_state first_frame="0" last_frame="0" back_frame="0" />
 		</animation_states>
 	</animation>
 </library>
