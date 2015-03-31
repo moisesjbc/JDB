@@ -176,7 +176,7 @@ void Sandwich::translate( const float& tx, const float& ty )
 }
 
 
-void Sandwich::moveTo( const float& x, const float& y )
+void Sandwich::setPosition( const float& x, const float& y )
 {
     Animation::setPosition( x, y );
 

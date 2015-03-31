@@ -303,7 +303,7 @@ void Level::init()
     for( unsigned int i=0; i < N_SANDWICHES; i++ ){
         sandwiches[i] = new Sandwich( sandwichData[0], &dangerData, graphicsLibrary );
 
-        sandwiches[i]->moveTo( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
+        sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
 
         sandwiches[i]->populate( dangerData );
     }

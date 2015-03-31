@@ -63,7 +63,7 @@ class Sandwich : public m2g::Animation
          * 4. Transformations
          ***/
         virtual void translate( const float& tx, const float& ty );
-        virtual void moveTo( const float& x, const float& y );
+        virtual void setPosition( const float& x, const float& y );
 
 
         /***
