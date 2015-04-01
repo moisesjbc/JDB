@@ -66,7 +66,7 @@ void MainMenu::handleEvents()
                 requestStateExit();
             }else if( event.key.code == sf::Keyboard::C ){
                 std::unique_ptr< Level > level = std::unique_ptr< Level >(
-                           new SurvivalLevel( window_, &soundManager_, 0 ) );
+                           new CampaignLevel( window_, &soundManager_, 0 ) );
                 switchState( *level );
             }else if( event.key.code == sf::Keyboard::S ){
                 std::unique_ptr< Level > level = std::unique_ptr< Level >(
