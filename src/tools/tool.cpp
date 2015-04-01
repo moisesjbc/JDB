@@ -19,6 +19,7 @@
 
 #include "tool.hpp"
 #include <map>
+#include <SFML/Window/Mouse.hpp>
 
 namespace jdb {
 
@@ -157,18 +158,14 @@ void Tool::applyStun( Sandwich **sandwiches, unsigned int N_SANDWICHES )
 {
     unsigned int i;
     StunType stunType;
-    int mouseX, mouseY;
 
-    SDL_PumpEvents();
-    SDL_GetMouseState( &mouseX, &mouseY );
-
+    sf::Vector2i mousePos = sf::Mouse::getPosition();
     for( i = 0; i < N_SANDWICHES; i++ ){
         stunType = sandwiches[i]->stuns( *this, currentToolType_ );
         if( stunType != StunType::NONE ){
-            SDL_WarpMouseInWindow( nullptr, mouseX, mouseY - 75 );
+            sf::Mouse::setPosition( sf::Vector2i( mousePos.x, mousePos.y - 75 ) );
 
             soundManager_.playSound( crySoundIndex_ );
-            //sound_.play();
         }
     }
 }
