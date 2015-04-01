@@ -178,7 +178,7 @@ void Level::handleUserInput( const sf::Event& event, Sandwich** sandwiches )
             // ESCAPE we exit the game.
             switch( event.key.code ){
                 case sf::Keyboard::Escape:{
-                    PauseMenu pauseMenu( window_ );
+                    PauseMenu pauseMenu( window_, *this );
                     if( switchState( pauseMenu ) == -1 ){
                         requestStateExit( -1 );
                     }
@@ -466,7 +466,7 @@ void Level::pause()
 void Level::resume()
 {
     timer_.play();
-    SDL_ShowCursor( SDL_DISABLE );
+    window_.setMouseCursorVisible( false );
 }
 
 

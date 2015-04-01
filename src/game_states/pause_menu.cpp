@@ -18,6 +18,7 @@
  ***/
 
 #include "pause_menu.hpp"
+#include <SFML/Window/Event.hpp>
 
 namespace jdb {
 
@@ -25,15 +26,9 @@ namespace jdb {
  * 1. Construction
  ***/
 
-PauseMenu::PauseMenu( sf::RenderWindow& window ) :
-    GameState( window )/*,
-    gui_( window.renderer,
-    {
-          0,
-          0,
-          static_cast< unsigned int >( window.width() ),
-          static_cast< unsigned int >( window.height() )
-      })*/
+PauseMenu::PauseMenu( sf::RenderWindow& window, const GameState& parentGameState ) :
+    GameState( window ),
+    parentGameState_( parentGameState )
 {}
 
 
@@ -43,79 +38,44 @@ PauseMenu::PauseMenu( sf::RenderWindow& window ) :
 
 void PauseMenu::init()
 {
-    /*
-    m2g::FontInfo normalButtonFont =
-    {
-        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
-        30,
-        { 0, 0, 0, 255 }
-    };
-    m2g::FontInfo hoverButtonFont =
-    {
-        normalButtonFont.path,
-        35,
-        { 150, 150, 150, 255 }
-    };
-    m2g::FontInfo pressedButtonFont =
-    {
-        normalButtonFont.path,
-        35,
-        { 200, 200, 200, 255 }
-    };
-    std::array< m2g::FontInfo, 3 > fontsInfo =
-        { normalButtonFont,
-          hoverButtonFont,
-          pressedButtonFont };
+    pauseMenuFont_.loadFromFile( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" );
 
-    m2g::TextButtonPtr resumeButton( new m2g::TextButton( window_.renderer, "Resume game", fontsInfo ) );
-    resumeButton->setPressCallback( [this](){
-        requestStateExit();
-    });
+    pauseMenuText_.setFont( pauseMenuFont_ );
+    pauseMenuText_.setCharacterSize( 30 );
+    pauseMenuText_.setColor( sf::Color::Black );
+    pauseMenuText_.setString( "Press any key to resume game" );
 
-    m2g::TextButtonPtr returnToMenuButton(
-                new m2g::TextButton(
-                    window_.renderer,
-                    "Return to main menu\nNOTE: Game progress won't be saved in this demo!",
-                    fontsInfo ) );
-    returnToMenuButton->setPressCallback( [this](){
-        requestStateExit( -1 );
-    });
+    pauseMenuText_.setPosition( ( window_.getSize().x - pauseMenuText_.getLocalBounds().width ) / 2,
+                                ( window_.getSize().y - pauseMenuText_.getLocalBounds().height ) / 2 );
 
-    gui_.addWidget( std::move( resumeButton ) );
-    gui_.addWidget( std::move( returnToMenuButton ) );
-
-    SDL_ShowCursor( SDL_ENABLE );
-    */
+    window_.setMouseCursorVisible( true );
 }
 
 
 void PauseMenu::handleEvents()
 {
-    /*
-    SDL_Event event;
-    SDL_PollEvent( &event );
+    sf::Event event;
 
-    if( event.type == SDL_QUIT ){
-        exit( 0 );
+    while( window_.pollEvent( event ) ){
+        if( event.type == sf::Event::Closed ){
+            exit( 0 );
+        }else if( event.type == sf::Event::KeyPressed ){
+            requestStateExit();
+        }
     }
-
-    gui_.handleEvent( event );
-    */
 }
 
 
 void PauseMenu::update( unsigned int ms )
 {
     (void)( ms );
-    //SDL_SetRenderDrawColor( window_.renderer, 0xDC, 0xF1, 0xF1, 0xFF );
 }
 
 
 void PauseMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    (void)( target );
-    (void)( states );
-    //gui_.draw();
+    target.draw( parentGameState_, states );
+    target.draw( pauseMenuText_, states );
 }
 
 
@@ -127,7 +87,7 @@ void PauseMenu::pause()
 
 void PauseMenu::resume()
 {
-    SDL_ShowCursor( SDL_ENABLE );
+    window_.setMouseCursorVisible( true );
 }
 
 

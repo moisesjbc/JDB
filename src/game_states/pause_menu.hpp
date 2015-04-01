@@ -21,6 +21,7 @@
 #define PAUSE_MENU_HPP
 
 #include "game_state.hpp"
+#include <SFML/Graphics/Text.hpp>
 
 namespace jdb {
 
@@ -30,7 +31,7 @@ class PauseMenu : public GameState
         /***
          * 1. Construction
          ***/
-        PauseMenu( sf::RenderWindow& window );
+        PauseMenu( sf::RenderWindow& window, const GameState& parentGameState );
 
 
         /***
@@ -46,7 +47,9 @@ class PauseMenu : public GameState
 
 
     private:
-        //m2g::GUI gui_;
+        const GameState& parentGameState_;
+        sf::Font pauseMenuFont_;
+        sf::Text pauseMenuText_;
 };
 
 } // namespace jdb
