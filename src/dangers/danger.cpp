@@ -60,7 +60,7 @@ void Danger::setDangerData( DangerDataPtr dangerData_,
     if( appearanceAnimationData != nullptr ){
         appearanceAnimation =
                 std::unique_ptr< m2g::Animation >(
-                    new m2g::Animation( *appearanceAnimationData ) );
+                    new m2g::Animation( std::move( appearanceAnimationData ) ) );
         appearanceAnimation->move( getBoundaryBox().left + ( getBoundaryBox().width - appearanceAnimation->getBoundaryBox().width ) / 2,
                                    getBoundaryBox().top + ( getBoundaryBox().height - appearanceAnimation->getBoundaryBox().height ) / 2 );
     }

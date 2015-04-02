@@ -88,7 +88,8 @@ void Level::loadDangerData()
     tinyxml2::XMLDocument document;
     tinyxml2::XMLElement* dangerXMLElement = nullptr;
 
-    m2g::GraphicsLibrary graphicsLibrary( "data/img/dangers/dangers.xml" );
+    dangerGraphicsLibrary_ =
+            std::unique_ptr< m2g::GraphicsLibrary >( new m2g::GraphicsLibrary( "data/img/dangers/dangers.xml" ) );
 
     // Load the dangers data.
     document.LoadFile( "./data/config/dangers.xml" );
@@ -96,7 +97,7 @@ void Level::loadDangerData()
 
     while( dangerXMLElement ){
         if( static_cast< unsigned int >( dangerXMLElement->IntAttribute( "first_level" ) ) <= levelIndex_ ){
-            dangerData.emplace_back( new DangerData( dangerXMLElement, graphicsLibrary, dangerData ) );
+            dangerData.emplace_back( new DangerData( dangerXMLElement, *dangerGraphicsLibrary_, dangerData ) );
         }
         dangerXMLElement = dangerXMLElement->NextSiblingElement();
     }
@@ -301,7 +302,7 @@ void Level::init()
     // Load the sandwiches, move them to their final positions and
     // populate them with dangers.
     for( unsigned int i=0; i < N_SANDWICHES; i++ ){
-        sandwiches[i] = new Sandwich( sandwichData[0], &dangerData, graphicsLibrary );
+        sandwiches[i] = new Sandwich( sandwichData[0], &dangerData, *dangerGraphicsLibrary_ );
 
         sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
 

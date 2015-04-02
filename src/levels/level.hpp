@@ -148,6 +148,8 @@ class Level : public GameState
         mutable sf::Text healthText_;
         mutable sf::Text timerText_;
         mutable sf::Text scoreText_;
+
+        std::unique_ptr< m2g::GraphicsLibrary > dangerGraphicsLibrary_;
 };
 
 } // namespace jdb
