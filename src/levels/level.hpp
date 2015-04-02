@@ -29,7 +29,6 @@
 #include <game_states/game_state.hpp>
 #include <game_states/pause_menu.hpp>
 #include <game_states/level_intro.hpp>
-#include <mutex>
 
 namespace jdb {
 
@@ -109,8 +108,6 @@ class Level : public GameState
         std::vector< DangerDataPtr > dangerData;
         std::vector< SandwichDataPtr > sandwichData;
 
-        std::mutex coutMutex;
-
         // Players tool
         ToolPtr tool_;
 
@@ -135,8 +132,6 @@ class Level : public GameState
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;
         unsigned int lastSandwich;
-
-        std::mutex speedMutex;
 
         // Sandwiches
         SandwichesVector sandwiches;

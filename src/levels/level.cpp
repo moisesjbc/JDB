@@ -371,11 +371,9 @@ void Level::update( unsigned int ms )
     // Move the sandwiches
     // Conveyor belt's speed management.
     float speed = conveyorBelt_.getInitialSpeed();
-    speedMutex.lock();
     for( i=0; i < N_SANDWICHES; i++ ){
         sandwiches[i]->translate( -speed, 0.0f );
     }
-    speedMutex.unlock();
 
     // Update the tool
     tool_->update( ms );
