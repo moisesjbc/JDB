@@ -382,7 +382,9 @@ void Level::update( unsigned int ms )
 
     if( victory() ){
         levelIndex_++;
+        unsigned int score = score_;
         init();
+        score_ = score;
     }else if( defeat() ){
         reset();
     }else if( quitLevel_ ){
