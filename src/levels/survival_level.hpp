@@ -42,7 +42,8 @@ class SurvivalLevel : public Level
         /***
          * 3. Main loop
          ***/
-        virtual bool finishPredicate() const ;
+        virtual bool victory() const;
+        virtual bool defeat() const;
         virtual void resetTimer();
 };
 

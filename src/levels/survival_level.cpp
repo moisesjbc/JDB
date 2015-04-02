@@ -65,9 +65,15 @@ void SurvivalLevel::load( unsigned int index )
  * 3. Main loop
  ***/
 
-bool SurvivalLevel::finishPredicate() const
+bool SurvivalLevel::victory() const
 {
-    return ( jacobHp_ <= 0.0f );
+    return false;
+}
+
+
+bool SurvivalLevel::defeat() const
+{
+    return (jacobHp_ <= 0);
 }
 
 

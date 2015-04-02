@@ -48,15 +48,8 @@ Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int
 
 Level::~Level()
 {
-    unsigned int i;
-
     // Stop the timer.
     timer_.stop();
-
-    // Free resources
-    for( i=0; i < N_SANDWICHES; i++ ){
-        delete sandwiches[i];
-    }
 }
 
 
@@ -153,7 +146,7 @@ void Level::initGUI()
  * 4. Main loop
  ***/
 
-void Level::handleUserInput( const sf::Event& event, Sandwich** sandwiches )
+void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiches )
 {
     switch( event.type ){
         case sf::Event::Closed:
@@ -211,6 +204,41 @@ void Level::handleUserInput( const sf::Event& event, Sandwich** sandwiches )
         default:
         break;
     }
+}
+
+
+void Level::reset( unsigned int score )
+{
+    score_ = score;
+
+    // Initialize jacob's life and the sandwich indicators.
+    jacobHp_ = 100;
+    firstSandwich = 0;
+    lastSandwich = N_SANDWICHES - 1;
+
+    // Load the sandwiches, move them to their final positions and
+    // populate them with dangers.
+    for( unsigned int i=0; i < N_SANDWICHES; i++ ){
+        sandwiches.push_back(
+                    std::unique_ptr< Sandwich >(
+                        new Sandwich( sandwichData[0], &dangerData, *dangerGraphicsLibrary_ ) ) );
+
+        sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
+
+        sandwiches[i]->populate( dangerData );
+    }
+
+
+    // Present level intro to player.
+    LevelIntro levelIntro( *this, window_, levelIndex_ );
+    levelIntro.run(); // TODO: freeze if I call switchState() instead.
+    //switchState( levelIntro );
+
+    // Reset the timer.
+    resetTimer();
+
+    // Start the timer.
+    timer_.play(); // TODO: Move to another place?
 }
 
 
@@ -294,32 +322,7 @@ void Level::init()
                 new m2g::TileSprite( graphicsLibrary.getTilesetByName( "grinder_front.png" ) ) );
     grinderFront->move( 0.0f, -256.0f );
 
-    // Initialize jacob's life and the sandwich indicators.
-    jacobHp_ = 100;
-    firstSandwich = 0;
-    lastSandwich = N_SANDWICHES - 1;
-
-    // Load the sandwiches, move them to their final positions and
-    // populate them with dangers.
-    for( unsigned int i=0; i < N_SANDWICHES; i++ ){
-        sandwiches[i] = new Sandwich( sandwichData[0], &dangerData, *dangerGraphicsLibrary_ );
-
-        sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
-
-        sandwiches[i]->populate( dangerData );
-    }
-
-
-    // Present level intro to player.
-    LevelIntro levelIntro( *this, window_, levelIndex_ );
-    levelIntro.run(); // TODO: freeze if I call switchState() instead.
-    //switchState( levelIntro );
-
-    // Reset the timer.
-    resetTimer();
-
-    // Start the timer.
-    timer_.play(); // TODO: Move to another place?
+    reset();
 }
 
 
@@ -353,7 +356,7 @@ void Level::update( unsigned int ms )
 {
     unsigned int i;
 
-    tool_->applyStun( sandwiches, N_SANDWICHES );
+    tool_->applyStun( sandwiches );
 
     // Game logic: Check if the first sandwich reached the
     // sandwiches' end point and, in that case, restart it.
@@ -394,8 +397,12 @@ void Level::update( unsigned int ms )
     // Update the tool
     tool_->update( ms );
 
-    if( finishPredicate() || quitLevel_ ){
-        // TODO: Switch to appropiate state.
+    if( victory() ){
+        levelIndex_++;
+        init();
+    }else if( defeat() ){
+        reset();
+    }else if( quitLevel_ ){
         requestStateExit();
     }
 }

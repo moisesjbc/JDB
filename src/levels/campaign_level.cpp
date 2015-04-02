@@ -72,9 +72,15 @@ void CampaignLevel::load( unsigned int index )
  * 3. Main loop
  ***/
 
-bool CampaignLevel::finishPredicate() const
+bool CampaignLevel::victory() const
 {
-    return ( getSeconds() <= 0 ) || ( jacobHp_ <= 0.0f );
+    return (getSeconds() <= 0);
+}
+
+
+bool CampaignLevel::defeat() const
+{
+    return (jacobHp_ <= 0);
 }
 
 
@@ -96,12 +102,6 @@ void CampaignLevel::resetTimer()
  ***/
 
 void CampaignLevel::cleanUp()
-{
-    // Remove '3' and retrieve the number of levels from levels.xml.
-    if( levelIndex() < 2 ){
-        CampaignLevel nextLevel( window_, &soundManager_, levelIndex()+1 );
-        switchState( nextLevel );
-    }
-}
+{}
 
 } // namespace jdb

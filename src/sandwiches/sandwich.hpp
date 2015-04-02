@@ -84,6 +84,8 @@ class Sandwich : public m2g::Animation
         virtual void draw( sf::RenderTarget &target, sf::RenderStates states ) const;
 };
 
+typedef std::vector< std::unique_ptr< Sandwich > > SandwichesVector;
+
 } // namespace jdb
 
 #endif // SANDWICH_HPP

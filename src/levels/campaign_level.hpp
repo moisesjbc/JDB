@@ -45,7 +45,8 @@ class CampaignLevel : public Level
         /***
          * 3. Main loop
          ***/
-        virtual bool finishPredicate() const ;
+        virtual bool defeat() const;
+        virtual bool victory() const;
         virtual void resetTimer();
 
 

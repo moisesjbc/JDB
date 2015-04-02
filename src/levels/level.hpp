@@ -65,8 +65,10 @@ class Level : public GameState
         /***
          * 4. Main loop
          ***/
-        void handleUserInput( const sf::Event& event, Sandwich** sandwiches );
-        virtual bool finishPredicate() const = 0;
+        void handleUserInput(const sf::Event& event, SandwichesVector& sandwiches );
+        virtual bool defeat() const = 0;
+        virtual bool victory() const = 0;
+        void reset( unsigned int score = 0 );
         virtual void resetTimer() = 0;
 
 
@@ -127,7 +129,7 @@ class Level : public GameState
         SoundManager& soundManager_;
 
     private:
-        const unsigned int levelIndex_;
+        unsigned int levelIndex_;
 
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;
@@ -136,7 +138,7 @@ class Level : public GameState
         std::mutex speedMutex;
 
         // Sandwiches
-        Sandwich* sandwiches[N_SANDWICHES];
+        SandwichesVector sandwiches;
 
         // Background sprites.
         std::vector< m2g::TileSpritePtr > backgroundSprites;

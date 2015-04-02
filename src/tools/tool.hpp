@@ -67,15 +67,15 @@ class Tool : public m2g::Animation
         /***
          * 4. Handlers
          ***/
-        void handleMouseButtonDown( Sandwich** sandwiches, unsigned int nSandwiches, unsigned int& score, unsigned int& hpBonus );
+        void handleMouseButtonDown( SandwichesVector& sandwiches, unsigned int nSandwiches, unsigned int& score, unsigned int& hpBonus );
         void handleMouseButtonUp();
-        void handleMouseHover( Sandwich** sandwiches, unsigned int nSandwiches, unsigned int& score, unsigned int& hpBonus );
+        void handleMouseHover( SandwichesVector& sandwiches, unsigned int nSandwiches, unsigned int& score, unsigned int& hpBonus );
 
 
         /***
          * 5. Auxiliar methods
          ***/
-        void applyStun( Sandwich** sandwiches, unsigned int N_SANDWICHES );
+        void applyStun( SandwichesVector& sandwiches );
 };
 
 typedef std::shared_ptr< Tool > ToolPtr;

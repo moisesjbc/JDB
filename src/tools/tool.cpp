@@ -91,7 +91,7 @@ void Tool::setToolType( ToolType toolType )
  * 4. Handlers
  ***/
 
-void Tool::handleMouseButtonDown( Sandwich** sandwiches,
+void Tool::handleMouseButtonDown( SandwichesVector& sandwiches,
                                   unsigned int nSandwiches,
                                   unsigned int& score,
                                   unsigned int& hpBonus )
@@ -128,7 +128,7 @@ void Tool::handleMouseButtonUp()
 }
 
 
-void Tool::handleMouseHover( Sandwich** sandwiches, unsigned int nSandwiches, unsigned int& score, unsigned int& hpBonus )
+void Tool::handleMouseHover( SandwichesVector& sandwiches, unsigned int nSandwiches, unsigned int& score, unsigned int& hpBonus )
 {
     unsigned int i = 0;
 
@@ -154,13 +154,13 @@ void Tool::handleMouseHover( Sandwich** sandwiches, unsigned int nSandwiches, un
  * 5. Auxiliar methods
  ***/
 
-void Tool::applyStun( Sandwich **sandwiches, unsigned int N_SANDWICHES )
+void Tool::applyStun( SandwichesVector& sandwiches )
 {
     unsigned int i;
     StunType stunType;
 
     sf::Vector2i mousePos = sf::Mouse::getPosition();
-    for( i = 0; i < N_SANDWICHES; i++ ){
+    for( i = 0; i < sandwiches.size(); i++ ){
         stunType = sandwiches[i]->stuns( *this, currentToolType_ );
         if( stunType != StunType::NONE ){
             sf::Mouse::setPosition( sf::Vector2i( mousePos.x, mousePos.y - 75 ) );
