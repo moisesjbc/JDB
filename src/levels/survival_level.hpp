@@ -44,7 +44,6 @@ class SurvivalLevel : public Level
          ***/
         virtual bool victory() const;
         virtual bool defeat() const;
-        virtual void resetTimer();
 
 
     protected:

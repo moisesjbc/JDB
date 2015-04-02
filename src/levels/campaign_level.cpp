@@ -84,21 +84,6 @@ bool CampaignLevel::defeat() const
 }
 
 
-void CampaignLevel::resetTimer()
-{
-    /*
-    // Init the timer.
-    timer_.init( countdown_, conveyorBelt_.getTimeLapse(), [&](){
-        conveyorBelt_.updateSpeed();
-
-        coutMutex.lock();
-        std::cout << "new speed: " << conveyorBelt_.getSpeed() << std::endl;
-        coutMutex.unlock();
-    });
-    */
-}
-
-
 void CampaignLevel::updateLevelTime( unsigned int ms )
 {
     levelTime_ -= ms;

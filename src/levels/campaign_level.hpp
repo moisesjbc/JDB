@@ -47,7 +47,6 @@ class CampaignLevel : public Level
          ***/
         virtual bool defeat() const;
         virtual bool victory() const;
-        virtual void resetTimer();
         virtual void updateLevelTime( unsigned int ms );
 
 
