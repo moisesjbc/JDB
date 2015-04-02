@@ -43,17 +43,6 @@ Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int
 
 
 /***
- * 2. Destruction
- ***/
-
-Level::~Level()
-{
-    // Stop the timer.
-    timer_.stop();
-}
-
-
-/***
  * 3. Level Loading
  ***/
 
@@ -228,17 +217,14 @@ void Level::reset( unsigned int score )
         sandwiches[i]->populate( dangerData );
     }
 
+    resetLevelTime();
 
     // Present level intro to player.
     LevelIntro levelIntro( *this, window_, levelIndex_ );
     levelIntro.run(); // TODO: freeze if I call switchState() instead.
     //switchState( levelIntro );
 
-    // Reset the timer.
-    resetTimer();
-
-    // Start the timer.
-    timer_.play(); // TODO: Move to another place?
+    resetLevelTime();
 }
 
 
@@ -254,7 +240,7 @@ void Level::drawTimer( int time )
 
 int Level::getSeconds() const
 {
-    return timer_.getSeconds();
+    return levelTime_ / 1000;
 }
 
 
@@ -354,6 +340,9 @@ void Level::handleEvents()
 
 void Level::update( unsigned int ms )
 {
+    std::cout << "ms: " << ms << std::endl;
+    updateLevelTime( ms );
+
     unsigned int i;
 
     tool_->applyStun( sandwiches );
@@ -443,7 +432,7 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
     }
 
     // Compute the current game time.
-    seconds = timer_.getSeconds();
+    seconds = levelTime_ / 1000;
     minutes = seconds / 60;
     seconds = seconds % 60;
 
@@ -464,16 +453,11 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 void Level::pause()
 {
-    // TODO: Timer::stop doesn't stop the timer inmediatly, but wait until the
-    // current second finishes and then stops. Fix this or find another
-    // alternative.
-    timer_.stop();
 }
 
 
 void Level::resume()
 {
-    timer_.play();
     window_.setMouseCursorVisible( false );
 }
 

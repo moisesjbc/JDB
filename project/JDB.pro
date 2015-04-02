@@ -6,7 +6,6 @@ CONFIG -= qt
 SOURCES += ../src/main.cpp \
     ../src/jdb.cpp \
     ../src/levels/level.cpp \
-    ../src/utilities/timer.cpp \
     ../src/dangers/danger_data.cpp \
     ../src/dangers/danger_state.cpp \
     ../src/dangers/danger.cpp \
@@ -28,7 +27,6 @@ SOURCES += ../src/main.cpp \
 HEADERS += \
     ../src/jdb.hpp \
     ../src/levels/level.hpp \
-    ../src/utilities/timer.hpp \
     ../src/dangers/player_action.hpp \
     ../src/dangers/danger_data.hpp \
     ../src/dangers/danger_state.hpp \

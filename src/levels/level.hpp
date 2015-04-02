@@ -23,13 +23,13 @@
 #include <SDL2/SDL.h>
 #include <SFML/Window/Event.hpp>
 #include "../sandwiches/sandwich.hpp"
-#include "../utilities/timer.hpp"
 #include "../dangers/danger.hpp"
 #include "../tools/tool.hpp"
 #include "conveyor_belt.hpp"
 #include <game_states/game_state.hpp>
 #include <game_states/pause_menu.hpp>
 #include <game_states/level_intro.hpp>
+#include <mutex>
 
 namespace jdb {
 
@@ -47,7 +47,7 @@ class Level : public GameState
         /***
          * 2. Destruction
          ***/
-        virtual ~Level();
+        virtual ~Level() = default;
 
 
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
@@ -69,7 +69,6 @@ class Level : public GameState
         virtual bool defeat() const = 0;
         virtual bool victory() const = 0;
         void reset( unsigned int score = 0 );
-        virtual void resetTimer() = 0;
 
 
         /***
@@ -78,6 +77,9 @@ class Level : public GameState
         void drawTimer( int time );
         int getSeconds() const ;
         unsigned int levelIndex() const;
+
+        virtual void resetLevelTime() = 0;
+        virtual void updateLevelTime( unsigned int ms ) = 0;
 
 
         /***
@@ -101,8 +103,6 @@ class Level : public GameState
         /***
          * Attributes
          ***/
-        Timer timer_;
-
         ConveyorBelt conveyorBelt_;
 
         tinyxml2::XMLDocument xmlFile;
@@ -127,6 +127,8 @@ class Level : public GameState
         bool quitLevel_;
 
         SoundManager& soundManager_;
+
+        unsigned int levelTime_;
 
     private:
         unsigned int levelIndex_;

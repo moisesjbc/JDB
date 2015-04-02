@@ -80,6 +80,7 @@ bool SurvivalLevel::defeat() const
 void SurvivalLevel::resetTimer()
 {
     // Init the timer.
+    /*
     timer_.init( 0, conveyorBelt_.getTimeLapse(), [&](){
         conveyorBelt_.updateSpeed();
 
@@ -87,6 +88,19 @@ void SurvivalLevel::resetTimer()
         std::cout << "new speed: " << conveyorBelt_.getSpeed() << std::endl;
         coutMutex.unlock();
     });
+    */
+}
+
+
+void SurvivalLevel::updateLevelTime( unsigned int ms )
+{
+    levelTime_ += ms;
+}
+
+
+void SurvivalLevel::resetLevelTime()
+{
+    levelTime_ = 0;
 }
 
 } // namespace jdb

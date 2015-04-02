@@ -86,6 +86,7 @@ bool CampaignLevel::defeat() const
 
 void CampaignLevel::resetTimer()
 {
+    /*
     // Init the timer.
     timer_.init( countdown_, conveyorBelt_.getTimeLapse(), [&](){
         conveyorBelt_.updateSpeed();
@@ -94,6 +95,13 @@ void CampaignLevel::resetTimer()
         std::cout << "new speed: " << conveyorBelt_.getSpeed() << std::endl;
         coutMutex.unlock();
     });
+    */
+}
+
+
+void CampaignLevel::updateLevelTime( unsigned int ms )
+{
+    levelTime_ -= ms;
 }
 
 
@@ -103,5 +111,11 @@ void CampaignLevel::resetTimer()
 
 void CampaignLevel::cleanUp()
 {}
+
+
+void CampaignLevel::resetLevelTime()
+{
+    levelTime_ = countdown_ * 1000;
+}
 
 } // namespace jdb

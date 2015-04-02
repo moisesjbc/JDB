@@ -48,6 +48,7 @@ class CampaignLevel : public Level
         virtual bool defeat() const;
         virtual bool victory() const;
         virtual void resetTimer();
+        virtual void updateLevelTime( unsigned int ms );
 
 
     protected:
@@ -55,6 +56,9 @@ class CampaignLevel : public Level
          * 4. GameState interface
          ***/
         virtual void cleanUp();
+
+        // Level interface
+        virtual void resetLevelTime();
 };
 
 } // namespace jdb

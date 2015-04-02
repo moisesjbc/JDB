@@ -79,6 +79,8 @@ class GameState : public sf::Drawable
     private:
         bool exitState_;
         int exitStatus_;
+
+        sf::Clock clock_;
 };
 
 } // namespace jdb

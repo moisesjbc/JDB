@@ -39,11 +39,11 @@ int GameState::run()
 {
     init();
 
-    sf::Clock clock;
+    clock_.restart();
     while( !exitState_ ){
         handleEvents();
 
-        update( clock.restart().asMilliseconds() );
+        update( clock_.restart().asMilliseconds() );
 
         window_.clear();
         window_.draw( *this );
@@ -67,6 +67,7 @@ int GameState::switchState( GameState &newState )
     const int exitStatus = newState.run();
 
     resume();
+    clock_.restart();
 
     return exitStatus;
 }
