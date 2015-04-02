@@ -75,6 +75,13 @@ class GameState : public sf::Drawable
         virtual void pause() = 0;
         virtual void resume() = 0;
 
+
+        /***
+         * 8. Clock management
+         ***/
+        void resetClock();
+
+
         sf::RenderWindow& window_;
     private:
         bool exitState_;

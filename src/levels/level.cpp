@@ -225,6 +225,7 @@ void Level::reset( unsigned int score )
     //switchState( levelIntro );
 
     resetLevelTime();
+    resetClock();
 }
 
 

@@ -79,4 +79,14 @@ void GameState::requestStateExit( int status )
     exitStatus_ = status;
 }
 
+
+/***
+ * 8. Clock management
+ ***/
+
+void GameState::resetClock()
+{
+    clock_.restart();
+}
+
 } // namespace jdb
