@@ -106,7 +106,7 @@ void Danger::update( unsigned int ms )
 
     // Check if we have any time-based state transition and apply it if
     // applicable.
-    unsigned int timeElapsedFromLastTimeout = 0;
+    static unsigned int timeElapsedFromLastTimeout = 0;
     if( dangerData->states[state].stateTimeTransition != nullptr ){
         static unsigned int currentTimeout =
                 dangerData->states[state].stateTimeTransition->generateTimeout();
