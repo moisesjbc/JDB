@@ -233,12 +233,6 @@ void Level::reset( unsigned int score )
  * 5. Auxiliar methods
  ***/
 
-void Level::drawTimer( int time )
-{
-    std::cout << "seconds: " << time << std::endl;
-}
-
-
 int Level::getSeconds() const
 {
     return levelTime_ / 1000;
@@ -341,7 +335,6 @@ void Level::handleEvents()
 
 void Level::update( unsigned int ms )
 {
-    std::cout << "ms: " << ms << std::endl;
     updateLevelTime( ms );
 
     unsigned int i;

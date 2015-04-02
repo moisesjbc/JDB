@@ -77,17 +77,11 @@ void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData )
     // Variable used for selecting the next random valid danger.
     unsigned int randomDangerIndex;
 
-
-    std::cout << "Populating sandwich" << std::endl
-              << "---------------------------------------" << std::endl
-              << "FreeWidth: " << freeWidth << std::endl;
-
     //
     nDangers_ = 0;
     while( (nDangers_ < MAX_DANGERS) && !exit ){
 
         // Search the first valid danger which fits in the available space.
-        std::cout << "Serching first valid danger for available width (" << freeWidth << ")...";
         firstValidDanger = 0;
         while( ( firstValidDanger < dangerData.size() ) &&
                ( dangerData[firstValidDanger]->baseLine.width > freeWidth ) ){
@@ -98,12 +92,8 @@ void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData )
         if( firstValidDanger < dangerData.size() ){
             // There are valid dangers for the available space.
 
-            std::cout << "FOUND (first: " << firstValidDanger << ")" << std::endl;
-
             // Select a random danger between the valid ones.
             randomDangerIndex = rand() % (dangerData.size() - firstValidDanger) + firstValidDanger;
-
-            std::cout << "Selected danger: " << randomDangerIndex << std::endl;
 
             // Substract the chosen danger's width to the available space.
             freeWidth -= dangerData[randomDangerIndex]->baseLine.width;
@@ -114,27 +104,16 @@ void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData )
             nDangers_++;
         }else{
             // There are not valid dangers for the available space.
-            std::cout << "NOT FOUND" << std::endl;
             exit = true;
         }
     } // while
-
-
-    std::cout << "Setting dangers (freeWidth: " << freeWidth << ")" << std::endl;
 
     int space;
     int minSpace;
 
     for( i = 0; i<nDangers_; i++ ){
-        //if( freeWidth > 0 ){
-            minSpace = ( freeWidth / (nDangers_ - i + 1) ) >> 1;
-            space = rand() % (freeWidth - minSpace) + minSpace;
-        //}else{
-        //    minSpace = space = 0;
-        //}
-
-        std::cout << "minSpace: " << minSpace << std::endl
-                  << "space: " << space << std::endl;
+        minSpace = ( freeWidth / (nDangers_ - i + 1) ) >> 1;
+        space = rand() % (freeWidth - minSpace) + minSpace;
 
         dangers_[i]->setPosition( getBoundaryBox().left + newDangerX + space - dangers_[i]->getDangerData()->baseLine.x,
                                   getBoundaryBox().top + sandwichData_->baseLine.y - dangers_[i]->getDangerData()->baseLine.y );

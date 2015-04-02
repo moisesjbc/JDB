@@ -41,7 +41,6 @@ void SandwichData::loadFromXML( tinyxml2::XMLElement* xmlElement, m2g::GraphicsL
     animationData = graphicsLibrary.getAnimationDataByName( "sandwich_01.png" );
 
     baseLine.loadFromXML( xmlElement->FirstChildElement( "base_line" ) );
-    std::cout << "SandwichData - base line: (x: " << baseLine.x << ", y: " << baseLine.y << ", width: " << baseLine.width << ")" << std::endl;
 }
 
 

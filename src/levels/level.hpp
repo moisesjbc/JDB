@@ -74,7 +74,6 @@ class Level : public GameState
         /***
          * 5. Auxiliar methods
          ***/
-        void drawTimer( int time );
         int getSeconds() const ;
         unsigned int levelIndex() const;
 
