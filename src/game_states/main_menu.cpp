@@ -33,7 +33,8 @@ namespace jdb {
 
 MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
     GameState( window ),
-    soundManager_( *soundManager )
+    soundManager_( *soundManager ),
+    gui_( window )
 {}
 
 
@@ -43,13 +44,41 @@ MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
 
 void MainMenu::init()
 {
-    if( !font_.loadFromFile( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" ) ){
+    if( !gui_.setGlobalFont( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" ) ){
         throw std::runtime_error( "Couldn't load font" );
     }
 
-    menuText_.setFont( font_ );
-    menuText_.setColor( sf::Color::Black );
-    menuText_.setString( "C - Play campaign\nS - Play survival\nESC - Exit" );
+    const std::vector< std::string > buttonTexts =
+    {
+        "Play campaign",
+        "Play survival",
+        "Exit game"
+    };
+
+    // Buttons' layout magnitudes.
+    const sf::Vector2f BUTTON_SIZE = { 260, 80 };
+    const float BUTTON_OFFSET = 25;
+    const float BUTTONS_GROUP_HEIGHT =
+            BUTTON_SIZE.y * buttonTexts.size() + BUTTON_OFFSET * (buttonTexts.size() - 1);
+    sf::Vector2f buttonPos = {
+        (window_.getSize().x - BUTTON_SIZE.x) / 2,
+        (window_.getSize().y - BUTTONS_GROUP_HEIGHT) / 2,
+    };
+
+    // Create buttons.
+    unsigned int buttonCallbackId = 1;
+    for( const std::string& buttonText : buttonTexts ){
+        tgui::Button::Ptr button( gui_ );
+        button->load( "data/config/button.conf" );
+        button->setSize( BUTTON_SIZE.x, BUTTON_SIZE.y );
+        button->setPosition( buttonPos.x, buttonPos.y );
+        button->setText( buttonText );
+        button->bindCallback(tgui::Button::LeftMouseClicked);
+        button->setCallbackId(buttonCallbackId);
+
+        buttonPos.y += BUTTON_SIZE.y + BUTTON_OFFSET;
+        buttonCallbackId++;
+    }
 }
 
 
@@ -64,14 +93,23 @@ void MainMenu::handleEvents()
         }else if( event.type == sf::Event::KeyPressed ){
             if( event.key.code == sf::Keyboard::Escape ){
                 requestStateExit();
-            }else if( event.key.code == sf::Keyboard::C ){
-                std::unique_ptr< Level > level = std::unique_ptr< Level >(
-                           new CampaignLevel( window_, &soundManager_, 0 ) );
-                switchState( *level );
-            }else if( event.key.code == sf::Keyboard::S ){
-                std::unique_ptr< Level > level = std::unique_ptr< Level >(
-                           new SurvivalLevel( window_, &soundManager_, 0 ) );
-                switchState( *level );
+            }
+        }else{
+            gui_.handleEvent( event );
+
+            tgui::Callback callback;
+            if( gui_.pollCallback(callback) ){
+                if( callback.id == 1 ){
+                    std::unique_ptr< Level > level = std::unique_ptr< Level >(
+                               new CampaignLevel( window_, &soundManager_, 0 ) );
+                    switchState( *level );
+                }else if( callback.id == 2 ){
+                    std::unique_ptr< Level > level = std::unique_ptr< Level >(
+                               new SurvivalLevel( window_, &soundManager_, 0 ) );
+                    switchState( *level );
+                }else if( callback.id == 3 ){
+                    requestStateExit();
+                }
             }
         }
     }
@@ -90,7 +128,7 @@ void MainMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const
     (void)( states );
     window_.clear( sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ) );
 
-    window_.draw( menuText_ );
+    gui_.draw();
 }
 
 

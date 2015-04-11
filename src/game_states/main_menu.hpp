@@ -25,6 +25,7 @@
 #include <utilities/sound_manager.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <TGUI/TGUI.hpp>
 
 namespace jdb {
 
@@ -59,6 +60,7 @@ class MainMenu : public GameState
         SoundManager& soundManager_;
         sf::Font font_;
         sf::Text menuText_;
+        mutable tgui::Gui gui_;
 };
 
 } // namespace jdb

@@ -46,10 +46,10 @@ HEADERS += \
     ../src/game_states/pause_menu.hpp \
     ../src/game_states/level_intro.hpp
 
-LIBS += -lm2g -lSDL2 -lSDL2_image -lSDL2_ttf -ldl -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -ltinyxml2
+LIBS += -lm2g -lSDL2 -lSDL2_image -lSDL2_ttf -ldl -ltgui -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -ltinyxml2
 LIBS += -lboost_system -lboost_filesystem
 
-CXXFLAGS += -Wall -Werrors -pedantic-errors
+CXXFLAGS += -Wall -Werrors -pedantic-errors -std=c++11
 
 # http://qt-project.org/forums/viewthread/19989
 CONFIG += c++11
