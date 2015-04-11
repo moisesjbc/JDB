@@ -20,7 +20,6 @@
 #ifndef LEVEL_HPP
 #define LEVEL_HPP
 
-#include <SDL2/SDL.h>
 #include <SFML/Window/Event.hpp>
 #include "../sandwiches/sandwich.hpp"
 #include "../dangers/danger.hpp"

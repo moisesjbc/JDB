@@ -136,7 +136,6 @@ void MainMenu::pause()
 
 void MainMenu::resume()
 {
-    SDL_ShowCursor( SDL_ENABLE );
 }
 
 } // namespace jdb

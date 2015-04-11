@@ -20,7 +20,6 @@
 #ifndef JDB_HPP
 #define JDB_HPP
 
-#include <SDL2/SDL.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 
 namespace jdb {

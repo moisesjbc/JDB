@@ -304,18 +304,17 @@ void Level::init()
 
 void Level::handleEvents()
 {
-    Uint32 t0 = 0;
-    Uint32 t1 = 0;
+    sf::Time t0, t1;
     sf::Event event;
 
     // Handle user input.
-    t0 = SDL_GetTicks();
-    t1 = SDL_GetTicks();
-    while( (t1 - t0) < REFRESH_TIME ){
+    sf::Clock clock;
+    t0 = t1 = clock.getElapsedTime();
+    while( static_cast< unsigned int >( (t1 - t0).asMilliseconds() ) < REFRESH_TIME ){
         if( window_.pollEvent( event ) != 0 ){
             handleUserInput( event, sandwiches );
         }
-        t1 = SDL_GetTicks();
+        t1 = clock.getElapsedTime();
     }
 
     unsigned int hpBonus = 0;

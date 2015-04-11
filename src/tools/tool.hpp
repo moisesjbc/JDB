@@ -24,7 +24,6 @@
 
 #include "../sandwiches/sandwich.hpp"
 #include "../dangers/danger.hpp"
-#include <SDL2/SDL.h>
 #include <SFML/Audio.hpp>
 #include <utilities/sound_manager.hpp>
 

@@ -20,7 +20,6 @@
 #ifndef GAME_STATE_HPP
 #define GAME_STATE_HPP
 
-#include "../utilities/window.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 

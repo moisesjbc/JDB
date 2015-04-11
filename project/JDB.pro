@@ -19,7 +19,6 @@ SOURCES += ../src/main.cpp \
     ../src/levels/campaign_level.cpp \
     ../src/game_states/game_state.cpp \
     ../src/game_states/main_menu.cpp \
-    ../src/utilities/window.cpp \
     ../src/utilities/sound_manager.cpp \
     ../src/game_states/pause_menu.cpp \
     ../src/game_states/level_intro.cpp
@@ -40,13 +39,12 @@ HEADERS += \
     ../src/levels/conveyor_belt.hpp \
     ../src/levels/campaign_level.hpp \
     ../src/game_states/game_state.hpp \
-    ../src/utilities/window.hpp \
     ../src/game_states/main_menu.hpp \
     ../src/utilities/sound_manager.hpp \
     ../src/game_states/pause_menu.hpp \
     ../src/game_states/level_intro.hpp
 
-LIBS += -lm2g -lSDL2 -lSDL2_image -lSDL2_ttf -ldl -ltgui -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -ltinyxml2
+LIBS += -lm2g -ldl -ltgui -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -ltinyxml2
 LIBS += -lboost_system -lboost_filesystem
 
 CXXFLAGS += -Wall -Werrors -pedantic-errors -std=c++11
