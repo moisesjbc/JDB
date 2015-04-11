@@ -21,7 +21,6 @@
 #define WINDOW_HPP
 
 #include <SDL2/SDL.h>
-#include <glm/vec2.hpp>
 
 namespace jdb {
 

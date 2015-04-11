@@ -20,8 +20,6 @@
 #include "main_menu.hpp"
 #include "../levels/campaign_level.hpp"
 #include "../levels/survival_level.hpp"
-#define GLM_FORCE_RADIANS
-#include <glm/gtc/matrix_transform.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/Font.hpp>
 

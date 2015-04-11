@@ -20,8 +20,6 @@
 #include "level.hpp"
 #include <tinyxml2.h>
 #include <algorithm>
-#define GLM_FORCE_RADIANS
-#include <glm/gtc/matrix_transform.hpp>
 
 namespace jdb {
 
@@ -276,9 +274,6 @@ void Level::init()
     scoreText_.setCharacterSize( 50 );
     scoreText_.setColor( sf::Color( 11, 109, 36, 255 ) );
     scoreText_.setPosition( 785, 5 );
-
-    // Make the cursor invisible.
-    SDL_ShowCursor( SDL_DISABLE );
 
     // Load all the needed tilesets and animations (the graphics for
     // dangers and sandwiches are loaded in the methods "loadDangers" and
