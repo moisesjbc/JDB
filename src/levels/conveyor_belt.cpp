@@ -27,9 +27,13 @@ namespace jdb {
 
 void ConveyorBelt::load( tinyxml2::XMLElement* xmlElement )
 {
+    timeSinceLastUpdate_ = 0;
+
     initialSpeed_ = xmlElement->FloatAttribute( "initial" );
     speedStep_ = xmlElement->FloatAttribute( "step" );
-    timeLapse_ = (unsigned int)( xmlElement->IntAttribute( "time_lapse" ) );
+    timeLapse_ = xmlElement->UnsignedAttribute( "time_lapse" ) * 1000;
+
+    speed_ = initialSpeed_;
 }
 
 
@@ -65,9 +69,14 @@ float ConveyorBelt::getSpeed() const
  * 3. Updating
  ***/
 
-void ConveyorBelt::updateSpeed()
+
+void ConveyorBelt::update(unsigned int ms)
 {
-    speed_ += speedStep_;
+    timeSinceLastUpdate_ += ms;
+    if( timeSinceLastUpdate_ > timeLapse_ ){
+        timeSinceLastUpdate_ -= timeLapse_;
+        speed_ += speedStep_;
+    }
 }
 
 } // namespace jdb

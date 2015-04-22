@@ -357,6 +357,9 @@ void Level::update( unsigned int ms )
         lastSandwich = (lastSandwich + 1) % N_SANDWICHES;
     }
 
+    conveyorBelt_.update( ms );
+    std::cout << "conveyorBelt_.getSpeed(): " << conveyorBelt_.getSpeed() << std::endl;
+
     // Update the sandwiches
     for( i=0; i < N_SANDWICHES; i++ ){
         sandwiches[i]->update( ms );
@@ -364,7 +367,7 @@ void Level::update( unsigned int ms )
 
     // Move the sandwiches
     // Conveyor belt's speed management.
-    float speed = conveyorBelt_.getInitialSpeed();
+    float speed = conveyorBelt_.getSpeed();
     for( i=0; i < N_SANDWICHES; i++ ){
         sandwiches[i]->translate( -speed, 0.0f );
     }

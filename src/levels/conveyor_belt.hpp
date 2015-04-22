@@ -34,6 +34,7 @@ class ConveyorBelt
         // Current speed
         float speed_;
 
+        unsigned int timeSinceLastUpdate_;
 
     public:
         /***
@@ -54,7 +55,7 @@ class ConveyorBelt
         /***
          * 3. Updating
          ***/
-        void updateSpeed();
+        void update( unsigned int ms );
 };
 
 } // namespace jdb
