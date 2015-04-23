@@ -376,7 +376,6 @@ void Level::update( unsigned int ms )
     }
 
     conveyorBelt_.update( ms );
-    std::cout << "conveyorBelt_.getSpeed(): " << conveyorBelt_.getSpeed() << std::endl;
 
     // Update the sandwiches
     for( i=0; i < sandwiches.size(); i++ ){
