@@ -26,7 +26,8 @@
 
 namespace jdb {
 
-DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
+DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement,
+                          m2g::GraphicsLibrary& graphicsLibrary ) :
     stateTimeTransition( nullptr ),
     stunType( StunType::NONE )
 {
@@ -102,7 +103,10 @@ DangerState::DangerState( tinyxml2::XMLElement* rootXMLElement ) :
     xmlElement = rootXMLElement->FirstChildElement( "random_danger_on_animation_state_end" );
     if( xmlElement != nullptr ){
         randomDangerOnAnimationStateEnd = true;
-        appearanceAnimationLabel = xmlElement->Attribute( "appearance_animation" );
+
+        appearanceAnimationData =
+                graphicsLibrary.getAnimationDataByName(
+                    xmlElement->Attribute( "appearance_animation" ) );
     }else{
         randomDangerOnAnimationStateEnd = false;
     }

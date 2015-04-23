@@ -44,16 +44,12 @@ class Danger : public m2g::Animation
         // firstly appears.
         std::unique_ptr< m2g::Animation > appearanceAnimation;
 
-
-        m2g::GraphicsLibrary& graphicsLibrary_;
-
     public:
         /***
          * 1. Initialization and destruction
          ***/
         Danger( DangerDataPtr dangerData_,
-                m2g::GraphicsLibrary& graphicsLibrary,
-                m2g::AnimationDataPtr appearanceAnimationData = nullptr );
+                m2g::AnimationData* appearanceAnimationData = nullptr );
         virtual ~Danger() = default;
 
 
@@ -69,7 +65,7 @@ class Danger : public m2g::Animation
          ***/
         // TODO: Overload Animation setters.
         void setDangerData( DangerDataPtr dangerData_,
-                            m2g::AnimationDataPtr appearanceAnimationData = nullptr );
+                            m2g::AnimationData* appearanceAnimationData = nullptr );
         void setState( int newState );
 
 

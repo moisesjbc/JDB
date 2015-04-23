@@ -209,7 +209,7 @@ void Level::reset()
     for( unsigned int i=0; i < N_SANDWICHES; i++ ){
         sandwiches.push_back(
                     std::unique_ptr< Sandwich >(
-                        new Sandwich( sandwichData[0], &dangerData, *dangerGraphicsLibrary_ ) ) );
+                        new Sandwich( sandwichData[0], &dangerData ) ) );
 
         sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
 

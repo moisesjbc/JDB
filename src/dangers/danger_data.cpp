@@ -55,7 +55,7 @@ DangerData::DangerData( tinyxml2::XMLElement* xmlElement,
     // Get the damage's states.
     dangerStateXMLElement = xmlElement->FirstChildElement( "danger_states" )->FirstChildElement( "danger_state" );
     while( dangerStateXMLElement ){
-        states.emplace_back( dangerStateXMLElement );
+        states.emplace_back( dangerStateXMLElement, dangerGraphics );
 
         dangerStateXMLElement = dangerStateXMLElement->NextSiblingElement();
     }

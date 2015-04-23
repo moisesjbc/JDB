@@ -27,14 +27,14 @@ namespace jdb {
  * 1. Initialization and destruction
  ***/
 
-Sandwich::Sandwich( SandwichDataPtr sandwichData, const std::vector< DangerDataPtr >* dangerData, m2g::GraphicsLibrary& graphicsLibrary ) :
+Sandwich::Sandwich( SandwichDataPtr sandwichData, const std::vector< DangerDataPtr >* dangerData ) :
     Animation( *( sandwichData->animationData ) ),
     nDangers_( MAX_DANGERS_PER_SANDWICH )
 {
     setSandwichData( sandwichData );
 
     for( unsigned int i = 0; i<MAX_DANGERS_PER_SANDWICH; i++ ){
-        dangers_[i] = new Danger( (*dangerData)[0], graphicsLibrary );
+        dangers_[i] = new Danger( (*dangerData)[0] );
     }
 }
 

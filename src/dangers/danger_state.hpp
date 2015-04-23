@@ -25,6 +25,8 @@
 #include <vector>
 #include <set>
 #include <memory>
+#include <m2g/drawables/animation_data.hpp>
+#include <m2g/graphics_library.hpp>
 
 namespace jdb {
 
@@ -79,7 +81,7 @@ struct DangerState
     std::unique_ptr< StateDistanceTransition > stateDistanceTransition;
 
     bool randomDangerOnAnimationStateEnd;
-    std::string appearanceAnimationLabel;
+    m2g::AnimationDataPtr appearanceAnimationData;
 
     std::set< ToolType > stunnedTools;
     StunType stunType;
@@ -88,7 +90,7 @@ struct DangerState
     /***
      * 1. Initialization
      ***/
-    DangerState( tinyxml2::XMLElement* xmlElement );
+    DangerState( tinyxml2::XMLElement* xmlElement, m2g::GraphicsLibrary& graphicsLibrary );
 };
 
 } // namespace jdb.

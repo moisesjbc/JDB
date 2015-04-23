@@ -23,12 +23,10 @@
 namespace jdb {
 
 Danger::Danger( DangerDataPtr dangerData_,
-                m2g::GraphicsLibrary& graphicsLibrary,
-                m2g::AnimationDataPtr appearanceAnimationData ) :
-    Animation( *( dangerData_->animationData[rand() % dangerData_->animationData.size()] ) ),
-    graphicsLibrary_( graphicsLibrary )
+                m2g::AnimationData* appearanceAnimationData ) :
+    Animation( *( dangerData_->animationData[rand() % dangerData_->animationData.size()] ) )
 {
-    setDangerData( dangerData_, std::move( appearanceAnimationData ) );
+    setDangerData( dangerData_, appearanceAnimationData );
 }
 
 
@@ -53,14 +51,14 @@ DangerDataPtr Danger::getDangerData() const
  ***/
 // TODO: Overload Animation setters.
 void Danger::setDangerData( DangerDataPtr dangerData_,
-                            m2g::AnimationDataPtr appearanceAnimationData )
+                            m2g::AnimationData* appearanceAnimationData )
 {
     dangerData = dangerData_;
 
     if( appearanceAnimationData != nullptr ){
         appearanceAnimation =
                 std::unique_ptr< m2g::Animation >(
-                    new m2g::Animation( std::move( appearanceAnimationData ) ) );
+                    new m2g::Animation( *appearanceAnimationData ) );
         appearanceAnimation->move( getBoundaryBox().left + ( getBoundaryBox().width - appearanceAnimation->getBoundaryBox().width ) / 2,
                                    getBoundaryBox().top + ( getBoundaryBox().height - appearanceAnimation->getBoundaryBox().height ) / 2 );
     }
@@ -100,8 +98,7 @@ void Danger::update( unsigned int ms )
                 dangerData->dangersDataVector[ rand() % dangerData->dangersDataVector.size() ];
         move( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
                    dangerData->baseLine.y - newDangerData->baseLine.y );
-        setDangerData( newDangerData,
-                       std::move( graphicsLibrary_.getAnimationDataByName( dangerData->states[state].appearanceAnimationLabel ) ) );
+        setDangerData( newDangerData, dangerData->states[state].appearanceAnimationData.get() );
     }
 
     // Check if we have any time-based state transition and apply it if
