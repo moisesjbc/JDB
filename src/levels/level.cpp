@@ -246,6 +246,12 @@ unsigned int Level::levelIndex() const
 }
 
 
+unsigned int Level::nSandwiches() const
+{
+    return sandwiches.size();
+}
+
+
 /***
  * 6. GameState interface
  ***/
@@ -343,21 +349,30 @@ void Level::update( unsigned int ms )
     if( sandwiches[firstSandwich]->getBoundaryBox().left < SANDWICHES_END_POINT ){
 
         // Hurt Jacob! (muahahaha!)
-        jacobHp_ -= sandwiches[firstSandwich]->getDamage();
+        //jacobHp_ -= sandwiches[firstSandwich]->getDamage();
 
-        // Repopulate the sandwich.
-        sandwiches[firstSandwich]->populate( dangerData );
+        if( levelTime_ > 3000 ){
+            // Repopulate the sandwich.
+            sandwiches[firstSandwich]->populate( dangerData );
 
-        // Translate the sandwich behind the last one.
-        sandwiches[firstSandwich]->translate(
-                    sandwiches[lastSandwich]->getBoundaryBox().left
-                    - sandwiches[firstSandwich]->getBoundaryBox().left
-                    + DISTANCE_BETWEEN_SANDWICHES,
-                    0.0f );
+            // Translate the sandwich behind the last one.
+            sandwiches[firstSandwich]->translate(
+                        sandwiches[lastSandwich]->getBoundaryBox().left
+                        - sandwiches[firstSandwich]->getBoundaryBox().left
+                        + DISTANCE_BETWEEN_SANDWICHES,
+                        0.0f );
 
-        // Change the indices for the first and last sandwiches.
-        firstSandwich = (firstSandwich + 1) % sandwiches.size();
-        lastSandwich = (lastSandwich + 1) % sandwiches.size();
+            // Change the indices for the first and last sandwiches.
+            firstSandwich = (firstSandwich + 1) % sandwiches.size();
+            lastSandwich = (lastSandwich + 1) % sandwiches.size();
+        }else{
+            SandwichesVector::iterator sandwichIt = sandwiches.begin();
+            std::advance( sandwichIt, firstSandwich );
+            sandwiches.erase( sandwichIt );
+            if( sandwiches.size() ){
+                firstSandwich = (firstSandwich + 1) % sandwiches.size();
+            }
+        }
     }
 
     conveyorBelt_.update( ms );

@@ -74,7 +74,7 @@ void CampaignLevel::load( unsigned int index )
 
 bool CampaignLevel::victory() const
 {
-    return (getSeconds() <= 0);
+    return (nSandwiches() == 0);
 }
 
 
@@ -86,7 +86,11 @@ bool CampaignLevel::defeat() const
 
 void CampaignLevel::updateLevelTime( unsigned int ms )
 {
-    levelTime_ -= ms;
+    if( levelTime_ > ms ){
+        levelTime_ -= ms;
+    }else{
+        levelTime_ = 0;
+    }
 }
 
 

@@ -74,6 +74,7 @@ class Level : public GameState
          ***/
         int getSeconds() const ;
         unsigned int levelIndex() const;
+        unsigned int nSandwiches() const;
 
         virtual void resetLevelTime() = 0;
         virtual void updateLevelTime( unsigned int ms ) = 0;
