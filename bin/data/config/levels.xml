@@ -15,7 +15,7 @@
 
 		<!-- Campaign level 03 -->
 		<campaign_level countdow="90" >
-			<speed initial="7.0" step="0.5" time_lapse="10" />
+			<speed initial="6.5" step="0.5" time_lapse="10" />
 		</campaign_level>
 	</campaign_levels>
 
