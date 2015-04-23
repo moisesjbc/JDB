@@ -141,7 +141,7 @@ class Level : public GameState
         m2g::TileSpritePtr grinderFront;
 
         unsigned int acumScore_;
-        unsigned int score_;
+        unsigned int levelScore_;
 
         sf::Font guiFont_;
         mutable sf::Text healthText_;

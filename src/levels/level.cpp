@@ -36,7 +36,7 @@ Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int
       soundManager_( *soundManager ),
       levelIndex_( levelIndex ),
       acumScore_( 0 ),
-      score_( 0 )
+      levelScore_( 0 )
 {}
 
 
@@ -146,7 +146,7 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
         case sf::Event::MouseButtonPressed:{
             // Player clicked on screen.
             unsigned int hpBonus = 0;
-            tool_->handleMouseButtonDown( sandwiches, score_, hpBonus );
+            tool_->handleMouseButtonDown( sandwiches, levelScore_, hpBonus );
             // FIXME: Duplicated code.
             jacobHp_ += hpBonus;
             if( jacobHp_ > 130 ){
@@ -198,7 +198,7 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
 
 void Level::reset()
 {
-    score_ = acumScore_;
+    levelScore_ = 0;
 
     // Initialize jacob's life and the sandwich indicators.
     jacobHp_ = 100;
@@ -327,7 +327,7 @@ void Level::handleEvents()
     }
 
     unsigned int hpBonus = 0;
-    tool_->handleMouseHover( sandwiches, score_, hpBonus );
+    tool_->handleMouseHover( sandwiches, levelScore_, hpBonus );
     // FIXME: Duplicated code.
     jacobHp_ += hpBonus;
     if( jacobHp_ > 130 ){
@@ -393,7 +393,7 @@ void Level::update( unsigned int ms )
     tool_->update( ms );
 
     if( victory() ){
-        acumScore_ += score_;
+        acumScore_ += levelScore_;
         levelIndex_++; // TODO: This should go inside "load()".
         load( levelIndex_ );
         reset();
@@ -454,7 +454,7 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
     timerText_.setString( buffer );
     window_.draw( timerText_ );
 
-    sprintf( buffer, "%08u", score_ );
+    sprintf( buffer, "%08u", acumScore_ + levelScore_ );
     scoreText_.setString( buffer );
     window_.draw( scoreText_ );
 }
