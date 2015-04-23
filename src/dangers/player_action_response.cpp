@@ -66,9 +66,6 @@ PlayerActionResponse::PlayerActionResponse( tinyxml2::XMLElement* xmlElement )
     std::getline( responsesStr, token, ':' );
     newDanger = atoi( token.c_str() );
 
-    // Is the danger per second or per hit?
-    dangerPerSecond = ( xmlElement->IntAttribute( "dps" )  == 1 );
-
     // Retrieve the score bonus associated (if any) to this response.
     scoreBonus = xmlElement->IntAttribute( "score_bonus" );
 

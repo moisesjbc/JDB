@@ -44,10 +44,6 @@ struct PlayerActionResponse
     int newDanger; // TODO: Remove this attribute or at least invalid
     // silmultaneus state and danger transitions (affects XML).
 
-    // When this is true, the HP variation is divided by the inverse of the
-    // FPS.
-    bool dangerPerSecond;
-
     // When this transition is done, add this "score bonus" to player's score.
     unsigned int scoreBonus;
 

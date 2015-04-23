@@ -13,8 +13,8 @@
 			<!-- State 0: Intact fire -->
 			<danger_state>
 				<animation_state>0</animation_state>
-				<state_transition conditions="extinguisher_on:10:100" responses="-150:-1:-1" dps="1" />
-				<state_transition conditions="extinguisher_on:0:9" responses="all:1:-1" dps="0" />
+				<state_transition conditions="extinguisher_on:10:100" responses="-5:-1:-1" />
+				<state_transition conditions="extinguisher_on:0:9" responses="all:1:-1" />
 				<stun type="burn">
 					<tool>hand</tool>
 					<tool>gavel</tool>
@@ -39,8 +39,8 @@
 			<!-- State 0: Intact ice crystals -->
 			<danger_state>
 				<animation_state>0</animation_state>
-				<state_transition conditions="lighter_on:10:100" responses="-150:-1:-1" dps="1" />
-				<state_transition conditions="lighter_on:0:9" responses="all:1:-1" dps="0" />
+				<state_transition conditions="lighter_on:10:100" responses="-5:-1:-1" />
+				<state_transition conditions="lighter_on:0:9" responses="all:1:-1" />
 				<stun type="freezing">
 					<tool>hand</tool>
 				</stun>
@@ -64,7 +64,7 @@
 			<!-- State 0: Intact rat -->
 			<danger_state>
 				<animation_state>0</animation_state>
-				<state_transition conditions="gavel_hit:0:100" responses="-75:1:-1" dps="0" />
+				<state_transition conditions="gavel_hit:0:100" responses="-75:1:-1" />
 				<stun type="bite">
 					<tool>hand</tool>
 				</stun>
@@ -73,7 +73,7 @@
 			<!-- State 1: Stun rat -->
 			<danger_state>
 				<animation_state>1</animation_state>
-				<state_transition conditions="hand_click:0:100" responses="all:2:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:2:-1" />
 			</danger_state>
 
 			<!-- State 2: Danger removed -->
@@ -94,7 +94,7 @@
 			<!-- State 0: Intact knife -->
 			<danger_state>
 				<animation_state>0</animation_state>
-				<state_transition conditions="hand_click:100:100" responses="all:1:-1" dps="0" />
+				<state_transition conditions="hand_click:100:100" responses="all:1:-1" />
 			</danger_state>
 
 			<!-- State 1: Knife removed -->
@@ -116,63 +116,63 @@
 			<!-- State 0: Intact shell -->
 			<danger_state>
 				<animation_state>0</animation_state>
-				<state_transition conditions="gavel_hit:0:100" responses="-10:1:-1" dps="0" />
-				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
+				<state_transition conditions="gavel_hit:0:100" responses="-10:1:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
 			</danger_state>
 
 			<!-- State 1: Damaged shell (I) -->
 			<danger_state>
 				<animation_state>1</animation_state>
-				<state_transition conditions="gavel_hit:0:100" responses="-10:2:-1" dps="0" />
-				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
+				<state_transition conditions="gavel_hit:0:100" responses="-10:2:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
 			</danger_state>
 
 			<!-- State 2: Damaged shell (II) -->
 			<danger_state>
 				<animation_state>2</animation_state>
-				<state_transition conditions="gavel_hit:0:100" responses="-10:3:-1" dps="0" />
-				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
+				<state_transition conditions="gavel_hit:0:100" responses="-10:3:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
 			</danger_state>
 
 			
 			<!-- State 3: Damaged shell (III) -->
 			<danger_state>
 				<animation_state>3</animation_state>
-				<state_transition conditions="gavel_hit:0:100" responses="-10:4:-1" dps="0" />
-				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
+				<state_transition conditions="gavel_hit:0:100" responses="-10:4:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
 			</danger_state>
 
 			
 			<!-- State 4: Damaged shell (IV) -->
 			<danger_state>
 				<animation_state>4</animation_state>
-				<state_transition conditions="gavel_hit:0:100" responses="-10:5:-1" dps="0" />
-				<state_transition conditions="gavel_hit:0:100" responses="-10:6:-1" dps="0" />
-				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
+				<state_transition conditions="gavel_hit:0:100" responses="-10:5:-1" />
+				<state_transition conditions="gavel_hit:0:100" responses="-10:6:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
 			</danger_state>
 
 
 			<!-- State 5: Open empty shell -->
 			<danger_state>
 				<animation_state>5</animation_state>
-				<state_transition conditions="hand_click:0:100" responses="-10:8:-1" dps="0" />
-				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="-10:8:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
 			</danger_state>
 
 
 			<!-- State 6: Open shell with pearl -->
 			<danger_state>
 				<animation_state>6</animation_state>
-				<state_transition conditions="gavel_hit:0:100" responses="-10:7:-1" dps="0" />
-				<state_transition conditions="hand_click:0:100" responses="all:8:-1" score_bonus="100" dps="0" />
+				<state_transition conditions="gavel_hit:0:100" responses="-10:7:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" score_bonus="100" />
 			</danger_state>
 
 
 			<!-- State 7: Open shell with broken pearl -->
 			<danger_state>
 				<animation_state>7</animation_state>
-				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
-				<state_transition conditions="hand_click:0:100" responses="all:8:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
 			</danger_state>
 
 
@@ -196,8 +196,8 @@
 			<!-- State 0: Intact tesla coils (off) -->
 			<danger_state>
 				<animation_state>0</animation_state>
-				<state_transition conditions="hand_click:0:100" responses="all:3:-1" dps="0" />
-				<state_transition conditions="gavel_hit:0:100" responses="-15:2:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:3:-1" />
+				<state_transition conditions="gavel_hit:0:100" responses="-15:2:-1" />
 				<state_time_transition min="2500" max="4000" new_state="1" />
 			</danger_state>
 
@@ -207,14 +207,14 @@
 				<stun type="electrocution">
 					<tool>hand</tool>
 				</stun>
-				<state_transition conditions="gavel_hit:0:100" responses="-15:2:-1" dps="0" />
+				<state_transition conditions="gavel_hit:0:100" responses="-15:2:-1" />
 				<state_time_transition min="2500" max="4000" new_state="0" />
 			</danger_state>
 
 			<!-- State 2: Broken tesla coils -->
 			<danger_state>
 				<animation_state>2</animation_state>
-				<state_transition conditions="hand_click:0:100" responses="all:3:-1" dps="0" />
+				<state_transition conditions="hand_click:0:100" responses="all:3:-1" />
 			</danger_state>
 
 			<!-- State 3: Tesla coils removed -->
@@ -264,8 +264,8 @@
 			<!-- State 0: Intact enigma bomb (off) -->
 			<danger_state>
 				<animation_state>0</animation_state>
-				<state_transition conditions="lighter_on:91:100" responses="-150:-1:-1" dps="1" />
-				<state_transition conditions="lighter_on:0:90" responses="all:1:-1" dps="0" />
+				<state_transition conditions="lighter_on:91:100" responses="-5:-1:-1" />
+				<state_transition conditions="lighter_on:0:90" responses="all:1:-1" />
 				<state_transition conditions="hand_click:0:100" responses="all:2:-1" />
 			</danger_state>
 

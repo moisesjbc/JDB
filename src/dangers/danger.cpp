@@ -165,11 +165,7 @@ bool Danger::playerAction( PlayerAction playerAction,
         if( playerActionResponse->hpVariation == HP_ALL ){
             hp = 0;
         }else{
-            if( playerActionResponse->dangerPerSecond ){
-                hp += playerActionResponse->hpVariation * FPS_INVERSE;
-            }else{
-                hp += playerActionResponse->hpVariation;
-            }
+            hp += playerActionResponse->hpVariation;
         }
 
         // TODO: Use hp variation instead.
