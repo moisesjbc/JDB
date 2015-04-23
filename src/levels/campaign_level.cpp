@@ -43,9 +43,9 @@ void CampaignLevel::load( unsigned int index )
     xmlFile.LoadFile( "data/config/levels.xml" );
 
     // Iterate over the survival level XML nodes until de number index.
-    levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "survival_levels" )->FirstChildElement( "survival_level" ) );
+    levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "campaign_levels" )->FirstChildElement( "campaign_level" ) );
     while( levelNode && ( i < index ) ){
-        levelNode = levelNode->NextSiblingElement( "survival_level" );
+        levelNode = levelNode->NextSiblingElement( "campaign_level" );
         i++;
     }
 

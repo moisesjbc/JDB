@@ -2,6 +2,22 @@
 
 <levels>
 	<!-- Campaign levels -->
+    <campaign_levels>
+		<!-- Campaign level 01 -->
+		<campaign_level countdow="60" >
+			<speed initial="5.0" step="0.5" time_lapse="10" />
+		</campaign_level>
+
+		<!-- Campaign level 02 -->
+		<campaign_level countdow="75" >
+			<speed initial="6.0" step="0.5" time_lapse="10" />
+		</campaign_level>
+
+		<!-- Campaign level 03 -->
+		<campaign_level countdow="90" >
+			<speed initial="7.0" step="0.5" time_lapse="10" />
+		</campaign_level>
+	</campaign_levels>
 
 
 	<!-- Survival levels -->
