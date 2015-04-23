@@ -349,7 +349,7 @@ void Level::update( unsigned int ms )
     if( sandwiches[firstSandwich]->getBoundaryBox().left < SANDWICHES_END_POINT ){
 
         // Hurt Jacob! (muahahaha!)
-        //jacobHp_ -= sandwiches[firstSandwich]->getDamage();
+        jacobHp_ -= sandwiches[firstSandwich]->getDamage();
 
         if( levelTime_ > 1000 ){
             // Repopulate the sandwich.
