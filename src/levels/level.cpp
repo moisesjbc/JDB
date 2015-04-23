@@ -55,6 +55,7 @@ void Level::loadSandwichData()
     // Load the dangers data.
     document.LoadFile( "./data/config/sandwiches.xml" );
     sandwichXMLElement = ( document.RootElement() )->FirstChildElement( "sandwich" );
+    sandwichData.clear();
     while( sandwichXMLElement ){
         sandwichData.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary ) );
 
@@ -75,6 +76,7 @@ void Level::loadDangerData()
     document.LoadFile( "./data/config/dangers.xml" );
     dangerXMLElement = ( document.RootElement() )->FirstChildElement( "danger" );
 
+    dangerData.clear();
     while( dangerXMLElement ){
         if( static_cast< unsigned int >( dangerXMLElement->IntAttribute( "first_level" ) ) <= levelIndex_ ){
             dangerData.emplace_back( new DangerData( dangerXMLElement, *dangerGraphicsLibrary_, dangerData ) );
@@ -205,6 +207,7 @@ void Level::reset( unsigned int score )
 
     // Load the sandwiches, move them to their final positions and
     // populate them with dangers.
+    sandwiches.clear();
     for( unsigned int i=0; i < N_SANDWICHES; i++ ){
         sandwiches.push_back(
                     std::unique_ptr< Sandwich >(
