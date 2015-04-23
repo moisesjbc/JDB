@@ -31,7 +31,7 @@
 
 namespace jdb {
 
-const unsigned int N_SANDWICHES = 5;
+const unsigned int N_SANDWICHES = 4;
 
 class Level : public GameState
 {
