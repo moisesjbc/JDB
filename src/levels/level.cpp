@@ -351,7 +351,7 @@ void Level::update( unsigned int ms )
         // Hurt Jacob! (muahahaha!)
         //jacobHp_ -= sandwiches[firstSandwich]->getDamage();
 
-        if( levelTime_ > 3000 ){
+        if( levelTime_ > 1000 ){
             // Repopulate the sandwich.
             sandwiches[firstSandwich]->populate( dangerData );
 
