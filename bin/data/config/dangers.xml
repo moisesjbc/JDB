@@ -265,7 +265,7 @@
 			<danger_state>
 				<animation_state>0</animation_state>
 				<state_transition conditions="lighter_on:91:100" responses="-5:-1:-1" />
-				<state_transition conditions="lighter_on:0:90" responses="all:1:-1" />
+				<state_transition conditions="lighter_on:0:90" responses="-50:1:-1" />
 				<state_transition conditions="hand_click:0:100" responses="all:2:-1" />
 			</danger_state>
 
