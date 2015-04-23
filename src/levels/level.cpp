@@ -36,6 +36,7 @@ Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int
     : GameState( window ),
       soundManager_( *soundManager ),
       levelIndex_( levelIndex ),
+      acumScore_( 0 ),
       score_( 0 )
 {}
 
@@ -196,9 +197,9 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
 }
 
 
-void Level::reset( unsigned int score )
+void Level::reset()
 {
-    score_ = score;
+    score_ = acumScore_;
 
     // Initialize jacob's life and the sandwich indicators.
     jacobHp_ = 100;
@@ -379,10 +380,11 @@ void Level::update( unsigned int ms )
     tool_->update( ms );
 
     if( victory() ){
-        levelIndex_++;
-        unsigned int score = score_;
-        init();
-        score_ = score;
+        acumScore_ += score_;
+        levelIndex_++; // TODO: This should go inside "load()".
+        load( levelIndex_ );
+        reset();
+        //init();
     }else if( defeat() ){
         reset();
     }else if( quitLevel_ ){

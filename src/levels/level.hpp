@@ -66,7 +66,7 @@ class Level : public GameState
         void handleUserInput(const sf::Event& event, SandwichesVector& sandwiches );
         virtual bool defeat() const = 0;
         virtual bool victory() const = 0;
-        void reset( unsigned int score = 0 );
+        void reset();
 
 
         /***
@@ -139,6 +139,7 @@ class Level : public GameState
         std::vector< m2g::TileSpritePtr > backgroundSprites;
         m2g::TileSpritePtr grinderFront;
 
+        unsigned int acumScore_;
         unsigned int score_;
 
         sf::Font guiFont_;
