@@ -25,7 +25,6 @@ namespace jdb {
 
 const float SANDWICHES_END_POINT = 0.0f;
 const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
-const unsigned int N_DANGERS = N_SANDWICHES * 3;
 
 
 /***
@@ -147,7 +146,7 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
         case sf::Event::MouseButtonPressed:{
             // Player clicked on screen.
             unsigned int hpBonus = 0;
-            tool_->handleMouseButtonDown( sandwiches, N_SANDWICHES, score_, hpBonus );
+            tool_->handleMouseButtonDown( sandwiches, score_, hpBonus );
             // FIXME: Duplicated code.
             jacobHp_ += hpBonus;
             if( jacobHp_ > 130 ){
@@ -203,8 +202,6 @@ void Level::reset()
 
     // Initialize jacob's life and the sandwich indicators.
     jacobHp_ = 100;
-    firstSandwich = 0;
-    lastSandwich = N_SANDWICHES - 1;
 
     // Load the sandwiches, move them to their final positions and
     // populate them with dangers.
@@ -218,6 +215,8 @@ void Level::reset()
 
         sandwiches[i]->populate( dangerData );
     }
+    firstSandwich = 0;
+    lastSandwich = sandwiches.size() - 1;
 
     resetLevelTime();
 
@@ -322,7 +321,7 @@ void Level::handleEvents()
     }
 
     unsigned int hpBonus = 0;
-    tool_->handleMouseHover( sandwiches, N_SANDWICHES, score_, hpBonus );
+    tool_->handleMouseHover( sandwiches, score_, hpBonus );
     // FIXME: Duplicated code.
     jacobHp_ += hpBonus;
     if( jacobHp_ > 130 ){
@@ -357,22 +356,22 @@ void Level::update( unsigned int ms )
                     0.0f );
 
         // Change the indices for the first and last sandwiches.
-        firstSandwich = (firstSandwich + 1) % N_SANDWICHES;
-        lastSandwich = (lastSandwich + 1) % N_SANDWICHES;
+        firstSandwich = (firstSandwich + 1) % sandwiches.size();
+        lastSandwich = (lastSandwich + 1) % sandwiches.size();
     }
 
     conveyorBelt_.update( ms );
     std::cout << "conveyorBelt_.getSpeed(): " << conveyorBelt_.getSpeed() << std::endl;
 
     // Update the sandwiches
-    for( i=0; i < N_SANDWICHES; i++ ){
+    for( i=0; i < sandwiches.size(); i++ ){
         sandwiches[i]->update( ms );
     }
 
     // Move the sandwiches
     // Conveyor belt's speed management.
     float speed = conveyorBelt_.getSpeed();
-    for( i=0; i < N_SANDWICHES; i++ ){
+    for( i=0; i < sandwiches.size(); i++ ){
         sandwiches[i]->translate( -speed, 0.0f );
     }
 
@@ -412,7 +411,7 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
     }
 
     // Draw the sandwiches
-    for( i=0; i < N_SANDWICHES; i++ ){
+    for( i=0; i < sandwiches.size(); i++ ){
         target.draw( *( sandwiches[i] ), states );
     }
 

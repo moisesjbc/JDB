@@ -92,7 +92,6 @@ void Tool::setToolType( ToolType toolType )
  ***/
 
 void Tool::handleMouseButtonDown( SandwichesVector& sandwiches,
-                                  unsigned int nSandwiches,
                                   unsigned int& score,
                                   unsigned int& hpBonus )
 {
@@ -102,12 +101,12 @@ void Tool::handleMouseButtonDown( SandwichesVector& sandwiches,
     sounds_[ static_cast<int>(currentToolType_) ].play();
 
     if( currentToolType_ == ToolType::HAND ){
-        while( ( i < nSandwiches ) &&
+        while( ( i < sandwiches.size() ) &&
                ( !sandwiches[i]->useTool( PlayerAction::HAND_CLICK, this, score, hpBonus ) ) ){
             i++;
         }
     }else if( currentToolType_ == ToolType::GAVEL ){
-        while( ( i < nSandwiches ) &&
+        while( ( i < sandwiches.size() ) &&
                ( !sandwiches[i]->useTool( PlayerAction::GAVEL_HIT, this, score, hpBonus ) ) ){
             i++;
         }
@@ -128,7 +127,7 @@ void Tool::handleMouseButtonUp()
 }
 
 
-void Tool::handleMouseHover( SandwichesVector& sandwiches, unsigned int nSandwiches, unsigned int& score, unsigned int& hpBonus )
+void Tool::handleMouseHover( SandwichesVector& sandwiches, unsigned int& score, unsigned int& hpBonus )
 {
     unsigned int i = 0;
 
@@ -141,7 +140,7 @@ void Tool::handleMouseHover( SandwichesVector& sandwiches, unsigned int nSandwic
     if( active_ ){
         if( ( currentToolType_ == ToolType::EXTINGUISHER ) ||
             ( currentToolType_ == ToolType::LIGHTER ) ){
-            while( ( i < nSandwiches ) &&
+            while( ( i < sandwiches.size() ) &&
                    ( !sandwiches[i]->useTool( toolAction[currentToolType_], this, score, hpBonus ) ) ){
                 i++;
             }

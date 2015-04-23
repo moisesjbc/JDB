@@ -66,9 +66,9 @@ class Tool : public m2g::Animation
         /***
          * 4. Handlers
          ***/
-        void handleMouseButtonDown( SandwichesVector& sandwiches, unsigned int nSandwiches, unsigned int& score, unsigned int& hpBonus );
+        void handleMouseButtonDown( SandwichesVector& sandwiches, unsigned int& score, unsigned int& hpBonus );
         void handleMouseButtonUp();
-        void handleMouseHover( SandwichesVector& sandwiches, unsigned int nSandwiches, unsigned int& score, unsigned int& hpBonus );
+        void handleMouseHover( SandwichesVector& sandwiches, unsigned int& score, unsigned int& hpBonus );
 
 
         /***
