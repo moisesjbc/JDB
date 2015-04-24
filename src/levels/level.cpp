@@ -222,8 +222,7 @@ void Level::reset()
 
     // Present level intro to player.
     LevelIntro levelIntro( *this, window_, levelIndex_ );
-    levelIntro.run(); // TODO: freeze if I call switchState() instead.
-    //switchState( levelIntro );
+    switchState( levelIntro );
 
     resetLevelTime();
     resetClock();

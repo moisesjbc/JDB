@@ -119,11 +119,13 @@ void Tool::handleMouseButtonDown( SandwichesVector& sandwiches,
 
 void Tool::handleMouseButtonUp()
 {
-    active_ = false;
-    setState( currentState() - 1 );
+    if( currentState() % 2 ){
+        active_ = false;
+        setState( currentState() - 1 );
 
-    // Stop the sound associated to the current tool.
-    sounds_[ static_cast<int>(currentToolType_) ].stop();
+        // Stop the sound associated to the current tool.
+        sounds_[ static_cast<int>(currentToolType_) ].stop();
+    }
 }
 
 

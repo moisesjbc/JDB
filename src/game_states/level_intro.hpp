@@ -23,6 +23,7 @@
 #include "game_state.hpp"
 #include <m2g/drawables/tile_sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <TGUI/TGUI.hpp>
 
 namespace jdb {
 
@@ -50,8 +51,8 @@ class LevelIntro : public GameState
     private:
         unsigned int levelIndex_;
         sf::Font levelIntroFont_;
-        sf::Text levelIntroText_;
         const GameState& parentGameState_;
+        mutable tgui::Gui gui_;
 };
 
 } // namespace jdb

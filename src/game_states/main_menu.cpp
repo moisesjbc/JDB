@@ -67,7 +67,7 @@ void MainMenu::init()
     unsigned int buttonCallbackId = 1;
     for( const std::string& buttonText : buttonTexts ){
         tgui::Button::Ptr button( gui_ );
-        button->load( "data/config/button.conf" );
+        button->load( "data/config/gui.conf" );
         button->setSize( BUTTON_SIZE.x, BUTTON_SIZE.y );
         button->setPosition( buttonPos.x, buttonPos.y );
         button->setText( buttonText );
