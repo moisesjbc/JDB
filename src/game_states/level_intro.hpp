@@ -24,6 +24,7 @@
 #include <m2g/drawables/tile_sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <TGUI/TGUI.hpp>
+#include <tinyxml2.h>
 
 namespace jdb {
 
@@ -33,7 +34,10 @@ class LevelIntro : public GameState
         /***
          * 1. Construction
          ***/
-        LevelIntro( const GameState& parentGameState, sf::RenderWindow& window, unsigned int levelIndex );
+        LevelIntro( const GameState& parentGameState,
+                    sf::RenderWindow& window,
+                    unsigned int levelIndex,
+                    tinyxml2::XMLElement* levelBookXmlElement );
 
 
     protected:

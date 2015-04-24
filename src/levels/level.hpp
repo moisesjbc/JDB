@@ -126,9 +126,10 @@ class Level : public GameState
 
         unsigned int levelTime_;
 
-    private:
+        std::unique_ptr< LevelIntro > levelIntro_;
         unsigned int levelIndex_;
 
+    private:
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;
         unsigned int lastSandwich;

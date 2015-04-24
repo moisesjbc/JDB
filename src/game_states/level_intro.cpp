@@ -29,21 +29,13 @@ namespace jdb {
 
 LevelIntro::LevelIntro( const GameState& parentGameState,
                         sf::RenderWindow& window,
-                        unsigned int levelIndex ) :
+                        unsigned int levelIndex,
+                        tinyxml2::XMLElement* levelBookXmlElement ) :
     GameState( window ),
     levelIndex_( levelIndex ),
     parentGameState_( parentGameState ),
     gui_( window )
-{}
-
-
-/***
- * 2. GameState interface
- ***/
-
-void LevelIntro::init()
 {
-    window_.setMouseCursorVisible( true );
     levelIntroFont_.loadFromFile( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" );
 
     char text[250];
@@ -58,11 +50,15 @@ void LevelIntro::init()
     levelBook->addButton( "Continue" );
     levelBook->setSize( 400, 300 );
 
-    levelBook->addPage( "Welcome to \"The Sandwiches Game\"!" );
-    levelBook->addPage( "Your goal is to remove dangers from some sandwiches before they get to the giant grinder and damage your friend" );
-    levelBook->addPage( "In order to remove dangers from sandwiches, you have to combine multiple tools and use them on the dangers" );
-    levelBook->addPage( "Press A, S, D or F to change current tool. Move the mouse and left click to use the tool" );
-    levelBook->addPage( "That's it! Let's see which dangers you'll have to face on this level..." );
+    if( levelBookXmlElement != nullptr ){
+        tinyxml2::XMLElement* pageXmlElement = levelBookXmlElement->FirstChildElement( "page" );
+        while( pageXmlElement ){
+            levelBook->addPage( pageXmlElement->GetText() );
+            pageXmlElement = pageXmlElement->NextSiblingElement( "page" );
+        }
+    }else{
+        levelBook->addPage( text );
+    }
 
     levelBook->setPosition(
                 (window_.getSize().x - levelBook->getSize().x) / 2,
@@ -71,6 +67,16 @@ void LevelIntro::init()
     std::function<void(void)> levelBookCallback =
             std::bind( &LevelIntro::requestStateExit, this, 0 );
     levelBook->bindCallback( levelBookCallback, jdb::LevelBook::BookClosed );
+}
+
+
+/***
+ * 2. GameState interface
+ ***/
+
+void LevelIntro::init()
+{
+    window_.setMouseCursorVisible( true );
 }
 
 

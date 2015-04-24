@@ -221,8 +221,7 @@ void Level::reset()
     resetLevelTime();
 
     // Present level intro to player.
-    LevelIntro levelIntro( *this, window_, levelIndex_ );
-    switchState( levelIntro );
+    switchState( *levelIntro_ );
 
     resetLevelTime();
     resetClock();
