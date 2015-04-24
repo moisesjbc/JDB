@@ -55,8 +55,14 @@ void LevelIntro::init()
     levelBook->setGlobalFont( levelIntroFont_ );
     levelBook->setText( text );
     levelBook->setTitle( "Level intro" );
-    levelBook->addButton( "Start level" );
+    levelBook->addButton( "Continue" );
     levelBook->setSize( 400, 300 );
+
+    levelBook->addPage( "Welcome to \"The Sandwiches Game\"!" );
+    levelBook->addPage( "Your goal is to remove dangers from some sandwiches before they get to the giant grinder and damage your friend" );
+    levelBook->addPage( "In order to remove dangers from sandwiches, you have to combine multiple tools and use them on the dangers" );
+    levelBook->addPage( "Press A, S, D or F to change current tool. Move the mouse and left click to use the tool" );
+    levelBook->addPage( "That's it! Let's see which dangers you'll have to face on this level..." );
 
     levelBook->setPosition(
                 (window_.getSize().x - levelBook->getSize().x) / 2,
@@ -64,7 +70,7 @@ void LevelIntro::init()
 
     std::function<void(void)> levelBookCallback =
             std::bind( &LevelIntro::requestStateExit, this, 0 );
-    levelBook->bindCallback( levelBookCallback, tgui::MessageBox::ButtonClicked );
+    levelBook->bindCallback( levelBookCallback, jdb::LevelBook::BookClosed );
 }
 
 

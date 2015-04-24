@@ -21,5 +21,58 @@
 
 namespace jdb {
 
+/***
+ * 1. Construction
+ ***/
+
+LevelBook::LevelBook() :
+    currentPageIndex_(0)
+{
+    unbindCallback( tgui::MessageBox::ButtonClicked );
+    bindCallback( std::bind( &LevelBook::setNextPage, this ), tgui::MessageBox::ButtonClicked );
+}
+
+
+/***
+ * 3. Pages management
+ ***/
+
+void LevelBook::addPage(const sf::String &text)
+{
+    pagesText_.push_back( text );
+    if( pagesText_.size() == 1 ){
+        setPage( 0 );
+    }
+}
+
+
+/***
+ * 4. Setters
+ ***/
+
+void LevelBook::setPage(unsigned int pageIndex)
+{
+    currentPageIndex_ = pageIndex;
+    setText( pagesText_.at( pageIndex ) );
+}
+
+
+void LevelBook::setNextPage()
+{
+    if( pagesText_.size() &&
+            ( currentPageIndex_ < ( pagesText_.size() - 1 ) ) ){
+        setPage( currentPageIndex_ + 1 );
+    }else{
+        if (m_CallbackFunctions[BookClosed].empty() == false)
+        {
+            m_Callback.trigger = BookClosed;
+            addCallback();
+        }
+    }
+}
+
+
+
+
 } // namespace jdb
 

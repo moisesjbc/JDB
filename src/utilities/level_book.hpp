@@ -23,6 +23,8 @@
 #include <TGUI/Gui.hpp>
 #include <TGUI/MessageBox.hpp>
 #include <TGUI/SharedWidgetPtr.hpp>
+#include <vector>
+#include <string>
 
 namespace jdb {
 
@@ -34,7 +36,7 @@ class LevelBook : public tgui::MessageBox
         /***
          * 1. Construction
          ***/
-        LevelBook() = default;
+        LevelBook();
 
 
         /***
@@ -43,10 +45,30 @@ class LevelBook : public tgui::MessageBox
         virtual ~LevelBook() = default;
 
 
-    private:
-        //std::vector< std::string > > pageText_;
-};
+        /***
+         * 3. Pages management
+         ***/
+        void addPage( const sf::String& text );
 
+
+        /***
+         * 4. Setters
+         ***/
+        void setPage( unsigned int pageIndex );
+        void setNextPage();
+
+
+        enum LevelBookCallbacks
+        {
+            BookClosed = MessageBoxCallbacksCount * 1,
+            LevelBookCallbacksCount = MessageBoxCallbacksCount * 2
+        };
+
+
+    private:
+        unsigned int currentPageIndex_;
+        std::vector< std::string > pagesText_;
+};
 
 
 } // namespace jdb
