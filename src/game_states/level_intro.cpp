@@ -19,6 +19,7 @@
 
 #include "level_intro.hpp"
 #include <SFML/Window/Event.hpp>
+#include "../utilities/level_book.hpp"
 
 namespace jdb {
 
@@ -48,22 +49,22 @@ void LevelIntro::init()
     char text[250];
     sprintf( text, "Level %u", levelIndex_ );
 
-    tgui::MessageBox::Ptr messageBox( gui_ );
-    messageBox->load( "data/config/gui.conf" );
-    messageBox->setBackgroundColor( sf::Color::White );
-    messageBox->setGlobalFont( levelIntroFont_ );
-    messageBox->setText( text );
-    messageBox->setTitle( "Level intro" );
-    messageBox->addButton( "Start level" );
-    messageBox->setSize( 400, 300 );
+    LevelBook::Ptr levelBook( gui_ );
+    levelBook->load( "data/config/gui.conf" );
+    levelBook->setBackgroundColor( sf::Color::White );
+    levelBook->setGlobalFont( levelIntroFont_ );
+    levelBook->setText( text );
+    levelBook->setTitle( "Level intro" );
+    levelBook->addButton( "Start level" );
+    levelBook->setSize( 400, 300 );
 
-    messageBox->setPosition(
-                (window_.getSize().x - messageBox->getSize().x) / 2,
-                (window_.getSize().y - messageBox->getSize().y) / 2 );
+    levelBook->setPosition(
+                (window_.getSize().x - levelBook->getSize().x) / 2,
+                (window_.getSize().y - levelBook->getSize().y) / 2 );
 
-    std::function<void(void)> messageBoxCallback =
+    std::function<void(void)> levelBookCallback =
             std::bind( &LevelIntro::requestStateExit, this, 0 );
-    messageBox->bindCallback( messageBoxCallback, tgui::MessageBox:: ButtonClicked );
+    levelBook->bindCallback( levelBookCallback, tgui::MessageBox::ButtonClicked );
 }
 
 
