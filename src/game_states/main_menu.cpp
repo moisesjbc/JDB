@@ -42,15 +42,29 @@ MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
 
 void MainMenu::init()
 {
-    if( !gui_.setGlobalFont( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" ) ){
-        throw std::runtime_error( "Couldn't load font" );
-    }
+    gui_.setGlobalFont( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" );
 
     const std::vector< std::string > buttonTexts =
     {
         "Play campaign",
         "Play survival",
         "Exit game"
+    };
+    const std::vector< std::function<void()> > callbacks =
+    {
+        [this](){
+            std::unique_ptr< Level > level = std::unique_ptr< Level >(
+                       new CampaignLevel( window_, &soundManager_, 0 ) );
+            switchState( *level );
+        },
+        [this](){
+            std::unique_ptr< Level > level = std::unique_ptr< Level >(
+                       new SurvivalLevel( window_, &soundManager_, 0 ) );
+            switchState( *level );
+        },
+        [this](){
+            requestStateExit();
+        }
     };
 
     // Buttons' layout magnitudes.
@@ -64,18 +78,19 @@ void MainMenu::init()
     };
 
     // Create buttons.
-    unsigned int buttonCallbackId = 1;
+    unsigned int buttonCallbackId = 0;
     for( const std::string& buttonText : buttonTexts ){
-        tgui::Button::Ptr button( gui_ );
-        button->load( "data/config/gui.conf" );
+        tgui::Button::Ptr button = tgui::Button::create();
         button->setSize( BUTTON_SIZE.x, BUTTON_SIZE.y );
         button->setPosition( buttonPos.x, buttonPos.y );
         button->setText( buttonText );
-        button->bindCallback(tgui::Button::LeftMouseClicked);
-        button->setCallbackId(buttonCallbackId);
 
         buttonPos.y += BUTTON_SIZE.y + BUTTON_OFFSET;
+
+        button->connect( "pressed", callbacks[buttonCallbackId] );
         buttonCallbackId++;
+
+        gui_.add( button );
     }
 }
 
@@ -94,21 +109,6 @@ void MainMenu::handleEvents()
             }
         }else{
             gui_.handleEvent( event );
-
-            tgui::Callback callback;
-            if( gui_.pollCallback(callback) ){
-                if( callback.id == 1 ){
-                    std::unique_ptr< Level > level = std::unique_ptr< Level >(
-                               new CampaignLevel( window_, &soundManager_, 0 ) );
-                    switchState( *level );
-                }else if( callback.id == 2 ){
-                    std::unique_ptr< Level > level = std::unique_ptr< Level >(
-                               new SurvivalLevel( window_, &soundManager_, 0 ) );
-                    switchState( *level );
-                }else if( callback.id == 3 ){
-                    requestStateExit();
-                }
-            }
         }
     }
 }

@@ -25,18 +25,23 @@
 #include <TGUI/SharedWidgetPtr.hpp>
 #include <vector>
 #include <string>
+#include <TGUI/Scrollbar.hpp>
+#include <TGUI/TextBox.hpp>
 
 namespace jdb {
 
 class LevelBook : public tgui::MessageBox
 {
     public:
-        typedef tgui::SharedWidgetPtr<LevelBook> Ptr;
+        typedef std::shared_ptr<LevelBook> Ptr;
+        typedef std::shared_ptr<const LevelBook> ConstPtr;
+
 
         /***
          * 1. Construction
          ***/
         LevelBook();
+        static LevelBook::Ptr create();
 
 
         /***
@@ -58,16 +63,10 @@ class LevelBook : public tgui::MessageBox
         void setNextPage();
 
 
-        enum LevelBookCallbacks
-        {
-            BookClosed = MessageBoxCallbacksCount * 1,
-            LevelBookCallbacksCount = MessageBoxCallbacksCount * 2
-        };
-
-
     private:
         unsigned int currentPageIndex_;
         std::vector< std::string > pagesText_;
+        tgui::TextBox::Ptr textBox_;
 };
 
 

@@ -54,7 +54,6 @@ class LevelIntro : public GameState
 
     private:
         unsigned int levelIndex_;
-        sf::Font levelIntroFont_;
         const GameState& parentGameState_;
         mutable tgui::Gui gui_;
 };
