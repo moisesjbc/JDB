@@ -41,9 +41,6 @@ LevelIntro::LevelIntro( const GameState& parentGameState,
 
     gui_.setGlobalFont( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" );
     LevelBook::Ptr levelBook = LevelBook::create();
-    levelBook->setText( text );
-    levelBook->setTitle( "Level intro" );
-    levelBook->addButton( "Continue" );
     levelBook->setSize( 400, 300 );
 
     if( levelBookXmlElement != nullptr ){
@@ -63,7 +60,6 @@ LevelIntro::LevelIntro( const GameState& parentGameState,
 
     std::function<void(void)> levelBookCallback =
             std::bind( &LevelIntro::requestStateExit, this, 0 );
-    levelBook->connect( "Closed", levelBookCallback );
     levelBook->connect( "BookClosed", levelBookCallback );
 
     gui_.add( levelBook );

@@ -21,16 +21,17 @@
 #define LEVELBOOK_HPP
 
 #include <TGUI/Gui.hpp>
-#include <TGUI/MessageBox.hpp>
+#include <TGUI/Panel.hpp>
 #include <TGUI/SharedWidgetPtr.hpp>
 #include <vector>
 #include <string>
 #include <TGUI/Scrollbar.hpp>
 #include <TGUI/TextBox.hpp>
+#include <TGUI/Button.hpp>
 
 namespace jdb {
 
-class LevelBook : public tgui::MessageBox
+class LevelBook : public tgui::Panel
 {
     public:
         typedef std::shared_ptr<LevelBook> Ptr;
@@ -67,6 +68,7 @@ class LevelBook : public tgui::MessageBox
         unsigned int currentPageIndex_;
         std::vector< std::string > pagesText_;
         tgui::TextBox::Ptr textBox_;
+        tgui::Button::Ptr continueButton_;
 };
 
 

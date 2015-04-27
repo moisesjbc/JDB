@@ -28,9 +28,19 @@ namespace jdb {
 LevelBook::LevelBook() :
     currentPageIndex_(0)
 {
+    textBox_ = tgui::TextBox::create();
+    textBox_->setPosition( 5, 5 );
+    textBox_->setReadOnly( true );
+    Container::add( textBox_ );
+
+    continueButton_ = tgui::Button::create();
+    continueButton_->setPosition( 5.0f, tgui::bindBottom( textBox_ ) + 5.0f );
+    continueButton_->setText( "Continue" );
+    Container::add( continueButton_ );
+
     m_callback.widgetType = "LevelBook";
     addSignal<sf::String>("BookClosed");
-    this->connect( "ButtonPressed", std::bind( &LevelBook::setNextPage, this ) );
+    continueButton_->connect( "pressed", std::bind( &LevelBook::setNextPage, this ) );
 }
 
 
@@ -62,7 +72,7 @@ void LevelBook::addPage(const sf::String &text)
 void LevelBook::setPage(unsigned int pageIndex)
 {
     currentPageIndex_ = pageIndex;
-    setText( pagesText_.at( pageIndex ) );
+    textBox_->setText( pagesText_.at( pageIndex ) );
 }
 
 
@@ -75,9 +85,6 @@ void LevelBook::setNextPage()
         sendSignal( "bookClosed" );
     }
 }
-
-
-
 
 } // namespace jdb
 
