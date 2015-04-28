@@ -55,6 +55,8 @@ LevelBook::LevelBook() :
     m_callback.widgetType = "LevelBook";
     addSignal<sf::String>("BookClosed");
     continueButton_->connect( "pressed", std::bind( &LevelBook::setNextPage, this ) );
+
+    this->connect( "BookClosed", std::bind( &LevelBook::hide, this ) );
 }
 
 
