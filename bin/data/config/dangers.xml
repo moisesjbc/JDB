@@ -135,6 +135,12 @@
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.30</damage_factor>
 		<base_line x="3" y="67" width="148" />
+
+        <danger_info>
+            <name>Shell</name>
+            <description>A precious shell found in the beach</description>
+            <removal_instructions>Simply remove it with the hand. If you feel lucky, you can instead hit the shell with your gavel several times to see if it contains a pearl which can be taken with the hand to get a score bonus. Be careful! If you hit the pearl with your gavel it will be broken and you won't get any extra points!</removal_instructions>
+        </danger_info>
 		
 		<danger_states>
 			<!-- State 0: Intact shell -->
@@ -215,6 +221,12 @@
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.40</damage_factor>
 		<base_line x="4" y="118" width="115" />
+
+        <danger_info>
+            <name>Tesla coils</name>
+            <description>A pair of defective tesla coils which turn on and turn off at random intervals</description>
+            <removal_instructions>You can wait and remove these tesla coils with your hand when they are turned off or you can break them with your gavel and remove the pieces with your hands. Do you feel destructive?</removal_instructions>
+        </danger_info>
 		
 		<danger_states>
 			<!-- State 0: Intact tesla coils (off) -->
@@ -255,6 +267,12 @@
 		<initial_hp>100</initial_hp>
 		<damage_factor>0</damage_factor>
 		<base_line x="12" y="142" width="101" />
+
+        <danger_info>
+            <name>Coward hypnotist rat</name>
+            <description>Well... a coward hypnotist rat</description>
+            <removal_instructions>Simply ignore it. As the name suggests, it is a coward and will literally dissapear when it get close to the grinder. But be careful; as the name also suggests, it will hypnotize you if you bother it</removal_instructions>
+        </danger_info>
 		
 		<danger_states>
 			<!-- State 0: Intact coward hypnotis rat -->
@@ -283,6 +301,12 @@
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.4</damage_factor>
 		<base_line x="-85" y="117" width="213" />
+
+        <danger_info>
+            <name>Enigma bomb</name>
+            <description>A bomb which hides something good... or something bad</description>
+            <removal_instructions>You can remove this danger with your bare hand or, if you feel lucky, you can light its fuse and wait for the explosion to uncover what is inside.</removal_instructions>
+        </danger_info>
 		
 		<danger_states>
 			<!-- State 0: Intact enigma bomb (off) -->
@@ -313,6 +337,12 @@
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.3</damage_factor>
 		<base_line x="3" y="107" width="115" />
+
+        <danger_info>
+            <name>Medic kit</name>
+            <description>A good danger</description>
+            <removal_instructions>Take this using the hand to heal. Don't let it get to the grinder! A medic kit wasn't thought to be eaten</removal_instructions>
+        </danger_info>
 		
 		<danger_states>
 			<!-- State 0: Intact medic kit -->
