@@ -6,7 +6,7 @@
 		<!-- Campaign level 01 -->
 		<campaign_level countdow="60" >
             <level_book>
-                <page>Welcome to \"The Sandwiches Game\"!</page>
+                <page>Welcome to "The Sandwiches Game"!</page>
                 <page>Your goal is to remove dangers from some sandwiches before they get to the giant grinder and damage your friend</page>
                 <page>In order to remove dangers from sandwiches, you have to combine multiple tools and use them on the dangers</page>
                 <page>Press A, S, D or F to change current tool. Move the mouse and left click to use the tool</page>
