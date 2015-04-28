@@ -20,6 +20,7 @@
 #include "level_intro.hpp"
 #include <SFML/Window/Event.hpp>
 #include "../utilities/level_book.hpp"
+#include "../dangers/dangers_file_parser.hpp"
 
 namespace jdb {
 
@@ -51,6 +52,13 @@ LevelIntro::LevelIntro( const GameState& parentGameState,
         }
     }else{
         levelBook->addPage( text );
+    }
+    DangersFileParser dangerFile("data/config/dangers.xml");
+    std::vector<DangerInfo> dangersInfo = dangerFile.getLevelDangersInfo( levelIndex );
+    for( const DangerInfo& dangerInfo : dangersInfo ){
+        levelBook->addPage( "New danger: \n\t" + dangerInfo.name + "\n\n" +
+                            "Description: \n\t" + dangerInfo.description + "\n\n" +
+                            "Instructions: \n\t" + dangerInfo.removalInstructions );
     }
 
     levelBook->setPosition(

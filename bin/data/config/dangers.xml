@@ -8,6 +8,12 @@
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.3</damage_factor>
 		<base_line x="16" y="76" width="213" />
+
+        <danger_info>
+            <name>Fire</name>
+            <description>FIREEEEEE!</description>
+            <removal_instructions>Simply use the extinguisher on it until it is removed</removal_instructions>
+        </danger_info>
 		
 		<danger_states>
 			<!-- State 0: Intact fire -->
@@ -34,6 +40,12 @@
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.3</damage_factor>
 		<base_line x="3" y="81" width="152" />
+
+        <danger_info>
+            <name>Ice crystals</name>
+            <description>The frozen stab</description>
+            <removal_instructions>Simply use the ligther on it until it is removed</removal_instructions>
+        </danger_info>
 		
 		<danger_states>
 			<!-- State 0: Intact ice crystals -->
@@ -59,6 +71,12 @@
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.3</damage_factor>
 		<base_line x="4" y="115" width="78" />
+
+        <danger_info>
+            <name>Rat</name>
+            <description>A rabid rat which will be defend its sandwich</description>
+            <removal_instructions>Hit it with the gavel to stun it. Then, remove it using the hand</removal_instructions>
+        </danger_info>
 		
 		<danger_states>
 			<!-- State 0: Intact rat -->
@@ -89,6 +107,12 @@
 		<initial_hp>100</initial_hp>
 		<damage_factor>0.1</damage_factor>
 		<base_line x="9" y="103" width="40" />
+
+        <danger_info>
+            <name>Knife</name>
+            <description>A sharp knife</description>
+            <removal_instructions>Simply remove it using the hand</removal_instructions>
+        </danger_info>
 		
 		<danger_states>
 			<!-- State 0: Intact knife -->

@@ -22,7 +22,8 @@ SOURCES += ../src/main.cpp \
     ../src/utilities/sound_manager.cpp \
     ../src/game_states/pause_menu.cpp \
     ../src/game_states/level_intro.cpp \
-    ../src/utilities/level_book.cpp
+    ../src/utilities/level_book.cpp \
+    ../src/dangers/dangers_file_parser.cpp
 
 HEADERS += \
     ../src/jdb.hpp \
@@ -44,7 +45,8 @@ HEADERS += \
     ../src/utilities/sound_manager.hpp \
     ../src/game_states/pause_menu.hpp \
     ../src/game_states/level_intro.hpp \
-    ../src/utilities/level_book.hpp
+    ../src/utilities/level_book.hpp \
+    ../src/dangers/dangers_file_parser.hpp
 
 LIBS += -lm2g -ldl -ltgui -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -ltinyxml2
 LIBS += -lboost_system -lboost_filesystem
