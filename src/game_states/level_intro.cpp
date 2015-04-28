@@ -42,7 +42,6 @@ LevelIntro::LevelIntro( const GameState& parentGameState,
 
     gui_.setGlobalFont( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" );
     LevelBook::Ptr levelBook = LevelBook::create();
-    levelBook->setSize( 400, 300 );
 
     if( levelBookXmlElement != nullptr ){
         tinyxml2::XMLElement* pageXmlElement = levelBookXmlElement->FirstChildElement( "page" );

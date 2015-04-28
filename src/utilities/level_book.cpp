@@ -29,7 +29,7 @@ LevelBook::LevelBook() :
     currentPageIndex_(0)
 {
     const sf::Vector2f LEVEL_BOOK_PADDING = { 5.0f, 5.0f };
-    const sf::Vector2f LEVEL_BOOK_SIZE = { 400.0f, 300.0f };
+    const sf::Vector2f LEVEL_BOOK_SIZE = { 600.0f, 400.0f };
     const sf::Vector2f TEXT_BOX_SIZE =
     {
         LEVEL_BOOK_SIZE.x - LEVEL_BOOK_PADDING.x * 2.0f,
@@ -98,6 +98,22 @@ void LevelBook::setNextPage()
     }else{
         sendSignal( "bookClosed" );
     }
+}
+
+
+void LevelBook::setSize(const tgui::Layout1d &width,
+                        const tgui::Layout1d &height)
+{
+    const sf::Vector2f SCALE_FACTORS =
+    {
+        width.getValue() / getSize().x,
+        height.getValue() / getSize().y
+    };
+    for( Widget::Ptr& widget : m_widgets ){
+        widget->scale( SCALE_FACTORS );
+    }
+
+    Panel::setSize( width, height );
 }
 
 } // namespace jdb
