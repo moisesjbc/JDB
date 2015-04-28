@@ -28,14 +28,28 @@ namespace jdb {
 LevelBook::LevelBook() :
     currentPageIndex_(0)
 {
+    const sf::Vector2f LEVEL_BOOK_PADDING = { 5.0f, 5.0f };
+    const sf::Vector2f LEVEL_BOOK_SIZE = { 400.0f, 300.0f };
+    const sf::Vector2f TEXT_BOX_SIZE =
+    {
+        LEVEL_BOOK_SIZE.x - LEVEL_BOOK_PADDING.x * 2.0f,
+        LEVEL_BOOK_SIZE.y * 0.8f - LEVEL_BOOK_PADDING.y * 2.0f
+    };
+    const sf::Vector2f BUTTON_SIZE = { LEVEL_BOOK_SIZE.x - LEVEL_BOOK_PADDING.x * 2.0f,
+                                       LEVEL_BOOK_SIZE.y * 0.2f - LEVEL_BOOK_PADDING.y };
+
+    tgui::Panel::setSize( LEVEL_BOOK_SIZE.x, LEVEL_BOOK_SIZE.y );
+
     textBox_ = tgui::TextBox::create();
-    textBox_->setPosition( 5, 5 );
+    textBox_->setPosition( LEVEL_BOOK_PADDING.x, LEVEL_BOOK_PADDING.y );
     textBox_->setReadOnly( true );
+    textBox_->setSize( TEXT_BOX_SIZE.x, TEXT_BOX_SIZE.y );
     Container::add( textBox_ );
 
     continueButton_ = tgui::Button::create();
     continueButton_->setPosition( 5.0f, tgui::bindBottom( textBox_ ) + 5.0f );
     continueButton_->setText( "Continue" );
+    continueButton_->setSize( BUTTON_SIZE.x, BUTTON_SIZE.y );
     Container::add( continueButton_ );
 
     m_callback.widgetType = "LevelBook";
