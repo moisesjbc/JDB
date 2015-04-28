@@ -31,6 +31,7 @@
 
 namespace jdb {
 
+// TODO: Add copy constructor and clone().
 class LevelBook : public tgui::Panel
 {
     public:
@@ -42,6 +43,7 @@ class LevelBook : public tgui::Panel
          * 1. Construction
          ***/
         LevelBook();
+        LevelBook( const LevelBook& b );
         static LevelBook::Ptr create();
 
 
