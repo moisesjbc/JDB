@@ -74,8 +74,10 @@ LevelBook::Ptr LevelBook::create()
 
 void LevelBook::addPage(const sf::String &text)
 {
-    pagesText_.push_back( text );
-    if( pagesText_.size() == 1 ){
+    BookPage newPage;
+    newPage.text = text;
+    pages_.push_back( newPage );
+    if( pages_.size() == 1 ){
         setPage( 0 );
     }
 }
@@ -88,14 +90,14 @@ void LevelBook::addPage(const sf::String &text)
 void LevelBook::setPage(unsigned int pageIndex)
 {
     currentPageIndex_ = pageIndex;
-    textBox_->setText( pagesText_.at( pageIndex ) );
+    textBox_->setText( pages_.at( pageIndex ).text );
 }
 
 
 void LevelBook::setNextPage()
 {
-    if( pagesText_.size() &&
-            ( currentPageIndex_ < ( pagesText_.size() - 1 ) ) ){
+    if( pages_.size() &&
+            ( currentPageIndex_ < ( pages_.size() - 1 ) ) ){
         setPage( currentPageIndex_ + 1 );
     }else{
         sendSignal( "bookClosed" );

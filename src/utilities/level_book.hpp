@@ -31,6 +31,11 @@
 
 namespace jdb {
 
+struct BookPage
+{
+    std::string text;
+};
+
 // TODO: Add copy constructor and clone().
 class LevelBook : public tgui::Panel
 {
@@ -70,7 +75,7 @@ class LevelBook : public tgui::Panel
 
     private:
         unsigned int currentPageIndex_;
-        std::vector< std::string > pagesText_;
+        std::vector< BookPage > pages_;
         tgui::TextBox::Ptr textBox_;
         tgui::Button::Ptr continueButton_;
 };
