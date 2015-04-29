@@ -72,11 +72,10 @@ LevelBook::Ptr LevelBook::create()
  * 3. Pages management
  ***/
 
-void LevelBook::addPage(const sf::String &text)
+void LevelBook::addPage( const sf::String &text,
+                         std::unique_ptr<tgui::Texture> texture)
 {
-    BookPage newPage;
-    newPage.text = text;
-    pages_.push_back( newPage );
+    pages_.emplace_back( text, std::move( texture ) );
     if( pages_.size() == 1 ){
         setPage( 0 );
     }

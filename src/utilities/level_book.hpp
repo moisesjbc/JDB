@@ -33,6 +33,12 @@ namespace jdb {
 struct BookPage
 {
     std::string text;
+    std::unique_ptr< tgui::Texture > texture;
+
+    BookPage( std::string text, std::unique_ptr< tgui::Texture > texture ) :
+        text( text ),
+        texture( std::move( texture ) )
+    {}
 };
 
 // TODO: Add copy constructor and clone().
@@ -60,7 +66,8 @@ class LevelBook : public tgui::Panel
         /***
          * 3. Pages management
          ***/
-        void addPage( const sf::String& text );
+        void addPage( const sf::String& text,
+                      std::unique_ptr< tgui::Texture > texture = nullptr );
 
 
         /***
