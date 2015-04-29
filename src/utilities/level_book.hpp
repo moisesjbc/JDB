@@ -22,7 +22,6 @@
 
 #include <TGUI/Gui.hpp>
 #include <TGUI/Panel.hpp>
-#include <TGUI/SharedWidgetPtr.hpp>
 #include <vector>
 #include <string>
 #include <TGUI/Scrollbar.hpp>
