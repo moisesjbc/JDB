@@ -27,6 +27,7 @@
 #include <TGUI/Scrollbar.hpp>
 #include <TGUI/TextBox.hpp>
 #include <TGUI/Button.hpp>
+#include <TGUI/Picture.hpp>
 
 namespace jdb {
 
@@ -83,6 +84,7 @@ class LevelBook : public tgui::Panel
         unsigned int currentPageIndex_;
         std::vector< BookPage > pages_;
         tgui::TextBox::Ptr textBox_;
+        tgui::Picture::Ptr picture_;
         tgui::Button::Ptr continueButton_;
 };
 
