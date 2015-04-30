@@ -37,6 +37,7 @@ TexturePicture::Ptr TexturePicture::create(const std::string &filename, bool ful
 
 void TexturePicture::setTexture(tgui::Texture texture)
 {
+    texture.setPosition( m_texture.getPosition() );
     m_texture = texture;
 }
 
