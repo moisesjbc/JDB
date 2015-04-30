@@ -19,6 +19,7 @@
 
 #include "dangers_file_parser.hpp"
 #include <stdexcept>
+#include <m2g/graphics_library.hpp>
 
 namespace jdb {
 
@@ -77,13 +78,29 @@ DangerInfo DangersFileParser::getDangerInfo(tinyxml2::XMLElement *dangerXmlEleme
         dangerInfo.removalInstructions = "UNDEFINED";
     }
 
-    dangerInfo.texture = std::unique_ptr< tgui::Texture >( new tgui::Texture( "data/img/dangers/knife_01.png", sf::IntRect( 0, 0, 64, 128 ) ) );
+    dangerInfo.texturePath =
+            std::string( "data/img/dangers/" ) +
+            dangerXmlElement->Attribute("name") +
+            "_01.png";
+
+
+
+    dangerInfo.textureSize =
+            getTileSize( std::string( dangerXmlElement->Attribute("name") ) +
+                         "_01.png" );
 
     return dangerInfo;
 }
 
 
+sf::Vector2u DangersFileParser::getTileSize( std::string dangerName)
+{
+    m2g::GraphicsLibrary dangersGraphicsLibrary("data/img/dangers/dangers.xml");
+    m2g::AnimationDataPtr dangerAnimData =
+            dangersGraphicsLibrary.getAnimationDataByName( dangerName );
 
+    return dangerAnimData->tileset().tileDimensions();
+}
 
 } // namespace jdb
 

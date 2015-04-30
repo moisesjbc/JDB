@@ -32,7 +32,9 @@ struct DangerInfo
     std::string name;
     std::string description;
     std::string removalInstructions;
-    std::unique_ptr< tgui::Texture > texture;
+
+    std::string texturePath;
+    sf::Vector2u textureSize;
 };
 
 class DangersFileParser
@@ -55,6 +57,7 @@ class DangersFileParser
          * 3. Parsing auxiliar methods
          ***/
         DangerInfo getDangerInfo( tinyxml2::XMLElement* dangerXmlElement );
+        sf::Vector2u getTileSize( std::string dangerName );
 
 
         /***

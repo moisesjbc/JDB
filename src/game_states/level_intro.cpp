@@ -55,10 +55,16 @@ LevelIntro::LevelIntro( const GameState& parentGameState,
     DangersFileParser dangerFile("data/config/dangers.xml");
     std::vector<DangerInfo> dangersInfo = dangerFile.getLevelDangersInfo( levelIndex );
     for( DangerInfo& dangerInfo : dangersInfo ){
+        std::unique_ptr< tgui::Texture > dangerTexture(
+                    new tgui::Texture(
+                        dangerInfo.texturePath,
+                        { 0, 0, static_cast<int>( dangerInfo.textureSize.x ), static_cast<int>( dangerInfo.textureSize.y ) }
+                    ) );
+
         levelBook->addPage( "New danger: \n\t" + dangerInfo.name + "\n\n" +
                             "Description: \n\t" + dangerInfo.description + "\n\n" +
                             "Instructions: \n\t" + dangerInfo.removalInstructions,
-                            std::move( dangerInfo.texture ) );
+                            std::move( dangerTexture ) );
     }
 
     levelBook->setPosition(
