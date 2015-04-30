@@ -17,52 +17,33 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef DANGERSFILEPARSER_HPP
-#define DANGERSFILEPARSER_HPP
+#ifndef TEXTUREPICTURE_HPP
+#define TEXTUREPICTURE_HPP
 
-#include <tinyxml2.h>
-#include <string>
-#include <vector>
-#include <TGUI/Texture.hpp>
+#include <TGUI/Picture.hpp>
 
 namespace jdb {
 
-struct DangerInfo
-{
-    std::string name;
-    std::string description;
-    std::string removalInstructions;
-    std::unique_ptr< tgui::Texture > texture;
-};
-
-class DangersFileParser
+class TexturePicture : public tgui::Picture
 {
     public:
+        typedef std::shared_ptr<TexturePicture> Ptr;
+        typedef std::shared_ptr<const TexturePicture> ConstPtr;
+
+
         /***
          * 1. Construction
          ***/
-        DangersFileParser( const std::string& filePath );
+        static Ptr create( const std::string &filename,
+                           bool fullyClickable = true );
 
 
         /***
-         * 2. Parsing
+         * 2. Setters
          ***/
-        std::vector< DangerInfo > getLevelDangersInfo( unsigned int level );
-
-
-    private:
-        /***
-         * 3. Parsing auxiliar methods
-         ***/
-        DangerInfo getDangerInfo( tinyxml2::XMLElement* dangerXmlElement );
-
-
-        /***
-         * Attributes
-         ***/
-        tinyxml2::XMLDocument file_;
+        void setTexture( tgui::Texture texture );
 };
 
 } // namespace jdb
 
-#endif // DANGERSFILEPARSER_HPP
+#endif // TEXTUREPICTURE_HPP

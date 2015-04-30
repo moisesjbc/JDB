@@ -77,6 +77,8 @@ DangerInfo DangersFileParser::getDangerInfo(tinyxml2::XMLElement *dangerXmlEleme
         dangerInfo.removalInstructions = "UNDEFINED";
     }
 
+    dangerInfo.texture = std::unique_ptr< tgui::Texture >( new tgui::Texture( "data/img/dangers/knife_01.png", sf::IntRect( 0, 0, 64, 128 ) ) );
+
     return dangerInfo;
 }
 

@@ -46,7 +46,7 @@ LevelBook::LevelBook() :
     textBox_->setSize( TEXT_BOX_SIZE.x, TEXT_BOX_SIZE.y );
     Container::add( textBox_ );
 
-    picture_ = tgui::Picture::create( "data/img/dangers/knife_01.png" );
+    picture_ = TexturePicture::create( "data/img/dangers/knife_01.png" );
     picture_->setPosition( 0.0f,
                            tgui::bindBottom( textBox_ ) - tgui::bindHeight( picture_ ) );
     Container::add( picture_ );
@@ -97,6 +97,9 @@ void LevelBook::setPage(unsigned int pageIndex)
 
     BookPage& newPage = pages_.at( pageIndex );
     textBox_->setText( newPage.text );
+    if( newPage.texture != nullptr ){
+        picture_->setTexture( *( newPage.texture ) );
+    }
 }
 
 
