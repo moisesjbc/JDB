@@ -39,6 +39,7 @@ void TexturePicture::setTexture(tgui::Texture texture)
 {
     texture.setPosition( m_texture.getPosition() );
     m_texture = texture;
+    setSize( m_texture.getSize() );
 }
 
 
