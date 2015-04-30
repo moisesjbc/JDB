@@ -46,13 +46,13 @@ LevelBook::LevelBook() :
     textBox_->setSize( TEXT_BOX_SIZE.x, TEXT_BOX_SIZE.y );
     Container::add( textBox_ );
 
-    picture_ = TexturePicture::create( "data/img/dangers/knife_01.png" );
+    picture_ = TexturePicture::create( "data/img/sandwiches/sandwich_01.png" );
     picture_->setPosition( 0.0f,
-                           tgui::bindBottom( textBox_ ) - tgui::bindHeight( picture_ ) );
+                           tgui::bindBottom( textBox_ ) );
     Container::add( picture_ );
 
     continueButton_ = tgui::Button::create();
-    continueButton_->setPosition( 5.0f, tgui::bindBottom( textBox_ ) + 5.0f );
+    continueButton_->setPosition( 5.0f, tgui::bindBottom( picture_ ) );
     continueButton_->setText( "Continue" );
     continueButton_->setSize( BUTTON_SIZE.x, BUTTON_SIZE.y );
     Container::add( continueButton_ );
@@ -100,6 +100,8 @@ void LevelBook::setPage(unsigned int pageIndex)
     if( newPage.texture != nullptr ){
         picture_->setTexture( *( newPage.texture ) );
     }
+    textBox_->setSize( textBox_->getSize().x,
+                       getSize().y - picture_->getSize().y - continueButton_->getSize().y );
 }
 
 
