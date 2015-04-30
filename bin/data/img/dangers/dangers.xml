@@ -72,8 +72,8 @@
 			<src>shell_01.png</src>
 			<tile_dimensions width="256" height="128"/>
 			<collision_rects>
-				<collision_rect tiles="all" x="3" y="15" width="145" height="50" />
-				<collision_rect tiles="all" x="64" y="1" width="29" height="15" />
+				<collision_rect tiles="all" x="3" y="18" width="145" height="50" />
+				<collision_rect tiles="all" x="64" y="4" width="29" height="15" />
 			</collision_rects>
 		</tileset>
 		<animation_states>
