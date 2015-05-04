@@ -45,7 +45,7 @@ Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
     {
         false,
         true,
-        true,
+        false,
         false
     };
 
