@@ -19,8 +19,9 @@
 
 #include "pause_menu.hpp"
 #include <SFML/Window/Event.hpp>
-#include <TGUI/Panel.hpp>
 #include <TGUI/Button.hpp>
+#include <string>
+#include <functional>
 
 namespace jdb {
 
@@ -54,32 +55,9 @@ void PauseMenu::init()
     pauseMenuLabel->setText( "Game paused" );
     pauseMenuLabel->setTextColor( sf::Color::Black );
     pauseMenuLabel->setPosition( 0.0f, 0.0f );
-
-    tgui::Button::Ptr resumeGameButton = tgui::Button::create();
-    resumeGameButton->setText( "Resume game" );
-    resumeGameButton->setTextSize( 14 );
-    resumeGameButton->setSize( tgui::bindWidth( pausePanel, 0.9f ),
-                               resumeGameButton->getSize().y );
-    resumeGameButton->setPosition({
-                                      ( pausePanel->getSize().x - resumeGameButton->getSize().x ) / 2.0f,
-                                      ( pausePanel->getSize().y - resumeGameButton->getSize().y ) / 2.0f
-                                   });
-    resumeGameButton->connect( "pressed", [this](){ requestStateExit(); } );
-
-    tgui::Button::Ptr returnToMainMenuButton = tgui::Button::create();
-    returnToMainMenuButton->setText( "Return to main menu" );
-    returnToMainMenuButton->setTextSize( 14 );
-    returnToMainMenuButton->setSize( tgui::bindWidth( pausePanel, 0.9f ),
-                                     returnToMainMenuButton->getSize().y );
-    returnToMainMenuButton->setPosition({
-                                   ( pausePanel->getSize().x - returnToMainMenuButton->getSize().x ) / 2.0f,
-                                   tgui::bindBottom( resumeGameButton ) + 10.0f
-                                   });
-    returnToMainMenuButton->connect( "pressed", [this](){ requestStateExit( RETURN_TO_MAIN_MENU_REQUESTED ); } );
-
     pausePanel->add( pauseMenuLabel );
-    pausePanel->add( resumeGameButton );
-    pausePanel->add( returnToMainMenuButton );
+
+    createPauseMenuButtons( pausePanel, pauseMenuLabel );
 
     gui_.add( pausePanel );
 
@@ -123,6 +101,43 @@ void PauseMenu::pause()
 void PauseMenu::resume()
 {
     window_.setMouseCursorVisible( true );
+}
+
+
+/***
+ * 4. Initialization auxiliar methods
+ ***/
+
+void PauseMenu::createPauseMenuButtons( tgui::Panel::Ptr menuPanel,
+                                        tgui::Widget::Ptr menuLabel )
+{
+    struct PauseMenuButtonData
+    {
+        std::string text;
+        std::function<void()> callback;
+    };
+    std::vector< PauseMenuButtonData > pauseMenuButtonsData =
+    {
+        { "Resume game", [this](){ requestStateExit(); } },
+        { "Return to main menu", [this](){ requestStateExit( RETURN_TO_MAIN_MENU_REQUESTED ); } }
+    };
+    tgui::Widget::Ptr upperWidget = menuLabel;
+    for( const PauseMenuButtonData& buttonData : pauseMenuButtonsData ){
+        tgui::Button::Ptr button = tgui::Button::create();
+        button->setText( buttonData.text );
+        button->setTextSize( 14 );
+        button->setSize( tgui::bindWidth( menuPanel, 0.9f ),
+                         button->getSize().y );
+        button->setPosition({
+                                ( menuPanel->getSize().x - button->getSize().x ) / 2.0f,
+                                tgui::bindBottom( upperWidget ) + 5.0f
+                            });
+        button->connect( "pressed", buttonData.callback );
+
+        menuPanel->add( button );
+
+        upperWidget = button;
+    }
 }
 
 
