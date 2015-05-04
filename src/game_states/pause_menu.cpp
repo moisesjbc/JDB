@@ -57,14 +57,25 @@ void PauseMenu::init()
 
     tgui::Button::Ptr resumeGameButton = tgui::Button::create();
     resumeGameButton->setText( "Resume game" );
+    resumeGameButton->setTextSize( 14 );
     resumeGameButton->setPosition({
                                    ( pausePanel->getSize().x - resumeGameButton->getSize().x ) / 2.0f,
                                    ( pausePanel->getSize().y - resumeGameButton->getSize().y ) / 2.0f
                                    });
     resumeGameButton->connect( "pressed", [this](){ requestStateExit(); } );
 
+    tgui::Button::Ptr returnToMainMenuButton = tgui::Button::create();
+    returnToMainMenuButton->setText( "Return to main menu" );
+    returnToMainMenuButton->setTextSize( 14 );
+    returnToMainMenuButton->setPosition({
+                                   ( pausePanel->getSize().x - resumeGameButton->getSize().x ) / 2.0f,
+                                   tgui::bindBottom( resumeGameButton ) + 10.0f
+                                   });
+    returnToMainMenuButton->connect( "pressed", [this](){ requestStateExit( RETURN_TO_MAIN_MENU_REQUESTED ); } );
+
     pausePanel->add( pauseMenuLabel );
     pausePanel->add( resumeGameButton );
+    pausePanel->add( returnToMainMenuButton );
 
     gui_.add( pausePanel );
 

@@ -136,6 +136,7 @@ void MainMenu::pause()
 
 void MainMenu::resume()
 {
+    window_.setMouseCursorVisible( true );
 }
 
 } // namespace jdb

@@ -26,6 +26,8 @@
 
 namespace jdb {
 
+const int RETURN_TO_MAIN_MENU_REQUESTED = -1;
+
 class PauseMenu : public GameState
 {
     public:

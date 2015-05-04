@@ -162,8 +162,8 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
             switch( event.key.code ){
                 case sf::Keyboard::Escape:{
                     PauseMenu pauseMenu( window_, *this );
-                    if( switchState( pauseMenu ) == -1 ){
-                        requestStateExit( -1 );
+                    if( switchState( pauseMenu ) == RETURN_TO_MAIN_MENU_REQUESTED ){
+                        requestStateExit( RETURN_TO_MAIN_MENU_REQUESTED );
                     }
                 }break;
                 case sf::Keyboard::A:
