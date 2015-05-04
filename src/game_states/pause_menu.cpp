@@ -130,7 +130,7 @@ void PauseMenu::createPauseMenuButtons( tgui::Panel::Ptr menuPanel,
                          button->getSize().y );
         button->setPosition({
                                 ( menuPanel->getSize().x - button->getSize().x ) / 2.0f,
-                                tgui::bindBottom( upperWidget ) + 5.0f
+                                tgui::bindBottom( upperWidget ) + 20.0f
                             });
         button->connect( "pressed", buttonData.callback );
 
