@@ -54,12 +54,13 @@ void SurvivalLevel::load( unsigned int index )
     loadSandwichData();
 
     // Load the dangers data.
-    loadDangerData();
+    // The 999 "hack" makes this load all available dangers.
+    loadDangerData( 999 );
 
     // Get the conveyor belt parameters.
     conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
 
-    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex_, nullptr ) );
+    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, 999, levelNode->FirstChildElement( "level_book" ) ) );
 }
 
 

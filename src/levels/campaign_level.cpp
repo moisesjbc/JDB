@@ -61,7 +61,7 @@ void CampaignLevel::load( unsigned int index )
     loadSandwichData();
 
     // Load the dangers data.
-    loadDangerData();
+    loadDangerData( index );
 
     // Get the conveyor belt parameters.
     conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );

@@ -64,7 +64,7 @@ void Level::loadSandwichData()
 }
 
 
-void Level::loadDangerData()
+void Level::loadDangerData( unsigned int levelIndex )
 {
     tinyxml2::XMLDocument document;
     tinyxml2::XMLElement* dangerXMLElement = nullptr;
@@ -78,7 +78,7 @@ void Level::loadDangerData()
 
     dangerData.clear();
     while( dangerXMLElement ){
-        if( static_cast< unsigned int >( dangerXMLElement->IntAttribute( "first_level" ) ) <= levelIndex_ ){
+        if( static_cast< unsigned int >( dangerXMLElement->IntAttribute( "first_level" ) ) <= levelIndex ){
             dangerData.emplace_back( new DangerData( dangerXMLElement, *dangerGraphicsLibrary_, dangerData ) );
         }
         dangerXMLElement = dangerXMLElement->NextSiblingElement();

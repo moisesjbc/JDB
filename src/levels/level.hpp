@@ -57,7 +57,7 @@ class Level : public GameState
          ***/
         virtual void load( unsigned int levelIndex ) = 0;
         void loadSandwichData();
-        void loadDangerData();
+        void loadDangerData( unsigned int levelIndex );
 
 
         /***
