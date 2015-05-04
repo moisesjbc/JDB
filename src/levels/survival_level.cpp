@@ -34,6 +34,7 @@ void SurvivalLevel::load( unsigned int index )
 {
     tinyxml2::XMLNode* levelNode = nullptr;
     unsigned int i = 0;
+    const unsigned int LOAD_ALL_DANGERS = 99999;
 
     // Open the levels configuration file.
     xmlFile.LoadFile( "data/config/levels.xml" );
@@ -54,8 +55,7 @@ void SurvivalLevel::load( unsigned int index )
     loadSandwichData();
 
     // Load the dangers data.
-    // The 999 "hack" makes this load all available dangers.
-    loadDangerData( 999 );
+    loadDangerData( LOAD_ALL_DANGERS );
 
     // Get the conveyor belt parameters.
     conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
