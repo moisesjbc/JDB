@@ -37,7 +37,8 @@ class LevelIntro : public GameState
         LevelIntro( const GameState& parentGameState,
                     sf::RenderWindow& window,
                     unsigned int levelIndex,
-                    tinyxml2::XMLElement* levelBookXmlElement );
+                    tinyxml2::XMLElement* levelBookXmlElement,
+                    bool presentNewDangers = true );
 
 
     protected:

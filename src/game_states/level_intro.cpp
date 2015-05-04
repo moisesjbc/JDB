@@ -28,10 +28,11 @@ namespace jdb {
  * 1. Construction
  ***/
 
-LevelIntro::LevelIntro( const GameState& parentGameState,
+LevelIntro::LevelIntro(const GameState& parentGameState,
                         sf::RenderWindow& window,
                         unsigned int levelIndex,
-                        tinyxml2::XMLElement* levelBookXmlElement ) :
+                        tinyxml2::XMLElement* levelBookXmlElement,
+                        bool presentNewDangers ) :
     GameState( window ),
     levelIndex_( levelIndex ),
     parentGameState_( parentGameState ),
@@ -52,51 +53,53 @@ LevelIntro::LevelIntro( const GameState& parentGameState,
     }else{
         levelBook->addPage( text );
     }
-    DangersFileParser dangerFile("data/config/dangers.xml");
-    std::vector<DangerInfo> dangersInfo = dangerFile.getLevelDangersInfo( levelIndex );
-    for( DangerInfo& dangerInfo : dangersInfo ){
-        std::unique_ptr< tgui::Texture > dangerTexture(
-                    new tgui::Texture(
-                        dangerInfo.texturePath,
-                        { 0, 0, static_cast<int>( dangerInfo.textureSize.x ), static_cast<int>( dangerInfo.textureSize.y ) }
-                    ) );
+    if( presentNewDangers ){
+        DangersFileParser dangerFile("data/config/dangers.xml");
+        std::vector<DangerInfo> dangersInfo = dangerFile.getLevelDangersInfo( levelIndex );
+        for( DangerInfo& dangerInfo : dangersInfo ){
+            std::unique_ptr< tgui::Texture > dangerTexture(
+                        new tgui::Texture(
+                            dangerInfo.texturePath,
+                            { 0, 0, static_cast<int>( dangerInfo.textureSize.x ), static_cast<int>( dangerInfo.textureSize.y ) }
+                        ) );
 
-        unsigned int minX = 0;
-        unsigned int minY = 0;
-        unsigned int maxX = 0;
-        unsigned int maxY = 0;
-        for( unsigned int x = 0; x < dangerInfo.textureSize.x; x++ ){
-            for( unsigned int y = 0; y < dangerInfo.textureSize.y; y++ ){
-                if( !( dangerTexture->isTransparentPixel( x, y ) ) ){
-                    if( minX == 0 || x < minX ){
-                        minX = x;
-                    }
-                    if( minY == 0 || y < minY ){
-                        minY = y;
-                    }
-                    if( x > maxX ){
-                        maxX = x;
-                    }
-                    if( y > maxY ){
-                        maxY = y;
+            unsigned int minX = 0;
+            unsigned int minY = 0;
+            unsigned int maxX = 0;
+            unsigned int maxY = 0;
+            for( unsigned int x = 0; x < dangerInfo.textureSize.x; x++ ){
+                for( unsigned int y = 0; y < dangerInfo.textureSize.y; y++ ){
+                    if( !( dangerTexture->isTransparentPixel( x, y ) ) ){
+                        if( minX == 0 || x < minX ){
+                            minX = x;
+                        }
+                        if( minY == 0 || y < minY ){
+                            minY = y;
+                        }
+                        if( x > maxX ){
+                            maxX = x;
+                        }
+                        if( y > maxY ){
+                            maxY = y;
+                        }
                     }
                 }
             }
+
+            dangerTexture = std::unique_ptr< tgui::Texture >(
+                        new tgui::Texture(
+                            dangerInfo.texturePath,
+                            { static_cast<int>(minX),
+                              static_cast<int>(minY),
+                              static_cast<int>(maxX - minX),
+                              static_cast<int>(maxY - minY) }
+                        ) );
+
+            levelBook->addPage( "New danger: \n\t" + dangerInfo.name + "\n\n" +
+                                "Description: \n\t" + dangerInfo.description + "\n\n" +
+                                "Instructions: \n\t" + dangerInfo.removalInstructions,
+                                std::move( dangerTexture ) );
         }
-
-        dangerTexture = std::unique_ptr< tgui::Texture >(
-                    new tgui::Texture(
-                        dangerInfo.texturePath,
-                        { static_cast<int>(minX),
-                          static_cast<int>(minY),
-                          static_cast<int>(maxX - minX),
-                          static_cast<int>(maxY - minY) }
-                    ) );
-
-        levelBook->addPage( "New danger: \n\t" + dangerInfo.name + "\n\n" +
-                            "Description: \n\t" + dangerInfo.description + "\n\n" +
-                            "Instructions: \n\t" + dangerInfo.removalInstructions,
-                            std::move( dangerTexture ) );
     }
 
     levelBook->setPosition(
