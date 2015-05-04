@@ -54,7 +54,9 @@ void PauseMenu::init()
     tgui::Label::Ptr pauseMenuLabel = tgui::Label::create();
     pauseMenuLabel->setText( "Game paused" );
     pauseMenuLabel->setTextColor( sf::Color::Black );
-    pauseMenuLabel->setPosition( 0.0f, 0.0f );
+    pauseMenuLabel->setPosition({
+                                    ( tgui::bindWidth( pausePanel ) - tgui::bindWidth( pauseMenuLabel ) ) / 2.0f,
+                                    5.0f });
     pausePanel->add( pauseMenuLabel );
 
     createPauseMenuButtons( pausePanel, pauseMenuLabel );
