@@ -87,7 +87,10 @@ LevelIntro::LevelIntro( const GameState& parentGameState,
         dangerTexture = std::unique_ptr< tgui::Texture >(
                     new tgui::Texture(
                         dangerInfo.texturePath,
-                        { minX, minY, maxX - minX, maxY - minY }
+                        { static_cast<int>(minX),
+                          static_cast<int>(minY),
+                          static_cast<int>(maxX - minX),
+                          static_cast<int>(maxY - minY) }
                     ) );
 
         levelBook->addPage( "New danger: \n\t" + dangerInfo.name + "\n\n" +
