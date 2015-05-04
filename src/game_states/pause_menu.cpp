@@ -38,7 +38,7 @@ PauseMenu::PauseMenu( sf::RenderWindow& window, const GameState& parentGameState
 
 void PauseMenu::init()
 {
-    pauseMenuFont_.loadFromFile( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" );
+    pauseMenuFont_.loadFromFile( "data/fonts/LiberationSans-Bold.ttf" );
 
     pauseMenuText_.setFont( pauseMenuFont_ );
     pauseMenuText_.setCharacterSize( 30 );

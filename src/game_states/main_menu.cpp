@@ -42,7 +42,7 @@ MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
 
 void MainMenu::init()
 {
-    gui_.setGlobalFont( "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf" );
+    gui_.setGlobalFont( "data/fonts/LiberationSans-Bold.ttf" );
 
     const std::vector< std::string > buttonTexts =
     {
