@@ -22,6 +22,7 @@
 
 #include "game_state.hpp"
 #include <SFML/Graphics/Text.hpp>
+#include <TGUI/Gui.hpp>
 
 namespace jdb {
 
@@ -48,8 +49,7 @@ class PauseMenu : public GameState
 
     private:
         const GameState& parentGameState_;
-        sf::Font pauseMenuFont_;
-        sf::Text pauseMenuText_;
+        mutable tgui::Gui gui_;
 };
 
 } // namespace jdb

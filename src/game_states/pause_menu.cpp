@@ -19,6 +19,8 @@
 
 #include "pause_menu.hpp"
 #include <SFML/Window/Event.hpp>
+#include <TGUI/Panel.hpp>
+#include <TGUI/Button.hpp>
 
 namespace jdb {
 
@@ -28,7 +30,8 @@ namespace jdb {
 
 PauseMenu::PauseMenu( sf::RenderWindow& window, const GameState& parentGameState ) :
     GameState( window ),
-    parentGameState_( parentGameState )
+    parentGameState_( parentGameState ),
+    gui_( window )
 {}
 
 
@@ -38,15 +41,32 @@ PauseMenu::PauseMenu( sf::RenderWindow& window, const GameState& parentGameState
 
 void PauseMenu::init()
 {
-    pauseMenuFont_.loadFromFile( "data/fonts/LiberationSans-Bold.ttf" );
+    gui_.setGlobalFont( "data/fonts/LiberationSans-Bold.ttf" );
 
-    pauseMenuText_.setFont( pauseMenuFont_ );
-    pauseMenuText_.setCharacterSize( 30 );
-    pauseMenuText_.setColor( sf::Color::Black );
-    pauseMenuText_.setString( "Press any key to resume game" );
+    tgui::Panel::Ptr pausePanel = tgui::Panel::create( { 250, 200 });
+    pausePanel->setBackgroundColor( sf::Color::White );
+    pausePanel->setPosition({
+                                ( window_.getSize().x - pausePanel->getSize().x ) / 2.0f,
+                                ( window_.getSize().y - pausePanel->getSize().y ) / 2.0f
+                            });
 
-    pauseMenuText_.setPosition( ( window_.getSize().x - pauseMenuText_.getLocalBounds().width ) / 2,
-                                ( window_.getSize().y - pauseMenuText_.getLocalBounds().height ) / 2 );
+    tgui::Label::Ptr pauseMenuLabel = tgui::Label::create();
+    pauseMenuLabel->setText( "Game paused" );
+    pauseMenuLabel->setTextColor( sf::Color::Black );
+    pauseMenuLabel->setPosition( 0.0f, 0.0f );
+
+    tgui::Button::Ptr resumeGameButton = tgui::Button::create();
+    resumeGameButton->setText( "Resume game" );
+    resumeGameButton->setPosition({
+                                   ( pausePanel->getSize().x - resumeGameButton->getSize().x ) / 2.0f,
+                                   ( pausePanel->getSize().y - resumeGameButton->getSize().y ) / 2.0f
+                                   });
+    resumeGameButton->connect( "pressed", [this](){ requestStateExit(); } );
+
+    pausePanel->add( pauseMenuLabel );
+    pausePanel->add( resumeGameButton );
+
+    gui_.add( pausePanel );
 
     window_.setMouseCursorVisible( true );
 }
@@ -59,8 +79,8 @@ void PauseMenu::handleEvents()
     while( window_.pollEvent( event ) ){
         if( event.type == sf::Event::Closed ){
             exit( 0 );
-        }else if( event.type == sf::Event::KeyPressed ){
-            requestStateExit();
+        }else{
+            gui_.handleEvent( event );
         }
     }
 }
@@ -75,7 +95,7 @@ void PauseMenu::update( unsigned int ms )
 void PauseMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw( parentGameState_, states );
-    target.draw( pauseMenuText_, states );
+    gui_.draw();
 }
 
 
