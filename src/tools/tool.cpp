@@ -36,7 +36,7 @@ Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
     const std::string audioFolder = "data/audio/tools/";
     const std::string audioFiles[] =
     {
-        "gavel_hit.ogg",
+        "hand.ogg",
         "extinguisher.ogg",
         "lighter.ogg",
         "gavel_hit.ogg"
