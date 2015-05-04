@@ -39,7 +39,7 @@ Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
         "hand.ogg",
         "extinguisher.ogg",
         "lighter.ogg",
-        "gavel_hit.ogg"
+        "gavel.ogg"
     };
     bool audioLoop[] =
     {
