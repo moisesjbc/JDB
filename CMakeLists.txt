@@ -49,6 +49,6 @@ set( SOURCE_FILES
 )
 
 
-add_executable( "bin/${PROJECT_NAME}" ${SOURCE_FILES} )
+add_executable( "${PROJECT_NAME}" ${SOURCE_FILES} )
 target_link_libraries( "bin/${PROJECT_NAME}" ${LIBRARIES} )
 
