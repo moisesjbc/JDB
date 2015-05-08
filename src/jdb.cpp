@@ -22,8 +22,8 @@
 
 namespace jdb {
 
-const GLfloat WINDOW_WIDTH = 1024;
-const GLfloat WINDOW_HEIGHT = 768;
+const int WINDOW_WIDTH = 1024;
+const int WINDOW_HEIGHT = 768;
 
 
 /***
