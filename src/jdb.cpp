@@ -18,7 +18,6 @@
  ***/
 
 #include "jdb.hpp"
-#include <msl/shader_loader.hpp>
 #include "game_states/main_menu.hpp"
 
 namespace jdb {
