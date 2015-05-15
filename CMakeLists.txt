@@ -11,13 +11,13 @@ set( PROJECT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${
 # Compiler flags
 if(CMAKE_COMPILER_IS_GNUCXX)
 	message(STATUS "GCC detected, adding compile flags")
-	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -pedantic-errors" )
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32 -std=c++11 -Wall -Werror -pedantic-errors" )
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 # Common libraries
 include( FindPkgConfig )
 set( LIBRARIES "${LIBRARIES};tinyxml2" )
-set( LIBRARIES "${LIBRARIES};-lm2g -ldl -ltgui -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -lboost_system -lboost_filesystem" )
+set( LIBRARIES "${LIBRARIES};m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;sfml-main;boost_system-mgw49-mt-1_58;boost_filesystem-mgw49-mt-1_58" )
 
 set( SOURCE_DIR "${CMAKE_BINARY_DIR}/src" )
 
