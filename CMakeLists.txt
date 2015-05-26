@@ -17,7 +17,7 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 # Common libraries
 include( FindPkgConfig )
 set( LIBRARIES "${LIBRARIES};tinyxml2" )
-set( LIBRARIES "${LIBRARIES};m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;sfml-main;boost_system-mgw49-mt-1_58;boost_filesystem-mgw49-mt-1_58" )
+set( LIBRARIES "${LIBRARIES};m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;boost_system;boost_filesystem" )
 
 set( SOURCE_DIR "${CMAKE_BINARY_DIR}/src" )
 
