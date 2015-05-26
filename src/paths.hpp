@@ -17,38 +17,16 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "jdb.hpp"
-#include "game_states/main_menu.hpp"
-#include <paths.hpp>
+#ifndef PATHS_HPP
+#define PATHS_HPP
+
+#include <string>
 
 namespace jdb {
 
-const int WINDOW_WIDTH = 1024;
-const int WINDOW_HEIGHT = 768;
+const std::string DATA_DIR_PATH = "./data";
 
-
-/***
- * 1. Construction
- ***/
-
-JDB::JDB()
-{
-    window_.create( sf::VideoMode( WINDOW_WIDTH, WINDOW_HEIGHT ), "JDB" );
 }
 
-
-/***
- * 2. Game run
- ***/
-
-void JDB::run()
-{
-    SoundManager soundManager( (DATA_DIR_PATH + "/audio").c_str() );
-
-    MainMenu mainMenu( window_, &soundManager );
-
-    mainMenu.run();
-}
-
-
-} // namespace jdb
+#endif
+// PATHS_HPP

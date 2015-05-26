@@ -22,6 +22,7 @@
 #include <TGUI/Button.hpp>
 #include <string>
 #include <functional>
+#include <paths.hpp>
 
 namespace jdb {
 
@@ -42,7 +43,7 @@ PauseMenu::PauseMenu( sf::RenderWindow& window, const GameState& parentGameState
 
 void PauseMenu::init()
 {
-    gui_.setGlobalFont( "data/fonts/LiberationSans-Bold.ttf" );
+    gui_.setGlobalFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
 
     tgui::Panel::Ptr pausePanel = tgui::Panel::create( { 250, 200 });
     pausePanel->setBackgroundColor( sf::Color::White );

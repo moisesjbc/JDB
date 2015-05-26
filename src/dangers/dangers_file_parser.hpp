@@ -24,6 +24,7 @@
 #include <string>
 #include <vector>
 #include <TGUI/Texture.hpp>
+#include <paths.hpp>
 
 namespace jdb {
 

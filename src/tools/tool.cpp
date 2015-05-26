@@ -20,6 +20,7 @@
 #include "tool.hpp"
 #include <map>
 #include <SFML/Window/Mouse.hpp>
+#include <paths.hpp>
 
 namespace jdb {
 
@@ -33,7 +34,7 @@ Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
 {
     unsigned int i = 0;
 
-    const std::string audioFolder = "data/audio/tools/";
+    const std::string audioFolder = DATA_DIR_PATH + "/audio/tools/";
     const std::string audioFiles[] =
     {
         "hand.ogg",
@@ -60,7 +61,7 @@ Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
         sounds_[i].setBuffer( soundBuffers_[i] );
         sounds_[i].setLoop( audioLoop[i] );
     }
-    soundBuffer_.loadFromFile( "data/audio/player/cry-1.ogg" );
+    soundBuffer_.loadFromFile( DATA_DIR_PATH + "/audio/player/cry-1.ogg" );
     sound_.setBuffer( soundBuffer_ );
     sound_.setLoop( false );
 
