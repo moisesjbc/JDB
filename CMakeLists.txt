@@ -11,7 +11,7 @@ set( PROJECT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${
 # Compiler flags
 if(CMAKE_COMPILER_IS_GNUCXX)
 	message(STATUS "GCC detected, adding compile flags")
-        add_compile_options( "-m32 -std=c++11" "-Wall" "-Werror" "-pedantic-errors" )
+        add_compile_options( "-std=c++11" "-Wall" "-Werror" "-pedantic-errors" )
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 # Common libraries
