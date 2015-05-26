@@ -8,21 +8,16 @@ set( PROJECT_VERSION_MINOR 1 )
 set( PROJECT_VERSION_PATCH 0 )
 set( PROJECT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH} )
 
-# Compilation flags
-add_compile_options( "-std=c++11" "-Wall" "-Werror" "-pedantic-errors" )
+# Compiler flags
+if(CMAKE_COMPILER_IS_GNUCXX)
+	message(STATUS "GCC detected, adding compile flags")
+        add_compile_options( "-m32 -std=c++11" "-Wall" "-Werror" "-pedantic-errors" )
+endif(CMAKE_COMPILER_IS_GNUCXX)
 
 # Common libraries
 include( FindPkgConfig )
 set( LIBRARIES "${LIBRARIES};tinyxml2" )
-set( LIBRARIES "${LIBRARIES};-lm2g -ldl -ltgui -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -lboost_system -lboost_filesystem" )
-
-# Detect and add SFML (FIXME: This will work only on GNU/Linux.)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "/usr/share/SFML/cmake/Modules/")
-find_package(SFML 2 REQUIRED system window graphics )
-if(SFML_FOUND)
-    include_directories(${SFML_INCLUDE_DIR})
-    set( LIBRARIES "${LIBRARIES};${SFML_LIBRARIES}" )
-endif()
+set( LIBRARIES "${LIBRARIES};m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;sfml-main;boost_system-mgw49-mt-1_58;boost_filesystem-mgw49-mt-1_58" )
 
 set( SOURCE_DIR "${CMAKE_BINARY_DIR}/src" )
 
@@ -54,6 +49,6 @@ set( SOURCE_FILES
 )
 
 
-add_executable( "bin/${PROJECT_NAME}" ${SOURCE_FILES} )
-target_link_libraries( "bin/${PROJECT_NAME}" ${LIBRARIES} )
+add_executable( "${PROJECT_NAME}" ${SOURCE_FILES} )
+target_link_libraries( "${PROJECT_NAME}" ${LIBRARIES} )
 
