@@ -220,6 +220,8 @@ void Level::reset()
 
     resetLevelTime();
 
+    conveyorBelt_.reset();
+
     // Present level intro to player.
     switchState( *levelIntro_ );
 

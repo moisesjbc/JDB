@@ -69,6 +69,12 @@ float ConveyorBelt::getSpeed() const
  * 3. Updating
  ***/
 
+void ConveyorBelt::reset()
+{
+    speed_ = initialSpeed_;
+    timeSinceLastUpdate_ = 0;
+}
+
 
 void ConveyorBelt::update(unsigned int ms)
 {

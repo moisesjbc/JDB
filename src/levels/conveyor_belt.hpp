@@ -55,6 +55,7 @@ class ConveyorBelt
         /***
          * 3. Updating
          ***/
+        void reset();
         void update( unsigned int ms );
 };
 
