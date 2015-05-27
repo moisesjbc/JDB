@@ -36,7 +36,7 @@ class SurvivalLevel : public Level
         /***
          * 2. Level loading
          ***/
-        virtual void load( unsigned int levelIndex );
+        virtual bool load( unsigned int levelIndex );
 
 
         /***

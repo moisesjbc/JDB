@@ -264,7 +264,9 @@ void Level::init()
     initGUI();
 
     // Load the required level.
-    load( levelIndex_ );
+    if( load( levelIndex_ ) == false ){
+        throw std::runtime_error( "Couldn't load level " + std::to_string( levelIndex_ ) );
+    }
 
     // Initialize GUI's texts.
     guiFont_.loadFromFile( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
@@ -395,8 +397,11 @@ void Level::update( unsigned int ms )
     if( victory() ){
         acumScore_ += levelScore_;
         levelIndex_++; // TODO: This should go inside "load()".
-        load( levelIndex_ );
-        reset();
+        if( load( levelIndex_ ) ){
+            reset();
+        }else{
+            requestStateExit();
+        }
         //init();
     }else if( defeat() ){
         reset();

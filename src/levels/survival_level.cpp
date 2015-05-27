@@ -30,7 +30,7 @@ SurvivalLevel::SurvivalLevel( sf::RenderWindow& window, SoundManager* soundManag
  * 2. Level loading
  ***/
 
-void SurvivalLevel::load( unsigned int index )
+bool SurvivalLevel::load( unsigned int index )
 {
     tinyxml2::XMLNode* levelNode = nullptr;
     unsigned int i = 0;
@@ -46,9 +46,9 @@ void SurvivalLevel::load( unsigned int index )
         i++;
     }
 
-    // If the index XML node doesn't exist, throw an exception.
+    // If the index XML node doesn't exist, return false
     if( levelNode == nullptr ){
-        throw std::runtime_error( "ERROR: Survival level not found" );
+        return false;
     }
 
     // Load the sandwiches data.
@@ -61,6 +61,8 @@ void SurvivalLevel::load( unsigned int index )
     conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
 
     levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex_, levelNode->FirstChildElement( "level_book" ), false ) );
+
+    return true;
 }
 
 
