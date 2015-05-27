@@ -55,8 +55,8 @@ target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 
 # Instalation
 install( TARGETS "${EXEC_NAME}" RUNTIME DESTINATION bin )
-file( WRITE launch_jdb "#!/bin/bash
-(cd ${CMAKE_INSTALL_PREFIX}/bin && ./${EXEC_NAME})"
-)
+install( CODE "file( WRITE launch_jdb \"#!/bin/bash
+(cd \"${CMAKE_INSTALL_PREFIX}/bin\" && ./${EXEC_NAME})\"
+)" )
 install( PROGRAMS launch_jdb DESTINATION bin RENAME "${PROJECT_NAME}" )
 install( DIRECTORY share/jdb DESTINATION share )
