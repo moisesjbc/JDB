@@ -30,6 +30,7 @@ namespace jdb {
 
 Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
     Animation( std::move( animationData ) ),
+    currentToolType_( ToolType::HAND ),
     soundManager_( soundManager )
 {
     unsigned int i = 0;
@@ -50,9 +51,6 @@ Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
         false
     };
 
-    active_ = false;
-    setToolType( ToolType::HAND );
-
     // Load the sounds.
     for( i = 0; i < 4; i++ ){
         if( !soundBuffers_[i].loadFromFile( ( audioFolder + audioFiles[i] ) ) ){
@@ -66,6 +64,9 @@ Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
     sound_.setLoop( false );
 
     crySoundIndex_ = soundManager_.loadSounds( "player", "cry-" );
+
+    active_ = false;
+    setToolType( ToolType::HAND );
 }
 
 
