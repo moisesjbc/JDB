@@ -47,7 +47,7 @@ void SurvivalLevel::load( unsigned int index )
     }
 
     // If the index XML node doesn't exist, throw an exception.
-    if( i < index ){
+    if( levelNode == nullptr ){
         throw std::runtime_error( "ERROR: Survival level not found" );
     }
 
