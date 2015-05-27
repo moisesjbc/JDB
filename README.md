@@ -5,18 +5,25 @@ A 2D ability game.
 
 ## Building from source (Ubuntu 14.04)
 
-1. Install [Qt Creator](https://qt-project.org/wiki/Category:Tools::QtCreator)
+1. Install the following list of dependencies
 
-2. Install [the library msl](https://github.com/moisesjbc/msl).
+    * [Library tinyxml2](http://www.grinninglizard.com/tinyxml2/)
+    * [Library SFML (>= 2.2)](http://www.sfml-dev.org/)
+    * [Library m2g](https://github.com/moisesjbc/m2g)
 
-3. Install [the library m2g](https://github.com/moisesjbc/m2g).
+2. Download the last version of [this repository](https://github.com/moisesjbc/JDB).
 
-4. Clone this repository in local.
+3. Uncompress and enter into the project's directory.
 
-5. Enter in the downloaded directory.
+4. Open a terminal, then build and install the game
 
-6. Open project/JDB.pro in Qt Creator
+```
+cmake .
+sudo make install
+``` 
 
-7. Set build directory to ../bin/
+5. Run the game and enjoy!
 
-8. Build and enjoy!
+```
+jdb
+```
