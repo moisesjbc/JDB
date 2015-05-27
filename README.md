@@ -10,6 +10,7 @@ A 2D ability game.
     * [Library tinyxml2](http://www.grinninglizard.com/tinyxml2/)
     * [Library SFML (>= 2.2)](http://www.sfml-dev.org/)
     * [Library m2g](https://github.com/moisesjbc/m2g)
+    * [Library TGUI (v0.7-dev)](https://tgui.eu/v0.7-dev/)
 
 2. Download the last version of [this repository](https://github.com/moisesjbc/JDB).
 
