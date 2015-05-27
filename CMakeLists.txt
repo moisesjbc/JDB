@@ -48,7 +48,7 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/utilities/texture_picture.cpp"
 )
 
-
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin )
 add_executable( "${PROJECT_NAME}" ${SOURCE_FILES} )
 target_link_libraries( "${PROJECT_NAME}" ${LIBRARIES} )
 
