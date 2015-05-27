@@ -52,3 +52,10 @@ set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin )
 add_executable( "${PROJECT_NAME}" ${SOURCE_FILES} )
 target_link_libraries( "${PROJECT_NAME}" ${LIBRARIES} )
 
+# Instalation
+install( TARGETS "${PROJECT_NAME}" RUNTIME DESTINATION bin )
+file( WRITE launch_jdb "#!/bin/bash
+(cd ${CMAKE_INSTALL_PREFIX}/bin && ./jdb)"
+)
+install( FILES launch_jdb DESTINATION bin PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE )
+install( DIRECTORY share/jdb DESTINATION share )
