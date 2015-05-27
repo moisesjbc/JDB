@@ -75,10 +75,10 @@ Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
 
 void Tool::setToolType( ToolType toolType )
 {
-    currentToolType_ = toolType;
-
     // Stop the sound associated to the current tool.
     sounds_[ static_cast<int>(currentToolType_) ].stop();
+
+    currentToolType_ = toolType;
 
     if( !active_ ){
         setState( 2 * static_cast< int >( currentToolType_  ) );
