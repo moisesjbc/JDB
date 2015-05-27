@@ -41,7 +41,7 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
     char text[250];
     sprintf( text, "Level %u", levelIndex_ );
 
-    gui_.setGlobalFont( "data/fonts/LiberationSans-Bold.ttf" );
+    gui_.setGlobalFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
     LevelBook::Ptr levelBook = LevelBook::create();
 
     if( levelBookXmlElement != nullptr ){
@@ -54,7 +54,7 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
         levelBook->addPage( text );
     }
     if( presentNewDangers ){
-        DangersFileParser dangerFile("data/config/dangers.xml");
+        DangersFileParser dangerFile( DATA_DIR_PATH + "/config/dangers.xml");
         std::vector<DangerInfo> dangersInfo = dangerFile.getLevelDangersInfo( levelIndex );
         for( DangerInfo& dangerInfo : dangersInfo ){
             std::unique_ptr< tgui::Texture > dangerTexture(

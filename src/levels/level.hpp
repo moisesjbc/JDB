@@ -28,6 +28,7 @@
 #include <game_states/game_state.hpp>
 #include <game_states/pause_menu.hpp>
 #include <game_states/level_intro.hpp>
+#include <paths.hpp>
 
 namespace jdb {
 

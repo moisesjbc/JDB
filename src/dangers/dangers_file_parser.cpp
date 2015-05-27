@@ -79,7 +79,8 @@ DangerInfo DangersFileParser::getDangerInfo(tinyxml2::XMLElement *dangerXmlEleme
     }
 
     dangerInfo.texturePath =
-            std::string( "data/img/dangers/" ) +
+            DATA_DIR_PATH +
+            "/img/dangers/" +
             dangerXmlElement->Attribute("name") +
             "_01.png";
 
@@ -95,7 +96,7 @@ DangerInfo DangersFileParser::getDangerInfo(tinyxml2::XMLElement *dangerXmlEleme
 
 sf::Vector2u DangersFileParser::getTileSize( std::string dangerName)
 {
-    m2g::GraphicsLibrary dangersGraphicsLibrary("data/img/dangers/dangers.xml");
+    m2g::GraphicsLibrary dangersGraphicsLibrary(DATA_DIR_PATH + "/img/dangers/dangers.xml");
     m2g::AnimationDataPtr dangerAnimData =
             dangersGraphicsLibrary.getAnimationDataByName( dangerName );
 

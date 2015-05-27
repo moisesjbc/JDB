@@ -1,5 +1,5 @@
 cmake_minimum_required( VERSION 2.8 )
-set( CMAKE_BUILD_TYPE Debug )
+set( CMAKE_BUILD_TYPE Release )
 
 # Project info
 project( jdb )
@@ -17,7 +17,7 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 # Common libraries
 include( FindPkgConfig )
 set( LIBRARIES "${LIBRARIES};tinyxml2" )
-set( LIBRARIES "${LIBRARIES};m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;sfml-main;boost_system-mgw49-mt-1_58;boost_filesystem-mgw49-mt-1_58" )
+set( LIBRARIES "${LIBRARIES};m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;boost_system;boost_filesystem" )
 
 set( SOURCE_DIR "${CMAKE_BINARY_DIR}/src" )
 
@@ -48,7 +48,15 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/utilities/texture_picture.cpp"
 )
 
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin )
+set( EXEC_NAME "${PROJECT_NAME}_bin" )
+add_executable( "${EXEC_NAME}" ${SOURCE_FILES} )
+target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 
-add_executable( "${PROJECT_NAME}" ${SOURCE_FILES} )
-target_link_libraries( "${PROJECT_NAME}" ${LIBRARIES} )
-
+# Instalation
+install( TARGETS "${EXEC_NAME}" RUNTIME DESTINATION bin )
+install( CODE "file( WRITE launch_jdb \"#!/bin/bash
+(cd \"${CMAKE_INSTALL_PREFIX}/bin\" && ./${EXEC_NAME})\"
+)" )
+install( PROGRAMS launch_jdb DESTINATION bin RENAME "${PROJECT_NAME}" )
+install( DIRECTORY share/jdb DESTINATION share )

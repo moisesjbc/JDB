@@ -37,7 +37,7 @@ void SurvivalLevel::load( unsigned int index )
     const unsigned int LOAD_ALL_DANGERS = 99999;
 
     // Open the levels configuration file.
-    xmlFile.LoadFile( "data/config/levels.xml" );
+    xmlFile.LoadFile( (DATA_DIR_PATH + "/config/levels.xml").c_str() );
 
     // Iterate over the survival level XML nodes until de number index.
     levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "survival_levels" )->FirstChildElement( "survival_level" ) );

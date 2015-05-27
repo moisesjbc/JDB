@@ -18,6 +18,7 @@
  ***/
 
 #include "level_book.hpp"
+#include <paths.hpp>
 
 namespace jdb {
 
@@ -46,7 +47,7 @@ LevelBook::LevelBook() :
     textBox_->setSize( TEXT_BOX_SIZE.x, TEXT_BOX_SIZE.y );
     Container::add( textBox_ );
 
-    picture_ = TexturePicture::create( "data/img/sandwiches/sandwich_01.png" );
+    picture_ = TexturePicture::create( DATA_DIR_PATH + "/img/sandwiches/sandwich_01.png" );
     picture_->setPosition( 0.0f,
                            tgui::bindBottom( textBox_ ) );
     Container::add( picture_ );

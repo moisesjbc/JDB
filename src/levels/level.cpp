@@ -50,10 +50,10 @@ void Level::loadSandwichData()
     tinyxml2::XMLElement* sandwichXMLElement = nullptr;
 
     // Load the sandwiches data.
-    m2g::GraphicsLibrary graphicsLibrary( "data/img/sandwiches/sandwiches.xml" );
+    m2g::GraphicsLibrary graphicsLibrary( DATA_DIR_PATH + "/img/sandwiches/sandwiches.xml" );
 
     // Load the dangers data.
-    document.LoadFile( "./data/config/sandwiches.xml" );
+    document.LoadFile( (DATA_DIR_PATH + "/config/sandwiches.xml").c_str() );
     sandwichXMLElement = ( document.RootElement() )->FirstChildElement( "sandwich" );
     sandwichData.clear();
     while( sandwichXMLElement ){
@@ -70,10 +70,10 @@ void Level::loadDangerData( unsigned int levelIndex )
     tinyxml2::XMLElement* dangerXMLElement = nullptr;
 
     dangerGraphicsLibrary_ =
-            std::unique_ptr< m2g::GraphicsLibrary >( new m2g::GraphicsLibrary( "data/img/dangers/dangers.xml" ) );
+            std::unique_ptr< m2g::GraphicsLibrary >( new m2g::GraphicsLibrary( DATA_DIR_PATH + "/img/dangers/dangers.xml" ) );
 
     // Load the dangers data.
-    document.LoadFile( "./data/config/dangers.xml" );
+    document.LoadFile( (DATA_DIR_PATH + "/config/dangers.xml").c_str() );
     dangerXMLElement = ( document.RootElement() )->FirstChildElement( "danger" );
 
     dangerData.clear();
@@ -97,7 +97,7 @@ void Level::loadDangerData( unsigned int levelIndex )
 void Level::initGUI()
 {
     // Load the "gui" graphics library.
-    m2g::GraphicsLibrary guiGraphicsLibrary( "data/img/gui/gui.xml" );
+    m2g::GraphicsLibrary guiGraphicsLibrary( DATA_DIR_PATH + "/img/gui/gui.xml" );
 
     // Load the GUI sprites.
     guiSprites_.push_back( m2g::TileSpritePtr( new m2g::TileSprite( guiGraphicsLibrary.getTilesetByName( "health.png" ) ) ) );
@@ -122,7 +122,7 @@ void Level::initGUI()
     guiSprites_.push_back( std::move( tileSprite ) );
 
     // Load the "tools" graphics library.
-    m2g::GraphicsLibrary toolsGraphicsLibrary( "data/img/tools/tools.xml" );
+    m2g::GraphicsLibrary toolsGraphicsLibrary( DATA_DIR_PATH + "/img/tools/tools.xml" );
 
     // Load the player's tool.
     tool_ = ToolPtr( new Tool( toolsGraphicsLibrary.getAnimationDataByName( "tools.png" ), soundManager_ ) );
@@ -265,7 +265,7 @@ void Level::init()
     load( levelIndex_ );
 
     // Initialize GUI's texts.
-    guiFont_.loadFromFile( "data/fonts/LiberationSans-Bold.ttf" );
+    guiFont_.loadFromFile( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
 
     healthText_.setFont( guiFont_ );
     healthText_.setCharacterSize( 50 );
@@ -285,7 +285,7 @@ void Level::init()
     // Load all the needed tilesets and animations (the graphics for
     // dangers and sandwiches are loaded in the methods "loadDangers" and
     // "loadSandwiches".
-    m2g::GraphicsLibrary graphicsLibrary( "data/img/background/background.xml" );
+    m2g::GraphicsLibrary graphicsLibrary( DATA_DIR_PATH + "/img/background/background.xml" );
 
     // Load the background sprites
     backgroundSprites.push_back(
