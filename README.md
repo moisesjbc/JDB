@@ -19,6 +19,12 @@ As our hero's best friend, your mission with consist in removing all the threats
 
 The action in The Sandwiches game focuses on the conveyor belt carrying the dangers-infected sandwiches to the giant grinder and our hero. The player will habe to combine multiple tools in order to remove the dangers from the sandwiches before they get to the giant grinder and damage his/her best friend.
 
+
+## Multimedia
+
+[Youtube playlist](http://www.youtube.com/playlist?list=PLfi4ueBWh9m7XmYMS8lGjgIC0mvYB2_H9)
+
+
 ## Dependencies
 
     * [Library tinyxml2](http://www.grinninglizard.com/tinyxml2/)
@@ -59,7 +65,3 @@ sudo make install
 ```
 jdb
 ```
-
-## Multimedia
-
-[Youtube playlist](http://www.youtube.com/playlist?list=PLfi4ueBWh9m7XmYMS8lGjgIC0mvYB2_H9)
