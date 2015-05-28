@@ -4,7 +4,7 @@
 
 ![JDB game](img/jdb.jpg "JDB game")
 
-**Project status: Active** (branch "experimental").
+**Project status: Active**
 
 ## About
 
@@ -18,6 +18,32 @@ As our hero's best friend, your mission with consist in removing all the threats
 ## Game mechanics
 
 The action in The Sandwiches game focuses on the conveyor belt carrying the dangers-infected sandwiches to the giant grinder and our hero. The player will habe to combine multiple tools in order to remove the dangers from the sandwiches before they get to the giant grinder and damage his/her best friend.
+
+## Building from source (Ubuntu 14.04)
+
+1. Install the following list of dependencies
+
+    * [Library tinyxml2](http://www.grinninglizard.com/tinyxml2/)
+    * [Library SFML (>= 2.2)](http://www.sfml-dev.org/)
+    * [Library m2g](https://github.com/moisesjbc/m2g)
+    * [Library TGUI (v0.7-dev)](https://tgui.eu/v0.7-dev/)
+
+2. Download the last version of [this repository](https://github.com/moisesjbc/JDB).
+
+3. Uncompress and enter into the project's directory.
+
+4. Open a terminal, then build and install the game
+
+```
+cmake .
+sudo make install
+``` 
+
+5. Run the game and enjoy!
+
+```
+jdb
+```
 
 ## Multimedia
 

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<sandwiches>
+	<!-- Sandwich 01 -->
+	<sandwich>
+		<animation>sandwich_01.png</animation>
+		<base_line x="18" y="33" width="225" />
+	</sandwich>
+</sandwiches>

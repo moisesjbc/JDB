@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<library>
+	<animation>
+		<tileset>
+			<src>sandwich_01.png</src>
+			<tile_dimensions width="256" height="128"/>
+		</tileset>
+		<animation_states>
+			<animation_state first_frame="0" last_frame="0" back_frame="0" />
+		</animation_states>
+	</animation>
+</library>

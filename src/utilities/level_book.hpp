@@ -1,0 +1,94 @@
+/***
+    Copyright 2013 - 2015 Moises J. Bonilla Caraballo (Neodivert)
+
+    This file is part of JDB.
+
+    JDB is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    JDB is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with JDB.  If not, see <http://www.gnu.org/licenses/>.
+ ***/
+
+#ifndef LEVELBOOK_HPP
+#define LEVELBOOK_HPP
+
+#include <TGUI/Gui.hpp>
+#include <TGUI/Panel.hpp>
+#include <vector>
+#include <string>
+#include <TGUI/Scrollbar.hpp>
+#include <TGUI/TextBox.hpp>
+#include <TGUI/Button.hpp>
+#include "../utilities/texture_picture.hpp"
+
+namespace jdb {
+
+struct BookPage
+{
+    std::string text;
+    std::unique_ptr< tgui::Texture > texture;
+
+    BookPage( std::string text, std::unique_ptr< tgui::Texture > texture ) :
+        text( text ),
+        texture( std::move( texture ) )
+    {}
+};
+
+// TODO: Add copy constructor and clone().
+class LevelBook : public tgui::Panel
+{
+    public:
+        typedef std::shared_ptr<LevelBook> Ptr;
+        typedef std::shared_ptr<const LevelBook> ConstPtr;
+
+
+        /***
+         * 1. Construction
+         ***/
+        LevelBook();
+        LevelBook( const LevelBook& b );
+        static LevelBook::Ptr create();
+
+
+        /***
+         * 2. Destruction
+         ***/
+        virtual ~LevelBook() = default;
+
+
+        /***
+         * 3. Pages management
+         ***/
+        void addPage( const sf::String& text,
+                      std::unique_ptr< tgui::Texture > texture = nullptr );
+
+
+        /***
+         * 4. Setters
+         ***/
+        void setPage( unsigned int pageIndex );
+        void setNextPage();
+        virtual void setSize(const tgui::Layout1d &width,
+                             const tgui::Layout1d &height);
+
+
+    private:
+        unsigned int currentPageIndex_;
+        std::vector< BookPage > pages_;
+        tgui::TextBox::Ptr textBox_;
+        TexturePicture::Ptr picture_;
+        tgui::Button::Ptr continueButton_;
+};
+
+
+} // namespace jdb
+
+#endif // LEVELBOOK_HPP

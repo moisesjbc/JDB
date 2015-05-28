@@ -1,0 +1,361 @@
+<?xml version="1.0"?>
+
+<dangers>
+
+	<!-- Fire -->
+	<danger name="fire" first_level="0" >
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.3</damage_factor>
+		<base_line x="16" y="76" width="213" />
+
+        <danger_info>
+            <name>Fire</name>
+            <description>FIREEEEEE!</description>
+            <removal_instructions>Simply use the extinguisher on it until it is removed</removal_instructions>
+        </danger_info>
+		
+		<danger_states>
+			<!-- State 0: Intact fire -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="extinguisher_on:10:100" responses="-5:-1:-1" />
+				<state_transition conditions="extinguisher_on:0:9" responses="all:1:-1" />
+				<stun type="burn">
+					<tool>hand</tool>
+					<tool>gavel</tool>
+				</stun>
+			</danger_state>
+			
+			<!-- State 1: Fire disappearing -->
+			<danger_state>
+				<animation_state>1</animation_state>
+			</danger_state>
+		</danger_states> 
+	</danger>
+
+	<!-- Ice crystals -->
+	<danger name="ice_crystals" first_level="0" >
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.3</damage_factor>
+		<base_line x="3" y="81" width="152" />
+
+        <danger_info>
+            <name>Ice crystals</name>
+            <description>The frozen stab</description>
+            <removal_instructions>Simply use the ligther on it until it is removed</removal_instructions>
+        </danger_info>
+		
+		<danger_states>
+			<!-- State 0: Intact ice crystals -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="lighter_on:10:100" responses="-5:-1:-1" />
+				<state_transition conditions="lighter_on:0:9" responses="all:1:-1" />
+				<stun type="freezing">
+					<tool>hand</tool>
+				</stun>
+			</danger_state>
+			
+			<!-- State 1: Danger removed -->
+			<danger_state>
+				<animation_state>1</animation_state>
+			</danger_state>
+		</danger_states> 
+	</danger>
+
+	<!-- Rat -->
+	<danger name="rat" first_level="0" >
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.3</damage_factor>
+		<base_line x="4" y="115" width="78" />
+
+        <danger_info>
+            <name>Rat</name>
+            <description>A rabid rat which will be defend its sandwich</description>
+            <removal_instructions>Hit it with the gavel to stun it. Then, remove it using the hand</removal_instructions>
+        </danger_info>
+		
+		<danger_states>
+			<!-- State 0: Intact rat -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-75:1:-1" />
+				<stun type="bite">
+					<tool>hand</tool>
+				</stun>
+			</danger_state>
+
+			<!-- State 1: Stun rat -->
+			<danger_state>
+				<animation_state>1</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="all:2:-1" />
+			</danger_state>
+
+			<!-- State 2: Danger removed -->
+			<danger_state>
+				<animation_state>2</animation_state>
+			</danger_state>
+		</danger_states>
+	</danger>
+
+	<!-- Knife -->
+	<danger name="knife" first_level="0" >
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.1</damage_factor>
+		<base_line x="9" y="103" width="40" />
+
+        <danger_info>
+            <name>Knife</name>
+            <description>A sharp knife</description>
+            <removal_instructions>Simply remove it using the hand</removal_instructions>
+        </danger_info>
+		
+		<danger_states>
+			<!-- State 0: Intact knife -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="hand_click:100:100" responses="all:1:-1" />
+			</danger_state>
+
+			<!-- State 1: Knife removed -->
+			<danger_state>
+				<animation_state>1</animation_state>
+			</danger_state>
+		</danger_states>
+	</danger>
+
+
+	<!-- Shell -->
+	<danger name="shell" first_level="1">
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.30</damage_factor>
+		<base_line x="3" y="67" width="148" />
+
+        <danger_info>
+            <name>Shell</name>
+            <description>A precious shell found in the beach</description>
+            <removal_instructions>Simply remove it with the hand. If you feel lucky, you can instead hit the shell with your gavel several times to see if it contains a pearl which can be taken with the hand to get a score bonus. Be careful! If you hit the pearl with your gavel it will be broken and you won't get any extra points!</removal_instructions>
+        </danger_info>
+		
+		<danger_states>
+			<!-- State 0: Intact shell -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:1:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
+			</danger_state>
+
+			<!-- State 1: Damaged shell (I) -->
+			<danger_state>
+				<animation_state>1</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:2:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
+			</danger_state>
+
+			<!-- State 2: Damaged shell (II) -->
+			<danger_state>
+				<animation_state>2</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:3:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
+			</danger_state>
+
+			
+			<!-- State 3: Damaged shell (III) -->
+			<danger_state>
+				<animation_state>3</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:4:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
+			</danger_state>
+
+			
+			<!-- State 4: Damaged shell (IV) -->
+			<danger_state>
+				<animation_state>4</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:5:-1" />
+				<state_transition conditions="gavel_hit:0:100" responses="-10:6:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
+			</danger_state>
+
+
+			<!-- State 5: Open empty shell -->
+			<danger_state>
+				<animation_state>5</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="-10:8:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
+			</danger_state>
+
+
+			<!-- State 6: Open shell with pearl -->
+			<danger_state>
+				<animation_state>6</animation_state>
+				<state_transition conditions="gavel_hit:0:100" responses="-10:7:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" score_bonus="100" />
+			</danger_state>
+
+
+			<!-- State 7: Open shell with broken pearl -->
+			<danger_state>
+				<animation_state>7</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:8:-1" />
+			</danger_state>
+
+
+			<!-- State 8: Shell removed -->
+			<danger_state>
+				<animation_state>8</animation_state>
+			</danger_state>
+			
+		</danger_states>
+	</danger>
+
+
+	<!-- Tesla coils -->
+	<danger name="tesla_coils" first_level="2">
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.40</damage_factor>
+		<base_line x="4" y="118" width="115" />
+
+        <danger_info>
+            <name>Tesla coils</name>
+            <description>A pair of defective tesla coils which turn on and turn off at random intervals</description>
+            <removal_instructions>You can wait and remove these tesla coils with your hand when they are turned off or you can break them with your gavel and remove the pieces with your hands. Do you feel destructive?</removal_instructions>
+        </danger_info>
+		
+		<danger_states>
+			<!-- State 0: Intact tesla coils (off) -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="all:3:-1" />
+				<state_transition conditions="gavel_hit:0:100" responses="-15:2:-1" />
+				<state_time_transition min="2500" max="4000" new_state="1" />
+			</danger_state>
+
+			<!-- State 1: Intact tesla coils (on) -->
+			<danger_state>
+				<animation_state>1</animation_state>
+				<stun type="electrocution">
+					<tool>hand</tool>
+				</stun>
+				<state_transition conditions="gavel_hit:0:100" responses="-15:2:-1" />
+				<state_time_transition min="2500" max="4000" new_state="0" />
+			</danger_state>
+
+			<!-- State 2: Broken tesla coils -->
+			<danger_state>
+				<animation_state>2</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="all:3:-1" />
+			</danger_state>
+
+			<!-- State 3: Tesla coils removed -->
+			<danger_state>
+				<animation_state>3</animation_state>
+			</danger_state>
+		</danger_states>
+	</danger>
+
+
+	<!-- Coward hypnotist rat -->
+	<danger name="coward_hypnotist_rat" first_level="1">
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0</damage_factor>
+		<base_line x="12" y="142" width="101" />
+
+        <danger_info>
+            <name>Coward hypnotist rat</name>
+            <description>Well... a coward hypnotist rat</description>
+            <removal_instructions>Simply ignore it. As the name suggests, it is a coward and will literally dissapear when it get close to the grinder. But be careful; as the name also suggests, it will hypnotize you if you bother it</removal_instructions>
+        </danger_info>
+		
+		<danger_states>
+			<!-- State 0: Intact coward hypnotis rat -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_distance_transition distance="300" new_state="1" />
+				<stun type="hypnotism">
+					<tool>hand</tool>
+					<tool>extinguisher</tool>
+					<tool>lighter</tool>
+					<tool>gavel</tool>
+				</stun>
+			</danger_state>
+
+			<!-- State 1: Coward hypnotis rat removed -->
+			<danger_state>
+				<animation_state>1</animation_state>
+			</danger_state>
+		</danger_states>
+	</danger>
+
+
+	<!-- Enigma bomb -->
+	<danger name="enigma_bomb" first_level="2">
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.4</damage_factor>
+		<base_line x="-85" y="117" width="213" />
+
+        <danger_info>
+            <name>Enigma bomb</name>
+            <description>A bomb which hides something good... or something bad</description>
+            <removal_instructions>You can remove this danger with your bare hand or, if you feel lucky, you can light its fuse and wait for the explosion to uncover what is inside.</removal_instructions>
+        </danger_info>
+		
+		<danger_states>
+			<!-- State 0: Intact enigma bomb (off) -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="lighter_on:91:100" responses="-5:-1:-1" />
+				<state_transition conditions="lighter_on:0:90" responses="-50:1:-1" />
+				<state_transition conditions="hand_click:0:100" responses="all:2:-1" />
+			</danger_state>
+
+			<!-- State 1: Intact enigma bomb (on) -->
+			<danger_state>
+				<animation_state>1</animation_state>
+				<random_danger_on_animation_state_end appearance_animation="enigma_bomb_explosion.png" />
+			</danger_state>
+			
+			<!-- State 2: Enigma bomb removed -->
+			<danger_state>
+				<animation_state>2</animation_state>
+			</danger_state>
+		</danger_states>
+	</danger>
+
+
+	<!-- Medic kit -->
+	<danger name="medic_kit" first_level="2">
+		<initial_state>0</initial_state>
+		<initial_hp>100</initial_hp>
+		<damage_factor>0.3</damage_factor>
+		<base_line x="3" y="107" width="115" />
+
+        <danger_info>
+            <name>Medic kit</name>
+            <description>A good danger</description>
+            <removal_instructions>Take this using the hand to heal. Don't let it get to the grinder! A medic kit wasn't thought to be eaten</removal_instructions>
+        </danger_info>
+		
+		<danger_states>
+			<!-- State 0: Intact medic kit -->
+			<danger_state>
+				<animation_state>0</animation_state>
+				<state_transition conditions="hand_click:0:100" responses="all:1:-1" hp_bonus="30" />
+			</danger_state>
+
+			<!-- State 1: Medic kit removed -->
+			<danger_state>
+				<animation_state>1</animation_state>
+			</danger_state>
+		</danger_states>
+	</danger>
+	
+</dangers>

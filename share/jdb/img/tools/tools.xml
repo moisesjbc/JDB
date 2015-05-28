@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<library>
+	<animation>
+		<tileset>
+			<src>tools.png</src>
+			<tile_dimensions width="128" height="128"/>
+			<collision_rects>
+				<!-- Hand collision rects -->
+				<collision_rect tiles="0" x="19" y="4" width="34" height="60" />
+				<collision_rect tiles="0" x="9" y="37" width="10" height="16" />
+
+				<!-- Extinguisher (On/off) -->
+				<collision_rect tiles="9-29" x="10" y="17" width="49" height="50" />
+
+				<!-- Lighter (On/off) -->
+				<collision_rect tiles="30-64" x="32" y="12" width="29" height="39" />
+
+				<!-- Gavel -->
+				<collision_rect tiles="65" x="24" y="2" width="36" height="55" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<!-- Hand (Off) -->
+			<animation_state first_frame="0" last_frame="0" back_frame="0" />
+			<!-- Hand (On) -->
+			<animation_state first_frame="1" last_frame="1" back_frame="1" />
+
+			<!-- Extinguisher (Off) -->
+			<animation_state first_frame="9" last_frame="9" back_frame="9" />
+			<!-- Extinguisher (On) -->
+			<animation_state first_frame="10" last_frame="29" back_frame="10" />
+
+			<!-- Lighter (Off) -->
+			<animation_state first_frame="34" last_frame="34" back_frame="34" />
+			<!-- Ligter (On) -->
+			<animation_state first_frame="35" last_frame="64" back_frame="35" />
+
+			<!-- Gavel (Off) -->
+			<animation_state first_frame="65" last_frame="65" back_frame="65" />
+			<!-- Gavel (On) -->
+			<animation_state first_frame="66" last_frame="66" back_frame="66" />
+
+		</animation_states>
+	</animation>
+</library>
+
