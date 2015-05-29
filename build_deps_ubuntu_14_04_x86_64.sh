@@ -28,7 +28,7 @@ echo "This script will install the following packages from repositories: "
 echo ""
 echo "${PACKAGES[@]}"
 echo ""
-echo "This script will also install SFML (2.3), m2g (0.3) and TGUI 
+echo "This script will also install SFML (2.2), m2g (0.3) and TGUI 
 (v0.7-dev) from Github"
 echo ""
 
