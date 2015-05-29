@@ -22,6 +22,8 @@ declare -a PACKAGES=(
     'libpthread-stubs0-dev'
     'libboost-filesystem1.55-dev'
     'libboost-system1.55-dev'
+    'glew-utils'
+    
 );
 
 echo "This script will install the following packages from repositories: "
