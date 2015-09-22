@@ -41,10 +41,10 @@ then
     mkdir temp-dependencies
     cd temp-dependencies
 
-    # Install SFML (v2.3) from source.
-    wget http://www.sfml-dev.org/files/SFML-2.3-linux-gcc-64-bit.tar.gz
-    tar xvzf SFML-2.3-linux-gcc-64-bit.tar.gz
-    sudo cp -R SFML-2.3/* /usr/local
+    # Install SFML (v2.3.2) from source.
+    wget http://www.sfml-dev.org/files/SFML-2.3.2-linux-gcc-64-bit.tar.gz
+    tar xvzf SFML-2.3.2-linux-gcc-64-bit.tar.gz
+    sudo cp -R SFML-2.3.2/* /usr/local
 
     # Install m2g (v0.3.0) from source.
     wget https://github.com/moisesjbc/m2g/archive/v0.3.0.zip
