@@ -55,9 +55,9 @@ then
     cd ../..
 
     # Install TGUI (v0.7-dev) from source.
-    wget https://github.com/texus/TGUI/archive/v0.7-dev.zip
-    unzip v0.7-dev.zip
-    cd TGUI-0.7-dev/
+    wget https://github.com/texus/TGUI/archive/v0.7-alpha2.zip
+    unzip v0.7-alpha2.zip
+    cd TGUI-0.7-alpha2
     cmake .
     sudo make install
     cd ..
