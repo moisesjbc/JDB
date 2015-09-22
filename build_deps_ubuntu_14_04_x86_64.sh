@@ -51,7 +51,7 @@ then
     unzip v0.3.0.zip
     cd m2g-0.3.0/build
     cmake .
-    sudo make install
+    sudo make install -j 2
     cd ../..
 
     # Install TGUI (v0.7-dev) from source.
@@ -59,7 +59,7 @@ then
     unzip v0.7-alpha2.zip
     cd TGUI-0.7-alpha2
     cmake .
-    sudo make install
+    sudo make install -j 2
     cd ..
 
     # Update dynamic linker.
