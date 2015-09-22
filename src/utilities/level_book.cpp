@@ -41,7 +41,7 @@ LevelBook::LevelBook() :
 
     tgui::Panel::setSize( LEVEL_BOOK_SIZE.x, LEVEL_BOOK_SIZE.y );
 
-    textBox_ = tgui::TextBox::create();
+    textBox_ = std::make_shared<tgui::TextBox>();
     textBox_->setPosition( LEVEL_BOOK_PADDING.x, LEVEL_BOOK_PADDING.y );
     textBox_->setReadOnly( true );
     textBox_->setSize( TEXT_BOX_SIZE.x, TEXT_BOX_SIZE.y );
@@ -52,7 +52,7 @@ LevelBook::LevelBook() :
                            tgui::bindBottom( textBox_ ) );
     Container::add( picture_ );
 
-    continueButton_ = tgui::Button::create();
+    continueButton_ = std::make_shared<tgui::Button>();
     continueButton_->setPosition( 5.0f, tgui::bindBottom( picture_ ) );
     continueButton_->setText( "Continue" );
     continueButton_->setSize( BUTTON_SIZE.x, BUTTON_SIZE.y );
@@ -117,8 +117,8 @@ void LevelBook::setNextPage()
 }
 
 
-void LevelBook::setSize(const tgui::Layout1d &width,
-                        const tgui::Layout1d &height)
+void LevelBook::setSize(const tgui::Layout &width,
+                        const tgui::Layout &height)
 {
     const sf::Vector2f SCALE_FACTORS =
     {

@@ -20,7 +20,7 @@
 #ifndef TEXTUREPICTURE_HPP
 #define TEXTUREPICTURE_HPP
 
-#include <TGUI/Picture.hpp>
+#include <TGUI/Widgets/Picture.hpp>
 
 namespace jdb {
 

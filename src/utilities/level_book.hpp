@@ -21,12 +21,12 @@
 #define LEVELBOOK_HPP
 
 #include <TGUI/Gui.hpp>
-#include <TGUI/Panel.hpp>
+#include <TGUI/Widgets/Panel.hpp>
 #include <vector>
 #include <string>
-#include <TGUI/Scrollbar.hpp>
-#include <TGUI/TextBox.hpp>
-#include <TGUI/Button.hpp>
+#include <TGUI/Widgets/Scrollbar.hpp>
+#include <TGUI/Widgets/TextBox.hpp>
+#include <TGUI/Widgets/Button.hpp>
 #include "../utilities/texture_picture.hpp"
 
 namespace jdb {
@@ -76,8 +76,8 @@ class LevelBook : public tgui::Panel
          ***/
         void setPage( unsigned int pageIndex );
         void setNextPage();
-        virtual void setSize(const tgui::Layout1d &width,
-                             const tgui::Layout1d &height);
+        virtual void setSize(const tgui::Layout &width,
+                             const tgui::Layout &height);
 
 
     private:

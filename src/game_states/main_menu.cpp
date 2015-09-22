@@ -42,7 +42,7 @@ MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
 
 void MainMenu::init()
 {
-    gui_.setGlobalFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
+    gui_.setFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
 
     const std::vector< std::string > buttonTexts =
     {
@@ -80,7 +80,7 @@ void MainMenu::init()
     // Create buttons.
     unsigned int buttonCallbackId = 0;
     for( const std::string& buttonText : buttonTexts ){
-        tgui::Button::Ptr button = tgui::Button::create();
+        tgui::Button::Ptr button = std::make_shared<tgui::Button>();
         button->setSize( BUTTON_SIZE.x, BUTTON_SIZE.y );
         button->setPosition( buttonPos.x, buttonPos.y );
         button->setText( buttonText );

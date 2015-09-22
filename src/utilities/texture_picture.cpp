@@ -27,7 +27,7 @@ namespace jdb {
 
 TexturePicture::Ptr TexturePicture::create(const std::string &filename, bool fullyClickable)
 {
-    return std::static_pointer_cast<TexturePicture>( tgui::Picture::create( filename, fullyClickable ) );
+    return std::static_pointer_cast<TexturePicture>( std::make_shared<Picture>( filename, fullyClickable ) );
 }
 
 
