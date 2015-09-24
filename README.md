@@ -72,10 +72,13 @@ jdb
 - Make deps building script downnload and install third-party **source** 
 libraries into a "thirdparty" directory and link (statically?) to those.
 - Allow player to control volume from main and pause menus.
+- Fix layout problems in LevelBook so elements doesn't overlay each other.
 - Build DEB package.
 - Build for Windows.
 - Create a "Release notes" document.
+- Add a game over screen to survival mode.
 
 
 ### Future releases
+- Create a changelog.
 - More dangers!
