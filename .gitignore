@@ -2,3 +2,8 @@
 *~
 *.user
 *Makefile
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
