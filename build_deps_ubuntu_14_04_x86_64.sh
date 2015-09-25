@@ -41,30 +41,36 @@ then
     mkdir temp-dependencies
     cd temp-dependencies
 
+    # Start building dependencies and adding them to "third-party" dir.
+    THIRD_PARTY_DIR="../../third-party"
+    CMAKE_ARGUMENTS="-DCMAKE_INSTALL_PREFIX=$THIRD_PARTY_DIR -DCMAKE_INCLUDE_PATH=$THIRD_PARTY_DIR/include -DCMAKE_LIBRARY_PATH=$THIRD_PARTY_DIR/lib"
+    
     # Install SFML (v2.3.2) from source.
     wget http://www.sfml-dev.org/files/SFML-2.3.2-sources.zip
     unzip SFML-2.3.2-sources.zip
-    cmake .
+    cd SFML-2.3.2
+    cmake $CMAKE_ARGUMENTS .
     sudo make install -j 2
+    sudo ldconfig
+    cd ..
 
     # Install m2g (v0.3.0) from source.
     wget https://github.com/moisesjbc/m2g/archive/v0.3.0.zip
     unzip v0.3.0.zip
     cd m2g-0.3.0/build
-    cmake .
+    cmake $CMAKE_ARGUMENTS -DCMAKE_PREFIX_PATH=$THIRD_PARTY_DIR/share/SFML/cmake/Modules/ .
     sudo make install -j 2
-    cd ../..
+    cd ..
+    sudo ldconfig
 
     # Install TGUI (v0.7-dev) from source.
     wget https://github.com/texus/TGUI/archive/v0.7-alpha2.zip
     unzip v0.7-alpha2.zip
     cd TGUI-0.7-alpha2
-    cmake .
+    cmake $CMAKE_ARGUMENTS -DCMAKE_PREFIX_PATH=$THIRD_PARTY_DIR/share/SFML/cmake/Modules/ .
     sudo make install -j 2
-    cd ..
-
-    # Update dynamic linker.
     sudo ldconfig
+    cd ..
 
     # Destroy temporal directory
     cd ..
