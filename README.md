@@ -82,3 +82,7 @@ libraries into a "thirdparty" directory and link (statically?) to those.
 ### Future releases
 - Create a changelog.
 - More dangers!
+- Add a wiki.
+    - How to add new dangers to the game.
+    - How to add new levels to the game.
+    - Etc.
