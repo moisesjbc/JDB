@@ -19,7 +19,7 @@
 
 #include "pause_menu.hpp"
 #include <SFML/Window/Event.hpp>
-#include <TGUI/Button.hpp>
+#include <TGUI/Widgets/Button.hpp>
 #include <string>
 #include <functional>
 #include <paths.hpp>
@@ -43,16 +43,16 @@ PauseMenu::PauseMenu( sf::RenderWindow& window, const GameState& parentGameState
 
 void PauseMenu::init()
 {
-    gui_.setGlobalFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
+    gui_.setFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
 
-    tgui::Panel::Ptr pausePanel = tgui::Panel::create( { 250, 200 });
+    tgui::Panel::Ptr pausePanel = std::make_shared<tgui::Panel>( 250, 200 );
     pausePanel->setBackgroundColor( sf::Color::White );
     pausePanel->setPosition({
                                 ( window_.getSize().x - pausePanel->getSize().x ) / 2.0f,
                                 ( window_.getSize().y - pausePanel->getSize().y ) / 2.0f
                             });
 
-    tgui::Label::Ptr pauseMenuLabel = tgui::Label::create();
+    tgui::Label::Ptr pauseMenuLabel = std::make_shared<tgui::Label>();
     pauseMenuLabel->setText( "Game paused" );
     pauseMenuLabel->setTextColor( sf::Color::Black );
     pauseMenuLabel->setPosition({
@@ -126,10 +126,10 @@ void PauseMenu::createPauseMenuButtons( tgui::Panel::Ptr menuPanel,
     };
     tgui::Widget::Ptr upperWidget = menuLabel;
     for( const PauseMenuButtonData& buttonData : pauseMenuButtonsData ){
-        tgui::Button::Ptr button = tgui::Button::create();
+        tgui::Button::Ptr button = std::make_shared<tgui::Button>();
         button->setText( buttonData.text );
         button->setTextSize( 14 );
-        button->setSize( tgui::bindWidth( menuPanel, 0.9f ),
+        button->setSize( tgui::bindWidth( menuPanel ) * 0.9f,
                          button->getSize().y );
         button->setPosition({
                                 ( menuPanel->getSize().x - button->getSize().x ) / 2.0f,

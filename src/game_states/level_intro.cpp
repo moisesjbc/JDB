@@ -41,7 +41,7 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
     char text[250];
     sprintf( text, "Level %u", levelIndex_ );
 
-    gui_.setGlobalFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
+    gui_.setFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
     LevelBook::Ptr levelBook = LevelBook::create();
 
     if( levelBookXmlElement != nullptr ){

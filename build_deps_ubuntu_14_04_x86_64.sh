@@ -30,8 +30,8 @@ echo "This script will install the following packages from repositories: "
 echo ""
 echo "${PACKAGES[@]}"
 echo ""
-echo "This script will also install SFML (2.2), m2g (0.3) and TGUI 
-(v0.7-dev) from Github"
+echo "This script will also install SFML (2.3.2), m2g (0.3) and TGUI 
+(v0.7-alpha2) from Github"
 echo ""
 
 read -p "Install? (y/n) " -n 1 -r
@@ -45,25 +45,26 @@ then
     mkdir temp-dependencies
     cd temp-dependencies
 
-    # Install SFML (v2.2) from Github.
-    wget http://www.sfml-dev.org/files/SFML-2.2-linux-gcc-64-bit.tar.gz
-    tar xvzf SFML-2.2-linux-gcc-64-bit.tar.gz
-    sudo cp -R SFML-2.2/* /usr/local
+    # Install SFML (v2.3.2) from source.
+    wget http://www.sfml-dev.org/files/SFML-2.3.2-sources.zip
+    unzip SFML-2.3.2-sources.zip
+    cmake .
+    sudo make install -j 2
 
     # Install m2g (v0.3.0) from source.
     wget https://github.com/moisesjbc/m2g/archive/v0.3.0.zip
     unzip v0.3.0.zip
     cd m2g-0.3.0/build
     cmake .
-    sudo make install
+    sudo make install -j 2
     cd ../..
 
     # Install TGUI (v0.7-dev) from source.
-    wget https://github.com/texus/TGUI/archive/v0.7-dev.zip
-    unzip v0.7-dev.zip
-    cd TGUI-0.7-dev/
+    wget https://github.com/texus/TGUI/archive/v0.7-alpha2.zip
+    unzip v0.7-alpha2.zip
+    cd TGUI-0.7-alpha2
     cmake .
-    sudo make install
+    sudo make install -j 2
     cd ..
 
     # Update dynamic linker.
