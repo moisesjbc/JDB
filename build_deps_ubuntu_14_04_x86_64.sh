@@ -34,6 +34,8 @@ read -p "Install? (y/n) " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
+    ROOT_DIR=$(pwd)/$(dirname $0)
+
     # Install dependencies from repositories.
     sudo apt-get install ${PACKAGES[@]}
 
@@ -42,8 +44,8 @@ then
     cd temp-dependencies
 
     # Start building dependencies and adding them to "third-party" dir.
-    ROOT_DIR=$(pwd)/$(dirname $0)
     THIRD_PARTY_DIR="$ROOT_DIR/third-party"
+
     CMAKE_ARGUMENTS="-DCMAKE_INSTALL_PREFIX=$THIRD_PARTY_DIR -DCMAKE_INCLUDE_PATH=$THIRD_PARTY_DIR/include -DCMAKE_LIBRARY_PATH=$THIRD_PARTY_DIR/lib"
     
     # Install SFML (v2.3.2) from source.
