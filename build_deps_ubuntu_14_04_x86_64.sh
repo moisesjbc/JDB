@@ -55,11 +55,14 @@ then
     sudo ldconfig
     cd ..
 
+    # ADD SFML path to CMake arguments.
+    CMAKE_ARGUMENTS="$CMAKE_ARGUMENTS -DCMAKE_MODULE_PATH=$THIRD_PARTY_DIR/share/SFML/cmake/Modules/ -DSFML_ROOT=$THIRD_PARTY_DIR"
+
     # Install TGUI (v0.7-dev) from source.
     wget https://github.com/texus/TGUI/archive/v0.7-alpha2.zip
     unzip v0.7-alpha2.zip
     cd TGUI-0.7-alpha2
-    cmake $CMAKE_ARGUMENTS -DCMAKE_PREFIX_PATH=$THIRD_PARTY_DIR/share/SFML/cmake/Modules/ .
+    cmake $CMAKE_ARGUMENTS
     sudo make install -j 2
     sudo ldconfig
     cd ..
@@ -68,7 +71,7 @@ then
     wget https://github.com/moisesjbc/m2g/archive/v0.3.0.zip
     unzip v0.3.0.zip
     cd m2g-0.3.0/build
-    cmake $CMAKE_ARGUMENTS -DCMAKE_PREFIX_PATH=$THIRD_PARTY_DIR/share/SFML/cmake/Modules/ .
+    cmake $CMAKE_ARGUMENTS
     sudo make install -j 2
     cd ..
     sudo ldconfig
