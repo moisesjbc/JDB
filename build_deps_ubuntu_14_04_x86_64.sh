@@ -26,8 +26,9 @@ echo "This script will install the following packages from repositories: "
 echo ""
 echo "${PACKAGES[@]}"
 echo ""
-echo "This script will also install SFML (2.3.2), m2g (0.3) and TGUI 
-(v0.7-alpha2) from Github"
+echo "This script will also install manually SFML (2.3.2), m2g (0.3)"
+echo "and TGUI (v0.7-alpha2) manually from Github in a \"third-party\""
+echo "directory"
 echo ""
 
 read -p "Install? (y/n) " -n 1 -r
