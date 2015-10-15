@@ -7,3 +7,9 @@
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
+
+# Third party libraries
+third-party
+
+# Temporal directory
+temp-dependencies

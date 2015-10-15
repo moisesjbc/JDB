@@ -30,49 +30,64 @@ echo "This script will install the following packages from repositories: "
 echo ""
 echo "${PACKAGES[@]}"
 echo ""
-echo "This script will also install SFML (2.3.2), m2g (0.3) and TGUI 
-(v0.7-alpha2) from Github"
+echo "This script will also install manually SFML (2.3.2), m2g (0.3)"
+echo "and TGUI (v0.7-alpha2) manually from Github in a \"third-party\""
+echo "directory"
 echo ""
 
 read -p "Install? (y/n) " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
+    N_PROCESSORS=$(nproc)
+    ROOT_DIR=$(pwd)/$(dirname $0)
+
     # Install dependencies from repositories.
     sudo apt-get install ${PACKAGES[@]}
 
     # Create temporal directory
-    mkdir temp-dependencies
-    cd temp-dependencies
+    TEMP_DIR="$ROOT_DIR/temp-dependencies"
+    mkdir -p $TEMP_DIR
+    cd $TEMP_DIR
 
+    # Start building dependencies and adding them to "third-party" dir.
+    THIRD_PARTY_DIR="$ROOT_DIR/third-party"
+
+    CMAKE_ARGUMENTS="-DCMAKE_INSTALL_PREFIX=$THIRD_PARTY_DIR -DCMAKE_INCLUDE_PATH=$THIRD_PARTY_DIR/include -DCMAKE_LIBRARY_PATH=$THIRD_PARTY_DIR/lib"
+    
     # Install SFML (v2.3.2) from source.
     wget http://www.sfml-dev.org/files/SFML-2.3.2-sources.zip
     unzip SFML-2.3.2-sources.zip
-    cmake .
-    sudo make install -j 2
+    cd SFML-2.3.2
+    cmake $CMAKE_ARGUMENTS .
+    sudo make install -j $N_PROCESSORS
+    sudo ldconfig
+    cd $TEMP_DIR
 
-    # Install m2g (v0.3.0) from source.
-    wget https://github.com/moisesjbc/m2g/archive/v0.3.0.zip
-    unzip v0.3.0.zip
-    cd m2g-0.3.0/build
-    cmake .
-    sudo make install -j 2
-    cd ../..
+    # ADD SFML path to CMake arguments.
+    CMAKE_ARGUMENTS="$CMAKE_ARGUMENTS -DCMAKE_MODULE_PATH=$THIRD_PARTY_DIR/share/SFML/cmake/Modules/ -DSFML_ROOT=$THIRD_PARTY_DIR"
 
     # Install TGUI (v0.7-dev) from source.
     wget https://github.com/texus/TGUI/archive/v0.7-alpha2.zip
     unzip v0.7-alpha2.zip
     cd TGUI-0.7-alpha2
-    cmake .
-    sudo make install -j 2
-    cd ..
+    cmake $CMAKE_ARGUMENTS
+    sudo make install -j $N_PROCESSORS
+    sudo ldconfig
+    cd $TEMP_DIR
 
-    # Update dynamic linker.
+    # Install m2g (v0.3.0) from source.
+    wget https://github.com/moisesjbc/m2g/archive/v0.3.0.zip
+    unzip v0.3.0.zip
+    cd m2g-0.3.0/build
+    cmake $CMAKE_ARGUMENTS
+    sudo make install -j $N_PROCESSORS
+    cd $TEMP_DIR
     sudo ldconfig
 
     # Destroy temporal directory
     cd ..
-    sudo rm -r temp-dependencies
+    sudo rm -r $TEMP_DIR
 fi
 
 
