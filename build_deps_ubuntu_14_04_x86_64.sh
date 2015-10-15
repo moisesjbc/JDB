@@ -34,6 +34,7 @@ read -p "Install? (y/n) " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
+    N_PROCESSORS=$(nproc)
     ROOT_DIR=$(pwd)/$(dirname $0)
 
     # Install dependencies from repositories.
@@ -53,7 +54,7 @@ then
     unzip SFML-2.3.2-sources.zip
     cd SFML-2.3.2
     cmake $CMAKE_ARGUMENTS .
-    sudo make install -j 2
+    sudo make install -j $N_PROCESSORS
     sudo ldconfig
     cd ..
 
@@ -65,7 +66,7 @@ then
     unzip v0.7-alpha2.zip
     cd TGUI-0.7-alpha2
     cmake $CMAKE_ARGUMENTS
-    sudo make install -j 2
+    sudo make install -j $N_PROCESSORS
     sudo ldconfig
     cd ..
 
@@ -74,7 +75,7 @@ then
     unzip v0.3.0.zip
     cd m2g-0.3.0/build
     cmake $CMAKE_ARGUMENTS
-    sudo make install -j 2
+    sudo make install -j $N_PROCESSORS
     cd ..
     sudo ldconfig
 
