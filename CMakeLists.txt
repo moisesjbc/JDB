@@ -15,6 +15,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 # Common libraries
+link_directories("${CMAKE_SOURCE_DIR}/third-party/lib")
+message("${CMAKE_SOURCE_DIR}/third-party/lib")
 include( FindPkgConfig )
 set( LIBRARIES "${LIBRARIES};tinyxml2" )
 set( LIBRARIES "${LIBRARIES};m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;boost_system;boost_filesystem" )
@@ -54,9 +56,8 @@ add_executable( "${EXEC_NAME}" ${SOURCE_FILES} )
 target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 
 # Instalation
+set( CMAKE_INSTALL_PREFIX /opt/JDB )
 install( TARGETS "${EXEC_NAME}" RUNTIME DESTINATION bin )
-install( CODE "file( WRITE launch_jdb \"#!/bin/bash
-(cd \"${CMAKE_INSTALL_PREFIX}/bin\" && ./${EXEC_NAME})\"
-)" )
-install( PROGRAMS launch_jdb DESTINATION bin RENAME "${PROJECT_NAME}" )
+install( PROGRAMS launch_jdb DESTINATION /usr/local/bin RENAME "${PROJECT_NAME}" )
 install( DIRECTORY share/jdb DESTINATION share )
+install( DIRECTORY "${CMAKE_SOURCE_DIR}/third-party/lib/" DESTINATION bin )
