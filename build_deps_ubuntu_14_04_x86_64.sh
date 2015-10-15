@@ -41,8 +41,9 @@ then
     sudo apt-get install ${PACKAGES[@]}
 
     # Create temporal directory
-    mkdir temp-dependencies
-    cd temp-dependencies
+    TEMP_DIR="$ROOT_DIR/temp-dependencies"
+    mkdir -p $TEMP_DIR
+    cd $TEMP_DIR
 
     # Start building dependencies and adding them to "third-party" dir.
     THIRD_PARTY_DIR="$ROOT_DIR/third-party"
@@ -56,7 +57,7 @@ then
     cmake $CMAKE_ARGUMENTS .
     sudo make install -j $N_PROCESSORS
     sudo ldconfig
-    cd ..
+    cd $TEMP_DIR
 
     # ADD SFML path to CMake arguments.
     CMAKE_ARGUMENTS="$CMAKE_ARGUMENTS -DCMAKE_MODULE_PATH=$THIRD_PARTY_DIR/share/SFML/cmake/Modules/ -DSFML_ROOT=$THIRD_PARTY_DIR"
@@ -68,7 +69,7 @@ then
     cmake $CMAKE_ARGUMENTS
     sudo make install -j $N_PROCESSORS
     sudo ldconfig
-    cd ..
+    cd $TEMP_DIR
 
     # Install m2g (v0.3.0) from source.
     wget https://github.com/moisesjbc/m2g/archive/v0.3.0.zip
@@ -76,12 +77,12 @@ then
     cd m2g-0.3.0/build
     cmake $CMAKE_ARGUMENTS
     sudo make install -j $N_PROCESSORS
-    cd ..
+    cd $TEMP_DIR
     sudo ldconfig
 
     # Destroy temporal directory
     cd ..
-    sudo rm -r temp-dependencies
+    sudo rm -r $TEMP_DIR
 fi
 
 
