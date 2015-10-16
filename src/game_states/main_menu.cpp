@@ -92,6 +92,25 @@ void MainMenu::init()
 
         gui_.add( button );
     }
+
+    // Create volume slider
+    tgui::Slider::Ptr volumeSlider = std::make_shared<tgui::Slider>();
+    tgui::Label::Ptr volumeLabel = std::make_shared<tgui::Label>();
+    char volumeStr[128];
+    sprintf( volumeStr, "Volume: %u", static_cast<unsigned int>( sf::Listener::getGlobalVolume() * 10.0f ) );
+    volumeLabel->setText( volumeStr );
+    volumeSlider->setValue( static_cast<unsigned int>( sf::Listener::getGlobalVolume() * 10.0f ) );
+    volumeLabel->setPosition( tgui::bindLeft( volumeSlider ), tgui::bindTop( volumeSlider ) - tgui::bindHeight( volumeLabel ) - 15 );
+    volumeSlider->setPosition( tgui::bindWidth( gui_ ) * 0.5f, tgui::bindBottom( gui_ ) - tgui::bindHeight( volumeSlider ) - 20 );
+    volumeSlider->connect( "ValueChanged", [=](float newVolume){
+        sf::Listener::setGlobalVolume( newVolume );
+        char volumeStr[128];
+        sprintf( volumeStr, "Volume: %u", static_cast<unsigned int>( sf::Listener::getGlobalVolume() * 10.0f ) );
+        volumeLabel->setText( volumeStr );
+    });
+
+    gui_.add( volumeSlider );
+    gui_.add( volumeLabel );
 }
 
 
