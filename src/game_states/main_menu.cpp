@@ -22,6 +22,7 @@
 #include "../levels/survival_level.hpp"
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <utilities/volume_control_panel.hpp>
 
 namespace jdb {
 
@@ -86,28 +87,9 @@ void MainMenu::init()
         menuLayout->insertSpace(30, 0.5f);
     }
 
-    // Create volume slider
-    tgui::VerticalLayout::Ptr volumePanel = std::make_shared<tgui::VerticalLayout>();
-    volumePanel->setSize( tgui::bindWidth( gui_ ) * 0.5f, tgui::bindHeight( gui_ ) * 0.1f );
-    volumePanel->setPosition( 150, 150 );
+    // Create volume panel.
+    jdb::VolumeControlPanel::Ptr volumePanel = std::make_shared<jdb::VolumeControlPanel>();
     menuLayout->add( volumePanel );
-
-    tgui::Slider::Ptr volumeSlider = std::make_shared<tgui::Slider>();
-    tgui::Label::Ptr volumeLabel = std::make_shared<tgui::Label>();
-    char volumeStr[128];
-    sprintf( volumeStr, "Volume: %u", static_cast<unsigned int>( sf::Listener::getGlobalVolume() * 10.0f ) );
-    volumeLabel->setText( volumeStr );
-    volumeSlider->setValue( static_cast<unsigned int>( sf::Listener::getGlobalVolume() * 10.0f ) );
-    volumeSlider->connect( "ValueChanged", [=](float newVolume){
-        sf::Listener::setGlobalVolume( newVolume );
-        char volumeStr[128];
-        sprintf( volumeStr, "Volume: %u", static_cast<unsigned int>( sf::Listener::getGlobalVolume() * 10.0f ) );
-        volumeLabel->setText( volumeStr );
-    });
-
-    volumePanel->add( volumeLabel );
-    volumePanel->insertSpace( 1, 0.5f );
-    volumePanel->add( volumeSlider );
 }
 
 
