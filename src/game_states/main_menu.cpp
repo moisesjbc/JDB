@@ -44,6 +44,11 @@ void MainMenu::init()
 {
     gui_.setFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
 
+    tgui::VerticalLayout::Ptr menuLayout = std::make_shared<tgui::VerticalLayout>();
+    menuLayout->setSize( tgui::bindWidth( gui_ ) * 0.30f, tgui::bindHeight( gui_ ) * 0.40f );
+    menuLayout->setPosition( tgui::bindWidth( gui_ ) * 0.35f, tgui::bindHeight( gui_ ) * 0.30f );
+    gui_.add( menuLayout );
+
     const std::vector< std::string > buttonTexts =
     {
         "Play campaign",
@@ -67,41 +72,32 @@ void MainMenu::init()
         }
     };
 
-    // Buttons' layout magnitudes.
-    const sf::Vector2f BUTTON_SIZE = { 260, 80 };
-    const float BUTTON_OFFSET = 25;
-    const float BUTTONS_GROUP_HEIGHT =
-            BUTTON_SIZE.y * buttonTexts.size() + BUTTON_OFFSET * (buttonTexts.size() - 1);
-    sf::Vector2f buttonPos = {
-        (window_.getSize().x - BUTTON_SIZE.x) / 2,
-        (window_.getSize().y - BUTTONS_GROUP_HEIGHT) / 2,
-    };
-
     // Create buttons.
     unsigned int buttonCallbackId = 0;
     for( const std::string& buttonText : buttonTexts ){
         tgui::Button::Ptr button = std::make_shared<tgui::Button>();
-        button->setSize( BUTTON_SIZE.x, BUTTON_SIZE.y );
-        button->setPosition( buttonPos.x, buttonPos.y );
-        button->setText( buttonText );
 
-        buttonPos.y += BUTTON_SIZE.y + BUTTON_OFFSET;
+        button->setText( buttonText );
 
         button->connect( "pressed", callbacks[buttonCallbackId] );
         buttonCallbackId++;
 
-        gui_.add( button );
+        menuLayout->add( button );
+        menuLayout->insertSpace(30, 0.5f);
     }
 
     // Create volume slider
+    tgui::VerticalLayout::Ptr volumePanel = std::make_shared<tgui::VerticalLayout>();
+    volumePanel->setSize( tgui::bindWidth( gui_ ) * 0.5f, tgui::bindHeight( gui_ ) * 0.1f );
+    volumePanel->setPosition( 150, 150 );
+    menuLayout->add( volumePanel );
+
     tgui::Slider::Ptr volumeSlider = std::make_shared<tgui::Slider>();
     tgui::Label::Ptr volumeLabel = std::make_shared<tgui::Label>();
     char volumeStr[128];
     sprintf( volumeStr, "Volume: %u", static_cast<unsigned int>( sf::Listener::getGlobalVolume() * 10.0f ) );
     volumeLabel->setText( volumeStr );
     volumeSlider->setValue( static_cast<unsigned int>( sf::Listener::getGlobalVolume() * 10.0f ) );
-    volumeLabel->setPosition( tgui::bindLeft( volumeSlider ), tgui::bindTop( volumeSlider ) - tgui::bindHeight( volumeLabel ) - 15 );
-    volumeSlider->setPosition( tgui::bindWidth( gui_ ) * 0.5f, tgui::bindBottom( gui_ ) - tgui::bindHeight( volumeSlider ) - 20 );
     volumeSlider->connect( "ValueChanged", [=](float newVolume){
         sf::Listener::setGlobalVolume( newVolume );
         char volumeStr[128];
@@ -109,8 +105,9 @@ void MainMenu::init()
         volumeLabel->setText( volumeStr );
     });
 
-    gui_.add( volumeSlider );
-    gui_.add( volumeLabel );
+    volumePanel->add( volumeLabel );
+    volumePanel->insertSpace( 1, 0.5f );
+    volumePanel->add( volumeSlider );
 }
 
 
