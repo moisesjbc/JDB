@@ -48,6 +48,7 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/utilities/level_book.cpp"
     "${SOURCE_DIR}/dangers/dangers_file_parser.cpp"
     "${SOURCE_DIR}/utilities/texture_picture.cpp"
+    "${SOURCE_DIR}/utilities/volume_control_panel.cpp"
 )
 
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin )
