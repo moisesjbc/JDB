@@ -23,7 +23,7 @@
 #include "game_state.hpp"
 #include <SFML/Graphics/Text.hpp>
 #include <TGUI/Gui.hpp>
-#include <TGUI/Widgets/Panel.hpp>
+#include <TGUI/VerticalLayout.hpp>
 
 namespace jdb {
 
@@ -54,7 +54,7 @@ class PauseMenu : public GameState
         /***
          * 4. Initialization auxiliar methods
          ***/
-        void createPauseMenuButtons( tgui::Panel::Ptr menuPanel,
+        void createPauseMenuButtons( tgui::VerticalLayout::Ptr menuPanel,
                                      tgui::Widget::Ptr menuLabel );
 
 

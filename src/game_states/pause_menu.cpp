@@ -23,6 +23,9 @@
 #include <string>
 #include <functional>
 #include <paths.hpp>
+#include <utilities/volume_control_panel.hpp>
+
+const float SPACE_BETWEEN_WIDGETS = 0.005f;
 
 namespace jdb {
 
@@ -45,22 +48,27 @@ void PauseMenu::init()
 {
     gui_.setFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
 
-    tgui::Panel::Ptr pausePanel = std::make_shared<tgui::Panel>( 250, 200 );
+    tgui::VerticalLayout::Ptr pausePanel = std::make_shared<tgui::VerticalLayout>();
+    pausePanel->setSize( tgui::bindWidth( gui_ ) * 0.30f,
+                         tgui::bindHeight( gui_ ) * 0.30f );
+    pausePanel->setPosition( tgui::bindWidth( gui_ ) * 0.35f,
+                             tgui::bindHeight( gui_ ) * 0.35f );
+    pausePanel->addSpace(SPACE_BETWEEN_WIDGETS);
+
     pausePanel->setBackgroundColor( sf::Color::White );
-    pausePanel->setPosition({
-                                ( window_.getSize().x - pausePanel->getSize().x ) / 2.0f,
-                                ( window_.getSize().y - pausePanel->getSize().y ) / 2.0f
-                            });
 
     tgui::Label::Ptr pauseMenuLabel = std::make_shared<tgui::Label>();
     pauseMenuLabel->setText( "Game paused" );
     pauseMenuLabel->setTextColor( sf::Color::Black );
-    pauseMenuLabel->setPosition({
-                                    ( tgui::bindWidth( pausePanel ) - tgui::bindWidth( pauseMenuLabel ) ) / 2.0f,
-                                    5.0f });
     pausePanel->add( pauseMenuLabel );
+    pausePanel->insertSpace( 30, SPACE_BETWEEN_WIDGETS );
 
     createPauseMenuButtons( pausePanel, pauseMenuLabel );
+
+    VolumeControlPanel::Ptr volumeControlPanel = std::make_shared<VolumeControlPanel>();
+    pausePanel->add( volumeControlPanel );
+    pausePanel->setRatio( volumeControlPanel, 2.0f );
+    pausePanel->insertSpace( 30, SPACE_BETWEEN_WIDGETS );
 
     gui_.add( pausePanel );
 
@@ -111,7 +119,7 @@ void PauseMenu::resume()
  * 4. Initialization auxiliar methods
  ***/
 
-void PauseMenu::createPauseMenuButtons( tgui::Panel::Ptr menuPanel,
+void PauseMenu::createPauseMenuButtons( tgui::VerticalLayout::Ptr menuPanel,
                                         tgui::Widget::Ptr menuLabel )
 {
     struct PauseMenuButtonData
@@ -129,15 +137,10 @@ void PauseMenu::createPauseMenuButtons( tgui::Panel::Ptr menuPanel,
         tgui::Button::Ptr button = std::make_shared<tgui::Button>();
         button->setText( buttonData.text );
         button->setTextSize( 14 );
-        button->setSize( tgui::bindWidth( menuPanel ) * 0.9f,
-                         button->getSize().y );
-        button->setPosition({
-                                ( menuPanel->getSize().x - button->getSize().x ) / 2.0f,
-                                tgui::bindBottom( upperWidget ) + 20.0f
-                            });
         button->connect( "pressed", buttonData.callback );
 
         menuPanel->add( button );
+        menuPanel->insertSpace( 30, SPACE_BETWEEN_WIDGETS );
 
         upperWidget = button;
     }

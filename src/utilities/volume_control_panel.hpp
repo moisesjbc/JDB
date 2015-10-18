@@ -20,16 +20,23 @@ class VolumeControlPanel : public tgui::VerticalLayout
         VolumeControlPanel();
 
 
+    protected:
+        /***
+         * 2. Drawable interface
+         ***/
+        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
+
     private:
         /***
-         * 2. Auxiliar methods
+         * 3. Auxiliar methods
          ***/
-        void refreshVolumeValue();
+        void refreshVolumeValue() const;
 
 
         /*** Attributes ***/
-        tgui::Label::Ptr volumeLabel_;
-        tgui::Slider::Ptr volumeSlider_;
+        mutable tgui::Label::Ptr volumeLabel_;
+        mutable tgui::Slider::Ptr volumeSlider_;
 };
 
 } // namespace jdb

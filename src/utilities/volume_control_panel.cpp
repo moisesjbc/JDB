@@ -17,12 +17,10 @@ VolumeControlPanel::VolumeControlPanel()
     volumeSlider_->setMinimum( 0 );
     volumeSlider_->setMaximum( 100 );
     volumeSlider_->setValue( sf::Listener::getGlobalVolume() );
-    refreshVolumeValue();
 
     // Update the displayed value when changed.
     volumeSlider_->connect( "ValueChanged", [this](float newVolume){
         sf::Listener::setGlobalVolume( newVolume );
-        refreshVolumeValue();
     });
 
     // Add widgets to layout.
@@ -33,10 +31,21 @@ VolumeControlPanel::VolumeControlPanel()
 
 
 /***
- * 2. Auxiliar methods
+ * 2. Drawable interface
  ***/
 
-void VolumeControlPanel::refreshVolumeValue()
+void VolumeControlPanel::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    refreshVolumeValue();
+    VerticalLayout::draw( target, states );
+}
+
+
+/***
+ * 3. Auxiliar methods
+ ***/
+
+void VolumeControlPanel::refreshVolumeValue() const
 {
     char volumeStr[20];
 
@@ -45,6 +54,7 @@ void VolumeControlPanel::refreshVolumeValue()
              static_cast<unsigned int>( sf::Listener::getGlobalVolume() ) );
 
     volumeLabel_->setText( volumeStr );
+    volumeSlider_->setValue( sf::Listener::getGlobalVolume() );
 }
 
 } // namespace jdb
