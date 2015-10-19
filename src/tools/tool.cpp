@@ -100,6 +100,7 @@ void Tool::handleMouseButtonDown( SandwichesVector& sandwiches,
     unsigned int i = 0;
 
     // Play the sound associated to the current tool.
+    sounds_[ static_cast<int>(currentToolType_) ].setVolume( sf::Listener::getGlobalVolume() );
     sounds_[ static_cast<int>(currentToolType_) ].play();
 
     if( currentToolType_ == ToolType::HAND ){

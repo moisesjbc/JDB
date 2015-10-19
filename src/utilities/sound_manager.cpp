@@ -93,6 +93,7 @@ void SoundManager::playSound( SoundIndex soundIndex )
 
     // Play the selected sound.
     sf::Sound& sound = sounds_.at( soundIndex ).at( finalSoundIndex ).sound;
+    sound.setVolume( sf::Listener::getGlobalVolume() );
     sound.play();
 }
 
