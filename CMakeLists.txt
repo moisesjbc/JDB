@@ -59,7 +59,7 @@ target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 # Instalation
 set( CMAKE_INSTALL_PREFIX /opt/${PROJECT_NAME} )
 install( TARGETS "${EXEC_NAME}" RUNTIME DESTINATION bin )
-install( DIRECTORY share/jdb DESTINATION share )
+install( DIRECTORY share/${PROJECT_NAME} DESTINATION share )
 file( WRITE ${PROJECT_NAME}-launcher "#!/bin/bash
 (cd \"${CMAKE_INSTALL_PREFIX}/bin\" && ./${EXEC_NAME})
 ")
