@@ -52,15 +52,18 @@ set( SOURCE_FILES
 )
 
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin )
-set( EXEC_NAME "${PROJECT_NAME}_bin" )
+set( EXEC_NAME "${PROJECT_NAME}" )
 add_executable( "${EXEC_NAME}" ${SOURCE_FILES} )
 target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 
 # Instalation
 set( CMAKE_INSTALL_PREFIX /opt/JDB )
 install( TARGETS "${EXEC_NAME}" RUNTIME DESTINATION bin )
-install( PROGRAMS launch_jdb DESTINATION /usr/local/bin RENAME "${PROJECT_NAME}" )
 install( DIRECTORY share/jdb DESTINATION share )
+file( WRITE jdb_launcher "#!/bin/bash
+(cd \"${CMAKE_INSTALL_PREFIX}/bin\" && ./${EXEC_NAME})
+")
+install( PROGRAMS jdb_launcher DESTINATION /usr/local/bin RENAME ${EXEC_NAME} )
 install( DIRECTORY "${CMAKE_SOURCE_DIR}/third-party/lib/" DESTINATION bin )
 
 # Packaging
