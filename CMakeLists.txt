@@ -2,7 +2,7 @@ cmake_minimum_required( VERSION 2.8 )
 set( CMAKE_BUILD_TYPE Release )
 
 # Project info
-project( jdb )
+project( sandwiches-game )
 set( PROJECT_VERSION_MAJOR 0 )
 set( PROJECT_VERSION_MINOR 1 )
 set( PROJECT_VERSION_PATCH 0 )
@@ -57,13 +57,13 @@ add_executable( "${EXEC_NAME}" ${SOURCE_FILES} )
 target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 
 # Instalation
-set( CMAKE_INSTALL_PREFIX /opt/JDB )
+set( CMAKE_INSTALL_PREFIX /opt/${PROJECT_NAME} )
 install( TARGETS "${EXEC_NAME}" RUNTIME DESTINATION bin )
 install( DIRECTORY share/jdb DESTINATION share )
-file( WRITE jdb_launcher "#!/bin/bash
+file( WRITE ${PROJECT_NAME}-launcher "#!/bin/bash
 (cd \"${CMAKE_INSTALL_PREFIX}/bin\" && ./${EXEC_NAME})
 ")
-install( PROGRAMS jdb_launcher DESTINATION /usr/local/bin RENAME ${EXEC_NAME} )
+install( PROGRAMS ${PROJECT_NAME}-launcher DESTINATION /usr/local/bin RENAME ${EXEC_NAME} )
 install( DIRECTORY "${CMAKE_SOURCE_DIR}/third-party/lib/" DESTINATION bin )
 
 # Packaging
