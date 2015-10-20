@@ -78,6 +78,7 @@ jdb
 
 ### Future releases
 - Create a changelog.
+- Allow user to set its own build directory with CMake.
 - More dangers!
 - Add a wiki.
     - How to add new dangers to the game.
