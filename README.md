@@ -1,4 +1,4 @@
-# JDB
+# The Sandwiches Game (JDB)
 
 ![JDB game](img/jdb.jpg "JDB game")
 
@@ -36,7 +36,7 @@ The action in The Sandwiches game focuses on the conveyor belt carrying the dang
 1. Open a terminal and clone the last version of [this repository](https://github.com/moisesjbc/JDB).
 
 ```
-git clone https://github.com/moisesjbc/JDB.git
+git clone https://github.com/moisesjbc/sandwiches-game.git
 ```
 
 2. Enter into the project's directory.
@@ -61,7 +61,7 @@ sudo make install
 5. Run the game and enjoy!
 
 ```
-jdb
+sandwiches-game
 ```
 
 ## ToDo list 
