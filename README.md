@@ -25,10 +25,11 @@ The action in The Sandwiches game focuses on the conveyor belt carrying the dang
 
 ## Dependencies
 
-    * [Library tinyxml2](http://www.grinninglizard.com/tinyxml2/)
-    * [Library SFML (>= 2.2)](http://www.sfml-dev.org/)
-    * [Library m2g](https://github.com/moisesjbc/m2g)
-    * [Library TGUI (v0.7-dev)](https://tgui.eu/v0.7-dev/)
+* [Boost](www.boost.org/)
+* [tinyxml2](http://www.grinninglizard.com/tinyxml2/)
+* [SFML (>= 2.3.2)](http://www.sfml-dev.org/)
+* [m2g (v0.3)](https://github.com/moisesjbc/m2g)
+* [v0.7-dev)](https://tgui.eu/v0.7-dev/)
 
 
 ## Building from source (Ubuntu 14.04 - x86_64)
