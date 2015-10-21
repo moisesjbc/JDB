@@ -19,9 +19,12 @@
 
 #include "jdb.hpp"
 #include <utilities/sound_manager.hpp>
+#include <boost/filesystem.hpp>
 
-int main()
+int main( int argc, char* argv[] )
 {
+    boost::filesystem::current_path( boost::filesystem::path( argv[0] ).parent_path() );
+
     // Make sure the random numbers generator gets a new seed each time the
     // game is run.
     srand( time( nullptr ) );
