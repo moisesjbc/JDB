@@ -73,7 +73,7 @@ sandwiches-game
 - Add an "End of demo" screen with contact information.
 - Build DEB package.
 - Build for Windows.
-- Add a game over screen to survival mode.
+- Add a game over screen (to both campaign and survival modes).
 
 
 ### Future releases
