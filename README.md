@@ -73,11 +73,11 @@ sandwiches-game
 - Add an "End of demo" screen with contact information.
 - Build DEB package.
 - Build for Windows.
-- Create a "Release notes" document.
 - Add a game over screen to survival mode.
 
 
 ### Future releases
+- Create a "Release notes" document.
 - Create a changelog.
 - Allow user to set its own build directory with CMake.
 - More dangers!
