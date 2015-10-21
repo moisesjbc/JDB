@@ -74,8 +74,6 @@ class LevelBook : public tgui::VerticalLayout
          ***/
         void setPage( unsigned int pageIndex );
         void setNextPage();
-        //virtual void setSize(const tgui::Layout &width,
-        //                     const tgui::Layout &height);
 
 
     private:
