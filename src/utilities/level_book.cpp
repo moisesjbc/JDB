@@ -79,7 +79,16 @@ void LevelBook::setPage(unsigned int pageIndex)
     currentPageIndex_ = pageIndex;
 
     BookPage& newPage = pages_.at( pageIndex );
+
     textBox_->setText( newPage.text );
+
+    // A trick for setting the caret at the beginning of the text :-)
+    sf::Event::KeyEvent keyEvent;
+    keyEvent.code = sf::Keyboard::PageUp;
+    while( textBox_->getScrollbar()->getValue() > 0 ){
+        textBox_->keyPressed( keyEvent );
+    }
+
     if( newPage.texture != nullptr ){
         picture_->setTexture( *( newPage.texture ) );
     }
