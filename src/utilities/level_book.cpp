@@ -31,6 +31,8 @@ LevelBook::LevelBook() :
 {
     const sf::Vector2f LEVEL_BOOK_SIZE = { 600.0f, 400.0f };
 
+    setBackgroundColor( sf::Color::White );
+
     textBox_ = std::make_shared<tgui::TextBox>();
     textBox_->setReadOnly( true );
     VerticalLayout::add( textBox_ );
