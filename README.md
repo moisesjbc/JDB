@@ -70,6 +70,7 @@ sandwiches-game
 ### Next release (v0.1.0)
 
 - Set a minimum required version for g++ in deps building script.
+- Add an "End of demo" screen with contact information.
 - Build DEB package.
 - Build for Windows.
 - Create a "Release notes" document.
