@@ -41,7 +41,6 @@ LevelBook::LevelBook() :
 
     continueButton_ = std::make_shared<tgui::Button>();
     continueButton_->setText( "Continue" );
-    continueButton_->setTextSize( 14 );
     VerticalLayout::add( continueButton_ );
     VerticalLayout::setRatio( continueButton_, 0.5f );
 
