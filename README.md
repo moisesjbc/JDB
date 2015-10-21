@@ -70,7 +70,6 @@ sandwiches-game
 ### Next release (v0.1.0)
 
 - Set a minimum required version for g++ in deps building script.
-- Fix layout problems in LevelBook so elements doesn't overlay each other.
 - Build DEB package.
 - Build for Windows.
 - Create a "Release notes" document.
