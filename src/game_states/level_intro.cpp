@@ -42,7 +42,7 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
     sprintf( text, "Level %u", levelIndex_ );
 
     gui_.setFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
-    LevelBook::Ptr levelBook = LevelBook::create();
+    LevelBook::Ptr levelBook = std::make_shared<LevelBook>();
 
     if( levelBookXmlElement != nullptr ){
         tinyxml2::XMLElement* pageXmlElement = levelBookXmlElement->FirstChildElement( "page" );

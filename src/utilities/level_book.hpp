@@ -42,7 +42,7 @@ struct BookPage
     {}
 };
 
-// TODO: Add copy constructor and clone().
+
 class LevelBook : public tgui::VerticalLayout
 {
     public:
@@ -54,8 +54,6 @@ class LevelBook : public tgui::VerticalLayout
          * 1. Construction
          ***/
         LevelBook();
-        LevelBook( const LevelBook& b );
-        static LevelBook::Ptr create();
 
 
         /***

@@ -55,14 +55,6 @@ LevelBook::LevelBook() :
 }
 
 
-LevelBook::Ptr LevelBook::create()
-{
-    auto book = std::make_shared<LevelBook>();
-
-    return book;
-}
-
-
 /***
  * 3. Pages management
  ***/
@@ -90,10 +82,6 @@ void LevelBook::setPage(unsigned int pageIndex)
     if( newPage.texture != nullptr ){
         picture_->setTexture( *( newPage.texture ) );
     }
-    /*
-    textBox_->setSize( textBox_->getSize().x,
-                       getSize().y - picture_->getSize().y - continueButton_->getSize().y );
-    */
 }
 
 
@@ -106,23 +94,6 @@ void LevelBook::setNextPage()
         sendSignal( "bookClosed" );
     }
 }
-
-/*
-void LevelBook::setSize(const tgui::Layout &width,
-                        const tgui::Layout &height)
-{
-    const sf::Vector2f SCALE_FACTORS =
-    {
-        width.getValue() / getSize().x,
-        height.getValue() / getSize().y
-    };
-    for( Widget::Ptr& widget : m_widgets ){
-        widget->scale( SCALE_FACTORS );
-    }
-
-    Panel::setSize( width, height );
-}
-*/
 
 } // namespace jdb
 
