@@ -21,7 +21,7 @@
 #define LEVELBOOK_HPP
 
 #include <TGUI/Gui.hpp>
-#include <TGUI/Widgets/Panel.hpp>
+#include <TGUI/VerticalLayout.hpp>
 #include <vector>
 #include <string>
 #include <TGUI/Widgets/Scrollbar.hpp>
@@ -43,7 +43,7 @@ struct BookPage
 };
 
 // TODO: Add copy constructor and clone().
-class LevelBook : public tgui::Panel
+class LevelBook : public tgui::VerticalLayout
 {
     public:
         typedef std::shared_ptr<LevelBook> Ptr;
@@ -76,8 +76,8 @@ class LevelBook : public tgui::Panel
          ***/
         void setPage( unsigned int pageIndex );
         void setNextPage();
-        virtual void setSize(const tgui::Layout &width,
-                             const tgui::Layout &height);
+        //virtual void setSize(const tgui::Layout &width,
+        //                     const tgui::Layout &height);
 
 
     private:

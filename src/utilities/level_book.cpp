@@ -29,40 +29,29 @@ namespace jdb {
 LevelBook::LevelBook() :
     currentPageIndex_(0)
 {
-    const sf::Vector2f LEVEL_BOOK_PADDING = { 5.0f, 5.0f };
     const sf::Vector2f LEVEL_BOOK_SIZE = { 600.0f, 400.0f };
-    const sf::Vector2f TEXT_BOX_SIZE =
-    {
-        LEVEL_BOOK_SIZE.x - LEVEL_BOOK_PADDING.x * 2.0f,
-        LEVEL_BOOK_SIZE.y * 0.8f - LEVEL_BOOK_PADDING.y * 2.0f
-    };
-    const sf::Vector2f BUTTON_SIZE = { LEVEL_BOOK_SIZE.x - LEVEL_BOOK_PADDING.x * 2.0f,
-                                       LEVEL_BOOK_SIZE.y * 0.2f - LEVEL_BOOK_PADDING.y };
-
-    tgui::Panel::setSize( LEVEL_BOOK_SIZE.x, LEVEL_BOOK_SIZE.y );
 
     textBox_ = std::make_shared<tgui::TextBox>();
-    textBox_->setPosition( LEVEL_BOOK_PADDING.x, LEVEL_BOOK_PADDING.y );
     textBox_->setReadOnly( true );
-    textBox_->setSize( TEXT_BOX_SIZE.x, TEXT_BOX_SIZE.y );
-    Container::add( textBox_ );
+    VerticalLayout::add( textBox_ );
+    VerticalLayout::setRatio( textBox_, 2.0f );
 
     picture_ = TexturePicture::create( DATA_DIR_PATH + "/img/sandwiches/sandwich_01.png" );
-    picture_->setPosition( 0.0f,
-                           tgui::bindBottom( textBox_ ) );
-    Container::add( picture_ );
+    VerticalLayout::add( picture_ );
 
     continueButton_ = std::make_shared<tgui::Button>();
-    continueButton_->setPosition( 5.0f, tgui::bindBottom( picture_ ) );
     continueButton_->setText( "Continue" );
-    continueButton_->setSize( BUTTON_SIZE.x, BUTTON_SIZE.y );
-    Container::add( continueButton_ );
+    continueButton_->setTextSize( 14 );
+    VerticalLayout::add( continueButton_ );
+    VerticalLayout::setRatio( continueButton_, 0.5f );
 
     m_callback.widgetType = "LevelBook";
     addSignal<sf::String>("BookClosed");
     continueButton_->connect( "pressed", std::bind( &LevelBook::setNextPage, this ) );
 
     this->connect( "BookClosed", std::bind( &LevelBook::hide, this ) );
+
+    tgui::Panel::setSize( LEVEL_BOOK_SIZE.x, LEVEL_BOOK_SIZE.y );
 }
 
 
@@ -101,8 +90,10 @@ void LevelBook::setPage(unsigned int pageIndex)
     if( newPage.texture != nullptr ){
         picture_->setTexture( *( newPage.texture ) );
     }
+    /*
     textBox_->setSize( textBox_->getSize().x,
                        getSize().y - picture_->getSize().y - continueButton_->getSize().y );
+    */
 }
 
 
@@ -116,7 +107,7 @@ void LevelBook::setNextPage()
     }
 }
 
-
+/*
 void LevelBook::setSize(const tgui::Layout &width,
                         const tgui::Layout &height)
 {
@@ -131,6 +122,7 @@ void LevelBook::setSize(const tgui::Layout &width,
 
     Panel::setSize( width, height );
 }
+*/
 
 } // namespace jdb
 
