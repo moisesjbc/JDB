@@ -24,7 +24,7 @@
 
 namespace jdb {
 
-const std::string DATA_DIR_PATH = "../share/jdb";
+const std::string DATA_DIR_PATH = "../share/sandwiches-game";
 
 }
 
