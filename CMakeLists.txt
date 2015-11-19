@@ -62,7 +62,7 @@ set( CMAKE_INSTALL_PREFIX /opt/${PROJECT_NAME} )
 install( TARGETS "${EXEC_NAME}" RUNTIME DESTINATION bin )
 install( DIRECTORY share/${PROJECT_NAME} DESTINATION share )
 file( WRITE ${PROJECT_NAME}-launcher "#!/bin/bash
-(cd \"${CMAKE_INSTALL_PREFIX}/bin\" && ./${EXEC_NAME})
+(cd \"${CMAKE_INSTALL_PREFIX}/bin\" && LD_LIBRARY_PATH=. && ./${EXEC_NAME})
 ")
 install( PROGRAMS ${PROJECT_NAME}-launcher DESTINATION /usr/local/bin RENAME ${EXEC_NAME} )
 install( DIRECTORY "${CMAKE_SOURCE_DIR}/third-party/lib/" DESTINATION bin )
