@@ -20,11 +20,14 @@ declare -a PACKAGES=(
     'libvorbisfile3'
     'libopenal-dev'
     'libpthread-stubs0-dev'
-    'libboost-filesystem1.55-dev'
-    'libboost-system1.55-dev'
+    'libboost-filesystem-dev'
+    'libboost-system-dev'
     'glew-utils'
-    
+    'libgl1-mesa-dev'
+    'libudev-dev'
+    'pkg-config'
 );
+  
 
 echo "This script will install the following packages from repositories: "
 echo ""
