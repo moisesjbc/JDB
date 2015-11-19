@@ -16,6 +16,7 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 
 # Common libraries
 link_directories("${CMAKE_SOURCE_DIR}/third-party/lib")
+include_directories("${CMAKE_SOURCE_DIR}/third-party/include")
 message("${CMAKE_SOURCE_DIR}/third-party/lib")
 include( FindPkgConfig )
 set( LIBRARIES "${LIBRARIES};tinyxml2" )
