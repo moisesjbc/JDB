@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}
+Name=${CPACK_PACKAGE_NAME}
+Comment=${CPACK_PACKAGE_DESCRIPTION_SUMMARY}
+Exec=/usr/local/bin/${EXEC_NAME}
+Path=/usr/local/bin
+Terminal=false
+Type=Application
+Categories=Games;

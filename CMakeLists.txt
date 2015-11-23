@@ -66,6 +66,7 @@ file( WRITE ${PROJECT_NAME}-launcher "#!/bin/bash
 ")
 install( PROGRAMS ${PROJECT_NAME}-launcher DESTINATION /usr/local/bin RENAME ${EXEC_NAME} )
 install( DIRECTORY "${CMAKE_SOURCE_DIR}/third-party/lib/" DESTINATION bin )
+install( FILES ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop DESTINATION /usr/share/applications )
 
 # Packaging
 set( CPACK_PACKAGE_NAME ${PROJECT_NAME} )
@@ -80,3 +81,8 @@ set( CPACK_PACKAGING_INSTALL_PREFIX "/opt/${CPACK_PACKAGE_NAME}")
 set( CPACK_SET_DESTDIR true )
 set( CPACK_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX} )
 include( CPack )
+
+configure_file(
+    ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop.in
+    ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop
+)
