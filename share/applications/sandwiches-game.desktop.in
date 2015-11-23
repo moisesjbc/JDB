@@ -4,6 +4,7 @@ Name=${CPACK_PACKAGE_NAME}
 Comment=${CPACK_PACKAGE_DESCRIPTION_SUMMARY}
 Exec=/usr/local/bin/${EXEC_NAME}
 Path=/usr/local/bin
+Icon=${CMAKE_INSTALL_PREFIX}/share/${EXEC_NAME}/icons/${EXEC_NAME}.png
 Terminal=false
 Type=Application
 Categories=Games;
