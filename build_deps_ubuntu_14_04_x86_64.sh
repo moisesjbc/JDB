@@ -56,7 +56,7 @@ then
     # Start building dependencies and adding them to "third-party" dir.
     THIRD_PARTY_DIR="$ROOT_DIR/third-party"
 
-    CMAKE_ARGUMENTS="-DCMAKE_INSTALL_PREFIX=$THIRD_PARTY_DIR -DCMAKE_INCLUDE_PATH=$THIRD_PARTY_DIR/include -DCMAKE_LIBRARY_PATH=$THIRD_PARTY_DIR/lib"
+    CMAKE_ARGUMENTS="-DCMAKE_INSTALL_PREFIX=$THIRD_PARTY_DIR -DCMAKE_INCLUDE_PATH=$THIRD_PARTY_DIR/include -DCMAKE_LIBRARY_PATH=$THIRD_PARTY_DIR/lib -DCMAKE_BUILD_TYPE=Release"
     
     # Install SFML (v2.3.2) from source.
     wget http://www.sfml-dev.org/files/SFML-2.3.2-sources.zip
