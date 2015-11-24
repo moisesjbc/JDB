@@ -88,6 +88,12 @@ then
     cd $TEMP_DIR
     sudo ldconfig
 
+    # Strip generated libraries.
+    for library in `ls $THIRD_PARTY_DIR/lib/li*.so.*`
+    do
+        sudo strip "$library"
+    done
+
     # Destroy temporal directory
     cd ..
     sudo rm -r $TEMP_DIR
