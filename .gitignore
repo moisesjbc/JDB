@@ -14,6 +14,7 @@ install_manifest.txt
 
 # Qtcreator files
 CMakeLists.txt.user*
+sandwiches-game.cbp
 
 # Third party libraries
 third-party
@@ -26,3 +27,7 @@ temp-dependencies
 
 # Generated DEB packages.
 *.deb
+
+# Generated binaries
+bin/
+sandwiches-game-launcher
