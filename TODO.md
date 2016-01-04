@@ -3,13 +3,13 @@
 ## Next release (v0.1.0)
 
 - Add music!
-- Set a minimum required version for g++ in deps building script.
+- Add a credits screen.
 - Add an "End of demo" screen with contact information.
 - Add a game over screen (to both campaign and survival modes).
 - Check memory usage (ie. find memory leacks using Valgrind).
 - Update README.
 - Add Git tag 'v0.1.0'
-- Add a credits screen.
+- Set a minimum required version for g++ in deps building script.
 - Build DEB package.
 - Build for Windows.
 - Release on Github and web.
