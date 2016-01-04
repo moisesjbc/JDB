@@ -69,6 +69,8 @@ class SoundManager
         const std::string SOUNDS_DIR_PATH;
 
         std::map< SoundIndex, std::vector< Sound > > sounds_;
+
+        sf::Music music_;
 };
 
 } // namespace jdb

@@ -19,6 +19,7 @@
 
 #include "sound_manager.hpp"
 #include <boost/filesystem.hpp>
+#include <paths.hpp>
 
 using namespace boost::filesystem;
 
@@ -34,7 +35,14 @@ Sound newSound;
 
 SoundManager::SoundManager( const char *soundsDirPath ) :
     SOUNDS_DIR_PATH( soundsDirPath )
-{}
+{
+    boost::filesystem::path musicPath =
+            (boost::filesystem::path(DATA_DIR_PATH) / boost::filesystem::path("/audio/music/26979__raggaman__3er-ding-01.ogg"));
+    if(!music_.openFromFile(musicPath.string()))
+        throw std::runtime_error("Error loading music from file - " + musicPath.string());
+    music_.setLoop( true );
+    music_.play();
+}
 
 
 /***

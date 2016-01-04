@@ -107,6 +107,7 @@ std::wstring CreditsScreen::generateCredits() const
     {
         "/LICENSE",
         "/img/LICENSE",
+        "/audio/music/LICENSE",
         "/audio/player/LICENSE",
         "/audio/tools/LICENSE",
         "/fonts/LICENSE"
