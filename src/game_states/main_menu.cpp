@@ -20,6 +20,7 @@
 #include "main_menu.hpp"
 #include "../levels/campaign_level.hpp"
 #include "../levels/survival_level.hpp"
+#include "credits_screen.hpp"
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <utilities/volume_control_panel.hpp>
@@ -54,6 +55,7 @@ void MainMenu::init()
     {
         "Play campaign",
         "Play survival",
+        "Credits",
         "Exit game"
     };
     const std::vector< std::function<void()> > callbacks =
@@ -67,6 +69,11 @@ void MainMenu::init()
             std::unique_ptr< Level > level = std::unique_ptr< Level >(
                        new SurvivalLevel( window_, &soundManager_, 0 ) );
             switchState( *level );
+        },
+        [this](){
+            std::unique_ptr< CreditsScreen > creditsScreen = std::unique_ptr< CreditsScreen >(
+                       new CreditsScreen( window_ ) );
+            switchState( *creditsScreen );
         },
         [this](){
             requestStateExit();
