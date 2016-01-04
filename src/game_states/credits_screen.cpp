@@ -1,7 +1,5 @@
 #include "credits_screen.hpp"
 #include <boost/filesystem.hpp>
-#include <fstream>
-#include <locale>
 
 namespace jdb {
 
@@ -115,13 +113,10 @@ std::wstring CreditsScreen::generateCredits() const
     };
 
     for( const std::string& filepath : filepaths ){
-        std::wifstream file((boost::filesystem::path(DATA_DIR_PATH) / boost::filesystem::path(filepath)).string());
-        file.imbue(std::locale("es_ES.UTF8"));
-        std::wstringstream fileStream;
-        fileStream << file.rdbuf();
-        file.close();
+        std::wstring fileContent =
+                UnicodeFileReader::readUTF8((boost::filesystem::path(DATA_DIR_PATH) / boost::filesystem::path(filepath)).string());
 
-        credits += fileStream.str() + L"\n";
+        credits += fileContent + L"\n";
     }
 
     return credits;

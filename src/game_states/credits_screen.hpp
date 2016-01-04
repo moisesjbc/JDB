@@ -4,6 +4,7 @@
 #include "game_state.hpp"
 #include <TGUI/TGUI.hpp>
 #include "../paths.hpp"
+#include <utilities/unicode_file_reader.hpp>
 
 namespace jdb {
 

@@ -20,6 +20,7 @@
 #include "level.hpp"
 #include <tinyxml2.h>
 #include <algorithm>
+#include <game_states/end_of_demo_screen.hpp>
 
 namespace jdb {
 
@@ -400,6 +401,8 @@ void Level::update( unsigned int ms )
         if( load( levelIndex_ ) ){
             reset();
         }else{
+            std::unique_ptr<EndOfDemoScreen> endOfDemoScreen( new EndOfDemoScreen( window_, *this ) );
+            switchState( *endOfDemoScreen );
             requestStateExit();
         }
         //init();

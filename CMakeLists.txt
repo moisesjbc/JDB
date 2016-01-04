@@ -46,11 +46,13 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/game_states/main_menu.cpp"
     "${SOURCE_DIR}/utilities/sound_manager.cpp"
     "${SOURCE_DIR}/game_states/pause_menu.cpp"
+    "${SOURCE_DIR}/game_states/end_of_demo_screen.cpp"
     "${SOURCE_DIR}/game_states/level_intro.cpp"
     "${SOURCE_DIR}/utilities/level_book.cpp"
     "${SOURCE_DIR}/dangers/dangers_file_parser.cpp"
     "${SOURCE_DIR}/utilities/texture_picture.cpp"
     "${SOURCE_DIR}/utilities/volume_control_panel.cpp"
+    "${SOURCE_DIR}/utilities/unicode_file_reader.cpp"
 )
 
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin )
