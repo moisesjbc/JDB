@@ -1,6 +1,7 @@
 #include "credits_screen.hpp"
 #include <boost/filesystem.hpp>
 #include <fstream>
+#include <locale>
 
 namespace jdb {
 
@@ -100,9 +101,9 @@ void CreditsScreen::draw(sf::RenderTarget &target, sf::RenderStates states) cons
  * 4. Credits generation
  ***/
 
-std::string CreditsScreen::generateCredits() const
+std::wstring CreditsScreen::generateCredits() const
 {
-    std::string credits = "Game developed by Moisés J. Bonilla Caraballo\n";
+    std::wstring credits = L"Game developed by Moisés J. Bonilla Caraballo\n";
 
     const std::vector<std::string> filepaths =
     {
@@ -113,13 +114,13 @@ std::string CreditsScreen::generateCredits() const
     };
 
     for( const std::string& filepath : filepaths ){
-        std::ifstream file((boost::filesystem::path(DATA_DIR_PATH) / boost::filesystem::path(filepath)).string());
-        std::string fileContents(
-                    (std::istreambuf_iterator<char>(file)),
-                    std::istreambuf_iterator<char>());
+        std::wifstream file((boost::filesystem::path(DATA_DIR_PATH) / boost::filesystem::path(filepath)).string());
+        file.imbue(std::locale("es_ES.UTF8"));
+        std::wstringstream fileStream;
+        fileStream << file.rdbuf();
         file.close();
 
-        credits += "\n" + fileContents;
+        credits += L"\n" + fileStream.str();
     }
 
     return credits;

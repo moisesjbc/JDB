@@ -37,7 +37,7 @@ class CreditsScreen : public GameState
         /***
          * 4. Credits generation
          ***/
-        std::string generateCredits() const;
+        std::wstring generateCredits() const;
 
 
     private:
