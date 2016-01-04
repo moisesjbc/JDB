@@ -1,22 +1,23 @@
-Current incoming version
--------------------------------------------------------------------------------
-- Downgrade dependency TGUI from v0.7-dev to v0.6?.
-- Update dependencies to last (patch) version (update README).
-- Update README.
+# ToDo list 
+
+## Next release (v0.1.0)
+
+- Add music!
+- Set a minimum required version for g++ in deps building script.
+- Add an "End of demo" screen with contact information.
+- Add a game over screen (to both campaign and survival modes).
 - Check memory usage (ie. find memory leacks using Valgrind).
-- When running the game, the PC's fan accelerates. Am I taking many resources?
-- Check if everything is fine for deploying.
+- Update README.
+- Add Git tag 'v0.1.0'
+- Add a credits screen.
 - Build DEB package.
-- Make Windows "package".
-- Publish on Github and web.
--------------------------------------------------------------------------------
+- Build for Windows.
+- Release on Github and web.
 
+## Future releases
 
-Next versions
--------------------------------------------------------------------------------
-- Give a greater appearance probability to the new dangers of each level.
-- Allow user to save / load the game.
-- Add volume controls to main and pause menus.
+### Features
+
 - Include a level selection screen showing locked and unlocked levels 
 (campaign mode).
 - Make the game fairer among users.
@@ -26,15 +27,28 @@ Next versions
 - Display the index of the current level on the GUI.
 - Add a life bar to dangers such as the fire.
 - Add the rest of levels (plan this one).
-- (Refactoring) Add automated tests to JDB (to all classes).
-- (Refactoring) Add continuous integration script to JDB (Jenkins).
-- (Refactoring) Make class Level stop being a God object!
-- (Refactoring) Separate auxiliar structs in their own files.
-- (Refactoring) Find and remove unused #includes
+- Downgrade dependency TGUI from v0.7-dev to v0.6?.
+- Create a "Release notes" document.
+- Allow user to save / load the game.
+- Create a changelog.
+- Allow user to set its own build directory with CMake.
+- Give a greater appearance probability to the new dangers of each level.
+- More dangers!
+- Add a wiki.
+    - How to add new dangers to the game.
+    - How to add new levels to the game.
+    - Etc.
 
+## Refactoring and quality
 
-Optional goals
--------------------------------------------------------------------------------
+- Add automated tests to JDB (to all classes).
+- Add continuous integration script to JDB (Jenkins).
+- Make class Level stop being a God object!
+- Separate auxiliar structs in their own files.
+- Find and remove unused #includes.
+
+## Optional goals
+
 - Add tags to dangers. Examples of tags:
     - "Indirect danger": this danger can only appear as a result of a 
     transition (i.e. medic kits inside enigma bombs).

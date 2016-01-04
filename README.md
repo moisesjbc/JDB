@@ -4,6 +4,7 @@
 
 **Project status: Active**
 
+
 ## About
 
 The Sandwiches game, or JDB (Juego De los Bocadillos, in spanish), is an ability 2D game where the player have to combine multiple tools in order to remove the dangers that travel on delicious sandwiches.
@@ -66,23 +67,6 @@ sudo make install
 sandwiches-game
 ```
 
-## ToDo list 
+## ToDo list
 
-### Next release (v0.1.0)
-
-- Set a minimum required version for g++ in deps building script.
-- Add an "End of demo" screen with contact information.
-- Build DEB package.
-- Build for Windows.
-- Add a game over screen (to both campaign and survival modes).
-
-
-### Future releases
-- Create a "Release notes" document.
-- Create a changelog.
-- Allow user to set its own build directory with CMake.
-- More dangers!
-- Add a wiki.
-    - How to add new dangers to the game.
-    - How to add new levels to the game.
-    - Etc.
+- [ToDo list](./TODO.md)
