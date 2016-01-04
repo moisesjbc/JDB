@@ -7,9 +7,22 @@
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+_CPack_Packages/
+install_manifest.txt
+
+# Qtcreator files
+CMakeLists.txt.user*
 
 # Third party libraries
 third-party
 
 # Temporal directory
 temp-dependencies
+
+# Linux desktop files
+*.desktop
+
+# Generated DEB packages.
+*.deb
