@@ -30,6 +30,7 @@ The action in The Sandwiches game focuses on the conveyor belt carrying the dang
 * [SFML (>= 2.3.2)](http://www.sfml-dev.org/)
 * [m2g (v0.3)](https://github.com/moisesjbc/m2g)
 * [v0.7-dev)](https://tgui.eu/v0.7-dev/)
+* [CMake](https://cmake.org/)
 
 
 ## Building from source (Ubuntu 14.04 - x86_64)
@@ -46,26 +47,20 @@ git clone https://github.com/moisesjbc/sandwiches-game.git
 cd sandwiches-game
 ```
 
-3. Install [CMake](https://cmake.org/)
-
-```
-sudo apt-get install cmake
-```
-
-4. Build dependencies using the script provided.
+3. Build dependencies using the script provided.
 
 ```
 ./build_deps_ubuntu_14_04_x86_64.sh
 ```
 
-5. Build and install the game.
+4. Build and install the game.
 
 ```
 cmake .
 sudo make install
 ```
 
-6. Run the game and enjoy!
+5. Run the game and enjoy!
 
 ```
 sandwiches-game
