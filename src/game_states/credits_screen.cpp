@@ -1,4 +1,6 @@
 #include "credits_screen.hpp"
+#include <boost/filesystem.hpp>
+#include <fstream>
 
 namespace jdb {
 
@@ -27,7 +29,7 @@ void CreditsScreen::init()
 
     tgui::TextBox::Ptr textBox = std::make_shared<tgui::TextBox>();
     textBox->setReadOnly( true );
-    textBox->setText("Credits!");
+    textBox->setText( generateCredits() );
 
     tgui::Button::Ptr exitButton = std::make_shared<tgui::Button>();
     exitButton->setText( "Exit credits" );
@@ -91,6 +93,36 @@ void CreditsScreen::draw(sf::RenderTarget &target, sf::RenderStates states) cons
     window_.clear( sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ) );
 
     gui_.draw();
+}
+
+
+/***
+ * 4. Credits generation
+ ***/
+
+std::string CreditsScreen::generateCredits() const
+{
+    std::string credits = "Game developed by Moisés J. Bonilla Caraballo\n";
+
+    const std::vector<std::string> filepaths =
+    {
+        "/img/LICENSE",
+        "/audio/player/LICENSE",
+        "/audio/tools/LICENSE",
+        "/fonts/LICENSE"
+    };
+
+    for( const std::string& filepath : filepaths ){
+        std::ifstream file((boost::filesystem::path(DATA_DIR_PATH) / boost::filesystem::path(filepath)).string());
+        std::string fileContents(
+                    (std::istreambuf_iterator<char>(file)),
+                    std::istreambuf_iterator<char>());
+        file.close();
+
+        credits += "\n" + fileContents;
+    }
+
+    return credits;
 }
 
 

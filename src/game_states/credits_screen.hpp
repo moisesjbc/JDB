@@ -34,6 +34,13 @@ class CreditsScreen : public GameState
 
 
     private:
+        /***
+         * 4. Credits generation
+         ***/
+        std::string generateCredits() const;
+
+
+    private:
         mutable tgui::Gui gui_;
 };
 
