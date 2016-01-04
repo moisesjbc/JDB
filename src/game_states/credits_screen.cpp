@@ -103,10 +103,11 @@ void CreditsScreen::draw(sf::RenderTarget &target, sf::RenderStates states) cons
 
 std::wstring CreditsScreen::generateCredits() const
 {
-    std::wstring credits = L"Game developed by Moisés J. Bonilla Caraballo\n";
+    std::wstring credits;
 
     const std::vector<std::string> filepaths =
     {
+        "/LICENSE",
         "/img/LICENSE",
         "/audio/player/LICENSE",
         "/audio/tools/LICENSE",
@@ -120,7 +121,7 @@ std::wstring CreditsScreen::generateCredits() const
         fileStream << file.rdbuf();
         file.close();
 
-        credits += L"\n" + fileStream.str();
+        credits += fileStream.str() + L"\n";
     }
 
     return credits;
