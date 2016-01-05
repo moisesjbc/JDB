@@ -2,7 +2,6 @@
 
 ## Next release (v0.1.0)
 
-- Fix error causing game not to quit when closing the window while in a level.
 - Check memory usage (ie. find memory leacks using Valgrind).
 - Update README.
 - Add Git tag 'v0.1.0'
