@@ -56,6 +56,13 @@ class MainMenu : public GameState
         virtual void resume();
 
 
+        /***
+         * 4. Auxiliar initialization methods
+         ***/
+        tgui::VerticalLayout::Ptr generateTitleLayout() const;
+        tgui::VerticalLayout::Ptr generateMenuLayout() const;
+
+
     private:
         SoundManager& soundManager_;
         sf::Font font_;
