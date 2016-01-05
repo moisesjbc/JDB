@@ -21,6 +21,8 @@
 
 namespace jdb {
 
+const int EXIT_GAME = -999;
+
 /***
  * 1. Construction
  ***/
@@ -66,8 +68,12 @@ int GameState::switchState( GameState &newState )
 
     const int exitStatus = newState.run();
 
-    resume();
-    clock_.restart();
+    if( exitStatus != EXIT_GAME ){
+        resume();
+        clock_.restart();
+    }else{
+        requestGameExit();
+    }
 
     return exitStatus;
 }
@@ -77,6 +83,12 @@ void GameState::requestStateExit( int status )
 {
     exitState_ = true;
     exitStatus_ = status;
+}
+
+
+void GameState::requestGameExit()
+{
+    requestStateExit(EXIT_GAME);
 }
 
 

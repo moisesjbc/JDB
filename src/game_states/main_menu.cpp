@@ -76,7 +76,7 @@ void MainMenu::handleEvents()
 
     if( window_.pollEvent( event ) ){
         if( event.type == sf::Event::Closed ){
-            requestStateExit();
+            requestGameExit();
         }else if( event.type == sf::Event::KeyPressed ){
             if( event.key.code == sf::Keyboard::Escape ){
                 requestStateExit();

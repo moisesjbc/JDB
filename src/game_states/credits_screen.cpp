@@ -51,7 +51,7 @@ void CreditsScreen::handleEvents()
     sf::Event event;
     if( window_.pollEvent( event ) ){
         if( event.type == sf::Event::Closed ){
-            window_.close();
+            requestGameExit();
         }else if( event.type == sf::Event::KeyPressed ){
             if( event.key.code == sf::Keyboard::Escape ){
                 requestStateExit();

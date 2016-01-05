@@ -66,6 +66,7 @@ class GameState : public sf::Drawable
          ***/
         int switchState( GameState& newState );
         void requestStateExit( int status = 0 );
+        void requestGameExit();
 
 
         /***

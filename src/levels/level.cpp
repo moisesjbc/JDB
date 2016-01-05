@@ -143,7 +143,7 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
         case sf::Event::Closed:
             // Player wants to exit the game.
             quitLevel_ = true;
-            exit( 0 );
+            requestGameExit();
         break;
         case sf::Event::MouseButtonPressed:{
             // Player clicked on screen.

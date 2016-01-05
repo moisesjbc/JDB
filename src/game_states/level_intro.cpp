@@ -131,7 +131,7 @@ void LevelIntro::handleEvents()
 
     while( window_.pollEvent( event ) ){
         if( event.type == sf::Event::Closed ){
-            exit( 0 );
+            requestGameExit();
         }else{
             gui_.handleEvent( event );
         }
