@@ -1,9 +1,5 @@
 # ToDo list 
 
-## Next release (v0.1.0)
-
-- Release DEB package (Github and web).
-
 ## Future releases
 
 ### Features
