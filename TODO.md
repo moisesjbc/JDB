@@ -2,7 +2,6 @@
 
 ## Next release (v0.1.0)
 
-- Add a game over screen (to both campaign and survival modes).
 - Add game title to main menu.
 - Check memory usage (ie. find memory leacks using Valgrind).
 - Update README.

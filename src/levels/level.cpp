@@ -21,6 +21,7 @@
 #include <tinyxml2.h>
 #include <algorithm>
 #include <game_states/end_of_demo_screen.hpp>
+#include <game_states/game_over_screen.hpp>
 
 namespace jdb {
 
@@ -407,6 +408,10 @@ void Level::update( unsigned int ms )
         }
         //init();
     }else if( defeat() ){
+        std::unique_ptr<GameOverScreen> gameOverScreen( new GameOverScreen(window_, *this) );
+        if( switchState(*gameOverScreen) == RETURN_TO_MAIN_MENU_REQUESTED ){
+            requestStateExit(RETURN_TO_MAIN_MENU_REQUESTED);
+        }
         reset();
     }else if( quitLevel_ ){
         requestStateExit();
