@@ -45,11 +45,13 @@ int GameState::run()
     while( !exitState_ ){
         handleEvents();
 
-        update( clock_.restart().asMilliseconds() );
+        if( !exitState_ ){
+            window_.clear();
+            window_.draw( *this );
+            window_.display();
 
-        window_.clear();
-        window_.draw( *this );
-        window_.display();
+            update( clock_.restart().asMilliseconds() );
+        }
     }
 
     cleanUp();
