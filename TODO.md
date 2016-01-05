@@ -2,9 +2,7 @@
 
 ## Next release (v0.1.0)
 
-- Update README.
 - Add Git tag 'v0.1.0'
-- Set a minimum required version for g++ in deps building script.
 - Release DEB package (Github and web).
 - Release for Windows (Github and web).
 
