@@ -2,13 +2,13 @@
 
 ## Next release (v0.1.0)
 
+- Fix error causing game not to quit when closing the window while in a level.
 - Check memory usage (ie. find memory leacks using Valgrind).
 - Update README.
 - Add Git tag 'v0.1.0'
 - Set a minimum required version for g++ in deps building script.
-- Build DEB package.
-- Build for Windows.
-- Release on Github and web.
+- Release DEB package (Github and web).
+- Release for Windows (Github and web).
 
 ## Future releases
 
