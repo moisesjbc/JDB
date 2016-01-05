@@ -2,14 +2,13 @@
 
 ## Next release (v0.1.0)
 
-- Add Git tag 'v0.1.0'
 - Release DEB package (Github and web).
-- Release for Windows (Github and web).
 
 ## Future releases
 
 ### Features
 
+- Release for Windows (Github and web).
 - Include a level selection screen showing locked and unlocked levels 
 (campaign mode).
 - Make the game fairer among users.
