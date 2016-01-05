@@ -2,7 +2,6 @@
 
 ## Next release (v0.1.0)
 
-- Check memory usage (ie. find memory leacks using Valgrind).
 - Update README.
 - Add Git tag 'v0.1.0'
 - Set a minimum required version for g++ in deps building script.
