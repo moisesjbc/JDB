@@ -2,11 +2,18 @@ cd /var/tmp
 
 # Prepare MXE
 
+sudo apt-get --ignore-missing install \
+    autoconf automake autopoint bash bison bzip2 flex gettext\
+    git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev \
+    libtool libltdl-dev libssl-dev libxml-parser-perl make \
+    openssl p7zip-full patch perl pkg-config python ruby scons \
+    sed unzip wget xz-utils install g++-multilib libc6-dev-i386 libtool-bin &&
 git clone https://github.com/mxe/mxe.git && 
 sudo mv mxe /opt/mxe && 
 cd /opt/mxe && 
 make MXE_TARGETS='i686-w64-mingw32.static' gcc sfml tinyxml2 boost &&
-echo 'export PATH=/opt/mxe/usr/bin:$PATH' >> ~/.bashrc
+echo 'export PATH=/opt/mxe/usr/bin:$PATH' >> ~/.bashrc &&
+export PATH=/opt/mxe/usr/bin:$PATH
 
 # Download FindSFML.cmake
 
