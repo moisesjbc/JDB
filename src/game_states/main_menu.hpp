@@ -60,7 +60,7 @@ class MainMenu : public GameState
          * 4. Auxiliar initialization methods
          ***/
         tgui::VerticalLayout::Ptr generateTitleLayout() const;
-        tgui::VerticalLayout::Ptr generateMenuLayout() const;
+        tgui::VerticalLayout::Ptr generateMenuLayout();
 
 
     private:
