@@ -12,6 +12,7 @@ git clone https://github.com/mxe/mxe.git &&
 sudo mv mxe /opt/mxe && 
 cd /opt/mxe && 
 make MXE_TARGETS='i686-w64-mingw32.static' gcc sfml tinyxml2 boost &&
+make MXE_TARGETS='i686-w64-mingw32.static' openal32 flac &&
 echo 'export PATH=/opt/mxe/usr/bin:$PATH' >> ~/.bashrc &&
 export PATH=/opt/mxe/usr/bin:$PATH
 
@@ -39,3 +40,8 @@ i686-w64-mingw32.static-cmake . -DSFML_ROOT=/opt/mxe/usr/i686-w64-mingw32.static
 make -j 6 &&
 sudo mv lib/libtgui-s.a /opt/mxe/usr/i686-w64-mingw32.static/lib/ &&
 cd ..
+
+# Build the sandwiches game!
+
+i686-w64-mingw32.static-cmake . && 
+make -j 6
