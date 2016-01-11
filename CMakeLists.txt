@@ -11,7 +11,10 @@ set( PROJECT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${
 # Compiler flags
 if(CMAKE_COMPILER_IS_GNUCXX)
 	message(STATUS "GCC detected, adding compile flags")
-        add_compile_options( "-std=c++11" "-Wall" "-Werror" "-pedantic-errors" )
+    add_compile_options( "-std=c++11" "-Wall" "-Werror" "-pedantic-errors" )
+    if( BUILD_USING_MXE=1 )
+        add_compile_options( "-march=i686" "-static-libgcc" "-static-libstdc++" )
+    endif( BUILD_USING_MXE=1 )
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 # Common libraries
@@ -19,8 +22,13 @@ link_directories("${CMAKE_SOURCE_DIR}/third-party/lib")
 include_directories("${CMAKE_SOURCE_DIR}/third-party/include")
 message("${CMAKE_SOURCE_DIR}/third-party/lib")
 include( FindPkgConfig )
-set( LIBRARIES "${LIBRARIES};tinyxml2" )
-set( LIBRARIES "${LIBRARIES};m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;boost_system;boost_filesystem" )
+if( BUILD_USING_MXE=1 )
+    set( LIBRARIES "${LIBRARIES};tinyxml2;m2g;tgui-s;sfml-audio-s;sfml-graphics-s;sfml-window-s;sfml-system-s;opengl32;freetype;jpeg;winmm;gdi32;vorbisenc;vorbisfile;vorbis;ogg;bz2;png;z;m;boost_system-mt;boost_filesystem-mt" )
+    set( LIBRARIES "${LIBRARIES};dinput8;dxguid;dxerr8;user32;gdi32;winmm;imm32;ole32;oleaut32;shell32;version;uuid;harfbuzz;glib-2.0" )
+    #openal32;flac
+else( BUILD_USING_MXE=1 )
+    set( LIBRARIES "${LIBRARIES};tinyxml2;m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;boost_system;boost_filesystem" )
+endif( BUILD_USING_MXE=1 )
 
 set( SOURCE_DIR "${CMAKE_BINARY_DIR}/src" )
 

@@ -43,5 +43,5 @@ cd ..
 
 # Build the sandwiches game!
 
-i686-w64-mingw32.static-cmake . && 
+i686-w64-mingw32.static-cmake -DBUILD_USING_MXE=1 . && 
 make -j 6
