@@ -22,13 +22,13 @@ link_directories("${CMAKE_SOURCE_DIR}/third-party/lib")
 include_directories("${CMAKE_SOURCE_DIR}/third-party/include")
 message("${CMAKE_SOURCE_DIR}/third-party/lib")
 include( FindPkgConfig )
-if( BUILD_USING_MXE=1 )
+if( BUILD_USING_MXE )
     set( LIBRARIES "${LIBRARIES};tinyxml2;m2g;tgui-s;sfml-audio-s;sfml-graphics-s;sfml-window-s;sfml-system-s;opengl32;freetype;jpeg;winmm;gdi32;vorbisenc;vorbisfile;vorbis;ogg;bz2;png;z;m;boost_system-mt;boost_filesystem-mt" )
     set( LIBRARIES "${LIBRARIES};dinput8;dxguid;dxerr8;user32;gdi32;winmm;imm32;ole32;oleaut32;shell32;version;uuid;harfbuzz;glib-2.0" )
     #openal32;flac
-else( BUILD_USING_MXE=1 )
+else( BUILD_USING_MXE )
     set( LIBRARIES "${LIBRARIES};tinyxml2;m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;boost_system;boost_filesystem" )
-endif( BUILD_USING_MXE=1 )
+endif( BUILD_USING_MXE )
 
 set( SOURCE_DIR "${CMAKE_BINARY_DIR}/src" )
 
