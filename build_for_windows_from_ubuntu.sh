@@ -1,3 +1,5 @@
+OLD_DIR=`pwd`
+
 cd /var/tmp
 
 # Prepare MXE
@@ -7,12 +9,12 @@ sudo apt-get --ignore-missing install \
     git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev \
     libtool libltdl-dev libssl-dev libxml-parser-perl make \
     openssl p7zip-full patch perl pkg-config python ruby scons \
-    sed unzip wget xz-utils install g++-multilib libc6-dev-i386 libtool-bin &&
+    sed unzip wget xz-utils install g++-multilib libc6-dev-i386 libtool-bin
+
 git clone https://github.com/mxe/mxe.git && 
 sudo mv mxe /opt/mxe && 
 cd /opt/mxe && 
-make MXE_TARGETS='i686-w64-mingw32.static' gcc sfml tinyxml2 boost &&
-make MXE_TARGETS='i686-w64-mingw32.static' openal32 flac &&
+make MXE_TARGETS='i686-w64-mingw32.static' gcc sfml tinyxml2 boost openal flac
 echo 'export PATH=/opt/mxe/usr/bin:$PATH' >> ~/.bashrc &&
 export PATH=/opt/mxe/usr/bin:$PATH
 
@@ -26,7 +28,7 @@ mv FindSFML.cmake /opt/mxe/usr/share/cmake/modules/
 wget https://github.com/moisesjbc/m2g/archive/master.zip --output-document m2g-master.zip &&
 unzip m2g-master.zip &&
 cd m2g-master/build &&
-i686-w64-mingw32.static-cmake . -DSFML_ROOT=/opt/mxe/usr/i686-w64-mingw32.static/ -DSFML_STATIC_LIBRARIES=1 -DBUILD_SHARED_LIBS=False -DBUILD_STATIC_M2G=1 &&
+i686-w64-mingw32.static-cmake . -DSFML_ROOT=/opt/mxe/usr/i686-w64-mingw32.static/ -DSFML_STATIC=1 -DSFML_STATIC_LIBRARIES=1 -DBUILD_SHARED_LIBS=False -DBUILD_STATIC_M2G=1 &&
 make -j 6 &&
 mv lib/libm2g.a /opt/mxe/usr/i686-w64-mingw32.static/lib/ &&
 cd ../..
@@ -36,12 +38,13 @@ cd ../..
 wget https://github.com/texus/TGUI/archive/v0.7-alpha2.zip --output-document tgui.zip &&
 unzip tgui.zip &&
 cd TGUI-0.7-alpha2/ &&
-i686-w64-mingw32.static-cmake . -DSFML_ROOT=/opt/mxe/usr/i686-w64-mingw32.static/ -DSFML_STATIC_LIBRARIES=1 -DTGUI_SHARED_LIBS=False &&
+i686-w64-mingw32.static-cmake . -DSFML_ROOT=/opt/mxe/usr/i686-w64-mingw32.static/ -DSFML_STATIC=1 -DSFML_STATIC_LIBRARIES=1 -DTGUI_USE_STATIC_STD_LIBS=0 -DTGUI_SHARED_LIBS=0 &&
 make -j 6 &&
-sudo mv lib/libtgui-s.a /opt/mxe/usr/i686-w64-mingw32.static/lib/ &&
+mv lib/libtgui-s.a /opt/mxe/usr/i686-w64-mingw32.static/lib/ &&
 cd ..
 
 # Build the sandwiches game!
 
+cd $OLD_DIR
 i686-w64-mingw32.static-cmake -DBUILD_USING_MXE=1 . && 
 make -j 6

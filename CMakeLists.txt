@@ -12,9 +12,9 @@ set( PROJECT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${
 if(CMAKE_COMPILER_IS_GNUCXX)
 	message(STATUS "GCC detected, adding compile flags")
     add_compile_options( "-std=c++11" "-Wall" "-Werror" "-pedantic-errors" )
-    if( BUILD_USING_MXE=1 )
-        add_compile_options( "-march=i686" "-static-libgcc" "-static-libstdc++" )
-    endif( BUILD_USING_MXE=1 )
+    if( BUILD_USING_MXE )
+        add_compile_options( "-DSFML_STATIC" )
+    endif( BUILD_USING_MXE )
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 # Common libraries
@@ -23,9 +23,9 @@ include_directories("${CMAKE_SOURCE_DIR}/third-party/include")
 message("${CMAKE_SOURCE_DIR}/third-party/lib")
 include( FindPkgConfig )
 if( BUILD_USING_MXE )
-    set( LIBRARIES "${LIBRARIES};tinyxml2;m2g;tgui-s;sfml-audio-s;sfml-graphics-s;sfml-window-s;sfml-system-s;opengl32;freetype;jpeg;winmm;gdi32;vorbisenc;vorbisfile;vorbis;ogg;bz2;png;z;m;boost_system-mt;boost_filesystem-mt" )
-    set( LIBRARIES "${LIBRARIES};dinput8;dxguid;dxerr8;user32;gdi32;winmm;imm32;ole32;oleaut32;shell32;version;uuid;harfbuzz;glib-2.0" )
+    set( LIBRARIES "${LIBRARIES};tinyxml2;tgui-s;sfml-graphics-s;sfml-window-s;sfml-system-s;opengl32;freetype;winmm;bz2;m2g;opengl32;freetype;jpeg;winmm;gdi32;sfml-audio-s;openal32;flac;vorbisenc;vorbisfile;vorbis;ogg;bz2;png;z;m;boost_system-mt;boost_filesystem-mt;dinput8;dxguid;dxerr8;user32;gdi32;winmm;imm32;ole32;oleaut32;shell32;version;uuid;harfbuzz;glib-2.0;rtutils;intl;iconv;winmm;ws2_32;sndfile" )
     #openal32;flac
+    message("LIBRARIES: ${LIBRARIES}")
 else( BUILD_USING_MXE )
     set( LIBRARIES "${LIBRARIES};tinyxml2;m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;boost_system;boost_filesystem" )
 endif( BUILD_USING_MXE )
@@ -95,6 +95,7 @@ set( CPACK_SET_DESTDIR true )
 set( CPACK_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX} )
 set( CPACK_STRIP_FILES true )
 include( CPack )
+message("SFML_LIBRARIES ${SFML_LIBRARIES}")
 
 configure_file(
     ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop.in
