@@ -30,7 +30,6 @@ declare -a PACKAGES=(
     'libudev-dev'
     'pkg-config'
 );
-  
 
 echo "This script will install the following packages from repositories: "
 echo ""
@@ -41,15 +40,43 @@ echo "and TGUI (v0.7-alpha2) manually from Github in a \"third-party\""
 echo "directory"
 echo ""
 
-read -p "Install? (y/n) " -n 1 -r
-echo    # (optional) move to a new line
-if [[ $REPLY =~ ^[Yy]$ ]]
+
+
+EXECUTE_WITHOUT_ASKING_USER=0
+while getopts ":y" opt; do
+    echo "Parsing"
+  case $opt in
+    y)
+      EXECUTE_WITHOUT_ASKING_USER=1
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+
+
+INSTALL=0
+if [[ $EXECUTE_WITHOUT_ASKING_USER == 1 ]]
+then
+    INSTALL=1
+else
+    read -p "Install? (y/n) " -n 1 -r
+    echo    # (optional) move to a new line
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        INSTALL=1
+    fi
+fi
+
+
+if [[ $INSTALL == 1 ]]
 then
     N_PROCESSORS=$(nproc)
     ROOT_DIR=$(pwd)/$(dirname $0)
 
     # Install dependencies from repositories.
-    sudo apt-get install ${PACKAGES[@]}
+    sudo apt-get install ${PACKAGES[@]} -y
 
     # Create temporal directory
     TEMP_DIR="$ROOT_DIR/temp-dependencies"
