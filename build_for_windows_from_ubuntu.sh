@@ -18,6 +18,8 @@ make MXE_TARGETS='i686-w64-mingw32.static' gcc sfml tinyxml2 boost openal flac
 echo 'export PATH=/opt/mxe/usr/bin:$PATH' >> ~/.bashrc &&
 export PATH=/opt/mxe/usr/bin:$PATH
 
+# TODO: I had to take openal and flac from a downloaded version of SFML for Windows.
+
 # Download FindSFML.cmake
 
 wget https://raw.githubusercontent.com/SFML/SFML/master/cmake/Modules/FindSFML.cmake && 
