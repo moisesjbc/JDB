@@ -2,7 +2,10 @@
 
 declare -a PACKAGES=( 
     'binutils'
+    'build-essential'
     'cmake'
+    'wget'
+    'unzip'
     'libtinyxml2-dev'
     'libfreetype6-dev'
     'libjpeg-dev'
