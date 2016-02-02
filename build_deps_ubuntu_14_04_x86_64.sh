@@ -128,6 +128,12 @@ then
     # Destroy temporal directory
     cd ..
     sudo rm -r $TEMP_DIR
+
+    # Copile Google Test
+    cd /usr/src/gtest/
+    sudo cmake .
+    sudo make
+    sudo mv libg* /usr/lib/
 fi
 
 
@@ -139,3 +145,6 @@ fi
 # 
 # The Ultimate Bash Array Tutorial with 15 Examples
 # http://www.thegeekstuff.com/2010/06/bash-array-tutorial/
+#
+# Why no library files installed for google test? - Stack Overflow
+# http://askubuntu.com/questions/145887/why-no-library-files-installed-for-google-test
