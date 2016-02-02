@@ -28,3 +28,20 @@ TEST(BaseLineTest, LoadsFromValidXML) {
     EXPECT_EQ(31, baseLine.y);
     EXPECT_EQ(0.3f, baseLine.width);
 }
+
+
+TEST(BaseLineTest, MissingValuesFromXMLAreSetToZero) {
+    // Build a basic XML defining a base line and parse it.
+    const char* xmlContent =
+        "<base_line y=\"31\" width=\"0.3\"></base_line>";
+    tinyxml2::XMLDocument doc;
+    doc.Parse(xmlContent);
+
+    // Read the base line from previous XML.
+    jdb::BaseLine baseLine;
+    baseLine.loadFromXML(doc.FirstChildElement("base_line"));
+
+    EXPECT_EQ(0.0f, baseLine.x);
+    EXPECT_EQ(31, baseLine.y);
+    EXPECT_EQ(0.3f, baseLine.width);
+}
