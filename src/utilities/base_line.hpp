@@ -26,9 +26,9 @@ namespace jdb {
 
 struct BaseLine
 {
-    float x;
-    float y;
-    float width;
+    float x = 0.0f;
+    float y = 0.0f;
+    float width = 0.0f;
 
 
     /*** Methods ***/

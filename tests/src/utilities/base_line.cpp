@@ -3,6 +3,15 @@
 #include <gtest/gtest.h>
 
 
+TEST(BaseLineTest, IsInitializedToZero) {
+    jdb::BaseLine baseLine;
+
+    EXPECT_EQ(0.0f, baseLine.x);
+    EXPECT_EQ(0.0f, baseLine.y);
+    EXPECT_EQ(0.0f, baseLine.width);
+}
+
+
 TEST(BaseLineTest, LoadsFromValidXML) {
     // Build a basic XML defining a base line and parse it.
     const char* xmlContent =
