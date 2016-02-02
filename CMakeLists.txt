@@ -27,7 +27,6 @@ set( SOURCE_DIR "${CMAKE_BINARY_DIR}/src" )
 include_directories( "${SOURCE_DIR}" )
 
 set( SOURCE_FILES
-    "${SOURCE_DIR}/main.cpp"
     "${SOURCE_DIR}/jdb.cpp"
     "${SOURCE_DIR}/levels/level.cpp"
     "${SOURCE_DIR}/dangers/danger_data.cpp"
@@ -58,7 +57,7 @@ set( SOURCE_FILES
 
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin )
 set( EXEC_NAME "${PROJECT_NAME}" )
-add_executable( "${EXEC_NAME}" ${SOURCE_FILES} )
+add_executable( "${EXEC_NAME}" "${SOURCE_DIR}/main.cpp" ${SOURCE_FILES} )
 target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt)
