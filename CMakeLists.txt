@@ -61,6 +61,8 @@ set( EXEC_NAME "${PROJECT_NAME}" )
 add_executable( "${EXEC_NAME}" ${SOURCE_FILES} )
 target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt)
+
 # Instalation
 set( CMAKE_INSTALL_PREFIX /opt/${PROJECT_NAME} )
 install( TARGETS "${EXEC_NAME}" RUNTIME DESTINATION bin )
@@ -71,6 +73,8 @@ file( WRITE ${PROJECT_NAME}-launcher "#!/bin/bash
 install( PROGRAMS ${PROJECT_NAME}-launcher DESTINATION /usr/local/bin RENAME ${EXEC_NAME} )
 install( DIRECTORY "${CMAKE_SOURCE_DIR}/third-party/lib/" DESTINATION bin )
 install( FILES ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop DESTINATION /usr/share/applications )
+
+
 
 # Packaging
 set( CPACK_PACKAGE_NAME ${PROJECT_NAME} )
