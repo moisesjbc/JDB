@@ -29,6 +29,7 @@ declare -a PACKAGES=(
     'libgl1-mesa-dev'
     'libudev-dev'
     'pkg-config'
+    'libgtest-dev'
 );
 
 echo "This script will install the following packages from repositories: "
