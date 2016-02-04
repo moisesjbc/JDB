@@ -52,5 +52,5 @@ cp SFML-2.3.2/lib/libFLAC.a SFML-2.3.2/lib/libopenal32.a /opt/mxe/usr/i686-w64-m
 # Build the sandwiches game!
 
 cd $OLD_DIR
-i686-w64-mingw32.static-cmake -DBUILD_USING_MXE=1 . && 
+i686-w64-mingw32.static-cmake -DBUILD_USING_MXE=1 -DCMAKE_BUILD_TYPE=Release . && 
 make -j 6
