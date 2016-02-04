@@ -48,7 +48,7 @@ void MainMenu::init()
 
     tgui::Label::Ptr versionLabel =
         std::make_shared<tgui::Label>();
-    versionLabel->setText("Game version: v0.1");
+    versionLabel->setText("Game version: v${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}");
 
     tgui::VerticalLayout::Ptr globalLayout =
         std::make_shared<tgui::VerticalLayout>();

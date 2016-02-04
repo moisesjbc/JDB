@@ -34,6 +34,12 @@ set( SOURCE_DIR "${CMAKE_BINARY_DIR}/src" )
 
 include_directories( "${SOURCE_DIR}" )
 
+# main_menu.cpp displays the game version, so we update it here.
+configure_file(
+    "${SOURCE_DIR}/game_states/main_menu.cpp.in"
+    "${SOURCE_DIR}/game_states/main_menu.cpp"
+)
+
 set( SOURCE_FILES
     "${SOURCE_DIR}/jdb.cpp"
     "${SOURCE_DIR}/levels/level.cpp"
