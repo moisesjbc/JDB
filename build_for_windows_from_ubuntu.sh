@@ -18,8 +18,6 @@ make MXE_TARGETS='i686-w64-mingw32.static' gcc sfml tinyxml2 boost openal flac
 echo 'export PATH=/opt/mxe/usr/bin:$PATH' >> ~/.bashrc &&
 export PATH=/opt/mxe/usr/bin:$PATH
 
-# TODO: I had to take openal and flac from a downloaded version of SFML for Windows.
-
 # Download FindSFML.cmake
 
 wget https://raw.githubusercontent.com/SFML/SFML/master/cmake/Modules/FindSFML.cmake && 
@@ -44,6 +42,12 @@ i686-w64-mingw32.static-cmake . -DSFML_ROOT=/opt/mxe/usr/i686-w64-mingw32.static
 make -j 6 &&
 mv lib/libtgui-s.a /opt/mxe/usr/i686-w64-mingw32.static/lib/ &&
 cd ..
+
+# Download FLAC and OpenAL libraries from SFML build.
+# FIXME: Why MXE doesn't install them?
+wget http://www.sfml-dev.org/files/SFML-2.3.2-windows-gcc-4.9.2-mingw-32-bit.zip --output-document SFML-2.3.2.zip &&
+unzip SFML-2.3.2.zip &&
+cp SFML-2.3.2/lib/libFLAC.a SFML-2.3.2/lib/libopenal32.a /opt/mxe/usr/i686-w64-mingw32.static/lib/
 
 # Build the sandwiches game!
 
