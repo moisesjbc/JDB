@@ -140,7 +140,7 @@ tgui::VerticalLayout::Ptr MainMenu::generateTitleLayout() const
 }
 
 
-tgui::VerticalLayout::Ptr MainMenu::generateMenuLayout() const
+tgui::VerticalLayout::Ptr MainMenu::generateMenuLayout()
 {
     tgui::VerticalLayout::Ptr menuLayout = std::make_shared<tgui::VerticalLayout>();
 
