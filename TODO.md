@@ -4,7 +4,6 @@
 
 ### Features
 
-- Release for Windows (Github and web).
 - Include a level selection screen showing locked and unlocked levels 
 (campaign mode).
 - Make the game fairer among users.
