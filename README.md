@@ -32,6 +32,7 @@ The action in The Sandwiches game focuses on the conveyor belt carrying the dang
 * [m2g (v0.3)](https://github.com/moisesjbc/m2g)
 * [v0.7-dev)](https://tgui.eu/v0.7-dev/)
 * [CMake](https://cmake.org/)
+* [Easylogging++](https://github.com/easylogging/easyloggingpp)
 
 
 ## Building from source (Ubuntu 14.04 - x86_64)
