@@ -29,6 +29,7 @@
 #include <game_states/pause_menu.hpp>
 #include <game_states/level_intro.hpp>
 #include <paths.hpp>
+#include <utilities/easylogging++.h>
 
 namespace jdb {
 

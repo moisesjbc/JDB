@@ -21,9 +21,7 @@
 #include <utilities/sound_manager.hpp>
 #include <boost/filesystem.hpp>
 #include <paths.hpp>
-#include <utilities/easylogging++.h>
 
-INITIALIZE_EASYLOGGINGPP
 
 void InitializeLoggingSystem(int argc, char* argv[])
 {
@@ -38,7 +36,7 @@ void InitializeLoggingSystem(int argc, char* argv[])
     // Make eassyloggingpp log to file.
     el::Configurations defaultConf;
     defaultConf.setToDefault();
-    defaultConf.set(el::Level::Info, el::ConfigurationType::Filename, LOG_FILE_PATH);
+    defaultConf.set(el::Level::Global, el::ConfigurationType::Filename, LOG_FILE_PATH);
     el::Loggers::reconfigureLogger("default", defaultConf);
 
     LOG(INFO) << "Initializing The Sandwiches Game!";
