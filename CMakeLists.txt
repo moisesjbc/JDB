@@ -8,6 +8,8 @@ set( PROJECT_VERSION_MINOR 2 )
 set( PROJECT_VERSION_PATCH 0 )
 set( PROJECT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH} )
 
+set( DONT_EDIT_THIS_FILE_MESSAGE "This file is generated automatically by CMakeLists.txt every time cmake is run. Don't edit it!" )
+
 # Compiler flags
 if(CMAKE_COMPILER_IS_GNUCXX)
 	message(STATUS "GCC detected, adding compile flags")
@@ -36,8 +38,8 @@ include_directories( "${SOURCE_DIR}" )
 
 # main_menu.cpp displays the game version, so we update it here.
 configure_file(
-    "${SOURCE_DIR}/game_states/main_menu.cpp.in"
-    "${SOURCE_DIR}/game_states/main_menu.cpp"
+    "${SOURCE_DIR}/utilities/version_string.hpp.in"
+    "${SOURCE_DIR}/utilities/version_string.hpp"
 )
 
 set( SOURCE_FILES

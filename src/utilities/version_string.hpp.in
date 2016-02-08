@@ -1,0 +1,11 @@
+#include <string>
+
+//*****************************************************************************
+// ${DONT_EDIT_THIS_FILE_MESSAGE}
+//*****************************************************************************
+
+namespace jdb {
+
+const std::string VERSION_STRING = "v${PROJECT_VERSION_STRING}";
+
+} // namespace jdb
