@@ -16,7 +16,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     add_compile_options( "-std=c++11" "-Wall" "-Werror" "-pedantic-errors" )
     if( BUILD_USING_MXE )
         add_compile_options( "-DSFML_STATIC" )
-    endif( BUILD_USING_MXE )
+    endif()
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 # Common libraries
@@ -76,24 +76,36 @@ set( EXEC_NAME "${PROJECT_NAME}" )
 add_executable( "${EXEC_NAME}" "${SOURCE_DIR}/main.cpp" ${SOURCE_FILES} )
 target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt)
+if( !BUILD_USING_MXE )
+    include(${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt)
+endif( !BUILD_USING_MXE )
 
 # Instalation
-set( CMAKE_INSTALL_PREFIX /opt/${PROJECT_NAME} )
+if( !BUILD_USING_MXE )
+    set( CMAKE_INSTALL_PREFIX /opt/${PROJECT_NAME} )
+else( !BUILD_USING_MXE )
+    set( CMAKE_INSTALL_PREFIX / )
+endif( !BUILD_USING_MXE )
 install( TARGETS "${EXEC_NAME}" RUNTIME DESTINATION bin )
 install( DIRECTORY share/${PROJECT_NAME} DESTINATION share )
-file( WRITE ${PROJECT_NAME}-launcher "#!/bin/bash
+if( !BUILD_USING_MXE )
+    file( WRITE ${PROJECT_NAME}-launcher "#!/bin/bash
 (cd \"${CMAKE_INSTALL_PREFIX}/bin\" && export LD_LIBRARY_PATH=. && ./${EXEC_NAME})
 ")
-install( PROGRAMS ${PROJECT_NAME}-launcher DESTINATION /usr/local/bin RENAME ${EXEC_NAME} )
-install( DIRECTORY "${CMAKE_SOURCE_DIR}/third-party/lib/" DESTINATION bin )
-install( FILES ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop DESTINATION /usr/share/applications )
+    install( PROGRAMS ${PROJECT_NAME}-launcher DESTINATION /usr/local/bin RENAME ${EXEC_NAME} )
+    install( DIRECTORY "${CMAKE_SOURCE_DIR}/third-party/lib/" DESTINATION bin )
+    install( FILES ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop DESTINATION /usr/share/applications )
+endif( !BUILD_USING_MXE )
 
 
 
 # Packaging
 set( CPACK_PACKAGE_NAME ${PROJECT_NAME} )
-set( CPACK_GENERATOR "DEB" )
+if( WIN32 )
+    set( CPACK_GENERATOR "ZIP;NSIS" )
+else()
+    set( CPACK_GENERATOR "DEB" )
+endif()
 set( CPACK_PACKAGE_DESCRIPTION_SUMMARY "The Sandwiches Game is a 2D ability game"  )
 set( CPACK_PACKAGE_CONTACT "Moisés J. Bonilla Caraballo <moisesjbc@gmail.com>" )
 set( CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR} )
@@ -101,14 +113,20 @@ set( CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR} )
 set( CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH} )
 set( CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}" )
 set( CPACK_DEBIAN_PACKAGE_DEPENDS "libtinyxml2-0.0.0" )
-set( CPACK_PACKAGING_INSTALL_PREFIX "/opt/${CPACK_PACKAGE_NAME}")
+if( WIN32 )
+    set( CPACK_PACKAGING_INSTALL_PREFIX "/")
+else()
+    set( CPACK_PACKAGING_INSTALL_PREFIX "/opt/${CPACK_PACKAGE_NAME}")
+endif()
 set( CPACK_SET_DESTDIR true )
 set( CPACK_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX} )
 set( CPACK_STRIP_FILES true )
 include( CPack )
 message("SFML_LIBRARIES ${SFML_LIBRARIES}")
 
-configure_file(
-    ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop.in
-    ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop
-)
+if( !WIN32 )
+    configure_file(
+        ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop.in
+        ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop
+    )
+endif()
