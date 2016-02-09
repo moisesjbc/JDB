@@ -85,7 +85,7 @@ then
     cd $TEMP_DIR
 
     # Start building dependencies and adding them to "third-party" dir.
-    THIRD_PARTY_DIR="$ROOT_DIR/third-party"
+    THIRD_PARTY_DIR="$ROOT_DIR/third-party/ubuntu_14_04_x86_64"
 
     CMAKE_ARGUMENTS="-DCMAKE_INSTALL_PREFIX=$THIRD_PARTY_DIR -DCMAKE_INCLUDE_PATH=$THIRD_PARTY_DIR/include -DCMAKE_LIBRARY_PATH=$THIRD_PARTY_DIR/lib -DCMAKE_BUILD_TYPE=Release"
     
