@@ -95,14 +95,16 @@ if( !BUILD_USING_MXE )
     install( PROGRAMS ${PROJECT_NAME}-launcher DESTINATION /usr/local/bin RENAME ${EXEC_NAME} )
     install( DIRECTORY "${CMAKE_SOURCE_DIR}/third-party/ubuntu_14_04_x86_64/lib/" DESTINATION bin )
     install( FILES ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop DESTINATION /usr/share/applications )
-endif( !BUILD_USING_MXE )
+else()
+    install( DIRECTORY "${CMAKE_SOURCE_DIR}/third-party/win32/bin/" DESTINATION bin )
+endif()
 
 
 
 # Packaging
 set( CPACK_PACKAGE_NAME ${PROJECT_NAME} )
 if( WIN32 )
-    set( CPACK_GENERATOR "ZIP;NSIS" )
+    set( CPACK_GENERATOR "ZIP" )
 else()
     set( CPACK_GENERATOR "DEB" )
 endif()
