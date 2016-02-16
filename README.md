@@ -18,6 +18,15 @@ As our hero's best friend Marcos, your mission with consist in removing all the 
 
 The action in The Sandwiches game focuses on the conveyor belt carrying the dangers-infected sandwiches to the giant grinder and our hero. The player will have to combine multiple tools in order to remove the dangers from the sandwiches before they get to the giant grinder and damage his/her best friend.
 
+### Tools
+
+There is a total of 4 tools for player to combine them and remove dangers.
+
+- **Hand**
+- **Extinguisher**
+- **Lighter**
+- **Gavel**
+
 ## Game modes
 
 **The Sandwiches games has two game modes: campaign and survival**.
