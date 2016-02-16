@@ -77,7 +77,3 @@ To build the image, run the following **on the top directory of the repository**
         sudo docker build -t moisesjbc/ubuntu-base-for-sandwiches-game:0.1 .
 
 Those third-party dependencies not installed from repository are present in the directory */opt/third-party* in the Docker image.
-
-## ToDo list
-
-- [ToDo list](./TODO.md)
