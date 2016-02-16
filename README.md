@@ -10,14 +10,21 @@
 The Sandwiches game, or JDB (Juego De los Bocadillos, in spanish), is an ability 2D game where the player have to combine multiple tools in order to remove the dangers that travel on delicious sandwiches.
 Background
 
-JDB's story focuses on a young boy and its ambition to get a world record: eating the most sandwiches never seen, thanks to a giant grinder he has just built. The only problem is that in his rush for glory, our hero has made the sandwiches in the garage. No one can imagine what disagreeable surprises could have been added to the sandwiches!
+JDB's story focuses on Jacob, a young boy and its ambition to get a world record: eating the most sandwiches never seen, thanks to a giant grinder he has just built. The only problem is that in his rush for glory, our hero has made the sandwiches in the garage. No one can imagine what disagreeable surprises could have been added to the sandwiches!
 
-As our hero's best friend, your mission with consist in removing all the threats from the sandwiches before they get the grinder and damage the protagonist, preventing him from archieve victory.
+As our hero's best friend Marcos, your mission with consist in removing all the threats from the sandwiches before they get the grinder and damage the protagonist, preventing him from archieve victory.
 
 ## Game mechanics
 
-The action in The Sandwiches game focuses on the conveyor belt carrying the dangers-infected sandwiches to the giant grinder and our hero. The player will habe to combine multiple tools in order to remove the dangers from the sandwiches before they get to the giant grinder and damage his/her best friend.
+The action in The Sandwiches game focuses on the conveyor belt carrying the dangers-infected sandwiches to the giant grinder and our hero. The player will have to combine multiple tools in order to remove the dangers from the sandwiches before they get to the giant grinder and damage his/her best friend.
 
+## Game modes
+
+**The Sandwiches games has two game modes: campaign and survival**.
+
+- **Campaign mode consists of a sequence of levels with time limit**. In order to win, the player must prevent Jacob from dying before archieving his goal. Level after level, new dangers will make things more difficult.
+
+- **In survival mode the player will have to protect Jacob as long as possible**. Like in campaign mode, new dangers will appear to increase difficulty. 
 
 ## Multimedia
 
