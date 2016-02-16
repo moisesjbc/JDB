@@ -8,7 +8,7 @@ namespace jdb {
 class UnicodeFileReader
 {
     public:
-        static std::wstring readUTF8(const std::string& filepath, const std::string& locale = "es_ES.UTF8");
+        static std::wstring readUTF8(const std::string& filepath);
 };
 
 } // namespace jdb

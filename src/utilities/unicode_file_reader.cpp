@@ -5,10 +5,9 @@
 
 namespace jdb {
 
-std::wstring UnicodeFileReader::readUTF8(const std::string& filepath, const std::string& locale)
+std::wstring UnicodeFileReader::readUTF8(const std::string& filepath)
 {
     std::wifstream file(filepath.c_str());
-    file.imbue(std::locale(locale.c_str()));
     std::wstringstream fileStream;
     fileStream << file.rdbuf();
     file.close();

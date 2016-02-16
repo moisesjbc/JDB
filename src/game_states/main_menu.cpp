@@ -24,6 +24,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <utilities/volume_control_panel.hpp>
+#include <utilities/version_string.hpp>
 
 namespace jdb {
 
@@ -48,7 +49,7 @@ void MainMenu::init()
 
     tgui::Label::Ptr versionLabel =
         std::make_shared<tgui::Label>();
-    versionLabel->setText("Game version: v0.1");
+    versionLabel->setText("Game version: " + VERSION_STRING);
 
     tgui::VerticalLayout::Ptr globalLayout =
         std::make_shared<tgui::VerticalLayout>();
@@ -140,7 +141,7 @@ tgui::VerticalLayout::Ptr MainMenu::generateTitleLayout() const
 }
 
 
-tgui::VerticalLayout::Ptr MainMenu::generateMenuLayout() const
+tgui::VerticalLayout::Ptr MainMenu::generateMenuLayout()
 {
     tgui::VerticalLayout::Ptr menuLayout = std::make_shared<tgui::VerticalLayout>();
 

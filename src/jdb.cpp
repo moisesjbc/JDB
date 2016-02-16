@@ -33,7 +33,9 @@ const int WINDOW_HEIGHT = 768;
 
 JDB::JDB()
 {
+    LOG(INFO) << "Creating SFML window ...";
     window_.create( sf::VideoMode( WINDOW_WIDTH, WINDOW_HEIGHT ), "JDB" );
+    LOG(INFO) << "Creating SFML window ...OK";
 }
 
 
@@ -43,9 +45,13 @@ JDB::JDB()
 
 void JDB::run()
 {
+    LOG(INFO) << "Initializing sound manager ...";
     SoundManager soundManager( (DATA_DIR_PATH + "/audio").c_str() );
+    LOG(INFO) << "Initializing sound manager ...OK";
 
+    LOG(INFO) << "Initializing main menu ...";
     MainMenu mainMenu( window_, &soundManager );
+    LOG(INFO) << "Initializing main menu ...OK";
 
     mainMenu.run();
 }

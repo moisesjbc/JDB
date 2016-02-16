@@ -21,6 +21,7 @@
 #define JDB_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <levels/level.hpp>
 
 namespace jdb {
 
