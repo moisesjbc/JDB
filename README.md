@@ -27,6 +27,10 @@ There is a total of 4 tools for player to combine them and remove dangers.
 - **Lighter**
 - **Gavel**
 
+### Dangers
+
+* [See dangers.md](./share/sandwiches-game/docs/dangers.md) for a complete list.
+
 ## Game modes
 
 **The Sandwiches games has two game modes: campaign and survival**.
