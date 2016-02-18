@@ -71,4 +71,40 @@ StateDistanceTransition DangerDataParser::ParseStateDistanceTransition(json json
     return stateDistanceTransition;
 }
 
+
+void DangerDataParser::ParseDangerStateStun(
+        json rawDangerStateStunJSON,
+        jdb::StunType& stunType,
+        std::set<ToolType>& stunnedTools)
+{
+    std::string stunTypeStr = rawDangerStateStunJSON["type"];
+    if( stunTypeStr == "burn" ){
+        stunType = StunType::BURN;
+    }else if( stunTypeStr == "freezing" ){
+        stunType = StunType::FREEZING;
+    }else if( stunTypeStr == "electrocution" ){
+        stunType = StunType::ELECTROCUTION;
+    }else if( stunTypeStr == "bite" ){
+        stunType = StunType::BITE;
+    }else if( stunTypeStr == "hypnotism" ){
+        stunType = StunType::HYPNOTISM;
+    }else{
+        throw std::runtime_error( "Unrecognized stun" );
+    }
+
+    for(const std::string& toolStr : rawDangerStateStunJSON["tools"]){
+        if( toolStr == "hand" ){
+            stunnedTools.insert( ToolType::HAND );
+        }else if( toolStr == "extinguisher" ){
+            stunnedTools.insert( ToolType::EXTINGUISHER );
+        }else if( toolStr == "lighter" ){
+            stunnedTools.insert( ToolType::LIGHTER );
+        }else if( toolStr == "gavel" ){
+            stunnedTools.insert( ToolType::GAVEL );
+        }else{
+            throw std::runtime_error( "Unrecognized stunned tool" );
+        }
+    }
+}
+
 } // namespace jdb

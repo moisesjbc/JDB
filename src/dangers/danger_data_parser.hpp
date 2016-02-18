@@ -34,6 +34,12 @@ class DangerDataParser
         static BaseLine ParseBaseLine(json jsonObject);
         StateTimeTransition ParseStateTimeTransition(json jsonObject) const;
         StateDistanceTransition ParseStateDistanceTransition(json jsonObject) const;
+        jdb::StunType stuntype;
+        std::set<ToolType> stunnedTools;
+        void ParseDangerStateStun(
+                json rawDangerStateStunJSON,
+                jdb::StunType& stunType,
+                std::set<ToolType>& stunnedTools);
 };
 
 } // namespace jdb

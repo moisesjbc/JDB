@@ -86,3 +86,49 @@ TEST(DangerDataParserTest, StateDistanceTransitionIsParsedCorrectly)
     EXPECT_EQ(32, stateDistanceTransition.distance);
     EXPECT_EQ(5, stateDistanceTransition.newState);
 }
+
+
+TEST(DangerDataParserTest, DangerStateStunIsParsedCorrectly)
+{
+    json rawDangerStateStunJSON = R"(
+    {
+        "type": "burn",
+        "tools": ["hand", "gavel"]
+    }
+    )"_json;
+
+    jdb::DangerDataParser dangerDataParser;
+    jdb::StunType stunType;
+    std::set<jdb::ToolType> stunnedTools;
+    dangerDataParser.ParseDangerStateStun(rawDangerStateStunJSON, stunType, stunnedTools);
+
+    EXPECT_EQ(jdb::StunType::BURN, stunType);
+    EXPECT_NE(stunnedTools.end(), stunnedTools.find(jdb::ToolType::HAND));
+    EXPECT_NE(stunnedTools.end(), stunnedTools.find(jdb::ToolType::GAVEL));
+    EXPECT_EQ(stunnedTools.end(), stunnedTools.find(jdb::ToolType::EXTINGUISHER));
+    EXPECT_EQ(stunnedTools.end(), stunnedTools.find(jdb::ToolType::LIGHTER));
+}
+
+
+
+/*
+struct DangerState
+{
+    // Index of the animation state associated with this state.
+    int animationState;
+
+    // Respones to player actions.
+    std::vector< PlayerActionResponse > playerActionResponses;
+
+    // State time-based transitions.
+    std::unique_ptr< StateTimeTransition > stateTimeTransition;
+
+    // Distance-based state transition.
+    std::unique_ptr< StateDistanceTransition > stateDistanceTransition;
+
+    bool randomDangerOnAnimationStateEnd;
+    m2g::AnimationDataPtr appearanceAnimationData;
+
+    std::set< ToolType > stunnedTools;
+    StunType stunType;
+*/
