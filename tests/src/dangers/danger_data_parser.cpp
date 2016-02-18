@@ -32,3 +32,21 @@ TEST(DangerDataParserTest, StateTransitionIsParsedCorrectly) {
     EXPECT_EQ(5, playerActionResponse.newDanger);
     EXPECT_EQ(15, playerActionResponse.hpBonus);
 }
+
+
+TEST(DangerDataParserTest, BaseLineIsParsedCorrectly) {
+    json rawBaseLineJSON = R"(
+    {
+        "x": 16,
+        "y": 7,
+        "width": 275
+    }
+    )"_json;
+
+    jdb::DangerDataParser dangerDataParser;
+    jdb::BaseLine baseLine = dangerDataParser.ParseBaseLine(rawBaseLineJSON);
+
+    EXPECT_EQ(16, baseLine.x);
+    EXPECT_EQ(7, baseLine.y);
+    EXPECT_EQ(275, baseLine.width);
+}

@@ -33,4 +33,12 @@ void BaseLine::loadFromXML( tinyxml2::XMLElement* xmlElement )
     width = xmlElement->FloatAttribute( "width" );
 }
 
+
+jdb::BaseLine::BaseLine(float x, float y, float width)
+{
+    this->x = x;
+    this->y = y;
+    this->width = width;
+}
+
 } // namespace jdb.

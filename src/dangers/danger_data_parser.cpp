@@ -36,4 +36,16 @@ PlayerActionResponse DangerDataParser::ParsePlayerActionResponse(json jsonObject
     return playerActionResponse;
 }
 
+
+BaseLine DangerDataParser::ParseBaseLine(json jsonObject) const
+{
+    BaseLine baseLine(
+        jsonObject["x"],
+        jsonObject["y"],
+        jsonObject["width"]
+    );
+
+    return baseLine;
+}
+
 } // namespace jdb

@@ -37,6 +37,7 @@ struct BaseLine
      * 1. Loading
      ***/
     void loadFromXML( tinyxml2::XMLElement* xmlElement );
+    BaseLine(float x = 0.0f, float y = 0.0f, float width = 0.0f);
 };
 
 }

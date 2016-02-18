@@ -21,6 +21,7 @@
 #define DANGER_DATA_PARSER_HPP
 
 #include <dangers/player_action_response.hpp>
+#include <utilities/base_line.hpp>
 #include <utilities/json.hpp>
 using json = nlohmann::json;
 
@@ -30,6 +31,7 @@ class DangerDataParser
 {
     public:
         PlayerActionResponse ParsePlayerActionResponse(json jsonObject) const;
+        BaseLine ParseBaseLine(json jsonObject) const;
 };
 
 } // namespace jdb
