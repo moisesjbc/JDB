@@ -48,6 +48,7 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/dangers/danger_data.cpp"
     "${SOURCE_DIR}/dangers/danger_state.cpp"
     "${SOURCE_DIR}/dangers/danger.cpp"
+    "${SOURCE_DIR}/dangers/dangers_factory.cpp"
     "${SOURCE_DIR}/tools/tool.cpp"
     "${SOURCE_DIR}/dangers/player_action_response.cpp"
     "${SOURCE_DIR}/sandwiches/sandwich_data.cpp"
@@ -76,19 +77,19 @@ set( EXEC_NAME "${PROJECT_NAME}" )
 add_executable( "${EXEC_NAME}" "${SOURCE_DIR}/main.cpp" ${SOURCE_FILES} )
 target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 
-if( !BUILD_USING_MXE )
+if( NOT BUILD_USING_MXE )
     include(${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt)
-endif( !BUILD_USING_MXE )
+endif()
 
 # Instalation
-if( !BUILD_USING_MXE )
+if( NOT BUILD_USING_MXE )
     set( CMAKE_INSTALL_PREFIX /opt/${PROJECT_NAME} )
-else( !BUILD_USING_MXE )
+else()
     set( CMAKE_INSTALL_PREFIX / )
-endif( !BUILD_USING_MXE )
+endif()
 install( TARGETS "${EXEC_NAME}" RUNTIME DESTINATION bin )
 install( DIRECTORY share/${PROJECT_NAME} DESTINATION share )
-if( !BUILD_USING_MXE )
+if( NOT BUILD_USING_MXE )
     file( WRITE ${PROJECT_NAME}-launcher "#!/bin/bash
 (cd \"${CMAKE_INSTALL_PREFIX}/bin\" && export LD_LIBRARY_PATH=. && ./${EXEC_NAME})
 ")
@@ -126,7 +127,7 @@ set( CPACK_STRIP_FILES true )
 include( CPack )
 message("SFML_LIBRARIES ${SFML_LIBRARIES}")
 
-if( !WIN32 )
+if( NOT WIN32 )
     configure_file(
         ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop.in
         ${CMAKE_SOURCE_DIR}/share/applications/${EXEC_NAME}.desktop
