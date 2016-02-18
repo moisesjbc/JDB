@@ -31,7 +31,7 @@ class DangerDataParser
 {
     public:
         PlayerActionResponse ParsePlayerActionResponse(json jsonObject) const;
-        BaseLine ParseBaseLine(json jsonObject) const;
+        static BaseLine ParseBaseLine(json jsonObject);
 };
 
 } // namespace jdb

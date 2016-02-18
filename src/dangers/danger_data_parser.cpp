@@ -37,7 +37,7 @@ PlayerActionResponse DangerDataParser::ParsePlayerActionResponse(json jsonObject
 }
 
 
-BaseLine DangerDataParser::ParseBaseLine(json jsonObject) const
+BaseLine DangerDataParser::ParseBaseLine(json jsonObject)
 {
     BaseLine baseLine(
         jsonObject["x"],
