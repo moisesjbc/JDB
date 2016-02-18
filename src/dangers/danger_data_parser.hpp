@@ -20,7 +20,7 @@
 #ifndef DANGER_DATA_PARSER_HPP
 #define DANGER_DATA_PARSER_HPP
 
-#include <dangers/player_action_response.hpp>
+#include <dangers/danger_data.hpp>
 #include <utilities/base_line.hpp>
 #include <utilities/json.hpp>
 using json = nlohmann::json;
@@ -32,6 +32,8 @@ class DangerDataParser
     public:
         PlayerActionResponse ParsePlayerActionResponse(json jsonObject) const;
         static BaseLine ParseBaseLine(json jsonObject);
+        StateTimeTransition ParseStateTimeTransition(json jsonObject) const;
+        StateDistanceTransition ParseStateDistanceTransition(json jsonObject) const;
 };
 
 } // namespace jdb

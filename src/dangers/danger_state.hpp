@@ -54,6 +54,12 @@ struct StateTimeTransition {
     unsigned int maxTimeout;
     unsigned int newState;
 
+    StateTimeTransition(unsigned int minTimeout = 0, unsigned int maxTimeout = 5, unsigned int newState = 0) :
+        minTimeout(minTimeout),
+        maxTimeout(maxTimeout),
+        newState(newState)
+    {}
+
     unsigned int generateTimeout(){
         return minTimeout + rand() % (maxTimeout - minTimeout + 1);
     }
@@ -64,6 +70,11 @@ struct StateDistanceTransition {
     // TODO: Make this depend on effective distance to grinder.
     unsigned int distance;
     unsigned int newState;
+
+    StateDistanceTransition(unsigned int distance = 0, unsigned int newState = 0) :
+        distance(distance),
+        newState(newState)
+    {}
 };
 
 struct DangerState

@@ -48,4 +48,27 @@ BaseLine DangerDataParser::ParseBaseLine(json jsonObject)
     return baseLine;
 }
 
+
+StateTimeTransition DangerDataParser::ParseStateTimeTransition(json jsonObject) const
+{
+    StateTimeTransition stateTimeTransition(
+        jsonObject["min_timeout"],
+        jsonObject["max_timeout"],
+        jsonObject["new_state"]
+    );
+
+    return stateTimeTransition;
+}
+
+
+StateDistanceTransition DangerDataParser::ParseStateDistanceTransition(json jsonObject) const
+{
+    StateDistanceTransition stateDistanceTransition(
+        jsonObject["distance"],
+        jsonObject["new_state"]
+    );
+
+    return stateDistanceTransition;
+}
+
 } // namespace jdb
