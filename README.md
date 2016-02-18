@@ -48,6 +48,7 @@ There is a total of 4 tools for player to combine them and remove dangers.
 
 * [Boost](www.boost.org/)
 * [tinyxml2](http://www.grinninglizard.com/tinyxml2/)
+* [JSON for modern C++](https://github.com/nlohmann/json)
 * [SFML (>= 2.3.2)](http://www.sfml-dev.org/)
 * [m2g (v0.3)](https://github.com/moisesjbc/m2g)
 * [v0.7-dev)](https://tgui.eu/v0.7-dev/)
