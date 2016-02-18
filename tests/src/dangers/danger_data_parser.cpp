@@ -108,27 +108,3 @@ TEST(DangerDataParserTest, DangerStateStunIsParsedCorrectly)
     EXPECT_EQ(stunnedTools.end(), stunnedTools.find(jdb::ToolType::EXTINGUISHER));
     EXPECT_EQ(stunnedTools.end(), stunnedTools.find(jdb::ToolType::LIGHTER));
 }
-
-
-
-/*
-struct DangerState
-{
-    // Index of the animation state associated with this state.
-    int animationState;
-
-    // Respones to player actions.
-    std::vector< PlayerActionResponse > playerActionResponses;
-
-    // State time-based transitions.
-    std::unique_ptr< StateTimeTransition > stateTimeTransition;
-
-    // Distance-based state transition.
-    std::unique_ptr< StateDistanceTransition > stateDistanceTransition;
-
-    bool randomDangerOnAnimationStateEnd;
-    m2g::AnimationDataPtr appearanceAnimationData;
-
-    std::set< ToolType > stunnedTools;
-    StunType stunType;
-*/

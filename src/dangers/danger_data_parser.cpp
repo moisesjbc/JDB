@@ -107,4 +107,49 @@ void DangerDataParser::ParseDangerStateStun(
     }
 }
 
+
+DangerState DangerDataParser::ParseDangerState(json rawDangerStateJSON, m2g::GraphicsLibrary& graphicsLibrary)
+{
+    DangerState dangerState;
+
+    dangerState.animationState = rawDangerStateJSON["animation_state"];
+
+    for(json playerActionJSONObject : rawDangerStateJSON["player_action_responses"]){
+        dangerState.playerActionResponses.push_back(ParsePlayerActionResponse(playerActionJSONObject));
+    }
+
+    if(rawDangerStateJSON["state_time_transition"] != nullptr){
+        dangerState.stateTimeTransition =
+            std::unique_ptr<StateTimeTransition>(
+                new StateTimeTransition(ParseStateTimeTransition(rawDangerStateJSON["state_time_transition"]))
+            );
+    }else{
+        dangerState.stateTimeTransition = nullptr;
+    }
+
+    if(rawDangerStateJSON["state_distance_transition"] != nullptr){
+        dangerState.stateDistanceTransition =
+            std::unique_ptr<StateDistanceTransition>(
+                new StateDistanceTransition(ParseStateDistanceTransition(rawDangerStateJSON["state_distance_transition"]))
+            );
+    }else{
+        dangerState.stateDistanceTransition = nullptr;
+    }
+
+    if(rawDangerStateJSON["random_danger_on_animation_state_end"] != nullptr){
+        dangerState.randomDangerOnAnimationStateEnd = true;
+
+        dangerState.appearanceAnimationData =
+                graphicsLibrary.getAnimationDataByName(
+                    rawDangerStateJSON["random_danger_on_animation_state_end"]["appearance_animation"] );
+    }else{
+        dangerState.randomDangerOnAnimationStateEnd = false;
+    }
+
+    ParseDangerStateStun(rawDangerStateJSON["stun"], dangerState.stunType, dangerState.stunnedTools);
+
+    return dangerState;
+}
+
+
 } // namespace jdb

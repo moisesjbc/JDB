@@ -101,6 +101,7 @@ struct DangerState
     /***
      * 1. Initialization
      ***/
+    DangerState() = default;
     DangerState( tinyxml2::XMLElement* xmlElement, m2g::GraphicsLibrary& graphicsLibrary );
 };
 
