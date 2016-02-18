@@ -27,7 +27,9 @@ namespace jdb {
  * Construction
  ***/
 
-DangersFactory::DangersFactory(unsigned int nDangers) :
+DangersFactory::DangersFactory(
+        unsigned int nDangers,
+        std::unique_ptr<std::vector<jdb::DangerData>> dangersData ) :
     nDangers_(nDangers)
 {
     if(nDangers == 0){

@@ -20,6 +20,8 @@
 #ifndef DANGERS_FACTORY_HPP
 #define DANGERS_FACTORY_HPP
 
+#include <dangers/danger_data.hpp>
+
 namespace jdb {
 
 class DangersFactory
@@ -28,7 +30,8 @@ class DangersFactory
         /***
          * Construction
          ***/
-        DangersFactory( unsigned int nDangers );
+        DangersFactory( unsigned int nDangers,
+                        std::unique_ptr<std::vector<jdb::DangerData>> dangersData );
 
 
         /***
