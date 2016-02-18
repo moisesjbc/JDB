@@ -74,6 +74,25 @@ PlayerActionResponse::PlayerActionResponse( tinyxml2::XMLElement* xmlElement )
 }
 
 
+PlayerActionResponse::PlayerActionResponse(
+        std::string playerAction,
+        int minHp,
+        int maxHp,
+        int dangerHpVariation,
+        int newState,
+        int newDanger,
+        int playerHpBonus )
+{
+    this->playerAction = getPlayerActionFromString(playerAction);
+    this->minHp = minHp;
+    this->maxHp = maxHp;
+    this->hpVariation = dangerHpVariation;
+    this->newState = newState,
+    this->newDanger = newDanger;
+    this->hpBonus = playerHpBonus;
+}
+
+
 /***
  * 2. Auxiliar methods
  ***/

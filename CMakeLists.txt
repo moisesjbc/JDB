@@ -48,6 +48,7 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/dangers/danger_data.cpp"
     "${SOURCE_DIR}/dangers/danger_state.cpp"
     "${SOURCE_DIR}/dangers/danger.cpp"
+    "${SOURCE_DIR}/dangers/danger_data_parser.cpp"
     "${SOURCE_DIR}/tools/tool.cpp"
     "${SOURCE_DIR}/dangers/player_action_response.cpp"
     "${SOURCE_DIR}/sandwiches/sandwich_data.cpp"
