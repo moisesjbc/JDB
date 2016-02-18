@@ -5,18 +5,16 @@
 TEST(DangerDataParserTest, StateTransitionIsParsedCorrectly) {
     json rawJSON = R"(
     {
-        "state_transition": {
-            "conditions": {
-                "player_action": "extinguisher_on",
-                "danger_min_hp": 10,
-                "danger_max_hp": 100
-            },
-            "consequences": {
-                "danger_hp_variation": -15,
-                "new_state": 3,
-                "new_danger": 5,
-                "player_hp_bonus": 15
-            }
+        "conditions": {
+            "player_action": "extinguisher_on",
+            "danger_min_hp": 10,
+            "danger_max_hp": 100
+        },
+        "consequences": {
+            "danger_hp_variation": -15,
+            "new_state": 3,
+            "new_danger": 5,
+            "player_hp_bonus": 15
         }
     }
     )"_json;

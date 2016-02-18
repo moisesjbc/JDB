@@ -24,13 +24,13 @@ namespace jdb {
 PlayerActionResponse DangerDataParser::ParsePlayerActionResponse(json jsonObject) const
 {
     PlayerActionResponse playerActionResponse(
-        jsonObject["state_transition"]["conditions"]["player_action"],
-        jsonObject["state_transition"]["conditions"]["danger_min_hp"],
-        jsonObject["state_transition"]["conditions"]["danger_max_hp"],
-        jsonObject["state_transition"]["consequences"]["danger_hp_variation"],
-        jsonObject["state_transition"]["consequences"]["new_state"],
-        jsonObject["state_transition"]["consequences"]["new_danger"],
-        jsonObject["state_transition"]["consequences"]["player_hp_bonus"]
+        jsonObject["conditions"]["player_action"],
+        jsonObject["conditions"]["danger_min_hp"],
+        jsonObject["conditions"]["danger_max_hp"],
+        jsonObject["consequences"]["danger_hp_variation"],
+        jsonObject["consequences"]["new_state"],
+        jsonObject["consequences"]["new_danger"],
+        jsonObject["consequences"]["player_hp_bonus"]
     );
 
     return playerActionResponse;
