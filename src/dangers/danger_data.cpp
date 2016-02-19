@@ -61,4 +61,11 @@ DangerData::DangerData( tinyxml2::XMLElement* xmlElement,
     }
 }
 
+
+DangerData::DangerData(std::vector<m2g::AnimationDataPtr> animationData,
+                       const std::vector< DangerDataPtr >& dangersDataVector ) :
+    animationData(std::move(animationData)),
+    dangersDataVector(dangersDataVector)
+{}
+
 } // namespace jdb

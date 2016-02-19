@@ -41,6 +41,7 @@ class DangerDataParser
                 jdb::StunType& stunType,
                 std::set<ToolType>& stunnedTools);
         DangerState ParseDangerState(json rawDangerStateJSON, m2g::GraphicsLibrary& graphicsLibrary);
+        DangerData ParseDangerData(json rawDangerStateJSON, const std::vector< DangerDataPtr >& dangersDataVector, m2g::GraphicsLibrary& dangerGraphics);
 };
 
 } // namespace jdb

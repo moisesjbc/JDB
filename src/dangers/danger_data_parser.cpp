@@ -152,4 +152,32 @@ DangerState DangerDataParser::ParseDangerState(json rawDangerStateJSON, m2g::Gra
 }
 
 
+DangerData DangerDataParser::ParseDangerData(json jsonObject, const std::vector< DangerDataPtr >& dangersDataVector, m2g::GraphicsLibrary &dangerGraphics)
+{
+    // Get the danger's animation data.
+    std::string dangerName = jsonObject["name"];
+    m2g::AnimationDataList animDataList = dangerGraphics.getAnimationDataByPrefix( dangerName );
+    std::vector< m2g::AnimationDataPtr > animationData =
+            std::vector< m2g::AnimationDataPtr >{
+                std::make_move_iterator(std::begin(animDataList)),
+                std::make_move_iterator(std::end(animDataList)) };
+
+    DangerData dangerData(std::move(animationData), dangersDataVector);
+
+    // Get the danger's general info.
+    dangerData.initialState = jsonObject["initial_state"];
+    dangerData.initialHp = jsonObject["initial_hp"];
+    dangerData.damageFactor = jsonObject["damage_factor"];
+
+    // Get the danger's base line.
+    dangerData.baseLine = ParseBaseLine(jsonObject["base_line"]);
+
+    // Get the damage's states.
+    for( json dangerStateJSON : jsonObject["danger_states"] ){
+        dangerData.states.push_back( ParseDangerState(dangerStateJSON, dangerGraphics) );
+    }
+
+    return dangerData;
+}
+
 } // namespace jdb

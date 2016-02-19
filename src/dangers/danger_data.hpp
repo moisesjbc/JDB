@@ -59,6 +59,8 @@ struct DangerData
     DangerData( tinyxml2::XMLElement* xmlElement,
                 m2g::GraphicsLibrary& dangerGraphics,
                 const std::vector< DangerDataPtr >& dangersDataVector );
+    DangerData(std::vector<m2g::AnimationDataPtr> animationData,
+               const std::vector< DangerDataPtr >& dangersDataVector);
 };
 
 } // namespace jdb
