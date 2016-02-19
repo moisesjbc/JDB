@@ -44,7 +44,11 @@
                                 "new_danger": -1
                             }
                         }
-                    ]
+                    ],
+                    "stun": {
+                        "type": "burn",
+                        "tools": ["hand", "gavel"]
+                    }
                 },
                 {
                     "animation_state": 1
@@ -97,7 +101,11 @@
                                 "new_danger": -1
                             }
                         }
-                    ]
+                    ],
+                    "stun": {
+                        "type": "freezing",
+                        "tools": ["hand"]
+                    }
                 },
                 {
                     "animation_state": 1
@@ -138,7 +146,11 @@
                                 "new_danger": -1
                             }
                         }
-                    ]
+                    ],
+                    "stun": {
+                        "type": "bite",
+                        "tools": ["hand"]
+                    }
                 },
                 {
                     "animation_state": 1,
