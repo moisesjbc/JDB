@@ -76,11 +76,11 @@ void Level::loadDangerData( unsigned int levelIndex )
 
     // Load the dangers data from config file.
     DangerDataParser dangerDataParser;
-    dangerData =
-        dangerDataParser.LoadLevelDangerData(
-            (DATA_DIR_PATH + "/config/dangers.json").c_str(),
-            levelIndex,
-            *dangerGraphicsLibrary_);
+    dangerDataParser.LoadLevelDangerData(
+        (DATA_DIR_PATH + "/config/dangers.json").c_str(),
+        levelIndex,
+        *dangerGraphicsLibrary_,
+        dangerData);
 
     // Sort the vector of dangers with a descending order in their
     // base lines' widths.

@@ -163,6 +163,7 @@ DangerState DangerDataParser::ParseDangerState(json rawDangerStateJSON, m2g::Gra
                     rawDangerStateJSON["random_danger_on_animation_state_end"]["appearance_animation"] );
     }else{
         dangerState.randomDangerOnAnimationStateEnd = false;
+        dangerState.appearanceAnimationData = nullptr;
     }
 
     if(rawDangerStateJSON["stun"] != nullptr){
@@ -202,7 +203,7 @@ DangerDataPtr DangerDataParser::ParseDangerData(json jsonObject, const std::vect
 }
 
 
-std::vector<DangerDataPtr> DangerDataParser::LoadLevelDangerData(const std::string& configFilepath, unsigned int levelIndex, m2g::GraphicsLibrary dangersGraphics) const
+void DangerDataParser::LoadLevelDangerData(const std::string& configFilepath, unsigned int levelIndex, m2g::GraphicsLibrary dangersGraphics, std::vector<DangerDataPtr>& dangersDataVector) const
 {
     json jsonObject;
 
@@ -210,14 +211,12 @@ std::vector<DangerDataPtr> DangerDataParser::LoadLevelDangerData(const std::stri
     file >> jsonObject;
     file.close();
 
-    std::vector<DangerDataPtr> dangersData;
+    dangersDataVector.clear();
     for(json dangerJsonObject : jsonObject["dangers"]){
         if(dangerJsonObject["first_level"] <= levelIndex){
-            dangersData.push_back(std::move(ParseDangerData(dangerJsonObject, dangersData, dangersGraphics)));
+            dangersDataVector.push_back(std::move(ParseDangerData(dangerJsonObject, dangersDataVector, dangersGraphics)));
         }
     }
-
-    return dangersData;
 }
 
 } // namespace jdb

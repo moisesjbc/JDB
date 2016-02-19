@@ -537,7 +537,7 @@
                             "conditions": {
 	                            "player_action":"gavel_hit",
                                 "danger_min_hp": 0,
-                                "danger_max_hp":100
+                                "danger_max_hp": 100
                             },
                             "consequences": {
                                 "danger_hp_variation": -15,
@@ -671,7 +671,9 @@
                 },
 	            {
 				    "animation_state": 1,
-			        "random_danger_on_animation_state_end appearance_animation": "enigma_bomb_explosion.png"
+			        "random_danger_on_animation_state_end": { 
+                        "appearance_animation": "enigma_bomb_explosion.png"
+                    }
                 },
 	            {
 				    "animation_state": 2
@@ -709,7 +711,7 @@
                                 "danger_hp_variation": "all",
                                 "new_state": 1,
                                 "new_danger": -1,
-                                "hp_bonus": 30
+                                "player_hp_bonus": 30
                             }
                         }
                     ]
