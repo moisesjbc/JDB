@@ -81,7 +81,8 @@ PlayerActionResponse::PlayerActionResponse(
         int dangerHpVariation,
         int newState,
         int newDanger,
-        int playerHpBonus )
+        int playerHpBonus,
+        int scoreBonus )
 {
     this->playerAction = getPlayerActionFromString(playerAction);
     this->minHp = minHp;
@@ -90,6 +91,7 @@ PlayerActionResponse::PlayerActionResponse(
     this->newState = newState,
     this->newDanger = newDanger;
     this->hpBonus = playerHpBonus;
+    this->scoreBonus = scoreBonus;
 }
 
 

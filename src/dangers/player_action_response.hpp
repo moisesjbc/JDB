@@ -61,7 +61,8 @@ struct PlayerActionResponse
                           int dangerHpVariation,
                           int newState,
                           int newDanger,
-                          int playerHpBonus );
+                          int playerHpBonus,
+                          int scoreBonus );
 
 
     /***

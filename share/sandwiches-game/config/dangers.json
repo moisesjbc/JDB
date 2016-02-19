@@ -2,14 +2,14 @@
     "dangers": [
         {
             "name": "fire",
-            "first_level": 1,
+            "first_level": 0,
             "initial_state": 0,
-            "initia_hp": 100,
+            "initial_hp": 100,
             "damage_factor": 0.3,
             "base_line": {
                 "x": 16,
                 "y": 76,
-                "width": "213"
+                "width": 213
             },
             "danger_info": {
                 "name": "Fire",
@@ -19,7 +19,7 @@
             "states": [
                 {
                     "animation_state": 0,
-                    "state_transitions": [
+                    "player_action_responses": [
                         {
                             "conditions": {
                                 "player_action": "extinguisher_on",
@@ -40,11 +40,14 @@
                             },
                             "consequences": {
                                 "danger_hp_variation": "all",
-                                "new_state": -1,
+                                "new_state": 1,
                                 "new_danger": -1
                             }
                         }
                     ]
+                },
+                {
+                    "animation_state": 1
                 }
             ]
         }

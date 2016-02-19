@@ -24,14 +24,32 @@ namespace jdb {
 
 PlayerActionResponse DangerDataParser::ParsePlayerActionResponse(json jsonObject) const
 {
+    int dangerHpVariation = 0;
+    if(jsonObject["consequences"]["danger_hp_variation"] == "all"){
+        dangerHpVariation = HP_ALL;
+    }else{
+        dangerHpVariation = jsonObject["consequences"]["danger_hp_variation"];
+    }
+
+    int playerHpBonus = 0;
+    if(jsonObject["consequences"]["player_hp_bonus"] != nullptr){
+        playerHpBonus = jsonObject["consequences"]["player_hp_bonus"];
+    }
+
+    int scoreBonus = 0;
+    if(jsonObject["consequences"]["score_bonus"] != nullptr){
+        scoreBonus = jsonObject["consequences"]["score_bonus_bonus"];
+    }
+
     PlayerActionResponse playerActionResponse(
         jsonObject["conditions"]["player_action"],
         jsonObject["conditions"]["danger_min_hp"],
         jsonObject["conditions"]["danger_max_hp"],
-        jsonObject["consequences"]["danger_hp_variation"],
+        dangerHpVariation,
         jsonObject["consequences"]["new_state"],
         jsonObject["consequences"]["new_danger"],
-        jsonObject["consequences"]["player_hp_bonus"]
+        playerHpBonus,
+        scoreBonus
     );
 
     return playerActionResponse;
@@ -176,7 +194,7 @@ DangerDataPtr DangerDataParser::ParseDangerData(json jsonObject, const std::vect
     dangerData->baseLine = ParseBaseLine(jsonObject["base_line"]);
 
     // Get the damage's states.
-    for( json dangerStateJSON : jsonObject["danger_states"] ){
+    for( json dangerStateJSON : jsonObject["states"] ){
         dangerData->states.push_back( ParseDangerState(dangerStateJSON, dangerGraphics) );
     }
 

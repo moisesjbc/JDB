@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <game_states/end_of_demo_screen.hpp>
 #include <game_states/game_over_screen.hpp>
+#include <dangers/danger_data_parser.hpp>
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -70,23 +71,16 @@ void Level::loadSandwichData()
 
 void Level::loadDangerData( unsigned int levelIndex )
 {
-    tinyxml2::XMLDocument document;
-    tinyxml2::XMLElement* dangerXMLElement = nullptr;
-
     dangerGraphicsLibrary_ =
             std::unique_ptr< m2g::GraphicsLibrary >( new m2g::GraphicsLibrary( DATA_DIR_PATH + "/img/dangers/dangers.xml" ) );
 
-    // Load the dangers data.
-    document.LoadFile( (DATA_DIR_PATH + "/config/dangers.xml").c_str() );
-    dangerXMLElement = ( document.RootElement() )->FirstChildElement( "danger" );
-
-    dangerData.clear();
-    while( dangerXMLElement ){
-        if( static_cast< unsigned int >( dangerXMLElement->IntAttribute( "first_level" ) ) <= levelIndex ){
-            dangerData.emplace_back( new DangerData( dangerXMLElement, *dangerGraphicsLibrary_, dangerData ) );
-        }
-        dangerXMLElement = dangerXMLElement->NextSiblingElement();
-    }
+    // Load the dangers data from config file.
+    DangerDataParser dangerDataParser;
+    dangerData =
+        dangerDataParser.LoadLevelDangerData(
+            (DATA_DIR_PATH + "/config/dangers.json").c_str(),
+            levelIndex,
+            *dangerGraphicsLibrary_);
 
     // Sort the vector of dangers with a descending order in their
     // base lines' widths.
