@@ -517,25 +517,23 @@
                                 "new_danger": -1
                             }
                         }
-                    ]
-                }
-            ],
-            "state_time_transition": {
-		        "min_timeout": 2500,
-		        "max_timeout": 4000,
-		        "new_state": 1
-	        },
-	        "states": [
-	            {
-				    "animation_state": 1,
-				    "stun": {
-	                    "type": "electrocution", 
-					    "tools": ["hand"]
-				    },
+                    ],
+                    "state_time_transition": {
+		                "min_timeout": 2500,
+		                "max_timeout": 4000,
+		                "new_state": 1
+	                }
+                },
+                {
+			        "animation_state": 1,
+			        "stun": {
+                        "type": "electrocution", 
+				        "tools": ["hand"]
+			        },
                     "player_action_responses": [
                         {
                             "conditions": {
-	                            "player_action":"gavel_hit",
+                                "player_action":"gavel_hit",
                                 "danger_min_hp": 0,
                                 "danger_max_hp": 100
                             },
@@ -546,18 +544,18 @@
                             }
                         }
                     ],
-				    "state_time_transition": {
-	                    "min_timeout": 2500,
-	                    "max_timeout": 4000,
-	                    "new_state": 0
+			        "state_time_transition": {
+                        "min_timeout": 2500,
+                        "max_timeout": 4000,
+                        "new_state": 0
                     }
                 },
                 {
-				    "animation_state": 2,
+			        "animation_state": 2,
                     "player_action_responses": [
                         {
                             "conditions": {
-	                            "player_action":"hand_click",
+                                "player_action":"hand_click",
                                 "danger_min_hp": 0,
                                 "danger_max_hp":100
                             },
