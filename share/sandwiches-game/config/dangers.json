@@ -1,0 +1,52 @@
+{
+    "dangers": [
+        {
+            "name": "fire",
+            "first_level": 1,
+            "initial_state": 0,
+            "initia_hp": 100,
+            "damage_factor": 0.3,
+            "base_line": {
+                "x": 16,
+                "y": 76,
+                "width": "213"
+            },
+            "danger_info": {
+                "name": "Fire",
+                "description": "FIREEEEEE!",
+                "removal_instructions": "Simply use the extinguisher on it until it is removed"
+            },
+            "states": [
+                {
+                    "animation_state": 0,
+                    "state_transitions": [
+                        {
+                            "conditions": {
+                                "player_action": "extinguisher_on",
+                                "danger_min_hp": 10,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -5,
+                                "new_state": -1,
+                                "new_danger": -1
+                            }
+                        },
+                        {
+                            "conditions": {
+                                "player_action": "extinguisher_on",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 9
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": -1,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
