@@ -214,6 +214,510 @@
                     "animation_state": 1
                 }
             ]
+        },
+
+
+        {
+            "name": "shell",
+            "first_level": 1,
+            "initial_state": 0,
+            "initial_hp": 100,
+            "damage_factor": 0.3,
+            "base_line": {
+                "x": 3,
+                "y": 67,
+                "width": 148
+            },
+            "danger_info": {
+                "name": "Shell",
+                "description": "A precious shell found in the beach",
+                "removal_instructions": "Simply remove it with the hand. If you feel lucky, you can instead hit the shell with your gavel several times to see if it contains a pearl which can be taken with the hand to get a score bonus. Be careful! If you hit the pearl with your gavel it will be broken and you won't get any extra points!"
+            },
+            "states": [
+                {
+                    "animation_state": 0,
+                    "player_action_responses": [
+                        {
+                            "conditions": {
+                                "player_action": "gavel_hit",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -10,
+                                "new_state": 1,
+                                "new_danger": -1
+                            }
+                        },
+                        {
+                            "conditions": {
+                                "player_action": "hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 8,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                },
+                {
+                    "animation_state": 1,
+                    "player_action_responses": [
+                        {
+                            "conditions": {
+                                "player_action": "gavel_hit",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -10,
+                                "new_state": 2,
+                                "new_danger": -1
+                            }
+                        },
+                        {
+                            "conditions": {
+                                "player_action": "hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 8,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                },
+                {
+                    "animation_state": 2,
+                    "player_action_responses": [
+                        {
+                            "conditions": {
+                                "player_action": "gavel_hit",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -10,
+                                "new_state": 3,
+                                "new_danger": -1
+                            }
+                        },
+                        {
+                            "conditions": {
+                                "player_action": "hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 8,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                },
+                {
+                    "animation_state": 3,
+                    "player_action_responses": [
+                        {
+                            "conditions": {
+                                "player_action": "gavel_hit",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -10,
+                                "new_state": 4,
+                                "new_danger": -1
+                            }
+                        },
+                        {
+                            "conditions": {
+                                "player_action": "hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 8,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                },
+                {
+                    "animation_state": 4,
+                    "player_action_responses": [
+                        {
+                            "conditions": {
+                                "player_action": "gavel_hit",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -10,
+                                "new_state": 5,
+                                "new_danger": -1
+                            }
+                        },
+                        {
+                            "conditions": {
+                                "player_action": "gavel_hit",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -10,
+                                "new_state": 6,
+                                "new_danger": -1
+                            }
+                        },
+                        {
+                            "conditions": {
+                                "player_action": "hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 8,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                },
+                {
+                    "animation_state": 5,
+                    "player_action_responses": [
+                        {
+                            "conditions": {
+                                "player_action": "hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -10,
+                                "new_state": 8,
+                                "new_danger": -1
+                            }
+                        },
+                        {
+                            "conditions": {
+                                "player_action": "hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 8,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                },
+                {
+                    "animation_state": 6,
+                    "player_action_responses": [
+                        {
+                            "conditions": {
+                                "player_action": "gavel_hit",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -10,
+                                "new_state": 7,
+                                "new_danger": -1
+                            }
+                        },
+                        {
+                            "conditions": {
+                                "player_action": "hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 8,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                },
+                {
+                    "animation_state": 7,
+                    "player_action_responses": [
+                        {
+                            "conditions": {
+                                "player_action": "hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 8,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                },
+                {
+                    "animation_state": 8
+                }
+            ]
+        },
+
+
+        {
+	        "name": "tesla_coils",
+            "first_level": "2",
+		    "initial_state": 0,
+		    "initial_hp": 100,
+		    "damage_factor": 0.4,
+            "base_line": {
+                "x": 4,
+                "y": 118,
+                "width": 115
+            },
+	        "danger_info": {
+                "name": "Tesla coils",
+                "description": "A pair of defective tesla coils which turn on and turn off at random intervals",
+                "removal_instructions": "You can wait and remove these tesla coils with your hand when they are turned off or you can break them with your gavel and remove the pieces with your hands. Do you feel destructive?"
+            },
+            "states": [
+			    {
+				    "animation_state": 0,
+                    "player_action_responses": [
+                        {
+                            "conditions": {
+	                            "player_action":"hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp":100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 3,
+                                "new_danger": -1
+                            }
+                        },
+				        {
+                            "conditions": {
+	                            "player_action": "gavel_hit",
+                                "danger_min_hp": 0,
+                                "danger_max_hp":100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -15,
+                                "new_state": 2,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                }
+            ],
+            "state_time_transition": {
+		        "min_timeout": 2500,
+		        "max_timeout": 4000,
+		        "new_state": 1
+	        },
+	        "states": [
+	            {
+				    "animation_state": 1,
+				    "stun": {
+	                    "type": "electrocution", 
+					    "tools": ["hand"]
+				    },
+                    "player_action_responses": [
+                        {
+                            "conditions": {
+	                            "player_action":"gavel_hit",
+                                "danger_min_hp": 0,
+                                "danger_max_hp":100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -15,
+                                "new_state": 2,
+                                "new_danger": -1
+                            }
+                        }
+                    ],
+				    "state_time_transition": {
+	                    "min_timeout": 2500,
+	                    "max_timeout": 4000,
+	                    "new_state": 0
+                    }
+                },
+                {
+				    "animation_state": 2,
+                    "player_action_responses": [
+                        {
+                            "conditions": {
+	                            "player_action":"hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp":100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 3,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                },
+                {
+                    "animation_state": 3
+                }
+            ]
+        },
+	
+
+        {
+	        "name": "coward_hypnotist_rat",
+            "first_level": "1",
+		    "initial_state": 0,
+		    "initial_hp": 100,
+		    "damage_factor": 0,
+		    "base_line": {
+	            "x": 12,
+	            "y": 142,
+	            "width": 101
+            },
+	        "danger_info": {
+                "name": "Coward hypnotist rat",
+                "description": "Well... a coward hypnotist rat",
+                "removal_instructions": "Simply ignore it. As the name suggests, it is a coward and will literally dissapear when it get close to the grinder. But be careful; as the name also suggests, it will hypnotize you if you bother it"
+            },
+	        "states": [
+	            {
+				    "animation_state": 0,
+				    "state_distance_transition": {
+	                    "distance": 300,
+	                    "new_state": 1
+                    },
+				    "stun": {
+	                    "type": "hypnotism",
+                        "tools": ["hand", "extinguisher", "lighter", "gavel"]
+                    }
+                },
+                {
+                    "animation_state": 1
+			    }
+	        ]
+        },
+
+
+        {
+	        "name": "enigma_bomb",
+            "first_level": "2",
+		    "initial_state": 0,
+		    "initial_hp": 100,
+		    "damage_factor": 0.4,
+		    "base_line": {
+	            "x": -85,
+	            "y": 117,
+	            "width": 213
+            },
+	        "danger_info": {
+                "name": "Enigma bomb",
+                "description": "A bomb which hides something good... or something bad",
+                "removal_instructions": "You can remove this danger with your bare hand or, if you feel lucky, you can light its fuse and wait for the explosion to uncover what is inside."
+            },
+            "states": [
+	            {
+				    "animation_state": 0,
+				    "player_action_responses": [
+                        {
+                            "conditions": {
+	                            "player_action": "lighter_on",
+                                "danger_min_hp": 91,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -5,
+                                "new_state": -1,
+                                "new_danger": -1
+                            }
+                        },
+				        {
+                            "conditions": {
+	                            "player_action":"lighter_on",
+                                "danger_min_hp": 0,
+                                "danger_max_hp":90
+                            },
+                            "consequences": {
+                                "danger_hp_variation": -50,
+                                "new_state": 1,
+                                "new_danger": -1
+                            }
+                        },
+				        {
+                            "conditions": {
+	                            "player_action": "hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp": 100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 2,
+                                "new_danger": -1
+                            }
+                        }
+                    ]
+                },
+	            {
+				    "animation_state": 1,
+			        "random_danger_on_animation_state_end appearance_animation": "enigma_bomb_explosion.png"
+                },
+	            {
+				    "animation_state": 2
+                }
+			]
+        },
+
+	    {
+	        "name": "medic_kit",
+            "first_level": "2",
+		    "initial_state": 0,
+		    "initial_hp": 100,
+	        "damage_factor": 0.3,
+		    "base_line": {
+	            "x": 3,
+	            "y": 107,
+	            "width": 115
+            },
+	        "danger_info": {
+                "name": "Medic kit",
+                "description": "A good danger",
+                "removal_instructions": "Take this using the hand to heal. Don't let it get to the grinder! A medic kit wasn't thought to be eaten"
+            },
+	        "states": [
+			    {
+				    "animation_state": 0,
+                    "player_action_responses": [
+				        {
+                            "conditions": {
+	                            "player_action":"hand_click",
+                                "danger_min_hp": 0,
+                                "danger_max_hp":100
+                            },
+                            "consequences": {
+                                "danger_hp_variation": "all",
+                                "new_state": 1,
+                                "new_danger": -1,
+                                "hp_bonus": 30
+                            }
+                        }
+                    ]
+                },
+                {
+				    "animation_state": 1
+                }
+            ]
         }
     ]
 }
