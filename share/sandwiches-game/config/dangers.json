@@ -475,7 +475,7 @@
 
         {
 	        "name": "tesla_coils",
-            "first_level": "2",
+            "first_level": 2,
 		    "initial_state": 0,
 		    "initial_hp": 100,
 		    "damage_factor": 0.4,
@@ -578,7 +578,7 @@
 
         {
 	        "name": "coward_hypnotist_rat",
-            "first_level": "1",
+            "first_level": 1,
 		    "initial_state": 0,
 		    "initial_hp": 100,
 		    "damage_factor": 0,
@@ -613,7 +613,7 @@
 
         {
 	        "name": "enigma_bomb",
-            "first_level": "2",
+            "first_level": 2,
 		    "initial_state": 0,
 		    "initial_hp": 100,
 		    "damage_factor": 0.4,
@@ -683,7 +683,7 @@
 
 	    {
 	        "name": "medic_kit",
-            "first_level": "2",
+            "first_level": 2,
 		    "initial_state": 0,
 		    "initial_hp": 100,
 	        "damage_factor": 0.3,
