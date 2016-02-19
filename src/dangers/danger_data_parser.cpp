@@ -18,6 +18,7 @@
  ***/
 
 #include <dangers/danger_data_parser.hpp>
+#include <fstream>
 
 namespace jdb {
 
@@ -75,7 +76,7 @@ StateDistanceTransition DangerDataParser::ParseStateDistanceTransition(json json
 void DangerDataParser::ParseDangerStateStun(
         json rawDangerStateStunJSON,
         jdb::StunType& stunType,
-        std::set<ToolType>& stunnedTools)
+        std::set<ToolType>& stunnedTools) const
 {
     std::string stunTypeStr = rawDangerStateStunJSON["type"];
     if( stunTypeStr == "burn" ){
@@ -108,7 +109,7 @@ void DangerDataParser::ParseDangerStateStun(
 }
 
 
-DangerState DangerDataParser::ParseDangerState(json rawDangerStateJSON, m2g::GraphicsLibrary& graphicsLibrary)
+DangerState DangerDataParser::ParseDangerState(json rawDangerStateJSON, m2g::GraphicsLibrary& graphicsLibrary) const
 {
     DangerState dangerState;
 
@@ -152,7 +153,7 @@ DangerState DangerDataParser::ParseDangerState(json rawDangerStateJSON, m2g::Gra
 }
 
 
-DangerData DangerDataParser::ParseDangerData(json jsonObject, const std::vector< DangerDataPtr >& dangersDataVector, m2g::GraphicsLibrary &dangerGraphics)
+DangerDataPtr DangerDataParser::ParseDangerData(json jsonObject, const std::vector< DangerDataPtr >& dangersDataVector, m2g::GraphicsLibrary &dangerGraphics) const
 {
     // Get the danger's animation data.
     std::string dangerName = jsonObject["name"];
@@ -162,22 +163,41 @@ DangerData DangerDataParser::ParseDangerData(json jsonObject, const std::vector<
                 std::make_move_iterator(std::begin(animDataList)),
                 std::make_move_iterator(std::end(animDataList)) };
 
-    DangerData dangerData(std::move(animationData), dangersDataVector);
+    std::shared_ptr<DangerData> dangerData(new DangerData(std::move(animationData), dangersDataVector));
 
     // Get the danger's general info.
-    dangerData.initialState = jsonObject["initial_state"];
-    dangerData.initialHp = jsonObject["initial_hp"];
-    dangerData.damageFactor = jsonObject["damage_factor"];
+    dangerData->initialState = jsonObject["initial_state"];
+    dangerData->initialHp = jsonObject["initial_hp"];
+    dangerData->damageFactor = jsonObject["damage_factor"];
 
     // Get the danger's base line.
-    dangerData.baseLine = ParseBaseLine(jsonObject["base_line"]);
+    dangerData->baseLine = ParseBaseLine(jsonObject["base_line"]);
 
     // Get the damage's states.
     for( json dangerStateJSON : jsonObject["danger_states"] ){
-        dangerData.states.push_back( ParseDangerState(dangerStateJSON, dangerGraphics) );
+        dangerData->states.push_back( ParseDangerState(dangerStateJSON, dangerGraphics) );
     }
 
     return dangerData;
+}
+
+
+std::vector<DangerDataPtr> DangerDataParser::LoadLevelDangerData(const std::string& configFilepath, unsigned int levelIndex, m2g::GraphicsLibrary dangersGraphics) const
+{
+    json jsonObject;
+
+    std::ifstream file(configFilepath.c_str());
+    file >> jsonObject;
+    file.close();
+
+    std::vector<DangerDataPtr> dangersData;
+    for(json dangerJsonObject : jsonObject["dangers"]){
+        if(dangerJsonObject["first_level"] <= levelIndex){
+            dangersData.push_back(std::move(ParseDangerData(dangerJsonObject, dangersData, dangersGraphics)));
+        }
+    }
+
+    return dangersData;
 }
 
 } // namespace jdb
