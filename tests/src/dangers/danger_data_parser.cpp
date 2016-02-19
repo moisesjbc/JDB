@@ -1,6 +1,6 @@
 #include <dangers/danger_data_parser.hpp>
 #include <gtest/gtest.h>
-
+#include <paths.hpp>
 
 TEST(DangerDataParserTest, StateTransitionIsParsedCorrectly) {
     json rawJSON = R"(
@@ -107,4 +107,36 @@ TEST(DangerDataParserTest, DangerStateStunIsParsedCorrectly)
     EXPECT_NE(stunnedTools.end(), stunnedTools.find(jdb::ToolType::GAVEL));
     EXPECT_EQ(stunnedTools.end(), stunnedTools.find(jdb::ToolType::EXTINGUISHER));
     EXPECT_EQ(stunnedTools.end(), stunnedTools.find(jdb::ToolType::LIGHTER));
+}
+
+
+TEST(DangerDataParserTest, DangerStateIsParsedCorrectly)
+{
+    json rawDangerStateJSON = R"(
+    {
+        "animation_state": 1,
+        "player_action_responses": [
+            {
+                "conditions": {
+                    "player_action": "extinguisher_on",
+                    "danger_min_hp": 10,
+                    "danger_max_hp": 100
+                },
+                "consequences": {
+                    "danger_hp_variation": -15,
+                    "new_state": 3,
+                    "new_danger": 5,
+                    "player_hp_bonus": 15
+                }
+            }
+        ]
+    }
+    )"_json;
+
+    jdb::DangerDataParser dangerDataParser;
+    m2g::GraphicsLibrary dangersGraphics(jdb::DATA_DIR_PATH + "/img/dangers/dangers.xml");
+    jdb::DangerState dangerState =
+        dangerDataParser.ParseDangerState(rawDangerStateJSON, dangersGraphics);
+
+    EXPECT_EQ(1, dangerState.animationState);
 }

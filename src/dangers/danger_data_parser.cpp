@@ -147,7 +147,9 @@ DangerState DangerDataParser::ParseDangerState(json rawDangerStateJSON, m2g::Gra
         dangerState.randomDangerOnAnimationStateEnd = false;
     }
 
-    ParseDangerStateStun(rawDangerStateJSON["stun"], dangerState.stunType, dangerState.stunnedTools);
+    if(rawDangerStateJSON["stun"] != nullptr){
+        ParseDangerStateStun(rawDangerStateJSON["stun"], dangerState.stunType, dangerState.stunnedTools);
+    }
 
     return dangerState;
 }
