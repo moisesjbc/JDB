@@ -70,16 +70,33 @@ void Level::loadSandwichData()
 }
 
 
-void Level::loadDangerData( unsigned int levelIndex )
+void Level::loadDangerData(
+            tinyxml2::XMLElement* dangersXmlNode,
+            std::vector<std::string>& dangersIDs,
+            std::vector<std::string>& newDangersIDs )
 {
     dangerGraphicsLibrary_ =
             std::unique_ptr< m2g::GraphicsLibrary >( new m2g::GraphicsLibrary( DATA_DIR_PATH + "/img/dangers/dangers.xml" ) );
 
+    tinyxml2::XMLElement* dangerXmlNode =
+        dangersXmlNode->FirstChildElement("danger");
+    dangersIDs.clear();
+    newDangersIDs.clear();
+    while(dangerXmlNode != nullptr){
+        dangersIDs.push_back(dangerXmlNode->GetText());
+        const char* present_danger_to_player =
+                dangerXmlNode->Attribute("present_to_player");
+        if(present_danger_to_player != nullptr && !strcmp(present_danger_to_player, "true")){
+            newDangersIDs.push_back(dangerXmlNode->GetText());
+        }
+        dangerXmlNode = dangerXmlNode->NextSiblingElement("danger");
+    }
+
     // Load the dangers data from config file.
     DangerDataParser dangerDataParser;
-    dangerDataParser.LoadLevelDangerData(
+    dangerDataParser.LoadDangersDataByName(
         (DATA_DIR_PATH + "/config/dangers.json").c_str(),
-        levelIndex,
+        dangersIDs,
         *dangerGraphicsLibrary_,
         dangerData);
 

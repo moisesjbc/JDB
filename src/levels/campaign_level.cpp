@@ -66,14 +66,18 @@ bool CampaignLevel::load( unsigned int index )
 
     // Load the dangers data.
     LOG(INFO) << "Loading danger data ...";
-    loadDangerData( index );
+    tinyxml2::XMLElement* dangersXmlNode =
+            (tinyxml2::XMLElement*)levelNode->FirstChildElement("dangers");
+    std::vector<std::string> dangersIDs;
+    std::vector<std::string> newDangersIDs;
+    loadDangerData(dangersXmlNode, dangersIDs, newDangersIDs);
     LOG(INFO) << "Loading danger data ...OK";
 
     // Get the conveyor belt parameters.
     conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
 
     LOG(INFO) << "Creating level intro ...";
-    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex_, levelNode->FirstChildElement( "level_book" ) ) );
+    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex_, newDangersIDs, levelNode->FirstChildElement( "level_book" ) ) );
     LOG(INFO) << "Creating level intro ...OK";
 
     return true;

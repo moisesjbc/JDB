@@ -59,7 +59,9 @@ class Level : public GameState
          ***/
         virtual bool load( unsigned int levelIndex ) = 0;
         void loadSandwichData();
-        void loadDangerData( unsigned int levelIndex );
+        void loadDangerData(tinyxml2::XMLElement *dangersXmlNode,
+                            std::vector<std::string>& dangersIDs,
+                            std::vector<std::string>& newDangersIDs);
 
 
         /***

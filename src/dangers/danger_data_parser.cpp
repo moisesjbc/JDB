@@ -205,7 +205,7 @@ DangerDataPtr DangerDataParser::ParseDangerData(json jsonObject, const std::vect
 }
 
 
-void DangerDataParser::LoadLevelDangerData(const std::string& configFilepath, unsigned int levelIndex, m2g::GraphicsLibrary dangersGraphics, std::vector<DangerDataPtr>& dangersDataVector) const
+void DangerDataParser::LoadDangersDataByName(const std::string& configFilepath, const std::vector<std::string>& dangersIDs, m2g::GraphicsLibrary dangersGraphics, std::vector<DangerDataPtr>& dangersDataVector) const
 {
     json jsonObject;
 
@@ -215,7 +215,7 @@ void DangerDataParser::LoadLevelDangerData(const std::string& configFilepath, un
 
     dangersDataVector.clear();
     for(json dangerJsonObject : jsonObject["dangers"]){
-        if(dangerJsonObject["first_level"] <= levelIndex){
+        if(std::find(dangersIDs.begin(), dangersIDs.end(), dangerJsonObject["name"]) != dangersIDs.end()){
             dangersDataVector.push_back(std::move(ParseDangerData(dangerJsonObject, dangersDataVector, dangersGraphics)));
         }
     }
@@ -253,7 +253,7 @@ DangerInfo DangerDataParser::ParseDangerInfo(const std::string &dangerMachineNam
 }
 
 
-std::vector<DangerInfo> DangerDataParser::LoadLevelDangersInfo(const std::string& configFilepath, unsigned int level) const
+std::vector<DangerInfo> DangerDataParser::LoadDangersInfoByName(const std::string& configFilepath, const std::vector<std::string>& dangersIDs) const
 {
     json jsonObject;
 
@@ -262,9 +262,8 @@ std::vector<DangerInfo> DangerDataParser::LoadLevelDangersInfo(const std::string
     file.close();
 
     std::vector<DangerInfo> dangersInfo;
-
     for(json dangerJsonObject : jsonObject["dangers"]){
-        if( dangerJsonObject["first_level"] == level ){
+        if(std::find(dangersIDs.begin(), dangersIDs.end(), dangerJsonObject["name"]) != dangersIDs.end()){
             dangersInfo.push_back(ParseDangerInfo(dangerJsonObject["name"], dangerJsonObject["info"]));
         }
     }

@@ -34,7 +34,6 @@ bool SurvivalLevel::load( unsigned int index )
 {
     tinyxml2::XMLNode* levelNode = nullptr;
     unsigned int i = 0;
-    const unsigned int LOAD_ALL_DANGERS = 99999;
 
     // Open the levels configuration file.
     xmlFile.LoadFile( (DATA_DIR_PATH + "/config/levels.xml").c_str() );
@@ -55,12 +54,16 @@ bool SurvivalLevel::load( unsigned int index )
     loadSandwichData();
 
     // Load the dangers data.
-    loadDangerData( LOAD_ALL_DANGERS );
+    tinyxml2::XMLElement* dangersXmlNode =
+            (tinyxml2::XMLElement*)levelNode->FirstChildElement("dangers");
+    std::vector<std::string> dangersIDs;
+    std::vector<std::string> newDangersIDs;
+    loadDangerData(dangersXmlNode, dangersIDs, newDangersIDs);
 
     // Get the conveyor belt parameters.
     conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
 
-    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex_, levelNode->FirstChildElement( "level_book" ), false ) );
+    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex_, newDangersIDs, levelNode->FirstChildElement( "level_book" ), false ) );
 
     return true;
 }

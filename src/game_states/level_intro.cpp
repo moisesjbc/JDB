@@ -32,6 +32,7 @@ namespace jdb {
 LevelIntro::LevelIntro(const GameState& parentGameState,
                         sf::RenderWindow& window,
                         unsigned int levelIndex,
+                        const std::vector<std::string> &dangerIDs,
                         tinyxml2::XMLElement* levelBookXmlElement,
                         bool presentNewDangers ) :
     GameState( window ),
@@ -57,7 +58,7 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
     if( presentNewDangers ){
         DangerDataParser dangerDataParser;
         std::vector<DangerInfo> dangersInfo =
-                dangerDataParser.LoadLevelDangersInfo(DATA_DIR_PATH + "/config/dangers.json", levelIndex);
+                dangerDataParser.LoadDangersInfoByName(DATA_DIR_PATH + "/config/dangers.json", dangerIDs);
         for( DangerInfo& dangerInfo : dangersInfo ){
             std::unique_ptr< tgui::Texture > dangerTexture(
                         new tgui::Texture(

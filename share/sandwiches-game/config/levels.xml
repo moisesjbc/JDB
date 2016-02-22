@@ -13,16 +13,41 @@
                 <page>That's it! Let's see which dangers you'll have to face on this level...</page>
             </level_book>
 			<speed initial="5.0" step="0.5" time_lapse="10" />
+            <dangers>
+                <danger present_to_player="true">fire</danger>
+                <danger present_to_player="true">ice_crystals</danger>
+                <danger present_to_player="true">rat</danger>
+                <danger present_to_player="true">knife</danger>
+            </dangers>
 		</campaign_level>
 
 		<!-- Campaign level 02 -->
 		<campaign_level countdow="75" >
 			<speed initial="6.0" step="0.5" time_lapse="10" />
+            <dangers>
+                <danger>fire</danger>
+                <danger>ice_crystals</danger>
+                <danger>rat</danger>
+                <danger>knife</danger>
+                <danger present_to_player="true">shell</danger>
+                <danger present_to_player="true">coward_hypnotist_rat</danger>
+            </dangers>
 		</campaign_level>
 
 		<!-- Campaign level 03 -->
 		<campaign_level countdow="90" >
 			<speed initial="6.5" step="0.5" time_lapse="10" />
+            <dangers>
+                <danger>fire</danger>
+                <danger>ice_crystals</danger>
+                <danger>rat</danger>
+                <danger>knife</danger>
+                <danger>shell</danger>
+                <danger>coward_hypnotist_rat</danger>
+                <danger present_to_player="true">enigma_bomb</danger>
+                <danger present_to_player="true">medic_kit</danger>
+                <danger present_to_player="true">tesla_coils</danger>
+            </dangers>
 		</campaign_level>
 	</campaign_levels>
 
@@ -35,6 +60,17 @@
             <level_book>
                 <page>Welcome to the survival mode of "The Sandwiches Game"! In this mode you will face all the dangers available in the game, so we recommend you to play the campaign mode first if you haven't done so.</page>
             </level_book>
+            <dangers>
+                <danger>fire</danger>
+                <danger>ice_crystals</danger>
+                <danger>rat</danger>
+                <danger>knife</danger>
+                <danger>shell</danger>
+                <danger>coward_hypnotist_rat</danger>
+                <danger>enigma_bomb</danger>
+                <danger>medic_kit</danger>
+                <danger>tesla_coils</danger>
+            </dangers>
 		</survival_level>
 	</survival_levels>
 </levels>

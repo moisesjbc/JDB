@@ -43,9 +43,9 @@ class DangerDataParser
                 std::set<ToolType>& stunnedTools) const;
         DangerState ParseDangerState(json rawDangerStateJSON, m2g::GraphicsLibrary& graphicsLibrary) const;
         DangerDataPtr ParseDangerData(json rawDangerStateJSON, const std::vector< DangerDataPtr >& dangersDataVector, m2g::GraphicsLibrary& dangerGraphics) const;
-        void LoadLevelDangerData(const std::string& configFilepath, unsigned int levelIndex, m2g::GraphicsLibrary dangersGraphics, std::vector<DangerDataPtr>& dangersDataVector) const;
+        void LoadDangersDataByName(const std::string& configFilepath, const std::vector<std::string>& dangersIDs, m2g::GraphicsLibrary dangersGraphics, std::vector<DangerDataPtr>& dangersDataVector) const;
         DangerInfo ParseDangerInfo(const std::string& dangerMachineName, json jsonObject) const;
-        std::vector<DangerInfo> LoadLevelDangersInfo(const std::string& configFilepath, unsigned int level) const;
+        std::vector<DangerInfo> LoadDangersInfoByName(const std::string& configFilepath, const std::vector<std::string>& dangersIDs) const;
 };
 
 } // namespace jdb
