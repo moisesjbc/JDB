@@ -140,3 +140,23 @@ TEST(DangerDataParserTest, DangerStateIsParsedCorrectly)
 
     EXPECT_EQ(1, dangerState.animationState);
 }
+
+
+TEST(DangerDataParserTest, DangerInfoIsParsedCorrectly)
+{
+    json rawDangerInfoJSON = R"(
+    {
+        "name": "Fire",
+        "description": "A fire",
+        "removal_instructions": "Don't touch it!"
+    }
+    )"_json;
+
+    jdb::DangerDataParser dangerDataParser;
+    jdb::DangerInfo dangerInfo =
+            dangerDataParser.ParseDangerInfo("fire", rawDangerInfoJSON);
+
+    EXPECT_EQ("Fire", dangerInfo.name);
+    EXPECT_EQ("A fire", dangerInfo.description);
+    EXPECT_EQ("Don't touch it!", dangerInfo.removalInstructions);
+}

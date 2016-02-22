@@ -19,6 +19,8 @@
 
 #include <dangers/danger_data_parser.hpp>
 #include <fstream>
+#include <paths.hpp>
+#include <m2g/drawables/tileset.hpp>
 
 namespace jdb {
 
@@ -217,6 +219,37 @@ void DangerDataParser::LoadLevelDangerData(const std::string& configFilepath, un
             dangersDataVector.push_back(std::move(ParseDangerData(dangerJsonObject, dangersDataVector, dangersGraphics)));
         }
     }
+}
+
+
+sf::Vector2u getTileSize( std::string dangerName)
+{
+    m2g::GraphicsLibrary dangersGraphicsLibrary(DATA_DIR_PATH + "/img/dangers/dangers.xml");
+    m2g::AnimationDataPtr dangerAnimData =
+            dangersGraphicsLibrary.getAnimationDataByName( dangerName );
+
+    return dangerAnimData->tileset().tileDimensions();
+}
+
+
+DangerInfo DangerDataParser::ParseDangerInfo(const std::string &dangerMachineName, json jsonObject) const
+{
+    DangerInfo dangerInfo;
+
+    dangerInfo.name = jsonObject["name"];
+    dangerInfo.description = jsonObject["description"];
+    dangerInfo.removalInstructions = jsonObject["removal_instructions"];
+
+    dangerInfo.texturePath =
+            DATA_DIR_PATH +
+            "/img/dangers/" +
+            dangerMachineName +
+            "_01.png";
+
+    dangerInfo.textureSize =
+            getTileSize(dangerMachineName + "_01.png");
+
+    return dangerInfo;
 }
 
 } // namespace jdb
