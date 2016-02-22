@@ -45,6 +45,7 @@ class DangerDataParser
         DangerDataPtr ParseDangerData(json rawDangerStateJSON, const std::vector< DangerDataPtr >& dangersDataVector, m2g::GraphicsLibrary& dangerGraphics) const;
         void LoadLevelDangerData(const std::string& configFilepath, unsigned int levelIndex, m2g::GraphicsLibrary dangersGraphics, std::vector<DangerDataPtr>& dangersDataVector) const;
         DangerInfo ParseDangerInfo(const std::string& dangerMachineName, json jsonObject) const;
+        std::vector<DangerInfo> LoadLevelDangersInfo(const std::string& configFilepath, unsigned int level) const;
 };
 
 } // namespace jdb

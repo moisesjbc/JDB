@@ -21,6 +21,7 @@
 #include <SFML/Window/Event.hpp>
 #include "../utilities/level_book.hpp"
 #include "../dangers/dangers_file_parser.hpp"
+#include <dangers/danger_data_parser.hpp>
 
 namespace jdb {
 
@@ -54,8 +55,9 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
         levelBook->addPage( text );
     }
     if( presentNewDangers ){
-        DangersFileParser dangerFile( DATA_DIR_PATH + "/config/dangers.xml");
-        std::vector<DangerInfo> dangersInfo = dangerFile.getLevelDangersInfo( levelIndex );
+        DangerDataParser dangerDataParser;
+        std::vector<DangerInfo> dangersInfo =
+                dangerDataParser.LoadLevelDangersInfo(DATA_DIR_PATH + "/config/dangers.json", levelIndex);
         for( DangerInfo& dangerInfo : dangersInfo ){
             std::unique_ptr< tgui::Texture > dangerTexture(
                         new tgui::Texture(

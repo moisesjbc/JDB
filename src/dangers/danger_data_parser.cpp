@@ -252,4 +252,24 @@ DangerInfo DangerDataParser::ParseDangerInfo(const std::string &dangerMachineNam
     return dangerInfo;
 }
 
+
+std::vector<DangerInfo> DangerDataParser::LoadLevelDangersInfo(const std::string& configFilepath, unsigned int level) const
+{
+    json jsonObject;
+
+    std::ifstream file(configFilepath.c_str());
+    file >> jsonObject;
+    file.close();
+
+    std::vector<DangerInfo> dangersInfo;
+
+    for(json dangerJsonObject : jsonObject["dangers"]){
+        if( dangerJsonObject["first_level"] == level ){
+            dangersInfo.push_back(ParseDangerInfo(dangerJsonObject["name"], dangerJsonObject["info"]));
+        }
+    }
+
+    return dangersInfo;
+}
+
 } // namespace jdb
