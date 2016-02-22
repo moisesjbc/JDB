@@ -20,6 +20,7 @@
 #ifndef DANGER_DATA_PARSER_HPP
 #define DANGER_DATA_PARSER_HPP
 
+#include <dangers/danger_info.hpp>
 #include <dangers/danger_data.hpp>
 #include <utilities/base_line.hpp>
 #include <utilities/json.hpp>
