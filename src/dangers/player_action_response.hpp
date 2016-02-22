@@ -54,7 +54,6 @@ struct PlayerActionResponse
     /***
      * 1. Initialization
      ***/
-    PlayerActionResponse( tinyxml2::XMLElement* xmlElement );
     PlayerActionResponse( std::string playerAction,
                           int minHp,
                           int maxHp,

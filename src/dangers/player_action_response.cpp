@@ -27,53 +27,6 @@ namespace jdb {
  * 1. Initialization
  ***/
 
-
-PlayerActionResponse::PlayerActionResponse( tinyxml2::XMLElement* xmlElement )
-{
-    std::string token;
-
-    // First get the string "conditions", which has the form initial_state:player_action:minHp:maxHp.
-    std::istringstream conditionsStr( xmlElement->Attribute( "conditions" ) );
-
-    // Get the player action.
-    std::getline( conditionsStr, token, ':' );
-    playerAction = getPlayerActionFromString( token );
-
-    // Get the min hp.
-    std::getline( conditionsStr, token, ':' );
-    minHp = atoi( token.c_str() );
-
-    // Get the max hp.
-    std::getline( conditionsStr, token, ':' );
-    maxHp = atoi( token.c_str() );
-
-    // Second: get the string "responses", which has the form hpVariation:newState:newDanter.
-    std::istringstream responsesStr( xmlElement->Attribute( "responses" ) );
-
-    // Get the hp variation.
-    std::getline( responsesStr, token, ':' );
-    if( token == "all" ){
-        hpVariation = HP_ALL;
-    }else{
-        hpVariation = atoi( token.c_str() );
-    }
-
-    // Get the new state.
-    std::getline( responsesStr, token, ':' );
-    newState = atoi( token.c_str() );
-
-    // Get the new danger.
-    std::getline( responsesStr, token, ':' );
-    newDanger = atoi( token.c_str() );
-
-    // Retrieve the score bonus associated (if any) to this response.
-    scoreBonus = xmlElement->IntAttribute( "score_bonus" );
-
-    // Retrieve the hp bonus associated (if any) to this response.
-    hpBonus = xmlElement->IntAttribute( "hp_bonus" );
-}
-
-
 PlayerActionResponse::PlayerActionResponse(
         std::string playerAction,
         int minHp,
