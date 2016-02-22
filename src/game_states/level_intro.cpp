@@ -20,8 +20,8 @@
 #include "level_intro.hpp"
 #include <SFML/Window/Event.hpp>
 #include "../utilities/level_book.hpp"
-#include "../dangers/dangers_file_parser.hpp"
 #include <dangers/danger_data_parser.hpp>
+#include <paths.hpp>
 
 namespace jdb {
 
