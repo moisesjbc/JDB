@@ -1,26 +1,27 @@
 /***
-    Copyright 2013 - 2015 Moises J. Bonilla Caraballo (Neodivert)
+    Copyright 2013 - 2016 Moises J. Bonilla Caraballo (moisesjbc)
 
-    This file is part of JDB.
+    This file is part of sandwiches-game.
 
-    JDB is free software: you can redistribute it and/or modify
+    sandwiches-game is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    JDB is distributed in the hope that it will be useful,
+    sandwiches-game is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with JDB.  If not, see <http://www.gnu.org/licenses/>.
+    along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
 #include "level_intro.hpp"
 #include <SFML/Window/Event.hpp>
 #include "../utilities/level_book.hpp"
-#include "../dangers/dangers_file_parser.hpp"
+#include <dangers/danger_data_parser.hpp>
+#include <paths.hpp>
 
 namespace jdb {
 
@@ -54,8 +55,9 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
         levelBook->addPage( text );
     }
     if( presentNewDangers ){
-        DangersFileParser dangerFile( DATA_DIR_PATH + "/config/dangers.xml");
-        std::vector<DangerInfo> dangersInfo = dangerFile.getLevelDangersInfo( levelIndex );
+        DangerDataParser dangerDataParser;
+        std::vector<DangerInfo> dangersInfo =
+                dangerDataParser.LoadLevelDangersInfo(DATA_DIR_PATH + "/config/dangers.json", levelIndex);
         for( DangerInfo& dangerInfo : dangersInfo ){
             std::unique_ptr< tgui::Texture > dangerTexture(
                         new tgui::Texture(

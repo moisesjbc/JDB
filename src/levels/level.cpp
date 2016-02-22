@@ -1,20 +1,20 @@
 /***
-    Copyright 2013 - 2015 Moises J. Bonilla Caraballo (Neodivert)
+    Copyright 2013 - 2016 Moises J. Bonilla Caraballo (moisesjbc)
 
-    This file is part of JDB.
+    This file is part of sandwiches-game.
 
-    JDB is free software: you can redistribute it and/or modify
+    sandwiches-game is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    JDB is distributed in the hope that it will be useful,
+    sandwiches-game is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with JDB.  If not, see <http://www.gnu.org/licenses/>.
+    along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
 #include "level.hpp"
@@ -22,6 +22,8 @@
 #include <algorithm>
 #include <game_states/end_of_demo_screen.hpp>
 #include <game_states/game_over_screen.hpp>
+#include <dangers/danger_data_parser.hpp>
+#define ELPP_DISABLE_DEFAULT_CRASH_HANDLING
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -70,23 +72,16 @@ void Level::loadSandwichData()
 
 void Level::loadDangerData( unsigned int levelIndex )
 {
-    tinyxml2::XMLDocument document;
-    tinyxml2::XMLElement* dangerXMLElement = nullptr;
-
     dangerGraphicsLibrary_ =
             std::unique_ptr< m2g::GraphicsLibrary >( new m2g::GraphicsLibrary( DATA_DIR_PATH + "/img/dangers/dangers.xml" ) );
 
-    // Load the dangers data.
-    document.LoadFile( (DATA_DIR_PATH + "/config/dangers.xml").c_str() );
-    dangerXMLElement = ( document.RootElement() )->FirstChildElement( "danger" );
-
-    dangerData.clear();
-    while( dangerXMLElement ){
-        if( static_cast< unsigned int >( dangerXMLElement->IntAttribute( "first_level" ) ) <= levelIndex ){
-            dangerData.emplace_back( new DangerData( dangerXMLElement, *dangerGraphicsLibrary_, dangerData ) );
-        }
-        dangerXMLElement = dangerXMLElement->NextSiblingElement();
-    }
+    // Load the dangers data from config file.
+    DangerDataParser dangerDataParser;
+    dangerDataParser.LoadLevelDangerData(
+        (DATA_DIR_PATH + "/config/dangers.json").c_str(),
+        levelIndex,
+        *dangerGraphicsLibrary_,
+        dangerData);
 
     // Sort the vector of dangers with a descending order in their
     // base lines' widths.

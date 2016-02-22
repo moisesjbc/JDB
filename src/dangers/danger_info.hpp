@@ -17,14 +17,11 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef DANGERSFILEPARSER_HPP
-#define DANGERSFILEPARSER_HPP
+#ifndef DANGER_INFO_HPP
+#define DANGER_INFO_HPP
 
-#include <tinyxml2.h>
 #include <string>
-#include <vector>
 #include <TGUI/Texture.hpp>
-#include <paths.hpp>
 
 namespace jdb {
 
@@ -38,35 +35,6 @@ struct DangerInfo
     sf::Vector2u textureSize;
 };
 
-class DangersFileParser
-{
-    public:
-        /***
-         * 1. Construction
-         ***/
-        DangersFileParser( const std::string& filePath );
-
-
-        /***
-         * 2. Parsing
-         ***/
-        std::vector< DangerInfo > getLevelDangersInfo( unsigned int level );
-
-
-    private:
-        /***
-         * 3. Parsing auxiliar methods
-         ***/
-        DangerInfo getDangerInfo( tinyxml2::XMLElement* dangerXmlElement );
-        sf::Vector2u getTileSize( std::string dangerName );
-
-
-        /***
-         * Attributes
-         ***/
-        tinyxml2::XMLDocument file_;
-};
-
 } // namespace jdb
 
-#endif // DANGERSFILEPARSER_HPP
+#endif // DANGER_INFO_HPP
