@@ -23,6 +23,7 @@
 #include <game_states/end_of_demo_screen.hpp>
 #include <game_states/game_over_screen.hpp>
 #include <dangers/danger_data_parser.hpp>
+#define ELPP_DISABLE_DEFAULT_CRASH_HANDLING
 
 INITIALIZE_EASYLOGGINGPP
 
