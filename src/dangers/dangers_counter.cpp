@@ -48,8 +48,26 @@ DangersCounter::DangersCounter(unsigned int nDangers,
         accumulatedRatio += dangerRatioPair.second;
     }
 
+    unsigned int nDistributedDangers = 0;
     for(const std::pair<std::string, float> dangerRatioPair : dangersRatios){
         nSpecificDangers_[dangerRatioPair.first] = nDangers * dangerRatioPair.second / accumulatedRatio;
+        nDistributedDangers += nSpecificDangers_[dangerRatioPair.first];
+    }
+
+    // If the distribution of dangers total in specific dangers was not exact,
+    // assign the reminder to the most frequent danger.
+    if(nDangers > nDistributedDangers){
+        std::map<std::string, unsigned int>::iterator it =
+            nSpecificDangers_.begin();
+        std::map<std::string, unsigned int>::iterator mostFrequentDangerIt =
+            it;
+        while(it != nSpecificDangers_.end()){
+            if(it->second > mostFrequentDangerIt->second){
+                mostFrequentDangerIt = it;
+            }
+            it++;
+        }
+        mostFrequentDangerIt->second += (nDangers - nDistributedDangers);
     }
 }
 

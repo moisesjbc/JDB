@@ -59,6 +59,14 @@ TEST(DangersCounterTest, DangersTotalIsDistributedBetweenSpecificDangersWithDiff
 }
 
 
+TEST(DangersCounterTest, DangersTotalIsDistributedBetweenSpecificDangersWithDifferentRatios_DivisionNotExact) {
+    jdb::DangersCounter dangersFactory(14, {{"dangerA", 1}, {"dangerB", 2}, {"dangerC", 3}});
+    EXPECT_EQ(2, dangersFactory.nDangers("dangerA"));
+    EXPECT_EQ(4, dangersFactory.nDangers("dangerB"));
+    EXPECT_EQ(8, dangersFactory.nDangers("dangerC"));
+}
+
+
 TEST(DangersCounterTest, CantCreateADangersCounterWithEmptyIDsSet) {
     try{
         jdb::DangersCounter dangersFactory(15, {});
