@@ -32,7 +32,7 @@ class DangersCounter
          * Construction
          ***/
         DangersCounter(unsigned int nDangers,
-                       std::vector<std::string> dangersIDs);
+                       std::set<std::string> dangersIDs);
 
 
         /***

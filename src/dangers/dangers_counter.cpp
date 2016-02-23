@@ -28,7 +28,7 @@ namespace jdb {
  ***/
 
 DangersCounter::DangersCounter(unsigned int nDangers,
-                               std::vector<std::string> dangersIDs) :
+                               std::set<std::string> dangersIDs) :
     nDangers_(nDangers)
 {
     if(nDangers == 0){
