@@ -72,7 +72,7 @@ void Level::loadSandwichData()
 
 void Level::loadDangerData(
             tinyxml2::XMLElement* dangersXmlNode,
-            std::vector<std::string>& dangersIDs,
+            std::map<std::string, float>& dangersRatios,
             std::vector<std::string>& newDangersIDs )
 {
     dangerGraphicsLibrary_ =
@@ -80,10 +80,13 @@ void Level::loadDangerData(
 
     tinyxml2::XMLElement* dangerXmlNode =
         dangersXmlNode->FirstChildElement("danger");
-    dangersIDs.clear();
+    dangersRatios.clear();
+    std::vector<std::string> dangersIDs;
     newDangersIDs.clear();
     while(dangerXmlNode != nullptr){
         dangersIDs.push_back(dangerXmlNode->GetText());
+        dangersRatios[dangerXmlNode->GetText()] =
+                dangerXmlNode->FloatAttribute("ratio");
         const char* present_danger_to_player =
                 dangerXmlNode->Attribute("present_to_player");
         if(present_danger_to_player != nullptr && !strcmp(present_danger_to_player, "true")){
@@ -91,6 +94,13 @@ void Level::loadDangerData(
         }
         dangerXmlNode = dangerXmlNode->NextSiblingElement("danger");
     }
+
+    // FIXME: don't use dangers counter in survival level.
+    dangersCounter_ =
+        std::unique_ptr<DangersCounter>(
+            new DangersCounter(
+                dangersXmlNode->IntAttribute("number"),
+                dangersRatios));
 
     // Load the dangers data from config file.
     DangerDataParser dangerDataParser;
@@ -218,6 +228,8 @@ void Level::reset()
     // Initialize jacob's life and the sandwich indicators.
     jacobHp_ = 100;
 
+    dangersCounter_->reset();
+
     // Load the sandwiches, move them to their final positions and
     // populate them with dangers.
     sandwiches.clear();
@@ -228,7 +240,7 @@ void Level::reset()
 
         sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
 
-        sandwiches[i]->populate( dangerData );
+        sandwiches[i]->populate( dangerData, dangersCounter_.get() );
     }
     firstSandwich = 0;
     lastSandwich = sandwiches.size() - 1;
@@ -291,10 +303,10 @@ void Level::init()
     healthText_.setColor( sf::Color( 131, 60, 60, 255 ) );
     healthText_.setPosition( 75, 5 );
 
-    timerText_.setFont( guiFont_ );
-    timerText_.setCharacterSize( 50 );
-    timerText_.setColor( sf::Color( 8, 31, 126, 255 ) );
-    timerText_.setPosition( 450, 3 );
+    progressText_.setFont( guiFont_ );
+    progressText_.setCharacterSize( 50 );
+    progressText_.setColor( sf::Color( 8, 31, 126, 255 ) );
+    progressText_.setPosition( 450, 3 );
 
     scoreText_.setFont( guiFont_ );
     scoreText_.setCharacterSize( 50 );
@@ -367,13 +379,21 @@ void Level::update( unsigned int ms )
     // sandwiches' end point and, in that case, restart it.
     LOG(INFO) << "Level::update() - Checking first sandwich destruction";
     if( sandwiches[firstSandwich]->getBoundaryBox().left < SANDWICHES_END_POINT ){
-
         // Hurt Jacob! (muahahaha!)
         jacobHp_ -= sandwiches[firstSandwich]->getDamage();
 
-        if( levelTime_ > 1000 ){
+        // Decrease the counter for the dangers of the sandwich.
+        if(dangersCounter_ != nullptr){
+            std::vector<std::string> dangersIDs =
+                sandwiches[firstSandwich]->getDangersIDs();
+            for(std::string dangerID : dangersIDs){
+                dangersCounter_->decreaseDangerCounter(dangerID);
+            }
+        }
+
+        if(dangersCounter_->nDangers() > 0){
             // Repopulate the sandwich.
-            sandwiches[firstSandwich]->populate( dangerData );
+            sandwiches[firstSandwich]->populate( dangerData, dangersCounter_.get() );
 
             // Translate the sandwich behind the last one.
             sandwiches[firstSandwich]->translate(
@@ -447,9 +467,6 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     unsigned int i;
 
-    // Time management.
-    int seconds, minutes;
-
     // Text rendering.
     char buffer[16];
 
@@ -476,19 +493,12 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
         target.draw( *guiSprite, states );
     }
 
-    // Compute the current game time.
-    seconds = levelTime_ / 1000;
-    minutes = seconds / 60;
-    seconds = seconds % 60;
-
     // Write Jacob's life, game time and score.
     sprintf( buffer, "%03d", (int)jacobHp_ );
     healthText_.setString( buffer );
     window_.draw( healthText_ );
 
-    sprintf( buffer, "%02d:%02d", minutes, seconds );
-    timerText_.setString( buffer );
-    window_.draw( timerText_ );
+    drawLevelProgress();
 
     sprintf( buffer, "%08u", acumScore_ + levelScore_ );
     scoreText_.setString( buffer );

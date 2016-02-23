@@ -30,6 +30,7 @@
 #include <game_states/level_intro.hpp>
 #include <paths.hpp>
 #include <utilities/easylogging++.h>
+#include <dangers/dangers_counter.hpp>
 
 namespace jdb {
 
@@ -60,7 +61,7 @@ class Level : public GameState
         virtual bool load( unsigned int levelIndex ) = 0;
         void loadSandwichData();
         void loadDangerData(tinyxml2::XMLElement *dangersXmlNode,
-                            std::vector<std::string>& dangersIDs,
+                            std::map<std::string, float>& dangersRatios,
                             std::vector<std::string>& newDangersIDs);
 
 
@@ -82,6 +83,7 @@ class Level : public GameState
 
         virtual void resetLevelTime() = 0;
         virtual void updateLevelTime( unsigned int ms ) = 0;
+        virtual void drawLevelProgress() const = 0;
 
 
         /***
@@ -133,6 +135,9 @@ class Level : public GameState
         std::unique_ptr< LevelIntro > levelIntro_;
         unsigned int levelIndex_;
 
+        std::unique_ptr<DangersCounter> dangersCounter_;
+        mutable sf::Text progressText_;
+
     private:
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;
@@ -150,7 +155,6 @@ class Level : public GameState
 
         sf::Font guiFont_;
         mutable sf::Text healthText_;
-        mutable sf::Text timerText_;
         mutable sf::Text scoreText_;
 
         std::unique_ptr< m2g::GraphicsLibrary > dangerGraphicsLibrary_;

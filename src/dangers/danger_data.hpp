@@ -34,6 +34,8 @@ typedef std::shared_ptr< const DangerData > DangerDataPtr;
 
 struct DangerData
 {
+    std::string id;
+
     // Vector of animation data.
     std::vector< m2g::AnimationDataPtr > animationData;
 
@@ -56,7 +58,8 @@ struct DangerData
     /***
      * 1. Initialization
      ***/
-    DangerData(std::vector<m2g::AnimationDataPtr> animationData,
+    DangerData( const std::string id,
+               std::vector<m2g::AnimationDataPtr> animationData,
                const std::vector< DangerDataPtr >& dangersDataVector);
 };
 

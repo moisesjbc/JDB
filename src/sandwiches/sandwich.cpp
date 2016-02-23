@@ -56,7 +56,14 @@ void Sandwich::setSandwichData( SandwichDataPtr sandwichData )
 }
 
 
-void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData )
+bool validDanger(DangerDataPtr dangerData, int freeWidth, DangersCounter* dangersCounter)
+{
+    return (dangerData->baseLine.width <= freeWidth) &&
+            (dangersCounter == nullptr || dangersCounter->nDangers(dangerData->id) > 0);
+}
+
+void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData,
+                         DangersCounter* dangersCounter )
 {
     // Variables for controlling population loop exit.
     const unsigned int MAX_DANGERS = 3;
@@ -84,7 +91,7 @@ void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData )
         // Search the first valid danger which fits in the available space.
         firstValidDanger = 0;
         while( ( firstValidDanger < dangerData.size() ) &&
-               ( dangerData[firstValidDanger]->baseLine.width > freeWidth ) ){
+               !validDanger(dangerData[firstValidDanger], freeWidth, dangersCounter) ){
             firstValidDanger++;
         }
 
@@ -99,7 +106,7 @@ void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData )
             freeWidth -= dangerData[randomDangerIndex]->baseLine.width;
 
             // Add the chosen danger data to the selected ones.
-            dangers_[nDangers_]->setDangerData( dangerData[randomDangerIndex] );
+            dangers_[nDangers_]->setDangerData(dangerData[randomDangerIndex]);
 
             nDangers_++;
         }else{
@@ -138,6 +145,16 @@ float Sandwich::getDamage() const
     }
 
     return totalDamage;
+}
+
+
+std::vector<std::string> Sandwich::getDangersIDs() const
+{
+    std::vector<std::string> dangersIDs;
+    for(unsigned int i=0; i<nDangers_; i++){
+        dangersIDs.push_back(dangers_[i]->getDangerData()->id);
+    }
+    return dangersIDs;
 }
 
 

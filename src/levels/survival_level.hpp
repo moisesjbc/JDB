@@ -49,8 +49,10 @@ class SurvivalLevel : public Level
     protected:
         virtual void updateLevelTime( unsigned int ms );
 
+
         // Level interface
         virtual void resetLevelTime();
+        virtual void drawLevelProgress() const;
 };
 
 } // namespace jdb

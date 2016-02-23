@@ -68,9 +68,9 @@ bool CampaignLevel::load( unsigned int index )
     LOG(INFO) << "Loading danger data ...";
     tinyxml2::XMLElement* dangersXmlNode =
             (tinyxml2::XMLElement*)levelNode->FirstChildElement("dangers");
-    std::vector<std::string> dangersIDs;
+    std::map<std::string, float> dangersRatios;
     std::vector<std::string> newDangersIDs;
-    loadDangerData(dangersXmlNode, dangersIDs, newDangersIDs);
+    loadDangerData(dangersXmlNode, dangersRatios, newDangersIDs);
     LOG(INFO) << "Loading danger data ...OK";
 
     // Get the conveyor belt parameters.
@@ -90,7 +90,7 @@ bool CampaignLevel::load( unsigned int index )
 
 bool CampaignLevel::victory() const
 {
-    return (nSandwiches() == 0);
+    return (dangersCounter_->nDangers() == 0);
 }
 
 
@@ -122,5 +122,15 @@ void CampaignLevel::resetLevelTime()
 {
     levelTime_ = countdown_ * 1000;
 }
+
+
+void CampaignLevel::drawLevelProgress() const
+{
+    char buffer[10];
+    sprintf( buffer, "%.1f%%", dangersCounter_->completedPercentage() );
+    progressText_.setString( buffer );
+    window_.draw( progressText_ );
+}
+
 
 } // namespace jdb

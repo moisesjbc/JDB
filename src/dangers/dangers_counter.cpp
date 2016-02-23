@@ -29,7 +29,8 @@ namespace jdb {
 
 DangersCounter::DangersCounter(unsigned int nDangers,
                                std::map<std::string, float> dangersRatios) :
-    nDangers_(nDangers)
+    nDangers_(nDangers),
+    initialNDangers_(nDangers)
 {
     if(nDangers == 0){
         throw std::out_of_range("Can't create a dangers counter with 0 dangers!");
@@ -69,6 +70,8 @@ DangersCounter::DangersCounter(unsigned int nDangers,
         }
         mostFrequentDangerIt->second += (nDangers - nDistributedDangers);
     }
+
+    initialNSpecificDangers_ = nSpecificDangers_;
 }
 
 
@@ -92,6 +95,12 @@ unsigned int DangersCounter::nDangers(const std::string& dangerID) const
 }
 
 
+float DangersCounter::completedPercentage() const
+{
+    return (initialNDangers_ - nDangers_) / static_cast<float>(initialNDangers_) * 100.0f;
+}
+
+
 /***
  * Modificators
  ***/
@@ -104,6 +113,13 @@ void DangersCounter::decreaseDangerCounter(const std::string &dangerID)
     }else{
         throw std::runtime_error("Triying to decrease a zero counter");
     }
+}
+
+
+void DangersCounter::reset()
+{
+    nDangers_ = initialNDangers_;
+    nSpecificDangers_ = initialNSpecificDangers_;
 }
 
 

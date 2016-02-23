@@ -136,3 +136,28 @@ TEST(DangersCounterTest, TryingToDecreaseANullDangerCounterThrows) {
         FAIL() << "Expected a runtime_error";
     }
 }
+
+
+TEST(DangersCounterTest, ResetingCountesWorks){
+    jdb::DangersCounter dangersCounter(3, {{"danger", 1.0f}});
+    dangersCounter.decreaseDangerCounter("danger");
+    EXPECT_EQ(2, dangersCounter.nDangers("danger"));
+    dangersCounter.decreaseDangerCounter("danger");
+    EXPECT_EQ(1, dangersCounter.nDangers("danger"));
+    dangersCounter.reset();
+    EXPECT_EQ(3, dangersCounter.nDangers("danger"));
+}
+
+
+TEST(DangersCounterTest, CompletedPercentageIsComputedCorrectly){
+    jdb::DangersCounter dangersCounter(10, {{"danger", 1.0f}});
+
+    float expectedPorcentage = 0.0f;
+    EXPECT_LT(abs(dangersCounter.completedPercentage() - expectedPorcentage), 0.001f);
+
+    for(unsigned int i=0; i<10; i++){
+        dangersCounter.decreaseDangerCounter("danger");
+        expectedPorcentage += 10.0f;
+        EXPECT_LT(abs(dangersCounter.completedPercentage() - expectedPorcentage), 0.001f);
+    }
+}

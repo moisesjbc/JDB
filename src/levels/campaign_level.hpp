@@ -58,6 +58,7 @@ class CampaignLevel : public Level
 
         // Level interface
         virtual void resetLevelTime();
+        virtual void drawLevelProgress() const;
 };
 
 } // namespace jdb

@@ -24,6 +24,7 @@
 #include "../dangers/danger.hpp"
 #include <array>
 #include <vector>
+#include <dangers/dangers_counter.hpp>
 
 namespace jdb {
 
@@ -49,13 +50,15 @@ class Sandwich : public m2g::Animation
          * 2. Loading
          ***/
         void setSandwichData( SandwichDataPtr sandwichData );
-        void populate( const std::vector< DangerDataPtr >& dangerData );
+        void populate(const std::vector< DangerDataPtr >& dangerData,
+                      DangersCounter* dangersCounter = nullptr);
 
 
         /***
          * 3. Getters
          ***/
-        float getDamage() const ;
+        float getDamage() const;
+        std::vector<std::string> getDangersIDs() const;
 
 
         /***

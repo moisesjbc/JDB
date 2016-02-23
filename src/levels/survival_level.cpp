@@ -56,9 +56,9 @@ bool SurvivalLevel::load( unsigned int index )
     // Load the dangers data.
     tinyxml2::XMLElement* dangersXmlNode =
             (tinyxml2::XMLElement*)levelNode->FirstChildElement("dangers");
-    std::vector<std::string> dangersIDs;
+    std::map<std::string, float> dangersRatios;
     std::vector<std::string> newDangersIDs;
-    loadDangerData(dangersXmlNode, dangersIDs, newDangersIDs);
+    loadDangerData(dangersXmlNode, dangersRatios, newDangersIDs);
 
     // Get the conveyor belt parameters.
     conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
@@ -94,6 +94,21 @@ void SurvivalLevel::updateLevelTime( unsigned int ms )
 void SurvivalLevel::resetLevelTime()
 {
     levelTime_ = 0;
+}
+
+
+void SurvivalLevel::drawLevelProgress() const
+{
+    char buffer[10];
+
+    // Compute the current game time.
+    unsigned int seconds = levelTime_ / 1000;
+    unsigned int minutes = seconds / 60;
+    seconds = seconds % 60;
+
+    sprintf( buffer, "%02d:%02d", minutes, seconds );
+    progressText_.setString( buffer );
+    window_.draw( progressText_ );
 }
 
 } // namespace jdb

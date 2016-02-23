@@ -40,12 +40,14 @@ class DangersCounter
          ***/
         unsigned int nDangers() const;
         unsigned int nDangers(const std::string& dangerID) const;
+        float completedPercentage() const;
 
 
         /***
          * Modificators
          ***/
         void decreaseDangerCounter(const std::string& dangerID);
+        void reset();
 
 
     private:
@@ -53,7 +55,9 @@ class DangersCounter
          * Attributes
          ***/
         unsigned int nDangers_;
+        unsigned int initialNDangers_;
         std::map<std::string, unsigned int> nSpecificDangers_;
+        std::map<std::string, unsigned int> initialNSpecificDangers_;
 };
 
 } // namespace jdb

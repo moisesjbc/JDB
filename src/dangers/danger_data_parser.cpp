@@ -179,14 +179,14 @@ DangerState DangerDataParser::ParseDangerState(json rawDangerStateJSON, m2g::Gra
 DangerDataPtr DangerDataParser::ParseDangerData(json jsonObject, const std::vector< DangerDataPtr >& dangersDataVector, m2g::GraphicsLibrary &dangerGraphics) const
 {
     // Get the danger's animation data.
-    std::string dangerName = jsonObject["name"];
-    m2g::AnimationDataList animDataList = dangerGraphics.getAnimationDataByPrefix( dangerName );
+    std::string dangerID = jsonObject["name"];
+    m2g::AnimationDataList animDataList = dangerGraphics.getAnimationDataByPrefix( dangerID );
     std::vector< m2g::AnimationDataPtr > animationData =
             std::vector< m2g::AnimationDataPtr >{
                 std::make_move_iterator(std::begin(animDataList)),
                 std::make_move_iterator(std::end(animDataList)) };
 
-    std::shared_ptr<DangerData> dangerData(new DangerData(std::move(animationData), dangersDataVector));
+    std::shared_ptr<DangerData> dangerData(new DangerData(dangerID, std::move(animationData), dangersDataVector));
 
     // Get the danger's general info.
     dangerData->initialState = jsonObject["initial_state"];

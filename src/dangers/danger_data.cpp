@@ -26,8 +26,10 @@ namespace jdb {
  * 1. Initialization
  ***/
 
-DangerData::DangerData(std::vector<m2g::AnimationDataPtr> animationData,
+DangerData::DangerData(const std::string id,
+                       std::vector<m2g::AnimationDataPtr> animationData,
                        const std::vector< DangerDataPtr >& dangersDataVector ) :
+    id(id),
     animationData(std::move(animationData)),
     dangersDataVector(dangersDataVector)
 {}
