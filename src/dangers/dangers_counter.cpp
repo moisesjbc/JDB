@@ -17,7 +17,7 @@
     along with JDB.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include <dangers/dangers_factory.hpp>
+#include <dangers/dangers_counter.hpp>
 #include <stdexcept>
 
 namespace jdb {
@@ -27,9 +27,7 @@ namespace jdb {
  * Construction
  ***/
 
-DangersFactory::DangersFactory(
-        unsigned int nDangers,
-        std::vector<jdb::DangerData>& dangersData ) :
+DangersCounter::DangersCounter(unsigned int nDangers) :
     nDangers_(nDangers)
 {
     if(nDangers == 0){
@@ -42,7 +40,7 @@ DangersFactory::DangersFactory(
  * Getters
  ***/
 
-unsigned int DangersFactory::nDangers() const
+unsigned int DangersCounter::nDangers() const
 {
     return nDangers_;
 }

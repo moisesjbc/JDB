@@ -24,14 +24,13 @@
 
 namespace jdb {
 
-class DangersFactory
+class DangersCounter
 {
     public:
         /***
          * Construction
          ***/
-        DangersFactory( unsigned int nDangers,
-                        std::vector<jdb::DangerData>& dangersData );
+        DangersCounter(unsigned int nDangers);
 
 
         /***
