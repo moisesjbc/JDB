@@ -62,7 +62,7 @@ bool validDanger(DangerDataPtr dangerData, int freeWidth, DangersCounter* danger
             (dangersCounter == nullptr || dangersCounter->nDangers(dangerData->id) > 0);
 }
 
-void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData,
+void Sandwich::populate( const std::vector< DangerDataPtr >& dangersData,
                          DangersCounter* dangersCounter )
 {
     // Variables for controlling population loop exit.
@@ -78,35 +78,36 @@ void Sandwich::populate( const std::vector< DangerDataPtr >& dangerData,
     // Horizontal position for next danger.
     float newDangerX = sandwichData_->baseLine.x;
 
-    // Index of the first danger data which fits in the free space.
-    unsigned int firstValidDanger = 0;
-
     // Variable used for selecting the next random valid danger.
     unsigned int randomDangerIndex;
 
     //
     nDangers_ = 0;
     while( (nDangers_ < MAX_DANGERS) && !exit ){
-
-        // Search the first valid danger which fits in the available space.
-        firstValidDanger = 0;
-        while( ( firstValidDanger < dangerData.size() ) &&
-               !validDanger(dangerData[firstValidDanger], freeWidth, dangersCounter) ){
-            firstValidDanger++;
+        // Select the valid dangers.
+        std::vector<DangerDataPtr> validDangersData;
+        for(DangerDataPtr dangerData : dangersData){
+            if(validDanger(dangerData, freeWidth, dangersCounter)){
+                validDangersData.push_back(dangerData);
+            }
         }
 
         // Check if we found one or more valid dangers for the available space.
-        if( firstValidDanger < dangerData.size() ){
+        if( validDangersData.size() > 0 ){
             // There are valid dangers for the available space.
 
             // Select a random danger between the valid ones.
-            randomDangerIndex = rand() % (dangerData.size() - firstValidDanger) + firstValidDanger;
+            randomDangerIndex = rand() % validDangersData.size();
 
             // Substract the chosen danger's width to the available space.
-            freeWidth -= dangerData[randomDangerIndex]->baseLine.width;
+            freeWidth -= validDangersData[randomDangerIndex]->baseLine.width;
 
             // Add the chosen danger data to the selected ones.
-            dangers_[nDangers_]->setDangerData(dangerData[randomDangerIndex]);
+            dangers_[nDangers_]->setDangerData(validDangersData[randomDangerIndex]);
+
+            if(dangersCounter != nullptr){
+                dangersCounter->decreaseDangerCounter(validDangersData[randomDangerIndex]->id);
+            }
 
             nDangers_++;
         }else{
@@ -155,6 +156,12 @@ std::vector<std::string> Sandwich::getDangersIDs() const
         dangersIDs.push_back(dangers_[i]->getDangerData()->id);
     }
     return dangersIDs;
+}
+
+
+unsigned int Sandwich::nDangers() const
+{
+    return nDangers_;
 }
 
 

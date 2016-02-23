@@ -138,6 +138,8 @@ class Level : public GameState
         std::unique_ptr<DangersCounter> dangersCounter_;
         mutable sf::Text progressText_;
 
+        unsigned int nDangersRemoved_ = 0;
+
     private:
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;

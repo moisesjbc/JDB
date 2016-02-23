@@ -59,6 +59,7 @@ class Sandwich : public m2g::Animation
          ***/
         float getDamage() const;
         std::vector<std::string> getDangersIDs() const;
+        unsigned int nDangers() const;
 
 
         /***

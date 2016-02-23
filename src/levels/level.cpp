@@ -225,6 +225,8 @@ void Level::reset()
 {
     levelScore_ = 0;
 
+    nDangersRemoved_ = 0;
+
     // Initialize jacob's life and the sandwich indicators.
     jacobHp_ = 100;
 
@@ -384,11 +386,7 @@ void Level::update( unsigned int ms )
 
         // Decrease the counter for the dangers of the sandwich.
         if(dangersCounter_ != nullptr){
-            std::vector<std::string> dangersIDs =
-                sandwiches[firstSandwich]->getDangersIDs();
-            for(std::string dangerID : dangersIDs){
-                dangersCounter_->decreaseDangerCounter(dangerID);
-            }
+            nDangersRemoved_ += sandwiches[firstSandwich]->nDangers();
         }
 
         if(dangersCounter_->nDangers() > 0){

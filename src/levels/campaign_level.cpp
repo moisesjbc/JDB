@@ -90,7 +90,7 @@ bool CampaignLevel::load( unsigned int index )
 
 bool CampaignLevel::victory() const
 {
-    return (dangersCounter_->nDangers() == 0);
+    return (nDangersRemoved_ == dangersCounter_->initialNDangers());
 }
 
 
@@ -127,9 +127,10 @@ void CampaignLevel::resetLevelTime()
 void CampaignLevel::drawLevelProgress() const
 {
     char buffer[10];
-    sprintf( buffer, "%.1f%%", dangersCounter_->completedPercentage() );
-    progressText_.setString( buffer );
-    window_.draw( progressText_ );
+    float completedPercentage = nDangersRemoved_ / static_cast<float>(dangersCounter_->initialNDangers()) * 100.0f;
+    sprintf(buffer, "%.1f%%", completedPercentage);
+    progressText_.setString(buffer);
+    window_.draw(progressText_);
 }
 
 

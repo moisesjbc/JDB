@@ -40,7 +40,7 @@ class DangersCounter
          ***/
         unsigned int nDangers() const;
         unsigned int nDangers(const std::string& dangerID) const;
-        float completedPercentage() const;
+        unsigned int initialNDangers() const;
 
 
         /***

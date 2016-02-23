@@ -149,15 +149,12 @@ TEST(DangersCounterTest, ResetingCountesWorks){
 }
 
 
-TEST(DangersCounterTest, CompletedPercentageIsComputedCorrectly){
+TEST(DangersCounterTest, InitialNDangersGetterWorks){
     jdb::DangersCounter dangersCounter(10, {{"danger", 1.0f}});
 
-    float expectedPorcentage = 0.0f;
-    EXPECT_LT(abs(dangersCounter.completedPercentage() - expectedPorcentage), 0.001f);
-
-    for(unsigned int i=0; i<10; i++){
+    EXPECT_EQ(10, dangersCounter.initialNDangers());
+    for(unsigned int i=0; i<3; i++ ){
         dangersCounter.decreaseDangerCounter("danger");
-        expectedPorcentage += 10.0f;
-        EXPECT_LT(abs(dangersCounter.completedPercentage() - expectedPorcentage), 0.001f);
+        EXPECT_EQ(10, dangersCounter.initialNDangers());
     }
 }

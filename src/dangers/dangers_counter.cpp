@@ -94,10 +94,9 @@ unsigned int DangersCounter::nDangers(const std::string& dangerID) const
     }
 }
 
-
-float DangersCounter::completedPercentage() const
+unsigned int DangersCounter::initialNDangers() const
 {
-    return (initialNDangers_ - nDangers_) / static_cast<float>(initialNDangers_) * 100.0f;
+    return initialNDangers_;
 }
 
 
