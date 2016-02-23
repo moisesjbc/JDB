@@ -27,7 +27,8 @@ namespace jdb {
  * Construction
  ***/
 
-DangersCounter::DangersCounter(unsigned int nDangers) :
+DangersCounter::DangersCounter(unsigned int nDangers,
+                               const std::vector<std::string> &dangersIDs) :
     nDangers_(nDangers)
 {
     if(nDangers == 0){
