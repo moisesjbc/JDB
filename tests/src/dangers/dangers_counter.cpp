@@ -42,12 +42,20 @@ TEST(DangersCounterTest, AnUniqueDangerOccupiesTheFullCounter) {
 }
 
 
-TEST(DangersCounterTest, DangersTotalIsDistributedBetweenSpecificDangers) {
+TEST(DangersCounterTest, DangersTotalIsDistributedBetweenSpecificDangersWithEqualRatios) {
     unsigned int nDangers = 15;
     jdb::DangersCounter dangersFactory(nDangers, {{"dangerA", 1}, {"dangerB", 1}, {"dangerC", 1}});
     EXPECT_EQ(nDangers / 3, dangersFactory.nDangers("dangerA"));
     EXPECT_EQ(nDangers / 3, dangersFactory.nDangers("dangerB"));
     EXPECT_EQ(nDangers / 3, dangersFactory.nDangers("dangerC"));
+}
+
+
+TEST(DangersCounterTest, DangersTotalIsDistributedBetweenSpecificDangersWithDifferentRatios) {
+    jdb::DangersCounter dangersFactory(12, {{"dangerA", 1}, {"dangerB", 2}, {"dangerC", 3}});
+    EXPECT_EQ(2, dangersFactory.nDangers("dangerA"));
+    EXPECT_EQ(4, dangersFactory.nDangers("dangerB"));
+    EXPECT_EQ(6, dangersFactory.nDangers("dangerC"));
 }
 
 
