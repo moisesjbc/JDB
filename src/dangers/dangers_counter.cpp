@@ -39,6 +39,10 @@ DangersCounter::DangersCounter(unsigned int nDangers,
         throw std::out_of_range("Empty dangers IDs set given to DangersCounter");
     }
 
+    if(dangersIDs.size() > nDangers){
+        throw std::runtime_error("Can't create a DangersCounter with more specific dangers than total sum of dangers");
+    }
+
     for(const std::string& dangerID : dangersIDs){
         nSpecificDangers_[dangerID] = nDangers / dangersIDs.size();
     }

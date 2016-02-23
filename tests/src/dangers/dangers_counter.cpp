@@ -23,6 +23,18 @@ TEST(DangersCounterTest, CantCreateEmptyDangersCounter){
 }
 
 
+TEST(DangersCounterTest, CantCreateMoreSpecificDangersThanTotalSum){
+    try{
+        jdb::DangersCounter dangersCounter(1, {"dangerA", "dangerB"});
+        FAIL() << "Expected std::runtime_error because of having more specific dangers than total sum of dangers";
+    }catch(std::runtime_error const& e){
+        EXPECT_EQ(0, strcmp(e.what(), "Can't create a DangersCounter with more specific dangers than total sum of dangers"));
+    }catch(...){
+        FAIL() << "Expected std::out_of_range";
+    }
+}
+
+
 TEST(DangersCounterTest, AnUniqueDangerOccupiesTheFullCounter) {
     unsigned int nDangers = 15;
     jdb::DangersCounter dangersFactoryA(nDangers, {"danger"});
