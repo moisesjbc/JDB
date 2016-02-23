@@ -28,23 +28,28 @@ namespace jdb {
  ***/
 
 DangersCounter::DangersCounter(unsigned int nDangers,
-                               std::set<std::string> dangersIDs) :
+                               std::map<std::string, float> dangersRatios) :
     nDangers_(nDangers)
 {
     if(nDangers == 0){
         throw std::out_of_range("Can't create a dangers counter with 0 dangers!");
     }
 
-    if(dangersIDs.size() == 0){
-        throw std::out_of_range("Empty dangers IDs set given to DangersCounter");
+    if(dangersRatios.size() == 0){
+        throw std::out_of_range("Empty dangers ratios set given to DangersCounter");
     }
 
-    if(dangersIDs.size() > nDangers){
+    if(dangersRatios.size() > nDangers){
         throw std::runtime_error("Can't create a DangersCounter with more specific dangers than total sum of dangers");
     }
 
-    for(const std::string& dangerID : dangersIDs){
-        nSpecificDangers_[dangerID] = nDangers / dangersIDs.size();
+    float accumulatedRatio = 0.0f;
+    for(const std::pair<std::string, float> dangerRatioPair : dangersRatios){
+        accumulatedRatio += dangerRatioPair.second;
+    }
+
+    for(const std::pair<std::string, float> dangerRatioPair : dangersRatios){
+        nSpecificDangers_[dangerRatioPair.first] = nDangers * dangerRatioPair.second / accumulatedRatio;
     }
 }
 

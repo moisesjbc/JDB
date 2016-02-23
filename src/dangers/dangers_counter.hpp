@@ -32,7 +32,7 @@ class DangersCounter
          * Construction
          ***/
         DangersCounter(unsigned int nDangers,
-                       std::set<std::string> dangersIDs);
+                       std::map<std::string, float> dangersRatios);
 
 
         /***
@@ -43,6 +43,9 @@ class DangersCounter
 
 
     private:
+        /***
+         * Attributes
+         ***/
         const unsigned int nDangers_;
         std::map<std::string, unsigned int> nSpecificDangers_;
 };
