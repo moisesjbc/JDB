@@ -13,6 +13,12 @@
 		<tile_dimensions width="512" height="128"/>
 	</tileset>
 
+    <!-- Progress visor -->
+	<tileset>
+		<src>progress.png</src>
+		<tile_dimensions width="512" height="128"/>
+	</tileset>
+
 	<!-- Score selector -->
 	<tileset>
 		<src>score.png</src>

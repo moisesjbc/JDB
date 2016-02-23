@@ -128,14 +128,10 @@ void Level::initGUI()
     // Load the GUI sprites.
     guiSprites_.push_back( m2g::TileSpritePtr( new m2g::TileSprite( guiGraphicsLibrary.getTilesetByName( "health.png" ) ) ) );
 
-    guiTilesets_.push_back( guiGraphicsLibrary.getTilesetByName( "time.png" ) );
-    m2g::TileSpritePtr tileSprite =
-            m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets_.back() ) ) );
-    tileSprite->move( 367.0f, 0.0f );
-    guiSprites_.push_back( std::move( tileSprite ) );
+    loadGUIProgressPanel(guiGraphicsLibrary, guiTilesets_, guiSprites_);
 
     guiTilesets_.push_back( guiGraphicsLibrary.getTilesetByName( "score.png" ) );
-    tileSprite =
+    m2g::TileSpritePtr tileSprite =
             m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets_.back() ) ) );
     tileSprite->move( 768.0f, 0.0f );
     guiSprites_.push_back( std::move( tileSprite ) );
