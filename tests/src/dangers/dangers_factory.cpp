@@ -4,9 +4,9 @@
 
 TEST(DangersFactoryTest, nDangersIsInitializedInConstructor) {
     std::vector<int> nDangersVector = {5, 1, 15};
-    std::unique_ptr<std::vector<jdb::DangerData>> dangersData;
+    std::vector<jdb::DangerData> dangersData;
     for( int nDangers : nDangersVector ){
-        jdb::DangersFactory dangersFactoryA(nDangers, std::move(dangersData));
+        jdb::DangersFactory dangersFactoryA(nDangers, dangersData);
         EXPECT_EQ(nDangers, dangersFactoryA.nDangers());
     }
 }
@@ -14,8 +14,8 @@ TEST(DangersFactoryTest, nDangersIsInitializedInConstructor) {
 
 TEST(DangersFactoryTest, CantCreateEmptyDangersFactory){
     try{
-        std::unique_ptr<std::vector<jdb::DangerData>> dangersData;
-        jdb::DangersFactory emptyDangersFactory(0, std::move(dangersData));
+        std::vector<jdb::DangerData> dangersData;
+        jdb::DangersFactory emptyDangersFactory(0, dangersData);
         FAIL() << "Expected std::out_of_range";
     }catch(std::out_of_range const&){
         SUCCEED();

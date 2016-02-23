@@ -31,7 +31,7 @@ class DangersFactory
          * Construction
          ***/
         DangersFactory( unsigned int nDangers,
-                        std::unique_ptr<std::vector<jdb::DangerData>> dangersData );
+                        std::vector<jdb::DangerData>& dangersData );
 
 
         /***
