@@ -31,7 +31,7 @@ DangersCounter::DangersCounter(unsigned int nDangers) :
     nDangers_(nDangers)
 {
     if(nDangers == 0){
-        throw std::out_of_range("Can't create a dangers factory with 0 dangers!");
+        throw std::out_of_range("Can't create a dangers counter with 0 dangers!");
     }
 }
 
