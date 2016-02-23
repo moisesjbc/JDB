@@ -92,4 +92,19 @@ unsigned int DangersCounter::nDangers(const std::string& dangerID) const
 }
 
 
+/***
+ * Modificators
+ ***/
+
+void DangersCounter::decreaseDangerCounter(const std::string &dangerID)
+{
+    if(nSpecificDangers_.at(dangerID) > 0){
+        nSpecificDangers_.at(dangerID)--;
+        nDangers_--;
+    }else{
+        throw std::runtime_error("Triying to decrease a zero counter");
+    }
+}
+
+
 } // namespace jdb

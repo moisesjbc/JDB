@@ -42,11 +42,17 @@ class DangersCounter
         unsigned int nDangers(const std::string& dangerID) const;
 
 
+        /***
+         * Modificators
+         ***/
+        void decreaseDangerCounter(const std::string& dangerID);
+
+
     private:
         /***
          * Attributes
          ***/
-        const unsigned int nDangers_;
+        unsigned int nDangers_;
         std::map<std::string, unsigned int> nSpecificDangers_;
 };
 

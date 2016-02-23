@@ -67,6 +67,22 @@ TEST(DangersCounterTest, DangersTotalIsDistributedBetweenSpecificDangersWithDiff
 }
 
 
+TEST(DangersCounterTest, DangersCountersCanBeDecreased) {
+    jdb::DangersCounter dangersFactory(12, {{"dangerA", 1}, {"dangerB", 2}, {"dangerC", 3}});
+    EXPECT_EQ(2, dangersFactory.nDangers("dangerA"));
+    dangersFactory.decreaseDangerCounter("dangerA");
+    EXPECT_EQ(1, dangersFactory.nDangers("dangerA"));
+
+    EXPECT_EQ(4, dangersFactory.nDangers("dangerB"));
+    dangersFactory.decreaseDangerCounter("dangerB");
+    EXPECT_EQ(3, dangersFactory.nDangers("dangerB"));
+
+    EXPECT_EQ(6, dangersFactory.nDangers("dangerC"));
+    dangersFactory.decreaseDangerCounter("dangerC");
+    EXPECT_EQ(5, dangersFactory.nDangers("dangerC"));
+}
+
+
 TEST(DangersCounterTest, CantCreateADangersCounterWithEmptyIDsSet) {
     try{
         jdb::DangersCounter dangersFactory(15, {});
@@ -89,5 +105,34 @@ TEST(DangersCounterTest, InvalidIDThrows) {
         EXPECT_NE(nullptr, strstr(e.what(), "another-danger")) << "Expected \"" + expectedDangerID + "\" in exception message";
     }catch(...){
         FAIL() << "Expected std::out_of_range";
+    }
+}
+
+
+TEST(DangersCounterTest, DecreasingDangerWithInvalidIDThrows) {
+    const std::string expectedDangerID = "danger";
+    try {
+        jdb::DangersCounter dangersFactory(15, {{expectedDangerID, 1.0f}});
+        dangersFactory.decreaseDangerCounter("another-danger");
+        FAIL() << "Expected std::out_of_range from invalid danger ID";
+    }catch(std::out_of_range const& e){
+        SUCCEED();
+    }catch(...){
+        FAIL() << "Expected std::out_of_range";
+    }
+}
+
+
+TEST(DangersCounterTest, TryingToDecreaseANullDangerCounterThrows) {
+    jdb::DangersCounter dangersFactory(1, {{"danger", 1.0f}});
+    dangersFactory.decreaseDangerCounter("danger");
+    EXPECT_EQ(0, dangersFactory.nDangers("danger"));
+    try{
+        dangersFactory.decreaseDangerCounter("danger");
+        FAIL() << "Expected a runtime_error because of trying to decrease a zero counter";
+    }catch(std::runtime_error& e){
+        EXPECT_EQ(0, strcmp(e.what(), "Triying to decrease a zero counter"));
+    }catch(...){
+        FAIL() << "Expected a runtime_error";
     }
 }
