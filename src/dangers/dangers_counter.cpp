@@ -28,11 +28,15 @@ namespace jdb {
  ***/
 
 DangersCounter::DangersCounter(unsigned int nDangers,
-                               const std::vector<std::string> &dangersIDs) :
+                               std::vector<std::string> dangersIDs) :
     nDangers_(nDangers)
 {
     if(nDangers == 0){
         throw std::out_of_range("Can't create a dangers counter with 0 dangers!");
+    }
+
+    for(const std::string& dangerID : dangersIDs){
+        nSpecificDangers_[dangerID] = nDangers / dangersIDs.size();
     }
 }
 
@@ -44,6 +48,16 @@ DangersCounter::DangersCounter(unsigned int nDangers,
 unsigned int DangersCounter::nDangers() const
 {
     return nDangers_;
+}
+
+
+unsigned int DangersCounter::nDangers(const std::string& dangerID) const
+{
+    try{
+        return nSpecificDangers_.at(dangerID);
+    }catch(std::out_of_range&){
+        throw std::out_of_range("Danger [" + dangerID + "] not present in dangers counter");
+    }
 }
 
 

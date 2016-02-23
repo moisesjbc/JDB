@@ -21,6 +21,7 @@
 #define DANGERS_FACTORY_HPP
 
 #include <dangers/danger_data.hpp>
+#include <map>
 
 namespace jdb {
 
@@ -31,17 +32,19 @@ class DangersCounter
          * Construction
          ***/
         DangersCounter(unsigned int nDangers,
-                       const std::vector<std::string>& dangersIDs);
+                       std::vector<std::string> dangersIDs);
 
 
         /***
          * Getters
          ***/
         unsigned int nDangers() const;
+        unsigned int nDangers(const std::string& dangerID) const;
 
 
     private:
         const unsigned int nDangers_;
+        std::map<std::string, unsigned int> nSpecificDangers_;
 };
 
 } // namespace jdb
