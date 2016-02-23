@@ -128,7 +128,7 @@ void CampaignLevel::drawLevelProgress() const
 {
     char buffer[10];
     float completedPercentage = nDangersRemoved_ / static_cast<float>(dangersCounter_->initialNDangers()) * 100.0f;
-    sprintf(buffer, "%.1f%%", completedPercentage);
+    sprintf(buffer, "%4.1f%%", completedPercentage);
     progressText_.setString(buffer);
     window_.draw(progressText_);
 }
