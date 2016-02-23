@@ -39,6 +39,18 @@ TEST(DangersCounterTest, DangersTotalIsDistributedBetweenSpecificDangers) {
 }
 
 
+TEST(DangersCounterTest, CantCreateADangersCounterWithEmptyIDsSet) {
+    try{
+        jdb::DangersCounter dangersFactory(15, {});
+        FAIL() << "Expected an out_of_range exception because of empty dangers IDs set";
+    }catch(std::out_of_range& e){
+        EXPECT_EQ(0, strcmp(e.what(), "Empty dangers IDs set given to DangersCounter"));
+    }catch(...){
+        FAIL() << "Expected an out_of_range exception";
+    }
+}
+
+
 TEST(DangersCounterTest, InvalidIDThrows) {
     const std::string expectedDangerID = "danger";
     try {

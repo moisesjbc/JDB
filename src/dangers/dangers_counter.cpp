@@ -35,6 +35,10 @@ DangersCounter::DangersCounter(unsigned int nDangers,
         throw std::out_of_range("Can't create a dangers counter with 0 dangers!");
     }
 
+    if(dangersIDs.size() == 0){
+        throw std::out_of_range("Empty dangers IDs set given to DangersCounter");
+    }
+
     for(const std::string& dangerID : dangersIDs){
         nSpecificDangers_[dangerID] = nDangers / dangersIDs.size();
     }
