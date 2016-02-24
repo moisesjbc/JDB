@@ -222,16 +222,6 @@ void DangerDataParser::LoadDangersDataByName(const std::string& configFilepath, 
 }
 
 
-sf::Vector2u getTileSize( std::string dangerName)
-{
-    m2g::GraphicsLibrary dangersGraphicsLibrary(DATA_DIR_PATH + "/img/dangers/dangers.xml");
-    m2g::AnimationDataPtr dangerAnimData =
-            dangersGraphicsLibrary.getAnimationDataByName( dangerName );
-
-    return dangerAnimData->tileset().tileDimensions();
-}
-
-
 DangerInfo DangerDataParser::ParseDangerInfo(const std::string &dangerMachineName, json jsonObject) const
 {
     DangerInfo dangerInfo;
@@ -245,9 +235,6 @@ DangerInfo DangerDataParser::ParseDangerInfo(const std::string &dangerMachineNam
             "/img/dangers/" +
             dangerMachineName +
             "_01.png";
-
-    dangerInfo.textureSize =
-            getTileSize(dangerMachineName + "_01.png");
 
     return dangerInfo;
 }

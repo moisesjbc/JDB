@@ -29,6 +29,15 @@ namespace jdb {
  * 1. Construction
  ***/
 
+sf::Vector2u getTileSize( std::string dangerName)
+{
+    m2g::GraphicsLibrary dangersGraphicsLibrary(DATA_DIR_PATH + "/img/dangers/dangers.xml");
+    m2g::AnimationDataPtr dangerAnimData =
+            dangersGraphicsLibrary.getAnimationDataByName( dangerName );
+
+    return dangerAnimData->tileset().tileDimensions();
+}
+
 LevelIntro::LevelIntro(const GameState& parentGameState,
                         sf::RenderWindow& window,
                         unsigned int levelIndex,
@@ -59,19 +68,22 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
         DangerDataParser dangerDataParser;
         std::vector<DangerInfo> dangersInfo =
                 dangerDataParser.LoadDangersInfoByName(DATA_DIR_PATH + "/config/dangers.json", dangerIDs);
+        int i = 0;
         for( DangerInfo& dangerInfo : dangersInfo ){
+            sf::Vector2u dangerTextureSize = getTileSize(dangerIDs[i] + "_01.png");
+
             std::unique_ptr< tgui::Texture > dangerTexture(
                         new tgui::Texture(
                             dangerInfo.texturePath,
-                            { 0, 0, static_cast<int>( dangerInfo.textureSize.x ), static_cast<int>( dangerInfo.textureSize.y ) }
+                            { 0, 0, static_cast<int>( dangerTextureSize.x ), static_cast<int>( dangerTextureSize.y ) }
                         ) );
 
             unsigned int minX = 0;
             unsigned int minY = 0;
             unsigned int maxX = 0;
             unsigned int maxY = 0;
-            for( unsigned int x = 0; x < dangerInfo.textureSize.x; x++ ){
-                for( unsigned int y = 0; y < dangerInfo.textureSize.y; y++ ){
+            for( unsigned int x = 0; x < dangerTextureSize.x; x++ ){
+                for( unsigned int y = 0; y < dangerTextureSize.y; y++ ){
                     if( !( dangerTexture->isTransparentPixel( x, y ) ) ){
                         if( minX == 0 || x < minX ){
                             minX = x;
@@ -102,6 +114,7 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
                                 "Description: \n\t" + dangerInfo.description + "\n\n" +
                                 "Instructions: \n\t" + dangerInfo.removalInstructions,
                                 std::move( dangerTexture ) );
+            i++;
         }
     }
 

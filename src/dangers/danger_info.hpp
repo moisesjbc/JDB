@@ -32,7 +32,6 @@ struct DangerInfo
     std::string removalInstructions;
 
     std::string texturePath;
-    sf::Vector2u textureSize;
 };
 
 } // namespace jdb
