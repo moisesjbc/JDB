@@ -13,7 +13,7 @@
                 <page>That's it! Let's see which dangers you'll have to face on this level...</page>
             </level_book>
 			<speed initial="5.0" step="0.5" time_lapse="20" />
-            <dangers number="100">
+            <dangers number="80">
                 <danger ratio="1" present_to_player="true">fire</danger>
                 <danger ratio="1" present_to_player="true">ice_crystals</danger>
                 <danger ratio="1" present_to_player="true">rat</danger>
@@ -24,7 +24,7 @@
 		<!-- Campaign level 02 -->
 		<campaign_level countdow="75" >
 			<speed initial="6.0" step="0.5" time_lapse="10" />
-            <dangers number="125">
+            <dangers number="100">
                 <danger ratio="1">fire</danger>
                 <danger ratio="1">ice_crystals</danger>
                 <danger ratio="1">rat</danger>
@@ -37,15 +37,15 @@
 		<!-- Campaign level 03 -->
 		<campaign_level countdow="90" >
 			<speed initial="6.5" step="0.5" time_lapse="10" />
-            <dangers number="130">
+            <dangers number="100">
                 <danger ratio="1">fire</danger>
                 <danger ratio="1">ice_crystals</danger>
                 <danger ratio="1">rat</danger>
                 <danger ratio="1">knife</danger>
                 <danger ratio="1">shell</danger>
                 <danger ratio="1">coward_hypnotist_rat</danger>
-                <danger ratio="2" present_to_player="true">enigma_bomb</danger>
-                <danger ratio="2" present_to_player="true">medic_kit</danger>
+                <danger ratio="1.25" present_to_player="true">enigma_bomb</danger>
+                <danger ratio="0.5" present_to_player="true">medic_kit</danger>
                 <danger ratio="2" present_to_player="true">tesla_coils</danger>
             </dangers>
 		</campaign_level>
