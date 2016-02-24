@@ -26,9 +26,6 @@ namespace jdb {
 
 class CampaignLevel : public Level
 {
-    private:
-        unsigned int countdown_;
-
     public:
         /***
          * 1. Initialization and destruction

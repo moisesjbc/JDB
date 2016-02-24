@@ -54,9 +54,6 @@ bool CampaignLevel::load( unsigned int index )
     if( levelNode == nullptr ){
         return false;
     }
-
-    // Retrieve the level's countdown from file.
-    countdown_ = levelNode->IntAttribute( "countdow" );
     LOG(INFO) << "Loading level configuration ...OK";
 
     // Load the sandwiches data.
@@ -120,7 +117,6 @@ void CampaignLevel::cleanUp()
 
 void CampaignLevel::resetLevelTime()
 {
-    levelTime_ = countdown_ * 1000;
 }
 
 
