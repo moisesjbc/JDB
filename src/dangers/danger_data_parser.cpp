@@ -72,10 +72,21 @@ BaseLine DangerDataParser::ParseBaseLine(json jsonObject)
 
 StateTimeTransition DangerDataParser::ParseStateTimeTransition(json jsonObject) const
 {
+    int newDanger = -1;
+    if(jsonObject["new_danger"] != nullptr){
+        newDanger = jsonObject["new_danger"];
+    }
+
+    int newState = -1;
+    if(jsonObject["new_state"] != nullptr){
+        newState = jsonObject["new_state"];
+    }
+
     StateTimeTransition stateTimeTransition(
         jsonObject["min_timeout"],
         jsonObject["max_timeout"],
-        jsonObject["new_state"]
+        newState,
+        newDanger
     );
 
     return stateTimeTransition;

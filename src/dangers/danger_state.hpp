@@ -52,12 +52,14 @@ enum class StunType
 struct StateTimeTransition {
     unsigned int minTimeout;
     unsigned int maxTimeout;
-    unsigned int newState;
+    int newState;
+    int newDanger;
 
-    StateTimeTransition(unsigned int minTimeout = 0, unsigned int maxTimeout = 5, unsigned int newState = 0) :
+    StateTimeTransition(unsigned int minTimeout = 0, unsigned int maxTimeout = 5, int newState = -1, int newDanger = -1) :
         minTimeout(minTimeout),
         maxTimeout(maxTimeout),
-        newState(newState)
+        newState(newState),
+        newDanger(newDanger)
     {}
 
     unsigned int generateTimeout(){

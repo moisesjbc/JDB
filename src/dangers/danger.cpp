@@ -112,7 +112,11 @@ void Danger::update( unsigned int ms )
             timeElapsedFromLastTimeout = 0;
             currentTimeout =
                     dangerData->states[state].stateTimeTransition->generateTimeout();
-            setState( dangerData->states[state].stateTimeTransition->newState );
+            if(dangerData->states[state].stateTimeTransition->newDanger != -1){
+                setDangerData(dangerData->dangersDataVector[dangerData->states[state].stateTimeTransition->newDanger]);
+            }else if(dangerData->states[state].stateTimeTransition->newState != -1){
+                setState( dangerData->states[state].stateTimeTransition->newState );
+            }
         }else{
             timeElapsedFromLastTimeout += ms;
         }

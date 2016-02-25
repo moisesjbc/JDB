@@ -174,4 +174,21 @@
 			<animation_state first_frame="0" last_frame="4" back_frame="4" />
 		</animation_states>
 	</animation>
+
+
+    <!-- Petards 01 -->
+	<animation>
+		<tileset>
+			<src>petards_01.png</src>
+			<tile_dimensions width="256" height="128"/>
+			<collision_rects>
+				<collision_rect tiles="0-59" x="19" y="23" width="209" height="54" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state first_frame="0" last_frame="3" back_frame="0" />
+			<animation_state first_frame="4" last_frame="4" back_frame="4" />
+            <animation_state first_frame="5" last_frame="5" back_frame="5" />
+		</animation_states>
+	</animation>
 </library>
