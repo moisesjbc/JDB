@@ -113,7 +113,10 @@ void Danger::update( unsigned int ms )
             currentTimeout =
                     dangerData->states[state].stateTimeTransition->generateTimeout();
             if(dangerData->states[state].stateTimeTransition->newDanger != -1){
-                setDangerData(dangerData->dangersDataVector[dangerData->states[state].stateTimeTransition->newDanger]);
+                setDangerData(
+                        dangerData->dangersDataVector[dangerData->states[state].stateTimeTransition->newDanger],
+                        dangerData->states[state].stateTimeTransition->appearanceAnimationData.get()
+                    );
             }else if(dangerData->states[state].stateTimeTransition->newState != -1){
                 setState( dangerData->states[state].stateTimeTransition->newState );
             }

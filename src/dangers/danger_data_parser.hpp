@@ -33,7 +33,7 @@ class DangerDataParser
     public:
         PlayerActionResponse ParsePlayerActionResponse(json jsonObject) const;
         static BaseLine ParseBaseLine(json jsonObject);
-        StateTimeTransition ParseStateTimeTransition(json jsonObject) const;
+        StateTimeTransition ParseStateTimeTransition(json jsonObject, m2g::GraphicsLibrary& graphicsLibrary) const;
         StateDistanceTransition ParseStateDistanceTransition(json jsonObject) const;
         jdb::StunType stuntype;
         std::set<ToolType> stunnedTools;

@@ -54,12 +54,14 @@ struct StateTimeTransition {
     unsigned int maxTimeout;
     int newState;
     int newDanger;
+    m2g::AnimationDataPtr appearanceAnimationData;
 
-    StateTimeTransition(unsigned int minTimeout = 0, unsigned int maxTimeout = 5, int newState = -1, int newDanger = -1) :
+    StateTimeTransition(unsigned int minTimeout = 0, unsigned int maxTimeout = 5, int newState = -1, int newDanger = -1, m2g::AnimationDataPtr appearanceAnimationData = nullptr) :
         minTimeout(minTimeout),
         maxTimeout(maxTimeout),
         newState(newState),
-        newDanger(newDanger)
+        newDanger(newDanger),
+        appearanceAnimationData(std::move(appearanceAnimationData))
     {}
 
     unsigned int generateTimeout(){

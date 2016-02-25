@@ -759,7 +759,10 @@
                     "state_time_transition": {
 		                "min_timeout": 4000,
 		                "max_timeout": 4500,
-		                "new_danger": 0
+		                "new_danger": {
+                            "id": 0,
+                            "appearance_animation": "enigma_bomb_explosion.png"
+                        }
 	                },
                     "stun": {
                         "type": "burn",

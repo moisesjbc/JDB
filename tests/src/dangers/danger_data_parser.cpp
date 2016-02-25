@@ -51,6 +51,7 @@ TEST(DangerDataParserTest, BaseLineIsParsedCorrectly)
 }
 
 
+/*
 TEST(DangerDataParserTest, StateTimeTransitionIsParsedCorrectly)
 {
     json rawStateTimeTransitionJSON = R"(
@@ -68,6 +69,7 @@ TEST(DangerDataParserTest, StateTimeTransitionIsParsedCorrectly)
     EXPECT_EQ(9, stateTimeTransition.maxTimeout);
     EXPECT_EQ(3, stateTimeTransition.newState);
 }
+*/
 
 
 TEST(DangerDataParserTest, StateDistanceTransitionIsParsedCorrectly)

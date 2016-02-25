@@ -109,14 +109,6 @@ void Level::loadDangerData(
         dangersIDs,
         *dangerGraphicsLibrary_,
         dangerData);
-
-    // Sort the vector of dangers with a descending order in their
-    // base lines' widths.
-    std::sort( dangerData.begin(),
-                dangerData.end(),
-                []( DangerDataPtr a, DangerDataPtr b ){
-        return (a->baseLine.width > b->baseLine.width );
-    });
 }
 
 

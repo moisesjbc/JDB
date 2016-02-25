@@ -70,11 +70,16 @@ BaseLine DangerDataParser::ParseBaseLine(json jsonObject)
 }
 
 
-StateTimeTransition DangerDataParser::ParseStateTimeTransition(json jsonObject) const
+StateTimeTransition DangerDataParser::ParseStateTimeTransition(json jsonObject, m2g::GraphicsLibrary& graphicsLibrary) const
 {
     int newDanger = -1;
+    m2g::AnimationDataPtr appearanceAnimationData = nullptr;
     if(jsonObject["new_danger"] != nullptr){
-        newDanger = jsonObject["new_danger"];
+        newDanger = jsonObject["new_danger"]["id"];
+        if( jsonObject["new_danger"]["appearance_animation"] != nullptr ){
+            appearanceAnimationData =
+                graphicsLibrary.getAnimationDataByName(jsonObject["new_danger"]["appearance_animation"]);
+        }
     }
 
     int newState = -1;
@@ -86,7 +91,8 @@ StateTimeTransition DangerDataParser::ParseStateTimeTransition(json jsonObject) 
         jsonObject["min_timeout"],
         jsonObject["max_timeout"],
         newState,
-        newDanger
+        newDanger,
+        std::move(appearanceAnimationData)
     );
 
     return stateTimeTransition;
@@ -153,7 +159,7 @@ DangerState DangerDataParser::ParseDangerState(json rawDangerStateJSON, m2g::Gra
     if(rawDangerStateJSON["state_time_transition"] != nullptr){
         dangerState.stateTimeTransition =
             std::unique_ptr<StateTimeTransition>(
-                new StateTimeTransition(ParseStateTimeTransition(rawDangerStateJSON["state_time_transition"]))
+                new StateTimeTransition(ParseStateTimeTransition(rawDangerStateJSON["state_time_transition"], graphicsLibrary))
             );
     }else{
         dangerState.stateTimeTransition = nullptr;
