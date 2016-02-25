@@ -4,7 +4,7 @@
 	<!-- Campaign levels -->
     <campaign_levels>
 		<!-- Campaign level 01 -->
-		<campaign_level countdow="60" >
+		<campaign_level>
             <level_book>
                 <page>Welcome to "The Sandwiches Game"!</page>
                 <page>Your goal is to remove dangers from some sandwiches before they get to the giant grinder and damage your friend</page>
@@ -22,7 +22,7 @@
 		</campaign_level>
 
 		<!-- Campaign level 02 -->
-		<campaign_level countdow="75" >
+		<campaign_level>
 			<speed initial="6.0" step="0.5" time_lapse="10" />
             <dangers number="100">
                 <danger ratio="1">fire</danger>
@@ -35,7 +35,7 @@
 		</campaign_level>
 
 		<!-- Campaign level 03 -->
-		<campaign_level countdow="90" >
+		<campaign_level>
 			<speed initial="6.5" step="0.5" time_lapse="10" />
             <dangers number="100">
                 <danger ratio="1">fire</danger>
@@ -52,7 +52,7 @@
 
 
         <!-- Campaign level 04 -->
-		<campaign_level countdow="90" >
+		<campaign_level>
 			<speed initial="6.5" step="0.5" time_lapse="10" />
             <dangers number="100">
                 <danger ratio="1">fire</danger>
