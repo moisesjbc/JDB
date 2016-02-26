@@ -89,6 +89,8 @@
                 <danger ratio="1">enigma_bomb</danger>
                 <danger ratio="1">medic_kit</danger>
                 <danger ratio="1">tesla_coils</danger>
+                <danger ratio="1">petards</danger>
+                <danger ratio="1">broken_bottle</danger>
             </dangers>
 		</survival_level>
 	</survival_levels>
