@@ -117,3 +117,29 @@ Yes, none. Once it gets close enough to its inmediate death it will simply dissa
 ### Stuns
 
 - All the tools (hypnotize)
+
+
+## Petards
+
+*Who light those?!*
+
+### Removal instructions
+
+Use the **extinguisher** on them before they explode and then remove them with the **hand**. If it exploded, a fire will start
+
+### Stuns
+
+- Hand, gavel (burn).
+
+
+## Broken Bottle
+
+*I hope that is a soda bottle!* - Mom
+
+### Removal instructions
+
+Break the bottle completly (**gavel**) and then remove the broken crystals with the **extinguisher**.
+
+### Stuns
+
+- Hand (cut).
