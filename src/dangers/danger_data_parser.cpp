@@ -126,6 +126,8 @@ void DangerDataParser::ParseDangerStateStun(
         stunType = StunType::BITE;
     }else if( stunTypeStr == "hypnotism" ){
         stunType = StunType::HYPNOTISM;
+    }else if( stunTypeStr == "cut" ){
+        stunType = StunType::CUT;
     }else{
         throw std::runtime_error( "Unrecognized stun" );
     }

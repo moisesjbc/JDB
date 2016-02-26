@@ -65,6 +65,7 @@
                 <danger ratio="0.5">medic_kit</danger>
                 <danger ratio="1">tesla_coils</danger>
                 <danger ratio="2" present_to_player="true">petards</danger>
+                <danger ratio="2" present_to_player="true">broken_bottle</danger>
             </dangers>
 		</campaign_level>
 	</campaign_levels>

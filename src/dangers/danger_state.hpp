@@ -46,7 +46,8 @@ enum class StunType
     FREEZING,
     ELECTROCUTION,
     BITE,
-    HYPNOTISM
+    HYPNOTISM,
+    CUT
 };
 
 struct StateTimeTransition {

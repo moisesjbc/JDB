@@ -191,4 +191,22 @@
             <animation_state first_frame="5" last_frame="5" back_frame="5" />
 		</animation_states>
 	</animation>
+
+
+    <!-- Broken bottle 01 -->
+	<animation>
+		<tileset>
+			<src>broken_bottle_01.png</src>
+			<tile_dimensions width="128" height="128"/>
+			<collision_rects>
+				<collision_rect tiles="0" x="35" y="14" width="59" height="66" />
+                <collision_rect tiles="1" x="12" y="52" width="102" height="40" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state first_frame="0" last_frame="0" back_frame="0" />
+			<animation_state first_frame="1" last_frame="1" back_frame="1" />
+            <animation_state first_frame="2" last_frame="2" back_frame="2" />
+		</animation_states>
+	</animation>
 </library>
