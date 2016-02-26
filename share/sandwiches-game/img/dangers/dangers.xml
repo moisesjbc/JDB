@@ -182,7 +182,7 @@
 			<src>petards_01.png</src>
 			<tile_dimensions width="256" height="128"/>
 			<collision_rects>
-				<collision_rect tiles="0-59" x="19" y="23" width="209" height="54" />
+				<collision_rect tiles="0-1" x="36" y="15" width="182" height="63" />
 			</collision_rects>
 		</tileset>
 		<animation_states>
