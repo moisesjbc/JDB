@@ -32,3 +32,6 @@ temp-dependencies
 # Generated binaries
 bin/
 sandwiches-game-launcher
+
+# Logs
+sandwiches_game.log
