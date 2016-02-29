@@ -30,3 +30,10 @@ TEST(ProfileTest, profileNamesWithLessThanThreeCharactersAreNotAllowed)
         }
     }
 }
+
+
+TEST(ProfileTest, currentLevelIsInitializedToZero)
+{
+    jdb::Profile profile("profile-name");
+    EXPECT_EQ(0, profile.currentLevel());
+}

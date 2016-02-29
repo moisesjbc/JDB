@@ -38,10 +38,12 @@ class Profile
          * Getters
          ***/
         std::string name() const;
+        unsigned int currentLevel() const;
 
 
     private:
         std::string name_;
+        unsigned int currentLevel_;
 };
 
 } // namespace jdb

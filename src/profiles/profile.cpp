@@ -27,7 +27,8 @@ namespace jdb {
  ***/
 
 Profile::Profile(const std::string& name) :
-    name_(name)
+    name_(name),
+    currentLevel_(0)
 {
     if(name.length() < 3){
         throw std::invalid_argument("Profile name with less than 3 characters not allowed");
@@ -42,6 +43,12 @@ Profile::Profile(const std::string& name) :
 std::string Profile::name() const
 {
     return name_;
+}
+
+
+unsigned int Profile::currentLevel() const
+{
+    return currentLevel_;
 }
 
 } // namespace jdb
