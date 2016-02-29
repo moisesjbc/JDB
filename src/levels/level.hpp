@@ -31,6 +31,7 @@
 #include <paths.hpp>
 #include <utilities/easylogging++.h>
 #include <dangers/dangers_counter.hpp>
+#include <profiles/profile.hpp>
 
 namespace jdb {
 
