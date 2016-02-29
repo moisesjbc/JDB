@@ -61,6 +61,7 @@ class MainMenu : public GUIMenu
     private:
         sf::Font font_;
         sf::Text menuText_;
+        SoundManager& soundManager_;
 };
 
 } // namespace jdb

@@ -33,7 +33,8 @@ namespace jdb {
  ****/
 
 MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
-    GUIMenu(window, soundManager)
+    GUIMenu(window),
+    soundManager_(*soundManager)
 {}
 
 

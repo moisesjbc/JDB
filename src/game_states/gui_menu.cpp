@@ -25,9 +25,8 @@ namespace jdb {
  * Construction
  ***/
 
-GUIMenu::GUIMenu(sf::RenderWindow &window, SoundManager *soundManager) :
+GUIMenu::GUIMenu(sf::RenderWindow &window) :
     GameState(window),
-    soundManager_(*soundManager),
     gui_(window)
 {}
 

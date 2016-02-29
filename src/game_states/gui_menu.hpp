@@ -34,7 +34,7 @@ class GUIMenu : public GameState
         /***
          * Construction
          ***/
-        GUIMenu(sf::RenderWindow& window, SoundManager* soundManager);
+        GUIMenu(sf::RenderWindow& window);
 
 
         /***
@@ -66,11 +66,10 @@ class GUIMenu : public GameState
         void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 
+    private:
         /***
          * Attributes
          ***/
-        SoundManager& soundManager_;
-    private:
         mutable tgui::Gui gui_;
 };
 
