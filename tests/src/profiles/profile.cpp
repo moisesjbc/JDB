@@ -32,8 +32,8 @@ TEST(ProfileTest, profileNamesWithLessThanThreeCharactersAreNotAllowed)
 }
 
 
-TEST(ProfileTest, currentLevelIsInitializedToZero)
+TEST(ProfileTest, nextCampaignLevelIsInitializedToZero)
 {
     jdb::Profile profile("profile-name");
-    EXPECT_EQ(0, profile.currentLevel());
+    EXPECT_EQ(0, profile.nextCampaignLevel());
 }

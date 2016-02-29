@@ -38,12 +38,12 @@ class Profile
          * Getters
          ***/
         std::string name() const;
-        unsigned int currentLevel() const;
+        unsigned int nextCampaignLevel() const;
 
 
     private:
         std::string name_;
-        unsigned int currentLevel_;
+        unsigned int nextCampaignLevel_;
 };
 
 } // namespace jdb

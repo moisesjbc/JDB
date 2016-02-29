@@ -28,7 +28,7 @@ namespace jdb {
 
 Profile::Profile(const std::string& name) :
     name_(name),
-    currentLevel_(0)
+    nextCampaignLevel_(0)
 {
     if(name.length() < 3){
         throw std::invalid_argument("Profile name with less than 3 characters not allowed");
@@ -46,9 +46,9 @@ std::string Profile::name() const
 }
 
 
-unsigned int Profile::currentLevel() const
+unsigned int Profile::nextCampaignLevel() const
 {
-    return currentLevel_;
+    return nextCampaignLevel_;
 }
 
 } // namespace jdb
