@@ -29,10 +29,12 @@ namespace jdb {
 
 CampaignLevelSelectionMenu::CampaignLevelSelectionMenu(sf::RenderWindow &window,
                                                        SoundManager &soundManager,
-                                                       unsigned int nLevels) :
+                                                       unsigned int nLevels,
+                                                       Profile& playerProfile ) :
     GUIMenu(window),
     soundManager_(soundManager),
-    nLevels_(nLevels)
+    nLevels_(nLevels),
+    playerProfile_(playerProfile)
 {}
 
 
@@ -54,7 +56,7 @@ void CampaignLevelSelectionMenu::initGUI(tgui::Gui &gui)
         playLevelButton->setTextSize( 20 );
         playLevelButton->connect( "pressed", [=](){
             std::unique_ptr< Level > level = std::unique_ptr< Level >(
-                       new CampaignLevel( window_, &soundManager_, levelIndex ) );
+                       new CampaignLevel( window_, &soundManager_, levelIndex, playerProfile_ ) );
             switchState( *level );
         } );
         layout->add(playLevelButton);

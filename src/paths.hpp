@@ -25,6 +25,7 @@
 namespace jdb {
 
 const std::string DATA_DIR_PATH = "../share/sandwiches-game";
+const std::string SAVEGAME_PATH = DATA_DIR_PATH + "/savegames/profile.json";
 
 }
 

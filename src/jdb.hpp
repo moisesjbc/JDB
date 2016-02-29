@@ -41,6 +41,12 @@ class JDB
 
 
     private:
+        /***
+         * Auxiliar methods
+         ***/
+        Profile loadProfile();
+
+
         sf::RenderWindow window_;
 };
 

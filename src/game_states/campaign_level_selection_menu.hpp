@@ -21,6 +21,7 @@
 #define CAMPAIGN_LEVEL_SELECTION_MENU_HPP
 
 #include <game_states/gui_menu.hpp>
+#include <profiles/profile.hpp>
 
 namespace jdb {
 
@@ -32,7 +33,8 @@ class CampaignLevelSelectionMenu : public GUIMenu
          ***/
         CampaignLevelSelectionMenu(sf::RenderWindow& window,
                                    SoundManager& soundManager,
-                                   unsigned int nLevels);
+                                   unsigned int nLevels,
+                                   Profile& playerProfile );
 
 
     protected:
@@ -48,6 +50,7 @@ class CampaignLevelSelectionMenu : public GUIMenu
          ***/
         SoundManager& soundManager_;
         unsigned int nLevels_;
+        Profile& playerProfile_;
 };
 
 } // namespace jdb

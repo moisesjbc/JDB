@@ -21,8 +21,8 @@
 
 namespace jdb {
 
-SurvivalLevel::SurvivalLevel( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex ) :
-    Level( window, soundManager, levelIndex )
+SurvivalLevel::SurvivalLevel( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex, Profile& playerProfile ) :
+    Level( window, soundManager, levelIndex, playerProfile )
 {}
 
 

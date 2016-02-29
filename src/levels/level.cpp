@@ -22,6 +22,8 @@
 #include <algorithm>
 #include <game_states/end_of_demo_screen.hpp>
 #include <game_states/game_over_screen.hpp>
+#include <profiles/profile_json_parser.hpp>
+#include <boost/filesystem.hpp>
 #include <dangers/danger_data_parser.hpp>
 #define ELPP_DISABLE_DEFAULT_CRASH_HANDLING
 
@@ -37,10 +39,11 @@ const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
  * 1. Construction
  ***/
 
-Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex )
+Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex, Profile& playerProfile )
     : GameState( window ),
       soundManager_( *soundManager ),
       levelIndex_( levelIndex ),
+      playerProfile_(playerProfile),
       acumScore_( 0 ),
       levelScore_( 0 )
 {}
@@ -426,6 +429,7 @@ void Level::update( unsigned int ms )
         LOG(INFO) << "Level::update() - Victory!";
         acumScore_ += levelScore_;
         levelIndex_++; // TODO: This should go inside "load()".
+        updateAndSavePlayerProfile();
         if( load( levelIndex_ ) ){
             reset();
         }else{
@@ -502,5 +506,25 @@ void Level::resume()
     window_.setMouseCursorVisible( false );
 }
 
+
+/***
+ * Player profile management
+ ***/
+
+void Level::updateAndSavePlayerProfile()
+{
+    if(levelIndex_ > playerProfile_.nextCampaignLevel()){
+        playerProfile_.setNextCampaignLevel(levelIndex_);
+    }
+
+    boost::filesystem::path savegamePath(SAVEGAME_PATH);
+    LOG(INFO) << "Saving player profile to [" + savegamePath.string() + "]";
+    if(!boost::filesystem::exists(savegamePath.parent_path())){
+        boost::filesystem::create_directory(savegamePath.parent_path());
+    }
+
+    ProfileJSONParser profileParser;
+    profileParser.writeToJSON(playerProfile_, savegamePath.string());
+}
 
 } // namespace jdb

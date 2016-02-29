@@ -26,6 +26,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <TGUI/TGUI.hpp>
+#include <profiles/profile.hpp>
 
 namespace jdb {
 
@@ -35,7 +36,7 @@ class MainMenu : public GUIMenu
         /***
          * 1. Creation
          ****/
-        MainMenu( sf::RenderWindow& window, SoundManager* soundManager );
+        MainMenu( sf::RenderWindow& window, SoundManager* soundManager, Profile& playerProfile);
 
 
         /***
@@ -62,6 +63,7 @@ class MainMenu : public GUIMenu
         sf::Font font_;
         sf::Text menuText_;
         SoundManager& soundManager_;
+        Profile& playerProfile_;
 };
 
 } // namespace jdb

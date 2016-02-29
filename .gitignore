@@ -35,3 +35,6 @@ sandwiches-game-launcher
 
 # Logs
 sandwiches_game.log
+
+# Savegames
+share/sandwiches-game/savegames/

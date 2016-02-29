@@ -33,9 +33,10 @@ namespace jdb {
  * 1. Creation
  ****/
 
-MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
+MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager, Profile& playerProfile ) :
     GUIMenu(window),
-    soundManager_(*soundManager)
+    soundManager_(*soundManager),
+    playerProfile_(playerProfile)
 {}
 
 
@@ -110,12 +111,15 @@ tgui::VerticalLayout::Ptr MainMenu::generateMenuLayout()
     const std::vector< std::function<void()> > callbacks =
     {
         [this](){
-            CampaignLevelSelectionMenu levelSelectionMenu(window_, soundManager_, CampaignLevel::nLevels());
+            CampaignLevelSelectionMenu levelSelectionMenu(window_,
+                                                          soundManager_,
+                                                          CampaignLevel::nLevels(),
+                                                          playerProfile_);
             switchState( levelSelectionMenu );
         },
         [this](){
             std::unique_ptr< Level > level = std::unique_ptr< Level >(
-                       new SurvivalLevel( window_, &soundManager_, 0 ) );
+                       new SurvivalLevel( window_, &soundManager_, 0, playerProfile_ ) );
             switchState( *level );
         },
         [this](){

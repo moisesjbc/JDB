@@ -25,8 +25,8 @@ namespace jdb {
  * 1. Initialization and destruction
  ***/
 
-CampaignLevel::CampaignLevel( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex ) :
-    Level( window, soundManager, levelIndex )
+CampaignLevel::CampaignLevel( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex, Profile& playerProfile ) :
+    Level( window, soundManager, levelIndex, playerProfile )
 {}
 
 

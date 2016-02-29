@@ -43,7 +43,7 @@ class Level : public GameState
         /***
          * 1. Construction
          ***/
-        Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex );
+        Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex, Profile& playerProfile );
 
 
         /***
@@ -107,6 +107,12 @@ class Level : public GameState
         void initGUI();
 
 
+        /***
+         * Player profile management
+         ***/
+        void updateAndSavePlayerProfile();
+
+
     protected:
         /***
          * Attributes
@@ -143,6 +149,8 @@ class Level : public GameState
         mutable sf::Text progressText_;
 
         unsigned int nDangersRemoved_ = 0;
+
+        Profile& playerProfile_;
 
     private:
         // Variables used for sandwich reseting.
