@@ -20,40 +20,30 @@
 #ifndef END_OF_DEMO_SCREEN_HPP
 #define END_OF_DEMO_SCREEN_HPP
 
-#include "game_state.hpp"
+#include <game_states/gui_menu.hpp>
 #include <TGUI/TGUI.hpp>
 
 namespace jdb {
 
-class EndOfDemoScreen : public GameState
+class EndOfDemoScreen : public GUIMenu
 {
     public:
         /***
-         * 1. Construction
+         * Construction
          ***/
         EndOfDemoScreen( sf::RenderWindow& window, const GameState& parentGameState );
 
 
     protected:
         /***
-         * 2. GameState interface
+         * GUIMenu interface
          ***/
-        virtual void init();
-        virtual void handleEvents();
-        virtual void update( unsigned int ms );
-        virtual void pause();
-        virtual void resume();
-
-
-        /***
-         * 3. Drawable interface
-         ***/
-        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+        virtual void initGUI(tgui::Gui& gui);
 
 
     private:
         /***
-         * 4. Auxiliar initialization methods
+         * Auxiliar initialization methods
          ***/
         std::wstring readEndOfDemoText();
 
@@ -62,7 +52,6 @@ class EndOfDemoScreen : public GameState
          * Attributes
          ***/
         const GameState& parentGameState_;
-        mutable tgui::Gui gui_;
 };
 
 } // namespace jdb
