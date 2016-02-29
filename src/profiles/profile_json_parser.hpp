@@ -17,48 +17,32 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
+#ifndef PROFILE_JSON_PARSER_HPP
+#define PROFILE_JSON_PARSER_HPP
 
 #include <profiles/profile.hpp>
+#include <utilities/json.hpp>
+using json = nlohmann::json;
 
 namespace jdb {
 
-/***
- * Construction
- ***/
-
-Profile::Profile(const std::string& name) :
-    name_(name),
-    nextCampaignLevel_(0)
+class ProfileJSONParser
 {
-    if(name.length() < 3){
-        throw std::invalid_argument("Profile name with less than 3 characters not allowed");
-    }
-}
+    public:
+        /***
+         * Writting to JSON
+         ***/
+        json writeToJSON(Profile& profile);
+        void writeToJSON(Profile& profile, std::string filePath);
 
 
-/***
- * Getters
- ***/
-
-std::string Profile::name() const
-{
-    return name_;
-}
-
-
-unsigned int Profile::nextCampaignLevel() const
-{
-    return nextCampaignLevel_;
-}
-
-
-/***
- * Setters
- ***/
-
-void Profile::setNextCampaignLevel(unsigned int nextCampaignLevel)
-{
-    nextCampaignLevel_ = nextCampaignLevel;
-}
+        /***
+         * Reading from JSON
+         ***/
+        Profile readFromJSON(json profileJSON);
+        Profile readFromJSON(std::string filePath);
+};
 
 } // namespace jdb
+
+#endif // PROFILE_JSON_PARSER_HPP

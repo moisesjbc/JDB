@@ -17,48 +17,33 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
+#include <profiles/profile_json_parser.hpp>
+#include <gtest/gtest.h>
 
-#include <profiles/profile.hpp>
 
-namespace jdb {
-
-/***
- * Construction
- ***/
-
-Profile::Profile(const std::string& name) :
-    name_(name),
-    nextCampaignLevel_(0)
+TEST(ProfileJSONParserTest, ProfileIsWrittenToJSON)
 {
-    if(name.length() < 3){
-        throw std::invalid_argument("Profile name with less than 3 characters not allowed");
+    jdb::ProfileJSONParser profileParser;
+    jdb::Profile profile("profile-name");
+    json profileJSON = profileParser.writeToJSON(profile);
+
+    EXPECT_EQ("profile-name", profileJSON["name"]);
+    EXPECT_EQ(0, profileJSON["next_campaign_level"]);
+}
+
+
+TEST(ProfileJSONParserTest, ProfileIsReadFromJSON)
+{
+    json profileJSON = R"(
+    {
+        "name": "awesome-player",
+        "next_campaign_level": 5
     }
+    )"_json;
+
+    jdb::ProfileJSONParser profileParser;
+    jdb::Profile profile = profileParser.readFromJSON(profileJSON);
+
+    EXPECT_EQ("awesome-player", profile.name());
+    EXPECT_EQ(5, profile.nextCampaignLevel());
 }
-
-
-/***
- * Getters
- ***/
-
-std::string Profile::name() const
-{
-    return name_;
-}
-
-
-unsigned int Profile::nextCampaignLevel() const
-{
-    return nextCampaignLevel_;
-}
-
-
-/***
- * Setters
- ***/
-
-void Profile::setNextCampaignLevel(unsigned int nextCampaignLevel)
-{
-    nextCampaignLevel_ = nextCampaignLevel;
-}
-
-} // namespace jdb

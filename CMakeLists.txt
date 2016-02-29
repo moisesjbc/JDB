@@ -61,6 +61,7 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/game_states/game_state.cpp"
     "${SOURCE_DIR}/game_states/credits_screen.cpp"
     "${SOURCE_DIR}/profiles/profile.cpp"
+    "${SOURCE_DIR}/profiles/profile_json_parser.cpp"
     "${SOURCE_DIR}/game_states/gui_menu.cpp"
     "${SOURCE_DIR}/game_states/main_menu.cpp"
     "${SOURCE_DIR}/game_states/campaign_level_selection_menu.cpp"

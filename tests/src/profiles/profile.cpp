@@ -37,3 +37,12 @@ TEST(ProfileTest, nextCampaignLevelIsInitializedToZero)
     jdb::Profile profile("profile-name");
     EXPECT_EQ(0, profile.nextCampaignLevel());
 }
+
+
+
+TEST(ProfileTest, nextCampaignLevelSetterWorks)
+{
+    jdb::Profile profile("profile-name");
+    profile.setNextCampaignLevel(66);
+    EXPECT_EQ(66, profile.nextCampaignLevel());
+}

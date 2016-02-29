@@ -41,6 +41,12 @@ class Profile
         unsigned int nextCampaignLevel() const;
 
 
+        /***
+         * Setters
+         ***/
+        void setNextCampaignLevel(unsigned int nextCampaignLevel);
+
+
     private:
         std::string name_;
         unsigned int nextCampaignLevel_;
