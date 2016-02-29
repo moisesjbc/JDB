@@ -28,7 +28,11 @@ namespace jdb {
 
 Profile::Profile(const std::string& name) :
     name_(name)
-{}
+{
+    if(name.length() < 3){
+        throw std::invalid_argument("Profile name with less than 3 characters not allowed");
+    }
+}
 
 
 /***

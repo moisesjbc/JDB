@@ -21,6 +21,7 @@
 #define PROFILE_HPP
 
 #include <iostream>
+#include <stdexcept>
 
 namespace jdb {
 
