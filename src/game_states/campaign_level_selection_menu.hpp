@@ -44,6 +44,11 @@ class CampaignLevelSelectionMenu : public GUIMenu
         void initGUI(tgui::Gui &gui);
 
 
+        /***
+         * GameState interface
+         ***/
+        void resume();
+
     private:
         /***
          * Attributes
@@ -51,6 +56,7 @@ class CampaignLevelSelectionMenu : public GUIMenu
         SoundManager& soundManager_;
         unsigned int nLevels_;
         Profile& playerProfile_;
+        std::vector<tgui::Button::Ptr> playLevelButtons_;
 };
 
 } // namespace jdb

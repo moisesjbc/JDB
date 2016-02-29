@@ -50,16 +50,26 @@ void CampaignLevelSelectionMenu::initGUI(tgui::Gui &gui)
     layout->setSize( tgui::bindSize(gui) * 0.90f);
     layout->setPosition( tgui::bindSize(gui) * 0.05f );
 
+    playLevelButtons_.reserve(nLevels_);
+
     for(unsigned int levelIndex=0; levelIndex<nLevels_; levelIndex++){
         tgui::Button::Ptr playLevelButton = std::make_shared<tgui::Button>();
-        playLevelButton->setText( "Play level " + std::to_string(levelIndex) );
         playLevelButton->setTextSize( 20 );
+
+        playLevelButton->setText( "Play level " + std::to_string(levelIndex) );
         playLevelButton->connect( "pressed", [=](){
             std::unique_ptr< Level > level = std::unique_ptr< Level >(
                        new CampaignLevel( window_, &soundManager_, levelIndex, playerProfile_ ) );
             switchState( *level );
         } );
+
+        if(levelIndex > playerProfile_.nextCampaignLevel()){
+            playLevelButton->setText( playLevelButton->getText() + " [LOCKED]" );
+            playLevelButton->disable();
+        }
+
         layout->add(playLevelButton);
+        playLevelButtons_.push_back(playLevelButton);
         layout->insertSpace(999, 0.5f);
     }
 
@@ -70,6 +80,26 @@ void CampaignLevelSelectionMenu::initGUI(tgui::Gui &gui)
     layout->add(exitButton);
 
     gui.add(layout);
+}
+
+
+/***
+ * GameState interface
+ ***/
+
+void CampaignLevelSelectionMenu::resume()
+{
+    GUIMenu::resume();
+
+    // If player unlocked levels before returning to this menu,
+    // unlock their respective buttons.
+    for(unsigned int levelIndex=0; levelIndex<nLevels_; levelIndex++){
+        if(!playLevelButtons_[levelIndex]->isEnabled() && levelIndex <= playerProfile_.nextCampaignLevel()){
+            std::string buttonText = playLevelButtons_[levelIndex]->getText().toAnsiString();
+            playLevelButtons_[levelIndex]->setText(buttonText.substr(0, buttonText.size() - std::string(" [LOCKED]").size() ));
+            playLevelButtons_[levelIndex]->enable();
+        }
+    }
 }
 
 
