@@ -18,13 +18,14 @@
  ***/
 
 #include "main_menu.hpp"
-#include "../levels/campaign_level.hpp"
 #include "../levels/survival_level.hpp"
+#include "../levels/campaign_level.hpp"
 #include "credits_screen.hpp"
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <utilities/volume_control_panel.hpp>
 #include <utilities/version_string.hpp>
+#include <game_states/campaign_level_selection_menu.hpp>
 
 namespace jdb {
 
@@ -109,9 +110,8 @@ tgui::VerticalLayout::Ptr MainMenu::generateMenuLayout()
     const std::vector< std::function<void()> > callbacks =
     {
         [this](){
-            std::unique_ptr< Level > level = std::unique_ptr< Level >(
-                       new CampaignLevel( window_, &soundManager_, 0 ) );
-            switchState( *level );
+            CampaignLevelSelectionMenu levelSelectionMenu(window_, soundManager_, CampaignLevel::nLevels());
+            switchState( levelSelectionMenu );
         },
         [this](){
             std::unique_ptr< Level > level = std::unique_ptr< Level >(

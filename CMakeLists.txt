@@ -62,6 +62,7 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/game_states/credits_screen.cpp"
     "${SOURCE_DIR}/game_states/gui_menu.cpp"
     "${SOURCE_DIR}/game_states/main_menu.cpp"
+    "${SOURCE_DIR}/game_states/campaign_level_selection_menu.cpp"
     "${SOURCE_DIR}/game_states/game_over_screen.cpp"
     "${SOURCE_DIR}/utilities/sound_manager.cpp"
     "${SOURCE_DIR}/game_states/pause_menu.cpp"

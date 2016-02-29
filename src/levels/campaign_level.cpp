@@ -82,6 +82,27 @@ bool CampaignLevel::load( unsigned int index )
 
 
 /***
+ * Getters
+ ***/
+
+unsigned int CampaignLevel::nLevels()
+{
+    tinyxml2::XMLDocument xmlFile;
+    xmlFile.LoadFile( (DATA_DIR_PATH + "/config/levels.xml").c_str() );
+
+    // Get the total number of levels.
+    tinyxml2::XMLElement* levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "campaign_levels" )->FirstChildElement( "campaign_level" ) );
+    unsigned int nLevels = 0;
+    while( levelNode ){
+        levelNode = levelNode->NextSiblingElement( "campaign_level" );
+        nLevels++;
+    }
+
+    return nLevels;
+}
+
+
+/***
  * 3. Main loop
  ***/
 

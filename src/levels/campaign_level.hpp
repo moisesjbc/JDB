@@ -40,6 +40,12 @@ class CampaignLevel : public Level
 
 
         /***
+         * Getters
+         ***/
+        static unsigned int nLevels();
+
+
+        /***
          * 3. Main loop
          ***/
         virtual bool defeat() const;
