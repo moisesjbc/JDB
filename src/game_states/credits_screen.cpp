@@ -8,23 +8,21 @@ namespace jdb {
  ***/
 
 CreditsScreen::CreditsScreen( sf::RenderWindow& window ) :
-    GameState( window ),
-    gui_( window )
-{
-}
+    GUIMenu( window )
+{}
 
 
 /***
  * 2. GameState interface
  ***/
 
-void CreditsScreen::init()
+void CreditsScreen::initGUI(tgui::Gui &gui)
 {
-    gui_.setFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
+    gui.setFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
 
     tgui::VerticalLayout::Ptr layout = std::make_shared<tgui::VerticalLayout>();
-    layout->setSize( tgui::bindSize(gui_) * 0.90f);
-    layout->setPosition( tgui::bindSize(gui_) * 0.05f );
+    layout->setSize( tgui::bindSize(gui) * 0.90f);
+    layout->setPosition( tgui::bindSize(gui) * 0.05f );
 
     tgui::TextBox::Ptr textBox = std::make_shared<tgui::TextBox>();
     textBox->setReadOnly( true );
@@ -42,56 +40,7 @@ void CreditsScreen::init()
     layout->add(exitButton);
     layout->setRatio(exitButton, 1);
 
-    gui_.add(layout);
-}
-
-
-void CreditsScreen::handleEvents()
-{
-    sf::Event event;
-    if( window_.pollEvent( event ) ){
-        if( event.type == sf::Event::Closed ){
-            requestGameExit();
-        }else if( event.type == sf::Event::KeyPressed ){
-            if( event.key.code == sf::Keyboard::Escape ){
-                requestStateExit();
-            }
-        }else{
-            gui_.handleEvent( event );
-        }
-    }
-}
-
-
-void CreditsScreen::update(unsigned int ms)
-{
-
-}
-
-
-void CreditsScreen::pause()
-{
-
-}
-
-
-void CreditsScreen::resume()
-{
-
-}
-
-
-/***
- * 3. Drawable interface
- ***/
-
-void CreditsScreen::draw(sf::RenderTarget &target, sf::RenderStates states) const
-{
-    (void)( target );
-    (void)( states );
-    window_.clear( sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ) );
-
-    gui_.draw();
+    gui.add(layout);
 }
 
 

@@ -1,14 +1,14 @@
 #ifndef CREDITSSCREEN_HPP
 #define CREDITSSCREEN_HPP
 
-#include "game_state.hpp"
+#include <game_states/gui_menu.hpp>
 #include <TGUI/TGUI.hpp>
 #include "../paths.hpp"
 #include <utilities/unicode_file_reader.hpp>
 
 namespace jdb {
 
-class CreditsScreen : public GameState
+class CreditsScreen : public GUIMenu
 {
     public:
         /***
@@ -21,17 +21,7 @@ class CreditsScreen : public GameState
         /***
          * 2. GameState interface
          ***/
-        void init();
-        void handleEvents();
-        void update(unsigned int ms);
-        void pause();
-        void resume();
-
-
-        /***
-         * 3. Drawable interface
-         ***/
-        void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+        void initGUI(tgui::Gui &gui);
 
 
     private:
@@ -39,10 +29,6 @@ class CreditsScreen : public GameState
          * 4. Credits generation
          ***/
         std::wstring generateCredits() const;
-
-
-    private:
-        mutable tgui::Gui gui_;
 };
 
 } // namespace jdb
