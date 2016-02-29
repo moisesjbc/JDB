@@ -45,8 +45,15 @@ class GUIMenu : public GameState
 
     protected:
         /***
+         * Initialization
+         ***/
+        virtual void initGUI(tgui::Gui& gui) = 0;
+
+
+        /***
          * GameState interface
          ***/
+        void init();
         void handleEvents();
         void update(unsigned int ms);
         void pause();
@@ -63,6 +70,7 @@ class GUIMenu : public GameState
          * Attributes
          ***/
         SoundManager& soundManager_;
+    private:
         mutable tgui::Gui gui_;
 };
 

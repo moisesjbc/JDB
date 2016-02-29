@@ -41,9 +41,9 @@ MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
  * 3. GameState interface
  ***/
 
-void MainMenu::init()
+void MainMenu::initGUI(tgui::Gui& gui)
 {
-    gui_.setFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
+    gui.setFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
 
     tgui::Label::Ptr versionLabel =
         std::make_shared<tgui::Label>();
@@ -51,8 +51,8 @@ void MainMenu::init()
 
     tgui::VerticalLayout::Ptr globalLayout =
         std::make_shared<tgui::VerticalLayout>();
-    globalLayout->setSize(tgui::bindSize(gui_) * 0.9f);
-    globalLayout->setPosition(tgui::bindSize(gui_) * 0.05f);
+    globalLayout->setSize(tgui::bindSize(gui) * 0.9f);
+    globalLayout->setPosition(tgui::bindSize(gui) * 0.05f);
 
     globalLayout->add(generateTitleLayout());
     globalLayout->setRatio(0, 1.0f);
@@ -64,7 +64,7 @@ void MainMenu::init()
     globalLayout->setRatio(2, 0.5f);
     globalLayout->insertSpace(2, 0.1f);
 
-    gui_.add( globalLayout );
+    gui.add( globalLayout );
 }
 
 

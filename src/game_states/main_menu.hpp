@@ -46,9 +46,9 @@ class MainMenu : public GUIMenu
 
     protected:
         /***
-         * 3. GameState interface
+         * 3. GUIMenu interface
          ***/
-        virtual void init();
+        virtual void initGUI(tgui::Gui& gui);
 
 
         /***

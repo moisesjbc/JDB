@@ -36,6 +36,12 @@ GUIMenu::GUIMenu(sf::RenderWindow &window, SoundManager *soundManager) :
  * GameState interface
  ***/
 
+void GUIMenu::init()
+{
+    initGUI(gui_);
+}
+
+
 void GUIMenu::handleEvents()
 {
     sf::Event event;
