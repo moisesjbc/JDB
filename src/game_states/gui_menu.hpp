@@ -17,52 +17,55 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef MAIN_MENU_HPP
-#define MAIN_MENU_HPP
+#ifndef GUI_MENU_HPP
+#define GUI_MENU_HPP
 
-#include "game_state.hpp"
-#include <m2g/drawables/tile_sprite.hpp>
-#include <game_states/gui_menu.hpp>
+#include <game_states/game_state.hpp>
+#include <utilities/sound_manager.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <TGUI/TGUI.hpp>
 
 namespace jdb {
 
-class MainMenu : public GUIMenu
+class GUIMenu : public GameState
 {
     public:
         /***
-         * 1. Creation
-         ****/
-        MainMenu( sf::RenderWindow& window, SoundManager* soundManager );
+         * Construction
+         ***/
+        GUIMenu(sf::RenderWindow& window, SoundManager* soundManager);
 
 
         /***
-         * 2. Destruction
+         * Destruction
          ***/
-        virtual ~MainMenu() = default;
+        virtual ~GUIMenu() = default;
 
 
     protected:
         /***
-         * 3. GameState interface
+         * GameState interface
          ***/
-        virtual void init();
+        void handleEvents();
+        void update(unsigned int ms);
+        void pause();
+        void resume();
 
 
         /***
-         * 4. Auxiliar initialization methods
+         * Drawable interface
          ***/
-        tgui::VerticalLayout::Ptr generateTitleLayout() const;
-        tgui::VerticalLayout::Ptr generateMenuLayout();
+        void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 
-    private:
-        sf::Font font_;
-        sf::Text menuText_;
+        /***
+         * Attributes
+         ***/
+        SoundManager& soundManager_;
+        mutable tgui::Gui gui_;
 };
 
 } // namespace jdb
 
-#endif // MAIN_MENU_HPP
+#endif // GUI_MENU_HPP

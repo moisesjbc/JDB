@@ -60,6 +60,7 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/levels/campaign_level.cpp"
     "${SOURCE_DIR}/game_states/game_state.cpp"
     "${SOURCE_DIR}/game_states/credits_screen.cpp"
+    "${SOURCE_DIR}/game_states/gui_menu.cpp"
     "${SOURCE_DIR}/game_states/main_menu.cpp"
     "${SOURCE_DIR}/game_states/game_over_screen.cpp"
     "${SOURCE_DIR}/utilities/sound_manager.cpp"

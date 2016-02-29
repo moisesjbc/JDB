@@ -33,9 +33,7 @@ namespace jdb {
  ****/
 
 MainMenu::MainMenu( sf::RenderWindow& window, SoundManager* soundManager ) :
-    GameState( window ),
-    soundManager_( *soundManager ),
-    gui_( window )
+    GUIMenu(window, soundManager)
 {}
 
 
@@ -67,51 +65,6 @@ void MainMenu::init()
     globalLayout->insertSpace(2, 0.1f);
 
     gui_.add( globalLayout );
-}
-
-
-void MainMenu::handleEvents()
-{
-    sf::Event event;
-    std::unique_ptr< Level > level = nullptr;
-
-    if( window_.pollEvent( event ) ){
-        if( event.type == sf::Event::Closed ){
-            requestGameExit();
-        }else if( event.type == sf::Event::KeyPressed ){
-            if( event.key.code == sf::Keyboard::Escape ){
-                requestStateExit();
-            }
-        }else{
-            gui_.handleEvent( event );
-        }
-    }
-}
-
-
-void MainMenu::update( unsigned int ms )
-{
-    (void)( ms );
-}
-
-
-void MainMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const
-{
-    (void)( target );
-    (void)( states );
-    window_.clear( sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ) );
-
-    gui_.draw();
-}
-
-
-void MainMenu::pause()
-{
-}
-
-void MainMenu::resume()
-{
-    window_.setMouseCursorVisible( true );
 }
 
 
