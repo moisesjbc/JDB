@@ -39,17 +39,20 @@ class Profile
          ***/
         std::string name() const;
         unsigned int nextCampaignLevel() const;
+        unsigned int survivalRecordScore() const;
 
 
         /***
          * Setters
          ***/
         void setNextCampaignLevel(unsigned int nextCampaignLevel);
+        bool updateSurvivalRecordScore(unsigned int newScore);
 
 
     private:
         std::string name_;
         unsigned int nextCampaignLevel_;
+        unsigned int survivalRecordScore_;
 };
 
 } // namespace jdb

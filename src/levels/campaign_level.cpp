@@ -162,4 +162,14 @@ void CampaignLevel::loadGUIProgressPanel(m2g::GraphicsLibrary& guiGraphicsLibrar
     guiSprites.push_back( std::move( tileSprite ) );
 }
 
+
+bool CampaignLevel::updatePlayerProfile(Profile &playerProfile) const
+{
+    if(levelIndex_ > playerProfile.nextCampaignLevel()){
+        playerProfile.setNextCampaignLevel(levelIndex_);
+        return true;
+    }
+    return false;
+}
+
 } // namespace jdb

@@ -32,6 +32,7 @@ json jdb::ProfileJSONParser::writeToJSON(jdb::Profile &profile)
 
     profileJSON["name"] = profile.name();
     profileJSON["next_campaign_level"] = profile.nextCampaignLevel();
+    profileJSON["survival_record_score"] = profile.survivalRecordScore();
 
     return profileJSON;
 }
@@ -57,6 +58,7 @@ Profile ProfileJSONParser::readFromJSON(json profileJSON)
     Profile profile(profileName);
 
     profile.setNextCampaignLevel(profileJSON["next_campaign_level"]);
+    profile.updateSurvivalRecordScore(profileJSON["survival_record_score"]);
 
     return profile;
 }

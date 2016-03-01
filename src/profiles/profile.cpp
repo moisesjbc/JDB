@@ -28,7 +28,8 @@ namespace jdb {
 
 Profile::Profile(const std::string& name) :
     name_(name),
-    nextCampaignLevel_(0)
+    nextCampaignLevel_(0),
+    survivalRecordScore_(0)
 {
     if(name.length() < 3){
         throw std::invalid_argument("Profile name with less than 3 characters not allowed");
@@ -52,6 +53,12 @@ unsigned int Profile::nextCampaignLevel() const
 }
 
 
+unsigned int Profile::survivalRecordScore() const
+{
+    return survivalRecordScore_;
+}
+
+
 /***
  * Setters
  ***/
@@ -59,6 +66,17 @@ unsigned int Profile::nextCampaignLevel() const
 void Profile::setNextCampaignLevel(unsigned int nextCampaignLevel)
 {
     nextCampaignLevel_ = nextCampaignLevel;
+}
+
+
+bool Profile::updateSurvivalRecordScore(unsigned int newScore)
+{
+    if(newScore > survivalRecordScore_){
+        survivalRecordScore_ = newScore;
+        return true;
+    }else{
+        return false;
+    }
 }
 
 } // namespace jdb

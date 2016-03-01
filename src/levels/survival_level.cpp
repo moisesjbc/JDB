@@ -123,4 +123,10 @@ void SurvivalLevel::loadGUIProgressPanel(m2g::GraphicsLibrary& guiGraphicsLibrar
     guiSprites.push_back( std::move( tileSprite ) );
 }
 
+
+bool SurvivalLevel::updatePlayerProfile(Profile &playerProfile) const
+{
+    return playerProfile.updateSurvivalRecordScore(score());
+}
+
 } // namespace jdb

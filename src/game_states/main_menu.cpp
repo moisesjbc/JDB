@@ -72,7 +72,19 @@ void MainMenu::initGUI(tgui::Gui& gui)
 
 
 /***
- * 4. Auxiliar initialization methods
+ * 4. GameState interface
+ ***/
+
+void MainMenu::resume()
+{
+    GUIMenu::resume();
+    currentSurvivalRecordScoreLabel_->setText("Current record score: " +
+                                              std::to_string(playerProfile_.survivalRecordScore()));
+}
+
+
+/***
+ * 5. Auxiliar initialization methods
  ***/
 
 tgui::VerticalLayout::Ptr MainMenu::generateTitleLayout() const
@@ -140,6 +152,14 @@ tgui::VerticalLayout::Ptr MainMenu::generateMenuLayout()
         button->setText( buttonText );
 
         button->connect( "pressed", callbacks[buttonCallbackId] );
+        if(buttonCallbackId == 1){
+            currentSurvivalRecordScoreLabel_ =
+                std::make_shared<tgui::Label>();
+            currentSurvivalRecordScoreLabel_->setText("Current record score: " +
+                                                      std::to_string(playerProfile_.survivalRecordScore()));
+            button->setToolTip(currentSurvivalRecordScoreLabel_);
+            tgui::ToolTip::setTimeToDisplay(sf::Time::Zero);
+        }
         buttonCallbackId++;
 
         menuLayout->add( button );

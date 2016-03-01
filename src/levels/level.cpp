@@ -272,6 +272,12 @@ unsigned int Level::nSandwiches() const
 }
 
 
+unsigned int Level::score() const
+{
+    return levelScore_;
+}
+
+
 /***
  * 6. GameState interface
  ***/
@@ -429,7 +435,7 @@ void Level::update( unsigned int ms )
         LOG(INFO) << "Level::update() - Victory!";
         acumScore_ += levelScore_;
         levelIndex_++; // TODO: This should go inside "load()".
-        updateAndSavePlayerProfile();
+        updateAndSavePlayerProfile(playerProfile_);
         if( load( levelIndex_ ) ){
             reset();
         }else{
@@ -440,6 +446,7 @@ void Level::update( unsigned int ms )
         //init();
     }else if( defeat() ){
         LOG(INFO) << "Level::update() - Defeat!";
+        updateAndSavePlayerProfile(playerProfile_);
         std::unique_ptr<GameOverScreen> gameOverScreen( new GameOverScreen(window_, *this) );
         if( switchState(*gameOverScreen) == RETURN_TO_MAIN_MENU_REQUESTED ){
             requestStateExit(RETURN_TO_MAIN_MENU_REQUESTED);
@@ -507,16 +514,14 @@ void Level::resume()
 }
 
 
-/***
- * Player profile management
- ***/
-
-void Level::updateAndSavePlayerProfile()
+void Level::cleanUp()
 {
-    if(levelIndex_ > playerProfile_.nextCampaignLevel()){
-        playerProfile_.setNextCampaignLevel(levelIndex_);
-    }
+    updateAndSavePlayerProfile(playerProfile_);
+}
 
+
+void Level::savePlayerProfile(Profile &playerProfile) const
+{
     boost::filesystem::path savegamePath(SAVEGAME_PATH);
     LOG(INFO) << "Saving player profile to [" + savegamePath.string() + "]";
     if(!boost::filesystem::exists(savegamePath.parent_path())){
@@ -524,7 +529,15 @@ void Level::updateAndSavePlayerProfile()
     }
 
     ProfileJSONParser profileParser;
-    profileParser.writeToJSON(playerProfile_, savegamePath.string());
+    profileParser.writeToJSON(playerProfile, savegamePath.string());
+}
+
+
+void Level::updateAndSavePlayerProfile(Profile &playerProfile) const
+{
+    if(updatePlayerProfile(playerProfile)){
+        savePlayerProfile(playerProfile);
+    }
 }
 
 } // namespace jdb

@@ -46,3 +46,29 @@ TEST(ProfileTest, nextCampaignLevelSetterWorks)
     profile.setNextCampaignLevel(66);
     EXPECT_EQ(66, profile.nextCampaignLevel());
 }
+
+
+TEST(ProfileTest, survivalRecordScoreIsUpdatedWithBiggerScores)
+{
+    jdb::Profile profile("profile-name");
+    EXPECT_EQ(0, profile.survivalRecordScore());
+    EXPECT_EQ(true, profile.updateSurvivalRecordScore(55));
+    EXPECT_EQ(55, profile.survivalRecordScore());
+    EXPECT_EQ(true, profile.updateSurvivalRecordScore(70));
+    EXPECT_EQ(70, profile.survivalRecordScore());
+}
+
+
+TEST(ProfileTest, survivalRecordScoreIsNotUpdatedWithSmallerScores)
+{
+    jdb::Profile profile("profile-name");
+    unsigned int bestSurvivalRecordScore = 55;
+    profile.updateSurvivalRecordScore(bestSurvivalRecordScore);
+    EXPECT_EQ(bestSurvivalRecordScore, profile.survivalRecordScore());
+
+    EXPECT_EQ(false, profile.updateSurvivalRecordScore(30));
+    EXPECT_EQ(bestSurvivalRecordScore, profile.survivalRecordScore());
+
+    EXPECT_EQ(false, profile.updateSurvivalRecordScore(45));
+    EXPECT_EQ(bestSurvivalRecordScore, profile.survivalRecordScore());
+}

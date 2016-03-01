@@ -53,7 +53,13 @@ class MainMenu : public GUIMenu
 
 
         /***
-         * 4. Auxiliar initialization methods
+         * 4. GameState interface
+         ***/
+        virtual void resume();
+
+
+        /***
+         * 5. Auxiliar initialization methods
          ***/
         tgui::VerticalLayout::Ptr generateTitleLayout() const;
         tgui::VerticalLayout::Ptr generateMenuLayout();
@@ -64,6 +70,7 @@ class MainMenu : public GUIMenu
         sf::Text menuText_;
         SoundManager& soundManager_;
         Profile& playerProfile_;
+        tgui::Label::Ptr currentSurvivalRecordScoreLabel_;
 };
 
 } // namespace jdb

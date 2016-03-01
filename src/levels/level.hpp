@@ -81,6 +81,7 @@ class Level : public GameState
         int getSeconds() const ;
         unsigned int levelIndex() const;
         unsigned int nSandwiches() const;
+        unsigned int score() const;
 
         virtual void resetLevelTime() = 0;
         virtual void updateLevelTime( unsigned int ms ) = 0;
@@ -98,6 +99,7 @@ class Level : public GameState
         virtual void update( unsigned int ms );
         virtual void pause();
         virtual void resume();
+        virtual void cleanUp();
 
 
     private:
@@ -110,7 +112,9 @@ class Level : public GameState
         /***
          * Player profile management
          ***/
-        void updateAndSavePlayerProfile();
+        virtual bool updatePlayerProfile(Profile& playerProfile) const = 0;
+        void savePlayerProfile(Profile& playerProfile) const;
+        void updateAndSavePlayerProfile(Profile &playerProfile) const;
 
 
     protected:

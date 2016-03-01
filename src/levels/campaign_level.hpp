@@ -65,6 +65,8 @@ class CampaignLevel : public Level
         virtual void loadGUIProgressPanel(m2g::GraphicsLibrary& guiGraphicsLibrary,
                                           std::vector<m2g::TilesetPtr>& guiTilesets,
                                           std::vector<m2g::TileSpritePtr>& guiSprites) const;
+    private:
+        bool updatePlayerProfile(Profile &playerProfile) const;
 };
 
 } // namespace jdb
