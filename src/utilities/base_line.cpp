@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "base_line.hpp"
+#include <utilities/base_line.hpp>
 
 namespace jdb {
 

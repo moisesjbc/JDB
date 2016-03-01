@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "campaign_level.hpp"
+#include <levels/campaign_level.hpp>
 
 namespace jdb {
 

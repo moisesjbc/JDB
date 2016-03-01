@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "danger.hpp"
+#include <dangers/danger.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace jdb {

@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "conveyor_belt.hpp"
+#include <levels/conveyor_belt.hpp>
 
 namespace jdb {
 

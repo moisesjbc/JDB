@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "pause_menu.hpp"
+#include <game_states/pause_menu.hpp>
 #include <SFML/Window/Event.hpp>
 #include <TGUI/Widgets/Button.hpp>
 #include <string>

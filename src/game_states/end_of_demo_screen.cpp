@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "end_of_demo_screen.hpp"
+#include <game_states/end_of_demo_screen.hpp>
 #include <paths.hpp>
 #include <boost/filesystem.hpp>
 #include <utilities/unicode_file_reader.hpp>

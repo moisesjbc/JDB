@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "tool.hpp"
+#include <tools/tool.hpp>
 #include <map>
 #include <SFML/Window/Mouse.hpp>
 #include <paths.hpp>

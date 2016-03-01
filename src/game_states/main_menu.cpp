@@ -17,10 +17,10 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "main_menu.hpp"
-#include "../levels/survival_level.hpp"
-#include "../levels/campaign_level.hpp"
-#include "credits_screen.hpp"
+#include <game_states/main_menu.hpp>
+#include <levels/survival_level.hpp>
+#include <levels/campaign_level.hpp>
+#include "game_states/credits_screen.hpp"
 #include <SFML/Window.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <utilities/volume_control_panel.hpp>

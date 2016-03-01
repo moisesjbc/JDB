@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "sound_manager.hpp"
+#include <utilities/sound_manager.hpp>
 #include <boost/filesystem.hpp>
 #include <paths.hpp>
 

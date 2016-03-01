@@ -1,4 +1,4 @@
-#include "credits_screen.hpp"
+#include <game_states/credits_screen.hpp>
 #include <boost/filesystem.hpp>
 
 namespace jdb {

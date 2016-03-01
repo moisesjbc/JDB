@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "danger_state.hpp"
+#include <dangers/danger_state.hpp>
 
 
 /***

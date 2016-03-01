@@ -17,9 +17,9 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "level_intro.hpp"
+#include <game_states/level_intro.hpp>
 #include <SFML/Window/Event.hpp>
-#include "../utilities/level_book.hpp"
+#include <utilities/level_book.hpp>
 #include <dangers/danger_data_parser.hpp>
 #include <paths.hpp>
 

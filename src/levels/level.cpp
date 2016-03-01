@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "level.hpp"
+#include <levels/level.hpp>
 #include <tinyxml2.h>
 #include <algorithm>
 #include <game_states/end_of_demo_screen.hpp>

@@ -1,4 +1,4 @@
-#include "game_over_screen.hpp"
+#include <game_states/game_over_screen.hpp>
 #include <paths.hpp>
 
 namespace jdb {

@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "sandwich.hpp"
+#include <sandwiches/sandwich.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace jdb {

@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "survival_level.hpp"
+#include <levels/survival_level.hpp>
 
 namespace jdb {
 

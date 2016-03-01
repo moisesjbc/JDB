@@ -33,13 +33,14 @@ else( BUILD_USING_MXE )
 endif( BUILD_USING_MXE )
 
 set( SOURCE_DIR "${CMAKE_BINARY_DIR}/src" )
+set( INCLUDE_DIR "${CMAKE_BINARY_DIR}/include" )
 
-include_directories( "${SOURCE_DIR}" )
+include_directories( "${INCLUDE_DIR}" )
 
 # main_menu.cpp displays the game version, so we update it here.
 configure_file(
-    "${SOURCE_DIR}/utilities/version_string.hpp.in"
-    "${SOURCE_DIR}/utilities/version_string.hpp"
+    "${INCLUDE_DIR}/utilities/version_string.hpp.in"
+    "${INCLUDE_DIR}/utilities/version_string.hpp"
 )
 
 set( SOURCE_FILES

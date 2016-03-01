@@ -1,4 +1,4 @@
-#include "volume_control_panel.hpp"
+#include <utilities/volume_control_panel.hpp>
 #include <SFML/Audio/Listener.hpp>
 
 namespace jdb {

@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "texture_picture.hpp"
+#include <utilities/texture_picture.hpp>
 
 namespace jdb {
 

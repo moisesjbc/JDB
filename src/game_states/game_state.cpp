@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "game_state.hpp"
+#include <game_states/game_state.hpp>
 
 namespace jdb {
 

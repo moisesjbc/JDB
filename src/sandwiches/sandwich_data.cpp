@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "sandwich_data.hpp"
+#include <sandwiches/sandwich_data.hpp>
 
 namespace jdb {
 

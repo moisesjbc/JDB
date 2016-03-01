@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "player_action_response.hpp"
+#include <dangers/player_action_response.hpp>
 #include <sstream>
 #include <iostream>
 

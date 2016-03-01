@@ -17,7 +17,7 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#include "level_book.hpp"
+#include <utilities/level_book.hpp>
 #include <paths.hpp>
 
 namespace jdb {
