@@ -81,7 +81,7 @@ void Danger::setState( int newState )
  * 4. Updating
  ***/
 
-void Danger::update( unsigned int ms )
+void Danger::update( unsigned int ms, unsigned int& playerScore )
 {
     m2g::Animation::update( ms );
     if( appearanceAnimation ){
@@ -112,6 +112,12 @@ void Danger::update( unsigned int ms )
             timeElapsedFromLastTimeout = 0;
             currentTimeout =
                     dangerData->states[state].stateTimeTransition->generateTimeout();
+            if( (int)playerScore + dangerData->states[state].stateTimeTransition->playerScoreVariation >= 0 ){
+                playerScore += dangerData->states[state].stateTimeTransition->playerScoreVariation;
+            }else{
+                playerScore = 0;
+            }
+
             if(dangerData->states[state].stateTimeTransition->newDanger != -1){
                 setDangerData(
                         dangerData->dangersDataVector[dangerData->states[state].stateTimeTransition->newDanger],

@@ -72,7 +72,7 @@ class Sandwich : public m2g::Animation
         /***
          * 5. Updating
          ***/
-        virtual void update( unsigned int ms );
+        virtual void update( unsigned int ms, unsigned int& playerScore );
         bool useTool( PlayerAction playerAction,
                       TileSprite* tool,
                       unsigned int& score,

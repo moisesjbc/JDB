@@ -416,7 +416,7 @@ void Level::update( unsigned int ms )
     // Update the sandwiches
     LOG(INFO) << "Level::update() - Updating sandwiches";
     for( i=0; i < sandwiches.size(); i++ ){
-        sandwiches[i]->update( ms );
+        sandwiches[i]->update( ms, levelScore_ );
     }
 
     // Move the sandwiches

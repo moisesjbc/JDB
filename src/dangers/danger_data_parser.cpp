@@ -87,11 +87,17 @@ StateTimeTransition DangerDataParser::ParseStateTimeTransition(json jsonObject, 
         newState = jsonObject["new_state"];
     }
 
+    int playerScoreVariation = 0;
+    if(jsonObject["player_score_variation"] != nullptr){
+        playerScoreVariation = jsonObject["player_score_variation"];
+    }
+
     StateTimeTransition stateTimeTransition(
         jsonObject["min_timeout"],
         jsonObject["max_timeout"],
         newState,
         newDanger,
+        playerScoreVariation,
         std::move(appearanceAnimationData)
     );
 

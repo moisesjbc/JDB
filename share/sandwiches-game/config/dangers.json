@@ -902,6 +902,11 @@
                             }
                         }
                     ],
+                    "state_time_transition": {
+		                "min_timeout": 1000,
+		                "max_timeout": 1000,
+		                "player_score_variation": -5
+	                },
                     "stun": {
                         "type": "bite",
                         "tools": ["hand"]
