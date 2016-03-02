@@ -209,4 +209,21 @@
             <animation_state first_frame="2" last_frame="2" back_frame="2" />
 		</animation_states>
 	</animation>
+
+
+    <!-- Queen rat 01 -->
+	<animation fps="10">
+		<tileset>
+			<src>queen_rat_01.png</src>
+			<tile_dimensions width="128" height="256"/>
+			<collision_rects>
+				<collision_rect tiles="0-1" x="14" y="31" width="102" height="207" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state first_frame="0" last_frame="0" back_frame="0" />
+			<animation_state first_frame="1" last_frame="1" back_frame="1" />
+			<animation_state first_frame="2" last_frame="2" back_frame="2" />
+		</animation_states>
+	</animation>
 </library>

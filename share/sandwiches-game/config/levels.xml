@@ -69,6 +69,26 @@
                 <danger ratio="2" present_to_player="true">broken_bottle</danger>
             </dangers>
 		</campaign_level>
+
+
+        <!-- Campaign level 05 -->
+		<campaign_level>
+			<speed initial="6.5" step="0.5" time_lapse="10" />
+            <dangers number="100">
+                <danger ratio="1">fire</danger>
+                <danger ratio="1">ice_crystals</danger>
+                <danger ratio="1">rat</danger>
+                <danger ratio="1">knife</danger>
+                <danger ratio="1">shell</danger>
+                <danger ratio="1">coward_hypnotist_rat</danger>
+                <danger ratio="1">enigma_bomb</danger>
+                <danger ratio="0.5">medic_kit</danger>
+                <danger ratio="1">tesla_coils</danger>
+                <danger ratio="1">petards</danger>
+                <danger ratio="1">broken_bottle</danger>
+                <danger ratio="2" present_to_player="true">queen_rat</danger>
+            </dangers>
+		</campaign_level>
 	</campaign_levels>
 
 
@@ -92,6 +112,7 @@
                 <danger ratio="1">tesla_coils</danger>
                 <danger ratio="1">petards</danger>
                 <danger ratio="1">broken_bottle</danger>
+                <danger ratio="1">queen_rat</danger>
             </dangers>
 		</survival_level>
 	</survival_levels>
