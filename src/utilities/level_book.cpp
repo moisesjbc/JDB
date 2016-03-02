@@ -63,6 +63,9 @@ LevelBook::LevelBook() :
 void LevelBook::addPage( const sf::String &text,
                          std::unique_ptr<tgui::Texture> texture)
 {
+    if(texture != nullptr){
+        texture->setTextureRect(sf::FloatRect(0.0f, 0.0f, picture_->getSize().x, picture_->getSize().y));
+    }
     pages_.emplace_back( text, std::move( texture ) );
     if( pages_.size() == 1 ){
         setPage( 0 );
