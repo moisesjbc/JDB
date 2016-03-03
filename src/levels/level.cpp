@@ -366,17 +366,15 @@ void Level::handleEvents()
 
 void Level::update( unsigned int ms )
 {
-    LOG(INFO) << "Level::update() - Updating level time";
+    LOG(INFO) << "Level::update()";
     updateLevelTime( ms );
 
     unsigned int i;
 
-    LOG(INFO) << "Level::update() - Processing stuns";
     tool_->applyStun( sandwiches );
 
     // Game logic: Check if the first sandwich reached the
     // sandwiches' end point and, in that case, restart it.
-    LOG(INFO) << "Level::update() - Checking first sandwich destruction";
     if( sandwiches[firstSandwich]->getBoundaryBox().left < SANDWICHES_END_POINT ){
         // Hurt Jacob! (muahahaha!)
         jacobHp_ -= sandwiches[firstSandwich]->getDamage();
@@ -410,11 +408,9 @@ void Level::update( unsigned int ms )
         }
     }
 
-    LOG(INFO) << "Level::update() - Updating conveyor belt";
     conveyorBelt_.update( ms );
 
     // Update the sandwiches
-    LOG(INFO) << "Level::update() - Updating sandwiches";
     for( i=0; i < sandwiches.size(); i++ ){
         sandwiches[i]->update( ms, levelScore_ );
     }
@@ -427,12 +423,9 @@ void Level::update( unsigned int ms )
     }
 
     // Update the tool
-    LOG(INFO) << "Level::update() - Updating tool";
     tool_->update( ms );
 
-    LOG(INFO) << "Level::update() - Checking victory / defeat conditions";
     if( victory() ){
-        LOG(INFO) << "Level::update() - Victory!";
         acumScore_ += levelScore_;
         levelIndex_++; // TODO: This should go inside "load()".
         updateAndSavePlayerProfile(playerProfile_);
@@ -445,7 +438,6 @@ void Level::update( unsigned int ms )
         }
         //init();
     }else if( defeat() ){
-        LOG(INFO) << "Level::update() - Defeat!";
         updateAndSavePlayerProfile(playerProfile_);
         std::unique_ptr<GameOverScreen> gameOverScreen( new GameOverScreen(window_, *this) );
         if( switchState(*gameOverScreen) == RETURN_TO_MAIN_MENU_REQUESTED ){
@@ -453,7 +445,6 @@ void Level::update( unsigned int ms )
         }
         reset();
     }else if( quitLevel_ ){
-        LOG(INFO) << "Level::update() - Level quit requested!";
         requestStateExit();
     }
 }
