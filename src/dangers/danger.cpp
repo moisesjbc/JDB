@@ -46,6 +46,12 @@ DangerDataPtr Danger::getDangerData() const
 }
 
 
+bool Danger::onScreen() const
+{
+    return (getPosition().x + dangerData->baseLine.x) < WINDOW_WIDTH;
+}
+
+
 /***
  * 3. Setters
  ***/
@@ -104,7 +110,7 @@ void Danger::update( unsigned int ms, unsigned int& playerScore )
     // Check if we have any time-based state transition and apply it if
     // applicable.
     static unsigned int timeElapsedFromLastTimeout = 0;
-    if( dangerData->states[state].stateTimeTransition != nullptr ){
+    if( dangerData->states[state].stateTimeTransition != nullptr && onScreen() ){
         static unsigned int currentTimeout =
                 dangerData->states[state].stateTimeTransition->generateTimeout();
 

@@ -32,6 +32,9 @@ const unsigned int FPS = 25;
 const unsigned int REFRESH_TIME = 1000 / FPS;
 const float FPS_INVERSE = 1.0f / FPS;
 
+const int WINDOW_WIDTH = 1024;
+const int WINDOW_HEIGHT = 768;
+
 class Danger : public m2g::Animation
 {
     private:
@@ -58,6 +61,7 @@ class Danger : public m2g::Animation
          ***/
         float getDamage() const ;
         DangerDataPtr getDangerData() const ;
+        bool onScreen() const;
 
 
         /***
