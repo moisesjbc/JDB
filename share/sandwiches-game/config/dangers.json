@@ -22,11 +22,11 @@
                         {
                             "conditions": {
                                 "player_action": "extinguisher_on",
-                                "danger_min_hp": 10,
+                                "danger_min_hp": 15,
                                 "danger_max_hp": 100
                             },
                             "consequences": {
-                                "danger_hp_variation": -5,
+                                "danger_hp_variation": -10,
                                 "new_state": -1,
                                 "new_danger": -1
                             }
@@ -35,7 +35,7 @@
                             "conditions": {
                                 "player_action": "extinguisher_on",
                                 "danger_min_hp": 0,
-                                "danger_max_hp": 9
+                                "danger_max_hp": 14
                             },
                             "consequences": {
                                 "danger_hp_variation": "all",
