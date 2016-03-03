@@ -13,7 +13,7 @@
                 <page>Don't worry about saving the game. It is saved automatically at the end of every level.</page>
                 <page>That's it! Let's see which dangers you'll have to face on this level...</page>
             </level_book>
-			<speed initial="5.0" step="0.5" time_lapse="20" />
+			<speed initial="5.0" step="0.2" time_lapse="10" />
             <dangers number="45">
                 <danger ratio="1" present_to_player="true">fire</danger>
                 <danger ratio="1" present_to_player="true">ice_crystals</danger>
@@ -24,7 +24,7 @@
 
 		<!-- Campaign level 02 -->
 		<campaign_level>
-			<speed initial="6.0" step="0.5" time_lapse="10" />
+			<speed initial="6.0" step="0.2" time_lapse="10" />
             <dangers number="50">
                 <danger ratio="1">fire</danger>
                 <danger ratio="1">ice_crystals</danger>
@@ -37,7 +37,7 @@
 
 		<!-- Campaign level 03 -->
 		<campaign_level>
-			<speed initial="6.5" step="0.5" time_lapse="10" />
+			<speed initial="6.0" step="0.2" time_lapse="10" />
             <dangers number="55">
                 <danger ratio="1">fire</danger>
                 <danger ratio="1">ice_crystals</danger>
@@ -54,7 +54,7 @@
 
         <!-- Campaign level 04 -->
 		<campaign_level>
-			<speed initial="6.5" step="0.5" time_lapse="10" />
+			<speed initial="6.0" step="0.2" time_lapse="10" />
             <dangers number="60">
                 <danger ratio="1">fire</danger>
                 <danger ratio="1">ice_crystals</danger>
@@ -73,7 +73,7 @@
 
         <!-- Campaign level 05 -->
 		<campaign_level>
-			<speed initial="6.5" step="0.5" time_lapse="10" />
+			<speed initial="6.0" step="0.2" time_lapse="10" />
             <dangers number="65">
                 <danger ratio="1">fire</danger>
                 <danger ratio="1">ice_crystals</danger>
