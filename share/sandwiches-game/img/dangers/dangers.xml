@@ -226,4 +226,21 @@
 			<animation_state first_frame="2" last_frame="2" back_frame="2" />
 		</animation_states>
 	</animation>
+
+
+    <!-- Hive rat 01 -->
+	<animation fps="10">
+		<tileset>
+			<src>hive_01.png</src>
+			<tile_dimensions width="128" height="128"/>
+			<collision_rects>
+				<collision_rect tiles="0-6" x="31" y="19" width="72" height="87" />
+			</collision_rects>
+		</tileset>
+		<animation_states>
+			<animation_state first_frame="0" last_frame="5" back_frame="0" />
+            <animation_state first_frame="6" last_frame="6" back_frame="6" />
+            <animation_state first_frame="7" last_frame="7" back_frame="7" />
+		</animation_states>
+	</animation>
 </library>

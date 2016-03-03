@@ -87,6 +87,7 @@
                 <danger ratio="1">petards</danger>
                 <danger ratio="1">broken_bottle</danger>
                 <danger ratio="2" present_to_player="true">queen_rat</danger>
+                <danger ratio="2" present_to_player="true">hive</danger>
             </dangers>
 		</campaign_level>
 	</campaign_levels>
@@ -113,6 +114,7 @@
                 <danger ratio="1">petards</danger>
                 <danger ratio="1">broken_bottle</danger>
                 <danger ratio="1">queen_rat</danger>
+                <danger ratio="1">hive</danger>
             </dangers>
 		</survival_level>
 	</survival_levels>
