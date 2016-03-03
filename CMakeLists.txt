@@ -19,6 +19,12 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     endif()
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
+# Disable logs in release mode.
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+    message("Disabling logs")
+    add_compile_options( "-DELPP_DISABLE_LOGS" )
+endif()
+
 # Common libraries
 link_directories("${CMAKE_SOURCE_DIR}/third-party/ubuntu_14_04_x86_64/lib")
 include_directories("${CMAKE_SOURCE_DIR}/third-party/ubuntu_14_04_x86_64/include")
