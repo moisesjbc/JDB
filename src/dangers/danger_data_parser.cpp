@@ -72,7 +72,7 @@ BaseLine DangerDataParser::ParseBaseLine(json jsonObject)
 
 StateTimeTransition DangerDataParser::ParseStateTimeTransition(json jsonObject, m2g::GraphicsLibrary& graphicsLibrary) const
 {
-    int newDanger = -1;
+    DangerID newDanger = DANGER_NULL_ID;
     m2g::AnimationDataPtr appearanceAnimationData = nullptr;
     if(jsonObject["new_danger"] != nullptr){
         newDanger = jsonObject["new_danger"]["id"];

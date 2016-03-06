@@ -124,9 +124,13 @@ void Danger::update( unsigned int ms, unsigned int& playerScore )
                 playerScore = 0;
             }
 
-            if(dangerData->states[state].stateTimeTransition->newDanger != -1){
+            if(dangerData->states[state].stateTimeTransition->newDanger != DANGER_NULL_ID){
+                DangerDataPtr newDangerData =
+                    *std::find_if(dangerData->dangersDataVector.begin(), dangerData->dangersDataVector.end(), [=](DangerDataPtr currentDangerData){
+                        return currentDangerData->id == dangerData->states[state].stateTimeTransition->newDanger;
+                    });
                 setDangerData(
-                        dangerData->dangersDataVector[dangerData->states[state].stateTimeTransition->newDanger],
+                        newDangerData,
                         dangerData->states[state].stateTimeTransition->appearanceAnimationData.get()
                     );
             }else if(dangerData->states[state].stateTimeTransition->newState != -1){
@@ -194,10 +198,12 @@ bool Danger::playerAction( PlayerAction playerAction,
             setState( playerActionResponse->newState );
         }
 
-        if( playerActionResponse->newDanger != -1 ){
+        if( playerActionResponse->newDanger != DANGER_NULL_ID ){
             // FIXME: Duplicated code.
             DangerDataPtr newDangerData =
-                    dangerData->dangersDataVector[ rand() % dangerData->dangersDataVector.size() ];
+                    *std::find_if(dangerData->dangersDataVector.begin(), dangerData->dangersDataVector.end(), [=](DangerDataPtr currentDangerData){
+                        return currentDangerData->id == playerActionResponse->newDanger;
+                    });
             move( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
                        dangerData->baseLine.y - newDangerData->baseLine.y );
             setDangerData( newDangerData );

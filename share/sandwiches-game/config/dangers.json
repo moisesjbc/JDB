@@ -28,7 +28,7 @@
                             "consequences": {
                                 "danger_hp_variation": -10,
                                 "new_state": -1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -40,7 +40,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ],
@@ -84,7 +84,7 @@
                             "consequences": {
                                 "danger_hp_variation": -5,
                                 "new_state": -1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -96,7 +96,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ],
@@ -140,7 +140,7 @@
                             "consequences": {
                                 "danger_hp_variation": -75,
                                 "new_state": 1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ],
@@ -161,7 +161,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 2,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -201,7 +201,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -241,7 +241,7 @@
                             "consequences": {
                                 "danger_hp_variation": -10,
                                 "new_state": 1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -253,7 +253,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 8,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -270,7 +270,7 @@
                             "consequences": {
                                 "danger_hp_variation": -10,
                                 "new_state": 2,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -282,7 +282,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 8,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -299,7 +299,7 @@
                             "consequences": {
                                 "danger_hp_variation": -10,
                                 "new_state": 3,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -311,7 +311,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 8,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -328,7 +328,7 @@
                             "consequences": {
                                 "danger_hp_variation": -10,
                                 "new_state": 4,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -340,7 +340,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 8,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -357,7 +357,7 @@
                             "consequences": {
                                 "danger_hp_variation": -10,
                                 "new_state": 5,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -369,7 +369,7 @@
                             "consequences": {
                                 "danger_hp_variation": -10,
                                 "new_state": 6,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -381,7 +381,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 8,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -398,7 +398,7 @@
                             "consequences": {
                                 "danger_hp_variation": -10,
                                 "new_state": 8,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -410,7 +410,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 8,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -427,7 +427,7 @@
                             "consequences": {
                                 "danger_hp_variation": -10,
                                 "new_state": 7,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -439,7 +439,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 8,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -456,7 +456,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 8,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -496,7 +496,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 3,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
 				        {
@@ -508,7 +508,7 @@
                             "consequences": {
                                 "danger_hp_variation": -15,
                                 "new_state": 2,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ],
@@ -534,7 +534,7 @@
                             "consequences": {
                                 "danger_hp_variation": -15,
                                 "new_state": 2,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ],
@@ -556,7 +556,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 3,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -630,7 +630,7 @@
                             "consequences": {
                                 "danger_hp_variation": -5,
                                 "new_state": -1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
 				        {
@@ -642,7 +642,7 @@
                             "consequences": {
                                 "danger_hp_variation": -50,
                                 "new_state": 1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
 				        {
@@ -654,7 +654,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 2,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -699,7 +699,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 1,
-                                "new_danger": -1,
+                                "new_danger": "",
                                 "player_hp_bonus": 30
                             }
                         }
@@ -740,7 +740,7 @@
                             "consequences": {
                                 "danger_hp_variation": -10,
                                 "new_state": -1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -752,7 +752,7 @@
                             "consequences": {
                                 "danger_hp_variation": -30,
                                 "new_state": 1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ],
@@ -760,7 +760,7 @@
 		                "min_timeout": 4000,
 		                "max_timeout": 4500,
 		                "new_danger": {
-                            "id": 0,
+                            "id": "fire",
                             "appearance_animation": "enigma_bomb_explosion.png"
                         }
 	                },
@@ -781,7 +781,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 2,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -821,7 +821,7 @@
                             "consequences": {
                                 "danger_hp_variation": -20,
                                 "new_state": 1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ],
@@ -842,7 +842,7 @@
                             "consequences": {
                                 "danger_hp_variation": -15,
                                 "new_state": -1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -854,7 +854,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 2,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ],
@@ -898,7 +898,7 @@
                             "consequences": {
                                 "danger_hp_variation": -75,
                                 "new_state": 1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ],
@@ -924,7 +924,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 2,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]
@@ -964,7 +964,7 @@
                             "consequences": {
                                 "danger_hp_variation": -15,
                                 "new_state": -1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         },
                         {
@@ -976,7 +976,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 1,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ],
@@ -997,7 +997,7 @@
                             "consequences": {
                                 "danger_hp_variation": "all",
                                 "new_state": 2,
-                                "new_danger": -1
+                                "new_danger": ""
                             }
                         }
                     ]

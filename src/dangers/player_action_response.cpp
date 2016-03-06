@@ -33,7 +33,7 @@ PlayerActionResponse::PlayerActionResponse(
         int maxHp,
         int dangerHpVariation,
         int newState,
-        int newDanger,
+        DangerID newDanger,
         int playerHpBonus,
         int scoreBonus )
 {

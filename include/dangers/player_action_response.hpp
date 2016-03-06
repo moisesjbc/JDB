@@ -29,6 +29,9 @@ namespace jdb {
 
 const int HP_ALL = 156474;
 
+typedef std::string DangerID;
+const DangerID DANGER_NULL_ID = "";
+
 // TODO: Separate two structs "PlayerActionConditions" and
 // "PlayerActionResponses" (affects XML).
 struct PlayerActionResponse
@@ -41,8 +44,7 @@ struct PlayerActionResponse
     // Responses
     int hpVariation;
     int newState;
-    int newDanger; // TODO: Remove this attribute or at least invalid
-    // silmultaneus state and danger transitions (affects XML).
+    DangerID newDanger;
 
     // When this transition is done, add this "score bonus" to player's score.
     unsigned int scoreBonus;
@@ -59,7 +61,7 @@ struct PlayerActionResponse
                           int maxHp,
                           int dangerHpVariation,
                           int newState,
-                          int newDanger,
+                          DangerID newDanger,
                           int playerHpBonus,
                           int scoreBonus );
 

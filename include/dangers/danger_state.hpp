@@ -54,11 +54,11 @@ struct StateTimeTransition {
     unsigned int minTimeout;
     unsigned int maxTimeout;
     int newState;
-    int newDanger;
+    DangerID newDanger;
     int playerScoreVariation;
     m2g::AnimationDataPtr appearanceAnimationData;
 
-    StateTimeTransition(unsigned int minTimeout = 0, unsigned int maxTimeout = 5, int newState = -1, int newDanger = -1, int playerScoreVariation = 0, m2g::AnimationDataPtr appearanceAnimationData = nullptr) :
+    StateTimeTransition(unsigned int minTimeout = 0, unsigned int maxTimeout = 5, int newState = -1, DangerID newDanger = DANGER_NULL_ID, int playerScoreVariation = 0, m2g::AnimationDataPtr appearanceAnimationData = nullptr) :
         minTimeout(minTimeout),
         maxTimeout(maxTimeout),
         newState(newState),
