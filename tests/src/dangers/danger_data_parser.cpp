@@ -76,7 +76,10 @@ TEST(DangerDataParserTest, DangerMutationIsParsedCorrectly)
     {
         "danger_hp_variation": -15,
         "new_danger_state": 3,
-        "new_danger": "fire",
+        "new_danger": {
+            "id": "fire",
+            "appearance_animation": "boo.png"
+        },
         "player_hp_variation": 15,
         "player_score_variation": -5
     }
@@ -88,7 +91,8 @@ TEST(DangerDataParserTest, DangerMutationIsParsedCorrectly)
     EXPECT_EQ(-15, dangerMutation.dangerHpVariation());
     EXPECT_EQ(3, dangerMutation.newDangerState());
     EXPECT_EQ("fire", dangerMutation.newDanger());
-    EXPECT_EQ(15, dangerMutation.playerHpBonus());
+    EXPECT_EQ("boo.png", dangerMutation.newDangerAppearanceAnimaton());
+    EXPECT_EQ(15, dangerMutation.playerHpVariation());
     EXPECT_EQ(-5, dangerMutation.playerScoreVariation());
 }
 
@@ -107,7 +111,8 @@ TEST(DangerDataParserTest, DangerMutationUndefinedValuesAreGivenDefaults)
     EXPECT_EQ(-15, dangerMutation.dangerHpVariation());
     EXPECT_EQ(0, dangerMutation.newDangerState());
     EXPECT_EQ("", dangerMutation.newDanger());
-    EXPECT_EQ(0, dangerMutation.playerHpBonus());
+    EXPECT_EQ("", dangerMutation.newDangerAppearanceAnimaton());
+    EXPECT_EQ(0, dangerMutation.playerHpVariation());
     EXPECT_EQ(0, dangerMutation.playerScoreVariation());
 }
 

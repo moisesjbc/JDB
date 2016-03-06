@@ -294,7 +294,8 @@ DangerMutation DangerDataParser::ParseDangerMutation(json jsonObject) const
 {
     ASSIGN_JSON_ATTRIBUTE(int, dangerHpVariation, jsonObject["danger_hp_variation"], 0)
     ASSIGN_JSON_ATTRIBUTE(unsigned int, newDangerState, jsonObject["new_danger_state"], 0)
-    ASSIGN_JSON_ATTRIBUTE(DangerID, newDanger, jsonObject["new_danger"], "")
+    ASSIGN_JSON_ATTRIBUTE(DangerID, newDanger, jsonObject["new_danger"]["id"], "")
+    ASSIGN_JSON_ATTRIBUTE(std::string, newDangerAppearanceAnimation, jsonObject["new_danger"]["appearance_animation"], "")
     ASSIGN_JSON_ATTRIBUTE(int, playerHpVariation, jsonObject["player_hp_variation"], 0)
     ASSIGN_JSON_ATTRIBUTE(int, playerScoreVariation, jsonObject["player_score_variation"], 0)
 
@@ -302,6 +303,7 @@ DangerMutation DangerDataParser::ParseDangerMutation(json jsonObject) const
        dangerHpVariation,
        newDangerState,
        newDanger,
+       newDangerAppearanceAnimation,
        playerHpVariation,
        playerScoreVariation
     );
