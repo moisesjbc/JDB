@@ -46,6 +46,7 @@ class DangerDataParser
         void LoadDangersDataByName(const std::string& configFilepath, const std::vector<std::string>& dangersIDs, m2g::GraphicsLibrary dangersGraphics, std::vector<DangerDataPtr>& dangersDataVector) const;
         DangerInfo ParseDangerInfo(const std::string& dangerMachineName, json jsonObject) const;
         std::vector<DangerInfo> LoadDangersInfoByName(const std::string& configFilepath, const std::vector<std::string>& dangersIDs) const;
+        DangerMutation ParseDangerMutation(json jsonObject) const;
 };
 
 } // namespace jdb

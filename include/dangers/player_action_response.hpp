@@ -24,13 +24,9 @@
 #include <tinyxml2.h>
 #include <string>
 #include <stdexcept>
+#include <dangers/danger_mutation.hpp>
 
 namespace jdb {
-
-const int HP_ALL = 156474;
-
-typedef std::string DangerID;
-const DangerID DANGER_NULL_ID = "";
 
 // TODO: Separate two structs "PlayerActionConditions" and
 // "PlayerActionResponses" (affects XML).

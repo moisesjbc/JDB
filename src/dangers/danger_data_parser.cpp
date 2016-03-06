@@ -283,4 +283,28 @@ std::vector<DangerInfo> DangerDataParser::LoadDangersInfoByName(const std::strin
     return dangersInfo;
 }
 
+#define ASSIGN_JSON_ATTRIBUTE(varType, varName, json, defaultVarValue) \
+    varType varName = defaultVarValue; \
+    if(json != nullptr){ \
+        varName = json; \
+    }
+
+
+DangerMutation DangerDataParser::ParseDangerMutation(json jsonObject) const
+{
+    ASSIGN_JSON_ATTRIBUTE(int, dangerHpVariation, jsonObject["danger_hp_variation"], 0)
+    ASSIGN_JSON_ATTRIBUTE(unsigned int, newDangerState, jsonObject["new_danger_state"], 0)
+    ASSIGN_JSON_ATTRIBUTE(DangerID, newDanger, jsonObject["new_danger"], "")
+    ASSIGN_JSON_ATTRIBUTE(int, playerHpVariation, jsonObject["player_hp_variation"], 0)
+    ASSIGN_JSON_ATTRIBUTE(int, playerScoreVariation, jsonObject["player_score_variation"], 0)
+
+    return DangerMutation(
+       dangerHpVariation,
+       newDangerState,
+       newDanger,
+       playerHpVariation,
+       playerScoreVariation
+    );
+}
+
 } // namespace jdb

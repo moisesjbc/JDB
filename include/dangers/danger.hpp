@@ -23,6 +23,7 @@
 #include "player_action.hpp"
 #include "danger_data.hpp"
 #include <m2g/drawables/animation.hpp>
+#include <dangers/danger_mutation.hpp>
 
 namespace jdb {
 
