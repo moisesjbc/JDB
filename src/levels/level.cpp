@@ -122,30 +122,25 @@ void Level::initGUI()
     // Load the "gui" graphics library.
     m2g::GraphicsLibrary guiGraphicsLibrary( DATA_DIR_PATH + "/img/gui/gui.xml" );
 
-    levelUI_ = std::unique_ptr<LevelUI>(
-                new LevelUI(
-                    [this](){ return jacobHp_; },
-                    std::move(guiGraphicsLibrary.getTilesetByName("health.png")),
-                    [this](){ return acumScore_ + levelScore_; },
-                    std::move(guiGraphicsLibrary.getTilesetByName("score.png"))
-                )
-            );
-
-    // Load the GUI sprites.
-    loadGUIProgressPanel(guiGraphicsLibrary, guiTilesets_, guiSprites_);
-
-    guiTilesets_.push_back( guiGraphicsLibrary.getTilesetByName( "tool_selector.png" ) );
-    m2g::TileSpritePtr tileSprite =
-            m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets_.back() ) ) );
-    tileSprite->move( 384.0f, 660.0f );
-    guiToolSelector_ = tileSprite.get();
-    guiSprites_.push_back( std::move( tileSprite ) );
-
     // Load the "tools" graphics library.
     m2g::GraphicsLibrary toolsGraphicsLibrary( DATA_DIR_PATH + "/img/tools/tools.xml" );
 
     // Load the player's tool.
     tool_ = ToolPtr( new Tool( toolsGraphicsLibrary.getAnimationDataByName( "tools.png" ), soundManager_ ) );
+
+    levelUI_ = std::unique_ptr<LevelUI>(
+                new LevelUI(
+                    [this](){ return jacobHp_; },
+                    std::move(guiGraphicsLibrary.getTilesetByName("health.png")),
+                    [this](){ return acumScore_ + levelScore_; },
+                    std::move(guiGraphicsLibrary.getTilesetByName("score.png")),
+                    [this](){ return tool_->index(); },
+                    std::move(guiGraphicsLibrary.getTilesetByName("tool_selector.png"))
+                )
+            );
+
+    // Load the GUI sprites.
+    loadGUIProgressPanel(guiGraphicsLibrary, guiTilesets_, guiSprites_);
 
     window_.setMouseCursorVisible( false );
 }
@@ -185,19 +180,15 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
                 }break;
                 case sf::Keyboard::A:
                     tool_->setToolType( ToolType::HAND );
-                    guiToolSelector_->setTile( 0 );
                 break;
                 case sf::Keyboard::S:
                     tool_->setToolType( ToolType::EXTINGUISHER );
-                    guiToolSelector_->setTile( 1 );
                 break;
                 case sf::Keyboard::D:
                     tool_->setToolType( ToolType::LIGHTER );
-                    guiToolSelector_->setTile( 2 );
                 break;
                 case sf::Keyboard::F:
                     tool_->setToolType( ToolType::GAVEL );
-                    guiToolSelector_->setTile( 3 );
                 break;
                 default:
                 break;

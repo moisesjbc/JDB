@@ -25,11 +25,15 @@ namespace jdb {
 LevelUI::LevelUI(PlayerHPGetter playerHpGetter,
                  m2g::TilesetPtr playerHpPanel,
                  PlayerScoreGetter playerScoreGetter,
-                 m2g::TilesetPtr playerScorePanel) :
+                 m2g::TilesetPtr playerScorePanel,
+                 ToolIndexGetter toolIndexGetter,
+                 m2g::TilesetPtr toolSelector) :
     playerHpGetter_(playerHpGetter),
     playerHpPanel_(std::move(playerHpPanel)),
     playerScoreGetter_(playerScoreGetter),
-    playerScorePanel_(std::move(playerScorePanel))
+    playerScorePanel_(std::move(playerScorePanel)),
+    toolIndexGetter_(toolIndexGetter),
+    toolSelector_(std::move(toolSelector))
 {
     font_.loadFromFile(DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf");
 
@@ -43,6 +47,8 @@ LevelUI::LevelUI(PlayerHPGetter playerHpGetter,
     playerScoreText_.setCharacterSize( 50 );
     playerScoreText_.setColor( sf::Color( 11, 109, 36, 255 ) );
     playerScoreText_.setPosition( 785, 5 );
+
+    toolSelector_.move( 384.0f, 660.0f );
 
     LevelUI::update();
 }
@@ -60,6 +66,8 @@ void LevelUI::update()
 
     sprintf( buffer, "%08u", playerScoreGetter_() );
     playerScoreText_.setString( buffer );
+
+    toolSelector_.setTile(toolIndexGetter_());
 }
 
 
@@ -71,6 +79,7 @@ void LevelUI::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     playerHpPanel_.draw(target, states);
     playerScorePanel_.draw(target, states);
+    toolSelector_.draw(target, states);
 
     target.draw(playerHpText_, states);
     target.draw(playerScoreText_, states);

@@ -55,6 +55,7 @@ class Tool : public m2g::Animation
         /***
          * 2. Getters
          ***/
+        unsigned int index() const;
 
 
         /***

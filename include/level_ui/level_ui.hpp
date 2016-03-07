@@ -31,6 +31,7 @@ namespace jdb {
 
 typedef std::function<int()> PlayerHPGetter;
 typedef std::function<int()> PlayerScoreGetter;
+typedef std::function<unsigned int()> ToolIndexGetter;
 
 class LevelUI : public sf::Drawable
 {
@@ -41,7 +42,9 @@ class LevelUI : public sf::Drawable
         LevelUI(PlayerHPGetter playerHpGetter,
                 m2g::TilesetPtr playerHpPanel,
                 PlayerScoreGetter playerScoreGetter,
-                m2g::TilesetPtr playerScorePanel);
+                m2g::TilesetPtr playerScorePanel,
+                ToolIndexGetter toolIndexGetter,
+                m2g::TilesetPtr toolSelector);
 
 
         /***
@@ -68,6 +71,9 @@ class LevelUI : public sf::Drawable
         PlayerHPGetter playerScoreGetter_;
         m2g::TileSprite playerScorePanel_;
         sf::Text playerScoreText_;
+
+        ToolIndexGetter toolIndexGetter_;
+        m2g::TileSprite toolSelector_;
 
         sf::Font font_;
 };

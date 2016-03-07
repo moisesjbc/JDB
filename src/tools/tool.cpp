@@ -71,6 +71,16 @@ Tool::Tool( m2g::AnimationDataPtr animationData, SoundManager& soundManager ) :
 
 
 /***
+ * 2. Getters
+ ***/
+
+unsigned int Tool::index() const
+{
+    return static_cast<int>(currentToolType_);
+}
+
+
+/***
  * 3. Setters
  ***/
 
