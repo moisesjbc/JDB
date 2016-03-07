@@ -123,8 +123,6 @@ class Level : public GameState
          ***/
         ConveyorBelt conveyorBelt_;
 
-        tinyxml2::XMLDocument xmlFile;
-
         std::vector< DangerDataPtr > dangerData;
         std::vector< SandwichDataPtr > sandwichData;
 

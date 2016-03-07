@@ -36,6 +36,7 @@ bool SurvivalLevel::load( unsigned int index )
     unsigned int i = 0;
 
     // Open the levels configuration file.
+    tinyxml2::XMLDocument xmlFile;
     xmlFile.LoadFile( (DATA_DIR_PATH + "/config/levels.xml").c_str() );
 
     // Iterate over the survival level XML nodes until de number index.

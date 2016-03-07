@@ -41,6 +41,7 @@ bool CampaignLevel::load( unsigned int index )
 
     // Open the levels configuration file.
     LOG(INFO) << "Loading level configuration ...";
+    tinyxml2::XMLDocument xmlFile;
     xmlFile.LoadFile( (DATA_DIR_PATH + "/config/levels.xml").c_str() );
 
     // Iterate over the survival level XML nodes until de number index.
