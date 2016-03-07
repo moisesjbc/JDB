@@ -32,6 +32,7 @@
 #include <utilities/easylogging++.h>
 #include <dangers/dangers_counter.hpp>
 #include <profiles/profile.hpp>
+#include <level_ui/level_ui.hpp>
 
 namespace jdb {
 
@@ -136,6 +137,8 @@ class Level : public GameState
         std::vector< m2g::TilesetPtr > guiTilesets_;
         std::vector< m2g::TileSpritePtr > guiSprites_;
         m2g::TileSprite* guiToolSelector_;
+
+        std::unique_ptr<LevelUI> levelUI_;
 
         SoundManager& soundManager_;
 

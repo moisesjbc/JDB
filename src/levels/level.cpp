@@ -117,12 +117,19 @@ void Level::loadDangerData(
 
 void Level::initGUI()
 {
+    jacobHp_ = 100;
+
     // Load the "gui" graphics library.
     m2g::GraphicsLibrary guiGraphicsLibrary( DATA_DIR_PATH + "/img/gui/gui.xml" );
 
-    // Load the GUI sprites.
-    guiSprites_.push_back( m2g::TileSpritePtr( new m2g::TileSprite( guiGraphicsLibrary.getTilesetByName( "health.png" ) ) ) );
+    levelUI_ = std::unique_ptr<LevelUI>(
+                new LevelUI(
+                    [this](){ return jacobHp_; },
+                    std::move(guiGraphicsLibrary.getTilesetByName("health.png"))
+                )
+            );
 
+    // Load the GUI sprites.
     loadGUIProgressPanel(guiGraphicsLibrary, guiTilesets_, guiSprites_);
 
     guiTilesets_.push_back( guiGraphicsLibrary.getTilesetByName( "score.png" ) );
@@ -293,11 +300,6 @@ void Level::init()
     // Initialize GUI's texts.
     guiFont_.loadFromFile( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
 
-    healthText_.setFont( guiFont_ );
-    healthText_.setCharacterSize( 50 );
-    healthText_.setColor( sf::Color( 131, 60, 60, 255 ) );
-    healthText_.setPosition( 75, 5 );
-
     progressText_.setFont( guiFont_ );
     progressText_.setCharacterSize( 50 );
     progressText_.setColor( sf::Color( 8, 31, 126, 255 ) );
@@ -419,6 +421,8 @@ void Level::update( unsigned int ms )
     // Update the tool
     tool_->update( ms );
 
+    levelUI_->update();
+
     if( victory() ){
         acumScore_ += levelScore_;
         levelIndex_++; // TODO: This should go inside "load()".
@@ -473,10 +477,7 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
         target.draw( *guiSprite, states );
     }
 
-    // Write Jacob's life, game time and score.
-    sprintf( buffer, "%03d", (int)jacobHp_ );
-    healthText_.setString( buffer );
-    window_.draw( healthText_ );
+    target.draw(*levelUI_, states);
 
     drawLevelProgress();
 
