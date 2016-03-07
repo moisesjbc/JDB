@@ -53,18 +53,13 @@ enum class StunType
 struct StateTimeTransition {
     unsigned int minTimeout;
     unsigned int maxTimeout;
-    int newState;
-    DangerID newDanger;
-    int playerScoreVariation;
-    m2g::AnimationDataPtr appearanceAnimationData;
 
-    StateTimeTransition(unsigned int minTimeout = 0, unsigned int maxTimeout = 5, int newState = -1, DangerID newDanger = DANGER_NULL_ID, int playerScoreVariation = 0, m2g::AnimationDataPtr appearanceAnimationData = nullptr) :
+    DangerMutation dangerMutation;
+
+    StateTimeTransition(unsigned int minTimeout, unsigned int maxTimeout, DangerMutation dangerMutation) :
         minTimeout(minTimeout),
         maxTimeout(maxTimeout),
-        newState(newState),
-        newDanger(newDanger),
-        playerScoreVariation(playerScoreVariation),
-        appearanceAnimationData(std::move(appearanceAnimationData))
+        dangerMutation(dangerMutation)
     {}
 
     unsigned int generateTimeout(){
@@ -76,11 +71,11 @@ struct StateDistanceTransition {
     // Distance to the *left border* of the window.
     // TODO: Make this depend on effective distance to grinder.
     unsigned int distance;
-    unsigned int newState;
+    DangerMutation dangerMutation;
 
-    StateDistanceTransition(unsigned int distance = 0, unsigned int newState = 0) :
+    StateDistanceTransition(unsigned int distance, DangerMutation dangerMutation) :
         distance(distance),
-        newState(newState)
+        dangerMutation(dangerMutation)
     {}
 };
 

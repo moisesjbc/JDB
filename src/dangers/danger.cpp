@@ -87,7 +87,10 @@ void Danger::setState( int newState )
  * 4. Updating
  ***/
 
-void Danger::update( unsigned int ms, unsigned int& playerScore )
+void Danger::update( unsigned int ms,
+                     int& playerHp,
+                     unsigned int& playerScore,
+                     m2g::GraphicsLibrary& dangersGraphicsLibrary )
 {
     m2g::Animation::update( ms );
     if( appearanceAnimation ){
@@ -116,26 +119,7 @@ void Danger::update( unsigned int ms, unsigned int& playerScore )
 
         if( ms + timeElapsedFromLastTimeout >= currentTimeout ){
             timeElapsedFromLastTimeout = 0;
-            currentTimeout =
-                    dangerData->states[state].stateTimeTransition->generateTimeout();
-            if( (int)playerScore + dangerData->states[state].stateTimeTransition->playerScoreVariation >= 0 ){
-                playerScore += dangerData->states[state].stateTimeTransition->playerScoreVariation;
-            }else{
-                playerScore = 0;
-            }
-
-            if(dangerData->states[state].stateTimeTransition->newDanger != DANGER_NULL_ID){
-                DangerDataPtr newDangerData =
-                    *std::find_if(dangerData->dangersDataVector.begin(), dangerData->dangersDataVector.end(), [=](DangerDataPtr currentDangerData){
-                        return currentDangerData->id == dangerData->states[state].stateTimeTransition->newDanger;
-                    });
-                setDangerData(
-                        newDangerData,
-                        dangerData->states[state].stateTimeTransition->appearanceAnimationData.get()
-                    );
-            }else if(dangerData->states[state].stateTimeTransition->newState != -1){
-                setState( dangerData->states[state].stateTimeTransition->newState );
-            }
+            applyMutation(dangerData->states[state].stateTimeTransition->dangerMutation, playerHp, playerScore, dangersGraphicsLibrary);
         }else{
             timeElapsedFromLastTimeout += ms;
         }
@@ -146,7 +130,7 @@ void Danger::update( unsigned int ms, unsigned int& playerScore )
     // applicable.
     if( dangerData->states[state].stateDistanceTransition != nullptr ){
         if( this->getBoundaryBox().left < static_cast< int >( dangerData->states[state].stateDistanceTransition->distance ) ){
-            setState( dangerData->states[state].stateDistanceTransition->newState );
+            applyMutation( dangerData->states[state].stateDistanceTransition->dangerMutation, playerHp, playerScore, dangersGraphicsLibrary );
         }
     }
 }
@@ -197,6 +181,7 @@ void Danger::applyMutation(const DangerMutation &mutation,
                            unsigned int& playerScore,
                            m2g::GraphicsLibrary& dangersGraphicsLibrary)
 {
+    int oldDangerHp = hp;
     if(mutation.newDanger() != DANGER_NULL_ID){
         DangerDataPtr newDangerData =
             *std::find_if(dangerData->dangersDataVector.begin(), dangerData->dangersDataVector.end(), [=](DangerDataPtr currentDangerData){
@@ -215,9 +200,12 @@ void Danger::applyMutation(const DangerMutation &mutation,
 
     playerHp += mutation.playerHpVariation();
 
-    // TODO: Use hp variation instead.
-    if( (int)playerScore + 10 + (int)mutation.playerScoreVariation() > 0 ){
-        playerScore += 10 + mutation.playerScoreVariation();
+    int playerScoreVariation = mutation.playerScoreVariation();
+    if( hp < oldDangerHp){
+        playerScoreVariation += oldDangerHp - hp;
+    }
+    if( (int)playerScore + playerScoreVariation > 0 ){
+        playerScore += playerScoreVariation;
     }else{
         playerScore = 0;
     }

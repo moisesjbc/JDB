@@ -193,12 +193,12 @@ void Sandwich::setPosition( const float& x, const float& y )
  * 5. Updating
  ***/
 
-void Sandwich::update( unsigned int ms, unsigned int& playerScore )
+void Sandwich::update(unsigned int ms, int& playerHp, unsigned int& playerScore, m2g::GraphicsLibrary& dangersGraphicsLibrary)
 {
     Animation::update( ms );
 
     for( unsigned int i=0; i<nDangers_; i++ ){
-        dangers_[i]->update( ms, playerScore );
+        dangers_[i]->update( ms, playerHp, playerScore, dangersGraphicsLibrary );
     }
 }
 

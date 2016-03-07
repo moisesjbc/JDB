@@ -77,7 +77,10 @@ class Danger : public m2g::Animation
         /***
          * 4. Updating
          ***/
-        virtual void update(unsigned int ms, unsigned int &playerScore);
+        virtual void update(unsigned int ms,
+                            int& playerHp,
+                            unsigned int& playerScore,
+                            m2g::GraphicsLibrary& dangersGraphicsLibrary);
         bool playerAction( PlayerAction playerAction,
                            int& playerHp,
                            unsigned int& playerScore,

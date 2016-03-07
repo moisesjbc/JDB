@@ -39,7 +39,7 @@ class DangerMutation
                        int newDangerState = -1,
                        DangerID newDanger = DANGER_NULL_ID,
                        std::string newDangerAppearanceAnimation = "",
-                       int playerHpBonus = 0,
+                       int playerHpVariation = 0,
                        int playerScoreVariation = 0);
 
 

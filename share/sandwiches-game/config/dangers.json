@@ -490,7 +490,9 @@
                     "state_time_transition": {
 		                "min_timeout": 2500,
 		                "max_timeout": 4000,
-		                "new_danger_state": 1
+                        "danger_mutation": {
+                            "new_danger_state": 1
+                        }
 	                }
                 },
                 {
@@ -515,7 +517,9 @@
 			        "state_time_transition": {
                         "min_timeout": 2500,
                         "max_timeout": 4000,
-                        "new_danger_state": 0
+                        "danger_mutation": {
+                            "new_danger_state": 0
+                        }
                     }
                 },
                 {
@@ -561,7 +565,9 @@
 				    "animation_state": 0,
 				    "state_distance_transition": {
 	                    "distance": 300,
-	                    "new_danger_state": 1
+                        "danger_mutation": {
+                            "new_danger_state": 1
+                        }
                     },
 				    "stun": {
 	                    "type": "hypnotism",
@@ -726,9 +732,11 @@
                     "state_time_transition": {
 		                "min_timeout": 4000,
 		                "max_timeout": 4500,
-		                "new_danger": {
-                            "id": "fire",
-                            "appearance_animation": "enigma_bomb_explosion.png"
+                        "danger_mutation": {
+                            "new_danger": {
+                                "id": "fire",
+                                "appearance_animation": "enigma_bomb_explosion.png"
+                            }
                         }
 	                },
                     "stun": {
@@ -867,7 +875,9 @@
                     "state_time_transition": {
 		                "min_timeout": 1000,
 		                "max_timeout": 1000,
-		                "player_score_variation": -5
+                        "danger_mutation": {
+		                    "player_score_variation": -5
+                        }
 	                },
                     "stun": {
                         "type": "bite",

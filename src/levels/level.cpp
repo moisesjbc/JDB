@@ -408,7 +408,7 @@ void Level::update( unsigned int ms )
 
     // Update the sandwiches
     for( i=0; i < sandwiches.size(); i++ ){
-        sandwiches[i]->update( ms, levelScore_ );
+        sandwiches[i]->update( ms, jacobHp_, levelScore_, *dangerGraphicsLibrary_ );
     }
 
     // Move the sandwiches

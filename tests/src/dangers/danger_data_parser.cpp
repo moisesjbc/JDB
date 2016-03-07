@@ -118,7 +118,9 @@ TEST(DangerDataParserTest, StateDistanceTransitionIsParsedCorrectly)
     json rawDistanceTimeTransitionJSON = R"(
     {
         "distance": 32,
-        "new_state": 5
+        "danger_mutation": {
+            "new_danger_state": 5
+        }
     }
     )"_json;
 
@@ -127,7 +129,6 @@ TEST(DangerDataParserTest, StateDistanceTransitionIsParsedCorrectly)
             dangerDataParser.ParseStateDistanceTransition(rawDistanceTimeTransitionJSON);
 
     EXPECT_EQ(32, stateDistanceTransition.distance);
-    EXPECT_EQ(5, stateDistanceTransition.newState);
 }
 
 

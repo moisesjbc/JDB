@@ -51,33 +51,10 @@ BaseLine DangerDataParser::ParseBaseLine(json jsonObject)
 
 StateTimeTransition DangerDataParser::ParseStateTimeTransition(json jsonObject, m2g::GraphicsLibrary& graphicsLibrary) const
 {
-    DangerID newDanger = DANGER_NULL_ID;
-    m2g::AnimationDataPtr appearanceAnimationData = nullptr;
-    if(jsonObject["new_danger"] != nullptr){
-        newDanger = jsonObject["new_danger"]["id"];
-        if( jsonObject["new_danger"]["appearance_animation"] != nullptr ){
-            appearanceAnimationData =
-                graphicsLibrary.getAnimationDataByName(jsonObject["new_danger"]["appearance_animation"]);
-        }
-    }
-
-    int newState = -1;
-    if(jsonObject["new_state"] != nullptr){
-        newState = jsonObject["new_state"];
-    }
-
-    int playerScoreVariation = 0;
-    if(jsonObject["player_score_variation"] != nullptr){
-        playerScoreVariation = jsonObject["player_score_variation"];
-    }
-
     StateTimeTransition stateTimeTransition(
         jsonObject["min_timeout"],
         jsonObject["max_timeout"],
-        newState,
-        newDanger,
-        playerScoreVariation,
-        std::move(appearanceAnimationData)
+        ParseDangerMutation(jsonObject["danger_mutation"])
     );
 
     return stateTimeTransition;
@@ -88,7 +65,7 @@ StateDistanceTransition DangerDataParser::ParseStateDistanceTransition(json json
 {
     StateDistanceTransition stateDistanceTransition(
         jsonObject["distance"],
-        jsonObject["new_danger_state"]
+        ParseDangerMutation(jsonObject["danger_mutation"])
     );
 
     return stateDistanceTransition;
