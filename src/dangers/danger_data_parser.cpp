@@ -30,7 +30,7 @@ PlayerActionResponse DangerDataParser::ParsePlayerActionResponse(json jsonObject
         jsonObject["conditions"]["player_action"],
         jsonObject["conditions"]["danger_min_hp"],
         jsonObject["conditions"]["danger_max_hp"],
-        ParseDangerMutation(jsonObject["consequences"])
+        ParseDangerMutation(jsonObject["danger_mutation"])
     );
 
     return playerActionResponse;

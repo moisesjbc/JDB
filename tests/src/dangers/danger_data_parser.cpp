@@ -29,7 +29,7 @@ TEST(DangerDataParserTest, StateTransitionIsParsedCorrectly) {
             "danger_min_hp": 10,
             "danger_max_hp": 100
         },
-        "consequences": {
+        "danger_mutation": {
             "danger_hp_variation": -15,
             "new_state": 3,
             "new_danger": {
@@ -168,7 +168,7 @@ TEST(DangerDataParserTest, DangerStateIsParsedCorrectly)
                     "danger_min_hp": 10,
                     "danger_max_hp": 100
                 },
-                "consequences": {
+                "danger_mutation": {
                     "danger_hp_variation": -15,
                     "new_state": 3,
                     "new_danger": {
