@@ -675,7 +675,7 @@
                             "danger_mutation": {
                                 "danger_hp_variation": "all",
                                 "new_danger_state": 1,
-                                "player_hp_bonus": 30
+                                "player_hp_variation": 30
                             }
                         }
                     ]
