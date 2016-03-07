@@ -139,9 +139,6 @@ class Level : public GameState
         std::vector< m2g::TileSpritePtr > guiSprites_;
         m2g::TileSprite* guiToolSelector_;
 
-        // Does player wants to quit the current level?
-        bool quitLevel_;
-
         SoundManager& soundManager_;
 
         unsigned int levelTime_;

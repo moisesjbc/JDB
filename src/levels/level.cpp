@@ -282,8 +282,6 @@ unsigned int Level::score() const
 
 void Level::init()
 {
-    quitLevel_ = false;
-
     // Initialize the GUI.
     initGUI();
 
@@ -440,8 +438,6 @@ void Level::update( unsigned int ms )
             requestStateExit(RETURN_TO_MAIN_MENU_REQUESTED);
         }
         reset();
-    }else if( quitLevel_ ){
-        requestStateExit();
     }
 }
 
