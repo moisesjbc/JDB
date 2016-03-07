@@ -31,20 +31,12 @@ PlayerActionResponse::PlayerActionResponse(
         std::string playerAction,
         int minHp,
         int maxHp,
-        int dangerHpVariation,
-        int newState,
-        DangerID newDanger,
-        int playerHpBonus,
-        int scoreBonus )
+        DangerMutation dangerMutation ) :
+    dangerMutation(dangerMutation)
 {
     this->playerAction = getPlayerActionFromString(playerAction);
     this->minHp = minHp;
     this->maxHp = maxHp;
-    this->hpVariation = dangerHpVariation;
-    this->newState = newState,
-    this->newDanger = newDanger;
-    this->hpBonus = playerHpBonus;
-    this->scoreBonus = scoreBonus;
 }
 
 

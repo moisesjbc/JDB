@@ -38,15 +38,7 @@ struct PlayerActionResponse
     int maxHp;
 
     // Responses
-    int hpVariation;
-    int newState;
-    DangerID newDanger;
-
-    // When this transition is done, add this "score bonus" to player's score.
-    unsigned int scoreBonus;
-
-    // When this transitions is done, add this "hp bonuts" to player's hp.
-    unsigned int hpBonus;
+    DangerMutation dangerMutation;
 
 
     /***
@@ -55,11 +47,7 @@ struct PlayerActionResponse
     PlayerActionResponse( std::string playerAction,
                           int minHp,
                           int maxHp,
-                          int dangerHpVariation,
-                          int newState,
-                          DangerID newDanger,
-                          int playerHpBonus,
-                          int scoreBonus );
+                          DangerMutation dangerMutation );
 
 
     /***

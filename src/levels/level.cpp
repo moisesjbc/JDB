@@ -161,10 +161,8 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
         break;
         case sf::Event::MouseButtonPressed:{
             // Player clicked on screen.
-            unsigned int hpBonus = 0;
-            tool_->handleMouseButtonDown( sandwiches, levelScore_, hpBonus );
+            tool_->handleMouseButtonDown(sandwiches, jacobHp_, levelScore_, *dangerGraphicsLibrary_);
             // FIXME: Duplicated code.
-            jacobHp_ += hpBonus;
             if( jacobHp_ > 130 ){
                 jacobHp_ = 130;
             }
@@ -354,10 +352,8 @@ void Level::handleEvents()
         t1 = clock.getElapsedTime();
     }
 
-    unsigned int hpBonus = 0;
-    tool_->handleMouseHover( sandwiches, levelScore_, hpBonus );
+    tool_->handleMouseHover( sandwiches, jacobHp_, levelScore_, *dangerGraphicsLibrary_ );
     // FIXME: Duplicated code.
-    jacobHp_ += hpBonus;
     if( jacobHp_ > 130 ){
         jacobHp_ = 130;
     }

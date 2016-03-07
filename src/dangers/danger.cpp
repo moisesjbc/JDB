@@ -153,8 +153,9 @@ void Danger::update( unsigned int ms, unsigned int& playerScore )
 
 
 bool Danger::playerAction( PlayerAction playerAction,
-                           unsigned int& score,
-                           unsigned int& hpBonus )
+                           int& playerHp,
+                           unsigned int& playerScore,
+                           m2g::GraphicsLibrary& dangersGraphicsLibrary)
 {
     unsigned int i = 0;
     const PlayerActionResponse* playerActionResponse;
@@ -182,37 +183,48 @@ bool Danger::playerAction( PlayerAction playerAction,
     if( validPlayerResponses.size() > 0 ){
         playerActionResponse = &validPlayerResponses[ rand() % validPlayerResponses.size() ];
 
-        if( playerActionResponse->hpVariation == HP_ALL ){
-            hp = 0;
-        }else{
-            hp += playerActionResponse->hpVariation;
-        }
-
-        // TODO: Use hp variation instead.
-        score += 10;
-        score += playerActionResponse->scoreBonus;
-
-        hpBonus = playerActionResponse->hpBonus;
-
-        if( playerActionResponse->newState != -1 ){
-            setState( playerActionResponse->newState );
-        }
-
-        if( playerActionResponse->newDanger != DANGER_NULL_ID ){
-            // FIXME: Duplicated code.
-            DangerDataPtr newDangerData =
-                    *std::find_if(dangerData->dangersDataVector.begin(), dangerData->dangersDataVector.end(), [=](DangerDataPtr currentDangerData){
-                        return currentDangerData->id == playerActionResponse->newDanger;
-                    });
-            move( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
-                       dangerData->baseLine.y - newDangerData->baseLine.y );
-            setDangerData( newDangerData );
-        }
+        applyMutation(playerActionResponse->dangerMutation, playerHp, playerScore, dangersGraphicsLibrary);
 
         return true;
     }
 
     return false;
+}
+
+
+void Danger::applyMutation(const DangerMutation &mutation,
+                           int& playerHp,
+                           unsigned int& playerScore,
+                           m2g::GraphicsLibrary& dangersGraphicsLibrary)
+{
+    if(mutation.newDanger() != DANGER_NULL_ID){
+        DangerDataPtr newDangerData =
+            *std::find_if(dangerData->dangersDataVector.begin(), dangerData->dangersDataVector.end(), [=](DangerDataPtr currentDangerData){
+                return currentDangerData->id == mutation.newDanger();
+            });
+        move( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
+                   dangerData->baseLine.y - newDangerData->baseLine.y );
+        setDangerData(newDangerData, dangersGraphicsLibrary.getAnimationDataByName(mutation.newDangerAppearanceAnimaton()).get());
+    }
+
+    if(mutation.dangerHpVariation() == HP_ALL){
+        hp = 0;
+    }else{
+        hp += mutation.dangerHpVariation();
+    }
+
+    playerHp += mutation.playerHpVariation();
+
+    // TODO: Use hp variation instead.
+    if( (int)playerScore + 10 + (int)mutation.playerScoreVariation() > 0 ){
+        playerScore += 10 + mutation.playerScoreVariation();
+    }else{
+        playerScore = 0;
+    }
+
+    if(mutation.newDangerState() != -1){
+        setState(mutation.newDangerState());
+    }
 }
 
 

@@ -203,15 +203,17 @@ void Sandwich::update( unsigned int ms, unsigned int& playerScore )
 }
 
 
-bool Sandwich::useTool( PlayerAction playerAction, TileSprite* tool,
-                        unsigned int& score,
-                        unsigned int& hpBonus )
+bool Sandwich::useTool( PlayerAction playerAction,
+                        TileSprite* tool,
+                        int& playerHp,
+                        unsigned int& playerScore,
+                        m2g::GraphicsLibrary& dangersGraphicsLibrary)
 {
     unsigned int i=0;
 
     for( ; i<nDangers_; i++ ){
         if( dangers_[i]->collide( *tool ) &&
-            dangers_[i]->playerAction( playerAction, score, hpBonus ) ){
+            dangers_[i]->playerAction(playerAction, playerHp, playerScore, dangersGraphicsLibrary) ){
                 return true;
         }
     }

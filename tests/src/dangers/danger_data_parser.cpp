@@ -44,10 +44,6 @@ TEST(DangerDataParserTest, StateTransitionIsParsedCorrectly) {
     EXPECT_EQ(jdb::PlayerAction::EXTINGUISHER_ON, playerActionResponse.playerAction);
     EXPECT_EQ(10, playerActionResponse.minHp);
     EXPECT_EQ(100, playerActionResponse.maxHp);
-    EXPECT_EQ(-15, playerActionResponse.hpVariation);
-    EXPECT_EQ(3, playerActionResponse.newState);
-    EXPECT_EQ("fire", playerActionResponse.newDanger);
-    EXPECT_EQ(15, playerActionResponse.hpBonus);
 }
 
 

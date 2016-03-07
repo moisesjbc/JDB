@@ -26,7 +26,7 @@ namespace jdb {
  ***/
 
 DangerMutation::DangerMutation(int dangerHpVariation,
-                               unsigned int newDangerState,
+                               int newDangerState,
                                DangerID newDanger,
                                std::string newDangerAppearanceAnimation,
                                int playerHpVariation,
@@ -50,7 +50,7 @@ int DangerMutation::dangerHpVariation() const
 }
 
 
-unsigned int DangerMutation::newDangerState() const
+int DangerMutation::newDangerState() const
 {
     return newDangerState_;
 }

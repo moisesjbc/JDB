@@ -26,32 +26,11 @@ namespace jdb {
 
 PlayerActionResponse DangerDataParser::ParsePlayerActionResponse(json jsonObject) const
 {
-    int dangerHpVariation = 0;
-    if(jsonObject["consequences"]["danger_hp_variation"] == "all"){
-        dangerHpVariation = HP_ALL;
-    }else{
-        dangerHpVariation = jsonObject["consequences"]["danger_hp_variation"];
-    }
-
-    int playerHpBonus = 0;
-    if(jsonObject["consequences"]["player_hp_bonus"] != nullptr){
-        playerHpBonus = jsonObject["consequences"]["player_hp_bonus"];
-    }
-
-    int scoreBonus = 0;
-    if(jsonObject["consequences"]["score_bonus"] != nullptr){
-        scoreBonus = jsonObject["consequences"]["score_bonus_bonus"];
-    }
-
     PlayerActionResponse playerActionResponse(
         jsonObject["conditions"]["player_action"],
         jsonObject["conditions"]["danger_min_hp"],
         jsonObject["conditions"]["danger_max_hp"],
-        dangerHpVariation,
-        jsonObject["consequences"]["new_state"],
-        jsonObject["consequences"]["new_danger"],
-        playerHpBonus,
-        scoreBonus
+        ParseDangerMutation(jsonObject["consequences"])
     );
 
     return playerActionResponse;
@@ -109,7 +88,7 @@ StateDistanceTransition DangerDataParser::ParseStateDistanceTransition(json json
 {
     StateDistanceTransition stateDistanceTransition(
         jsonObject["distance"],
-        jsonObject["new_state"]
+        jsonObject["new_danger_state"]
     );
 
     return stateDistanceTransition;
@@ -292,7 +271,14 @@ std::vector<DangerInfo> DangerDataParser::LoadDangersInfoByName(const std::strin
 
 DangerMutation DangerDataParser::ParseDangerMutation(json jsonObject) const
 {
-    ASSIGN_JSON_ATTRIBUTE(int, dangerHpVariation, jsonObject["danger_hp_variation"], 0)
+    int dangerHpVariation = 0;
+    if(jsonObject["danger_hp_variation"] != nullptr){
+        if(jsonObject["danger_hp_variation"] == "all"){
+            dangerHpVariation = HP_ALL;
+        }else{
+            dangerHpVariation = jsonObject["danger_hp_variation"];
+        }
+    }
     ASSIGN_JSON_ATTRIBUTE(unsigned int, newDangerState, jsonObject["new_danger_state"], 0)
     ASSIGN_JSON_ATTRIBUTE(DangerID, newDanger, jsonObject["new_danger"]["id"], "")
     ASSIGN_JSON_ATTRIBUTE(std::string, newDangerAppearanceAnimation, jsonObject["new_danger"]["appearance_animation"], "")

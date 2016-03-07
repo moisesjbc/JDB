@@ -36,7 +36,7 @@ class DangerMutation
          * Construction
          ***/
         DangerMutation(int dangerHpVariation = 0,
-                       unsigned int newDangerState = 0,
+                       int newDangerState = -1,
                        DangerID newDanger = DANGER_NULL_ID,
                        std::string newDangerAppearanceAnimation = "",
                        int playerHpBonus = 0,
@@ -47,7 +47,7 @@ class DangerMutation
          * Getters
          ***/
         int dangerHpVariation() const;
-        unsigned int newDangerState() const;
+        int newDangerState() const;
         DangerID newDanger() const;
         std::string newDangerAppearanceAnimaton() const;
         int playerHpVariation() const;
@@ -59,7 +59,7 @@ class DangerMutation
          * Attributes
          ***/
         const int dangerHpVariation_;
-        const unsigned int newDangerState_;
+        const int newDangerState_;
         const DangerID newDanger_;
         std::string newDangerAppearanceAnimation_;
         const int playerHpVariation_;
