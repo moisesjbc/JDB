@@ -22,9 +22,14 @@
 
 namespace jdb {
 
-LevelUI::LevelUI(PlayerHPGetter playerHpGetter, m2g::TilesetPtr playerHpPanel) :
+LevelUI::LevelUI(PlayerHPGetter playerHpGetter,
+                 m2g::TilesetPtr playerHpPanel,
+                 PlayerScoreGetter playerScoreGetter,
+                 m2g::TilesetPtr playerScorePanel) :
     playerHpGetter_(playerHpGetter),
-    playerHpPanel_(std::move(playerHpPanel))
+    playerHpPanel_(std::move(playerHpPanel)),
+    playerScoreGetter_(playerScoreGetter),
+    playerScorePanel_(std::move(playerScorePanel))
 {
     font_.loadFromFile(DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf");
 
@@ -32,6 +37,12 @@ LevelUI::LevelUI(PlayerHPGetter playerHpGetter, m2g::TilesetPtr playerHpPanel) :
     playerHpText_.setCharacterSize( 50 );
     playerHpText_.setColor( sf::Color( 131, 60, 60, 255 ) );
     playerHpText_.setPosition( 75, 5 );
+
+    playerScorePanel_.move( 768.0f, 0.0f );
+    playerScoreText_.setFont( font_ );
+    playerScoreText_.setCharacterSize( 50 );
+    playerScoreText_.setColor( sf::Color( 11, 109, 36, 255 ) );
+    playerScoreText_.setPosition( 785, 5 );
 
     LevelUI::update();
 }
@@ -43,9 +54,12 @@ LevelUI::LevelUI(PlayerHPGetter playerHpGetter, m2g::TilesetPtr playerHpPanel) :
 
 void LevelUI::update()
 {
-    char buffer[10];
+    char buffer[16];
     sprintf( buffer, "%03d", playerHpGetter_() );
     playerHpText_.setString( buffer );
+
+    sprintf( buffer, "%08u", playerScoreGetter_() );
+    playerScoreText_.setString( buffer );
 }
 
 
@@ -56,7 +70,10 @@ void LevelUI::update()
 void LevelUI::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     playerHpPanel_.draw(target, states);
+    playerScorePanel_.draw(target, states);
+
     target.draw(playerHpText_, states);
+    target.draw(playerScoreText_, states);
 }
 
 } // namespace jdb

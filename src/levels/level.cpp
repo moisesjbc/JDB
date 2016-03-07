@@ -125,21 +125,17 @@ void Level::initGUI()
     levelUI_ = std::unique_ptr<LevelUI>(
                 new LevelUI(
                     [this](){ return jacobHp_; },
-                    std::move(guiGraphicsLibrary.getTilesetByName("health.png"))
+                    std::move(guiGraphicsLibrary.getTilesetByName("health.png")),
+                    [this](){ return acumScore_ + levelScore_; },
+                    std::move(guiGraphicsLibrary.getTilesetByName("score.png"))
                 )
             );
 
     // Load the GUI sprites.
     loadGUIProgressPanel(guiGraphicsLibrary, guiTilesets_, guiSprites_);
 
-    guiTilesets_.push_back( guiGraphicsLibrary.getTilesetByName( "score.png" ) );
-    m2g::TileSpritePtr tileSprite =
-            m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets_.back() ) ) );
-    tileSprite->move( 768.0f, 0.0f );
-    guiSprites_.push_back( std::move( tileSprite ) );
-
     guiTilesets_.push_back( guiGraphicsLibrary.getTilesetByName( "tool_selector.png" ) );
-    tileSprite =
+    m2g::TileSpritePtr tileSprite =
             m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets_.back() ) ) );
     tileSprite->move( 384.0f, 660.0f );
     guiToolSelector_ = tileSprite.get();
@@ -305,11 +301,6 @@ void Level::init()
     progressText_.setColor( sf::Color( 8, 31, 126, 255 ) );
     progressText_.setPosition( 450, 3 );
 
-    scoreText_.setFont( guiFont_ );
-    scoreText_.setCharacterSize( 50 );
-    scoreText_.setColor( sf::Color( 11, 109, 36, 255 ) );
-    scoreText_.setPosition( 785, 5 );
-
     // Load all the needed tilesets and animations (the graphics for
     // dangers and sandwiches are loaded in the methods "loadDangers" and
     // "loadSandwiches".
@@ -451,9 +442,6 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     unsigned int i;
 
-    // Text rendering.
-    char buffer[16];
-
     window_.clear( sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ) );
 
     // Draw the background
@@ -480,10 +468,6 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
     target.draw(*levelUI_, states);
 
     drawLevelProgress();
-
-    sprintf( buffer, "%08u", acumScore_ + levelScore_ );
-    scoreText_.setString( buffer );
-    window_.draw( scoreText_ );
 }
 
 
