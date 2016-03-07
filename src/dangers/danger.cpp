@@ -220,7 +220,7 @@ void Danger::applyMutation(const DangerMutation &mutation,
 
     int playerScoreVariation = mutation.playerScoreVariation();
     if( hp < oldDangerHp){
-        playerScoreVariation += oldDangerHp - hp;
+        playerScoreVariation += (oldDangerHp - hp) * dangerData->damageFactor;
     }
     if( (int)playerScore + playerScoreVariation > 0 ){
         playerScore += playerScoreVariation;
