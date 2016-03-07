@@ -32,7 +32,9 @@ TEST(DangerDataParserTest, StateTransitionIsParsedCorrectly) {
         "consequences": {
             "danger_hp_variation": -15,
             "new_state": 3,
-            "new_danger": "fire",
+            "new_danger": {
+                "id": "fire"
+            },
             "player_hp_bonus": 15
         }
     }
@@ -169,7 +171,9 @@ TEST(DangerDataParserTest, DangerStateIsParsedCorrectly)
                 "consequences": {
                     "danger_hp_variation": -15,
                     "new_state": 3,
-                    "new_danger": "fire",
+                    "new_danger": {
+                        "id": "fire"
+                    },
                     "player_hp_bonus": 15
                 }
             }
