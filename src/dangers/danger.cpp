@@ -75,6 +75,24 @@ void Danger::setDangerData( DangerDataPtr dangerData_,
 }
 
 
+void Danger::setDangerDataWithUniqueAnimationData(DangerDataPtr dangerData_, m2g::AnimationDataPtr appearanceAnimationData)
+{
+    dangerData = dangerData_;
+
+    if( appearanceAnimationData != nullptr ){
+        appearanceAnimation =
+                std::unique_ptr< m2g::Animation >(
+                    new m2g::Animation( std::move(appearanceAnimationData) ) );
+        appearanceAnimation->move( getBoundaryBox().left + ( getBoundaryBox().width - appearanceAnimation->getBoundaryBox().width ) / 2,
+                                   getBoundaryBox().top + ( getBoundaryBox().height - appearanceAnimation->getBoundaryBox().height ) / 2 );
+    }
+
+    setAnimationData( *( dangerData->animationData[0] ) );
+
+    reset();
+}
+
+
 void Danger::setState( int newState )
 {
     state = newState;
@@ -189,7 +207,7 @@ void Danger::applyMutation(const DangerMutation &mutation,
             });
         move( dangerData->baseLine.x + ( dangerData->baseLine.width - newDangerData->baseLine.width ) / 2 - newDangerData->baseLine.x,
                    dangerData->baseLine.y - newDangerData->baseLine.y );
-        setDangerData(newDangerData, dangersGraphicsLibrary.getAnimationDataByName(mutation.newDangerAppearanceAnimaton()).get());
+        setDangerDataWithUniqueAnimationData(newDangerData, std::move(dangersGraphicsLibrary.getAnimationDataByName(mutation.newDangerAppearanceAnimaton())));
     }
 
     if(mutation.dangerHpVariation() == HP_ALL){

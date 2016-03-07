@@ -71,6 +71,8 @@ class Danger : public m2g::Animation
         // TODO: Overload Animation setters.
         void setDangerData( DangerDataPtr dangerData_,
                             m2g::AnimationData* appearanceAnimationData = nullptr );
+        void setDangerDataWithUniqueAnimationData( DangerDataPtr dangerData_,
+                                                   m2g::AnimationDataPtr appearanceAnimationData = nullptr );
         void setState( int newState );
 
 
