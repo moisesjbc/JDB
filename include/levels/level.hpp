@@ -33,6 +33,7 @@
 #include <dangers/dangers_counter.hpp>
 #include <profiles/profile.hpp>
 #include <level_ui/level_ui.hpp>
+#include <sandwiches/sandwiches_manager.hpp>
 
 namespace jdb {
 
@@ -121,22 +122,14 @@ class Level : public GameState
          ***/
         ConveyorBelt conveyorBelt_;
 
+        SandwichesManager sandwichesManager_;
+
         std::unique_ptr< LevelIntro > levelIntro_;
-
-        std::unique_ptr<DangersCounter> dangersCounter_;
-
-        unsigned int nDangersRemoved_ = 0;
 
         unsigned int acumScore_;
         unsigned int levelScore_;
 
     private:
-        /***
-         * Private attributes
-         ***/
-        std::vector<DangerDataPtr> dangerData_;
-        std::vector<SandwichDataPtr> sandwichData_;
-
         // Player's tool
         ToolPtr tool_;
 
@@ -151,13 +144,6 @@ class Level : public GameState
         unsigned int levelIndex_;
 
         Profile& playerProfile_;
-
-        // Variables used for sandwich reseting.
-        unsigned int firstSandwich;
-        unsigned int lastSandwich;
-
-        // Sandwiches
-        SandwichesVector sandwiches;
 
         // Background sprites.
         std::vector< m2g::TileSpritePtr > backgroundSprites;

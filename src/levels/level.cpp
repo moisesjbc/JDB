@@ -31,10 +31,6 @@ INITIALIZE_EASYLOGGINGPP
 
 namespace jdb {
 
-const float SANDWICHES_END_POINT = 0.0f;
-const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
-
-
 /***
  * Construction and destruction
  ***/
@@ -93,8 +89,8 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
     }
 
     // Draw the sandwiches
-    for( i=0; i < sandwiches.size(); i++ ){
-        target.draw( *( sandwiches[i] ), states );
+    for( i=0; i < sandwichesManager_.sandwiches.size(); i++ ){
+        target.draw( *( sandwichesManager_.sandwiches[i] ), states );
     }
 
     // Draw the grinder's front.
@@ -122,9 +118,9 @@ void Level::loadSandwichData()
     // Load the dangers data.
     document.LoadFile( (DATA_DIR_PATH + "/config/sandwiches.xml").c_str() );
     sandwichXMLElement = ( document.RootElement() )->FirstChildElement( "sandwich" );
-    sandwichData_.clear();
+    sandwichesManager_.sandwichData_.clear();
     while( sandwichXMLElement ){
-        sandwichData_.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary ) );
+        sandwichesManager_.sandwichData_.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary ) );
 
         sandwichXMLElement = sandwichXMLElement->NextSiblingElement();
     }
@@ -157,7 +153,7 @@ void Level::loadDangerData(
     }
 
     // FIXME: don't use dangers counter in survival level.
-    dangersCounter_ =
+    sandwichesManager_.dangersCounter_ =
         std::unique_ptr<DangersCounter>(
             new DangersCounter(
                 dangersXmlNode->IntAttribute("number"),
@@ -169,7 +165,7 @@ void Level::loadDangerData(
         (DATA_DIR_PATH + "/config/dangers.json").c_str(),
         dangersIDs,
         *dangerGraphicsLibrary_,
-        dangerData_);
+        sandwichesManager_.dangerData_);
 }
 
 
@@ -235,27 +231,27 @@ void Level::reset()
 {
     levelScore_ = 0;
 
-    nDangersRemoved_ = 0;
+    sandwichesManager_.nDangersRemoved_ = 0;
 
     // Initialize jacob's life and the sandwich indicators.
     jacobHp_ = 100;
 
-    dangersCounter_->reset();
+    sandwichesManager_.dangersCounter_->reset();
 
     // Load the sandwiches, move them to their final positions and
     // populate them with dangers.
-    sandwiches.clear();
+    sandwichesManager_.sandwiches.clear();
     for( unsigned int i=0; i < N_SANDWICHES; i++ ){
-        sandwiches.push_back(
+        sandwichesManager_.sandwiches.push_back(
                     std::unique_ptr< Sandwich >(
-                        new Sandwich( sandwichData_[0], &dangerData_ ) ) );
+                        new Sandwich( sandwichesManager_.sandwichData_[0], &sandwichesManager_.dangerData_ ) ) );
 
-        sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
+        sandwichesManager_.sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
 
-        sandwiches[i]->populate( dangerData_, dangersCounter_.get() );
+        sandwichesManager_.sandwiches[i]->populate( sandwichesManager_.dangerData_, sandwichesManager_.dangersCounter_.get() );
     }
-    firstSandwich = 0;
-    lastSandwich = sandwiches.size() - 1;
+
+    sandwichesManager_.reset();
 
     conveyorBelt_.reset();
 
@@ -319,12 +315,12 @@ void Level::handleEvents()
     t0 = t1 = clock.getElapsedTime();
     while( static_cast< unsigned int >( (t1 - t0).asMilliseconds() ) < REFRESH_TIME ){
         if( window_.pollEvent( event ) != 0 ){
-            handleUserInput( event, sandwiches );
+            handleUserInput( event, sandwichesManager_.sandwiches );
         }
         t1 = clock.getElapsedTime();
     }
 
-    tool_->handleMouseHover( sandwiches, jacobHp_, levelScore_, *dangerGraphicsLibrary_ );
+    tool_->handleMouseHover( sandwichesManager_.sandwiches, jacobHp_, levelScore_, *dangerGraphicsLibrary_ );
     // FIXME: Duplicated code.
     if( jacobHp_ > 130 ){
         jacobHp_ = 130;
@@ -338,55 +334,22 @@ void Level::update( unsigned int ms )
 
     unsigned int i;
 
-    tool_->applyStun( sandwiches );
+    tool_->applyStun( sandwichesManager_.sandwiches );
 
-    // Game logic: Check if the first sandwich reached the
-    // sandwiches' end point and, in that case, restart it.
-    if( sandwiches[firstSandwich]->getBoundaryBox().left < SANDWICHES_END_POINT ){
-        // Hurt Jacob! (muahahaha!)
-        jacobHp_ -= sandwiches[firstSandwich]->getDamage();
-
-        // Decrease the counter for the dangers of the sandwich.
-        if(dangersCounter_ != nullptr){
-            nDangersRemoved_ += sandwiches[firstSandwich]->nDangers();
-        }
-
-        if(dangersCounter_->nDangers() > 0){
-            // Repopulate the sandwich.
-            sandwiches[firstSandwich]->populate( dangerData_, dangersCounter_.get() );
-
-            // Translate the sandwich behind the last one.
-            sandwiches[firstSandwich]->translate(
-                        sandwiches[lastSandwich]->getBoundaryBox().left
-                        - sandwiches[firstSandwich]->getBoundaryBox().left
-                        + DISTANCE_BETWEEN_SANDWICHES,
-                        0.0f );
-
-            // Change the indices for the first and last sandwiches.
-            firstSandwich = (firstSandwich + 1) % sandwiches.size();
-            lastSandwich = (lastSandwich + 1) % sandwiches.size();
-        }else{
-            SandwichesVector::iterator sandwichIt = sandwiches.begin();
-            std::advance( sandwichIt, firstSandwich );
-            sandwiches.erase( sandwichIt );
-            if( sandwiches.size() ){
-                firstSandwich = (firstSandwich + 1) % sandwiches.size();
-            }
-        }
-    }
+    sandwichesManager_.update(ms, jacobHp_);
 
     conveyorBelt_.update( ms );
 
     // Update the sandwiches
-    for( i=0; i < sandwiches.size(); i++ ){
-        sandwiches[i]->update( ms, jacobHp_, levelScore_, *dangerGraphicsLibrary_ );
+    for( i=0; i < sandwichesManager_.sandwiches.size(); i++ ){
+        sandwichesManager_.sandwiches[i]->update( ms, jacobHp_, levelScore_, *dangerGraphicsLibrary_ );
     }
 
     // Move the sandwiches
     // Conveyor belt's speed management.
     float speed = conveyorBelt_.getSpeed();
-    for( i=0; i < sandwiches.size(); i++ ){
-        sandwiches[i]->translate( -speed, 0.0f );
+    for( i=0; i < sandwichesManager_.sandwiches.size(); i++ ){
+        sandwichesManager_.sandwiches[i]->translate( -speed, 0.0f );
     }
 
     // Update the tool

@@ -110,7 +110,7 @@ unsigned int CampaignLevel::nLevels()
 
 bool CampaignLevel::victory() const
 {
-    return (nDangersRemoved_ == dangersCounter_->initialNDangers());
+    return (sandwichesManager_.nDangersRemoved_ == sandwichesManager_.dangersCounter_->initialNDangers());
 }
 
 
@@ -138,7 +138,7 @@ std::unique_ptr<LevelUI> CampaignLevel::generateLevelUI(m2g::GraphicsLibrary& gu
                     std::move(guiGraphicsLibrary.getTilesetByName("score.png")),
                     [this](){ return toolIndex(); },
                     std::move(guiGraphicsLibrary.getTilesetByName("tool_selector.png")),
-                    [this](){ return nDangersRemoved_ / static_cast<float>(dangersCounter_->initialNDangers()) * 100.0f; },
+                    [this](){ return sandwichesManager_.nDangersRemoved_ / static_cast<float>(sandwichesManager_.dangersCounter_->initialNDangers()) * 100.0f; },
                     std::move(guiGraphicsLibrary.getTilesetByName("progress.png"))
                 )
                 );
