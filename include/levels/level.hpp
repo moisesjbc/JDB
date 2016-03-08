@@ -80,7 +80,6 @@ class Level : public GameState
          * 5. Auxiliar methods
          ***/
         unsigned int levelIndex() const;
-        unsigned int nSandwiches() const;
         unsigned int score() const;
 
         virtual std::unique_ptr<LevelUI> generateLevelUI(m2g::GraphicsLibrary& guiGraphicsLibrary) const = 0;

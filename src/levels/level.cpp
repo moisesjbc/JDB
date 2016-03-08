@@ -240,13 +240,6 @@ unsigned int Level::levelIndex() const
     return levelIndex_;
 }
 
-
-unsigned int Level::nSandwiches() const
-{
-    return sandwiches.size();
-}
-
-
 unsigned int Level::score() const
 {
     return levelScore_;
