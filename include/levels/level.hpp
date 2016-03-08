@@ -121,8 +121,6 @@ class Level : public GameState
          ***/
         ConveyorBelt conveyorBelt_;
 
-        std::unique_ptr<LevelUI> levelUI_;
-
         SoundManager& soundManager_;
 
         std::unique_ptr< LevelIntro > levelIntro_;
@@ -149,6 +147,9 @@ class Level : public GameState
 
         // Jacob's life
         int jacobHp_;
+
+        // Level UI
+        std::unique_ptr<LevelUI> levelUI_;
 
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;
