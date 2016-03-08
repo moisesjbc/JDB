@@ -47,9 +47,7 @@ class SandwichesManager
         std::vector<SandwichDataPtr> sandwichData_;
         std::vector<DangerDataPtr> dangerData_;
 
-        // Variables used for sandwich reseting.
-        unsigned int firstSandwich;
-        unsigned int lastSandwich;
+
 
         // Sandwiches
         SandwichesVector sandwiches;
@@ -59,6 +57,12 @@ class SandwichesManager
         unsigned int nDangersRemoved_ = 0;
 
         std::unique_ptr< m2g::GraphicsLibrary > dangerGraphicsLibrary_;
+
+
+    private:
+        // Variables used for sandwich reseting.
+        unsigned int firstSandwich;
+        unsigned int lastSandwich;
 };
 
 } // namespace jdb
