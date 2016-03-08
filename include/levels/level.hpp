@@ -56,6 +56,7 @@ class Level : public GameState
         virtual bool defeat() const = 0;
         virtual bool victory() const = 0;
         unsigned int toolIndex() const;
+        int jacobHp() const;
 
 
         /***
@@ -120,10 +121,6 @@ class Level : public GameState
          ***/
         ConveyorBelt conveyorBelt_;
 
-
-        // Jacob's life
-        int jacobHp_;
-
         std::unique_ptr<LevelUI> levelUI_;
 
         SoundManager& soundManager_;
@@ -149,6 +146,9 @@ class Level : public GameState
 
         // Player's tool
         ToolPtr tool_;
+
+        // Jacob's life
+        int jacobHp_;
 
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;

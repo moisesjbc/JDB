@@ -83,7 +83,7 @@ bool SurvivalLevel::victory() const
 
 bool SurvivalLevel::defeat() const
 {
-    return (jacobHp_ <= 0);
+    return (jacobHp() <= 0);
 }
 
 
@@ -102,7 +102,7 @@ std::unique_ptr<LevelUI> SurvivalLevel::generateLevelUI(m2g::GraphicsLibrary &gu
 {
     return std::unique_ptr<LevelUI>(
                 new SurvivalLevelUI(
-                    [this](){ return jacobHp_; },
+                    [this](){ return jacobHp(); },
                     std::move(guiGraphicsLibrary.getTilesetByName("health.png")),
                     [this](){ return acumScore_ + levelScore_; },
                     std::move(guiGraphicsLibrary.getTilesetByName("score.png")),

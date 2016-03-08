@@ -58,6 +58,7 @@ unsigned int Level::levelIndex() const
     return levelIndex_;
 }
 
+
 unsigned int Level::score() const
 {
     return levelScore_;
@@ -67,6 +68,12 @@ unsigned int Level::score() const
 unsigned int Level::toolIndex() const
 {
     return tool_->index();
+}
+
+
+int Level::jacobHp() const
+{
+    return jacobHp_;
 }
 
 
