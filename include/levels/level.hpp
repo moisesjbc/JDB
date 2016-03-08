@@ -87,9 +87,6 @@ class Level : public GameState
         virtual void resetLevelTime() = 0;
         virtual void updateLevelTime( unsigned int ms ) = 0;
         virtual void drawLevelProgress() const = 0;
-        virtual void loadGUIProgressPanel(m2g::GraphicsLibrary& guiGraphicsLibrary,
-                                          std::vector<m2g::TilesetPtr>& guiTilesets,
-                                          std::vector<m2g::TileSpritePtr>& guiSprites) const = 0;
         virtual std::unique_ptr<LevelUI> generateLevelUI(m2g::GraphicsLibrary& guiGraphicsLibrary) const = 0;
 
 

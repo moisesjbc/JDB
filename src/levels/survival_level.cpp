@@ -105,18 +105,6 @@ void SurvivalLevel::drawLevelProgress() const
 }
 
 
-void SurvivalLevel::loadGUIProgressPanel(m2g::GraphicsLibrary& guiGraphicsLibrary,
-                                         std::vector<m2g::TilesetPtr>& guiTilesets,
-                                         std::vector<m2g::TileSpritePtr>& guiSprites) const
-{
-    guiTilesets.push_back( guiGraphicsLibrary.getTilesetByName( "time.png" ) );
-    m2g::TileSpritePtr tileSprite =
-            m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets.back() ) ) );
-    tileSprite->move( 367.0f, 0.0f );
-    guiSprites.push_back( std::move( tileSprite ) );
-}
-
-
 std::unique_ptr<LevelUI> SurvivalLevel::generateLevelUI(m2g::GraphicsLibrary &guiGraphicsLibrary) const
 {
     return std::unique_ptr<LevelUI>(

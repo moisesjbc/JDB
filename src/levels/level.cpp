@@ -131,8 +131,6 @@ void Level::initGUI()
 
     levelUI_ = std::move(generateLevelUI(guiGraphicsLibrary));
 
-    // Load the GUI sprites.
-    loadGUIProgressPanel(guiGraphicsLibrary, guiTilesets_, guiSprites_);
     levelUI_->update();
 
     window_.setMouseCursorVisible( false );
