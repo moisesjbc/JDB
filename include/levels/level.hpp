@@ -119,9 +119,6 @@ class Level : public GameState
          ***/
         ConveyorBelt conveyorBelt_;
 
-        std::vector< DangerDataPtr > dangerData;
-        std::vector< SandwichDataPtr > sandwichData;
-
         // Players tool
         ToolPtr tool_;
 
@@ -145,6 +142,12 @@ class Level : public GameState
         unsigned int levelScore_;
 
     private:
+        /***
+         * Private attributes
+         ***/
+        std::vector<DangerDataPtr> dangerData_;
+        std::vector<SandwichDataPtr> sandwichData_;
+
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;
         unsigned int lastSandwich;

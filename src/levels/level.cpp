@@ -109,9 +109,9 @@ void Level::loadSandwichData()
     // Load the dangers data.
     document.LoadFile( (DATA_DIR_PATH + "/config/sandwiches.xml").c_str() );
     sandwichXMLElement = ( document.RootElement() )->FirstChildElement( "sandwich" );
-    sandwichData.clear();
+    sandwichData_.clear();
     while( sandwichXMLElement ){
-        sandwichData.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary ) );
+        sandwichData_.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary ) );
 
         sandwichXMLElement = sandwichXMLElement->NextSiblingElement();
     }
@@ -156,7 +156,7 @@ void Level::loadDangerData(
         (DATA_DIR_PATH + "/config/dangers.json").c_str(),
         dangersIDs,
         *dangerGraphicsLibrary_,
-        dangerData);
+        dangerData_);
 }
 
 
@@ -235,11 +235,11 @@ void Level::reset()
     for( unsigned int i=0; i < N_SANDWICHES; i++ ){
         sandwiches.push_back(
                     std::unique_ptr< Sandwich >(
-                        new Sandwich( sandwichData[0], &dangerData ) ) );
+                        new Sandwich( sandwichData_[0], &dangerData_ ) ) );
 
         sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
 
-        sandwiches[i]->populate( dangerData, dangersCounter_.get() );
+        sandwiches[i]->populate( dangerData_, dangersCounter_.get() );
     }
     firstSandwich = 0;
     lastSandwich = sandwiches.size() - 1;
@@ -340,7 +340,7 @@ void Level::update( unsigned int ms )
 
         if(dangersCounter_->nDangers() > 0){
             // Repopulate the sandwich.
-            sandwiches[firstSandwich]->populate( dangerData, dangersCounter_.get() );
+            sandwiches[firstSandwich]->populate( dangerData_, dangersCounter_.get() );
 
             // Translate the sandwich behind the last one.
             sandwiches[firstSandwich]->translate(
