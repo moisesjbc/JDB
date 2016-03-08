@@ -42,6 +42,7 @@ const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
 Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex, Profile& playerProfile )
     : GameState( window ),
       soundManager_( *soundManager ),
+      levelTime_( 0 ),
       levelIndex_( levelIndex ),
       playerProfile_(playerProfile),
       acumScore_( 0 ),
@@ -132,6 +133,7 @@ void Level::initGUI()
 
     // Load the GUI sprites.
     loadGUIProgressPanel(guiGraphicsLibrary, guiTilesets_, guiSprites_);
+    levelUI_->update();
 
     window_.setMouseCursorVisible( false );
 }
@@ -225,11 +227,13 @@ void Level::reset()
 
     conveyorBelt_.reset();
 
-    // Present level intro to player.
-    switchState( *levelIntro_ );
-
     resetLevelTime();
     resetClock();
+
+    levelUI_->update();
+
+    // Present level intro to player.
+    switchState( *levelIntro_ );
 }
 
 
@@ -267,13 +271,13 @@ unsigned int Level::score() const
 
 void Level::init()
 {
-    // Initialize the GUI.
-    initGUI();
-
     // Load the required level.
     if( load( levelIndex_ ) == false ){
         throw std::runtime_error( "Couldn't load level " + std::to_string( levelIndex_ ) );
     }
+
+    // Initialize the GUI.
+    initGUI();
 
     // Initialize GUI's texts.
     guiFont_.loadFromFile( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
