@@ -131,11 +131,6 @@ class Level : public GameState
         // Jacob's life
         int jacobHp_;
 
-        // GUI sprites.
-        std::vector< m2g::TilesetPtr > guiTilesets_;
-        std::vector< m2g::TileSpritePtr > guiSprites_;
-        m2g::TileSprite* guiToolSelector_;
-
         std::unique_ptr<LevelUI> levelUI_;
 
         SoundManager& soundManager_;
@@ -166,10 +161,6 @@ class Level : public GameState
         // Background sprites.
         std::vector< m2g::TileSpritePtr > backgroundSprites;
         m2g::TileSpritePtr grinderFront;
-
-        sf::Font guiFont_;
-        mutable sf::Text healthText_;
-        mutable sf::Text scoreText_;
 
         std::unique_ptr< m2g::GraphicsLibrary > dangerGraphicsLibrary_;
 };

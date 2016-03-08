@@ -277,9 +277,6 @@ void Level::init()
     // Initialize the GUI.
     initGUI();
 
-    // Initialize GUI's texts.
-    guiFont_.loadFromFile( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
-
     // Load all the needed tilesets and animations (the graphics for
     // dangers and sandwiches are loaded in the methods "loadDangers" and
     // "loadSandwiches".
@@ -438,11 +435,6 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
     // Draw the tool.
     target.draw( *tool_, states );
-
-    // Draw the GUI sprites.
-    for( const m2g::TileSpritePtr& guiSprite : guiSprites_ ){
-        target.draw( *guiSprite, states );
-    }
 
     target.draw(*levelUI_, states);
 
