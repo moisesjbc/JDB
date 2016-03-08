@@ -132,7 +132,7 @@ void Level::loadDangerData(
             std::map<std::string, float>& dangersRatios,
             std::vector<std::string>& newDangersIDs )
 {
-    dangerGraphicsLibrary_ =
+    sandwichesManager_.dangerGraphicsLibrary_ =
             std::unique_ptr< m2g::GraphicsLibrary >( new m2g::GraphicsLibrary( DATA_DIR_PATH + "/img/dangers/dangers.xml" ) );
 
     tinyxml2::XMLElement* dangerXmlNode =
@@ -164,7 +164,7 @@ void Level::loadDangerData(
     dangerDataParser.LoadDangersDataByName(
         (DATA_DIR_PATH + "/config/dangers.json").c_str(),
         dangersIDs,
-        *dangerGraphicsLibrary_,
+        *sandwichesManager_.dangerGraphicsLibrary_,
         sandwichesManager_.dangerData_);
 }
 
@@ -182,7 +182,7 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
         break;
         case sf::Event::MouseButtonPressed:{
             // Player clicked on screen.
-            tool_->handleMouseButtonDown(sandwiches, jacobHp_, levelScore_, *dangerGraphicsLibrary_);
+            tool_->handleMouseButtonDown(sandwiches, jacobHp_, levelScore_, *sandwichesManager_.dangerGraphicsLibrary_);
             // FIXME: Duplicated code.
             if( jacobHp_ > 130 ){
                 jacobHp_ = 130;
@@ -320,7 +320,7 @@ void Level::handleEvents()
         t1 = clock.getElapsedTime();
     }
 
-    tool_->handleMouseHover( sandwichesManager_.sandwiches, jacobHp_, levelScore_, *dangerGraphicsLibrary_ );
+    tool_->handleMouseHover( sandwichesManager_.sandwiches, jacobHp_, levelScore_, *sandwichesManager_.dangerGraphicsLibrary_ );
     // FIXME: Duplicated code.
     if( jacobHp_ > 130 ){
         jacobHp_ = 130;
@@ -342,7 +342,7 @@ void Level::update( unsigned int ms )
 
     // Update the sandwiches
     for( i=0; i < sandwichesManager_.sandwiches.size(); i++ ){
-        sandwichesManager_.sandwiches[i]->update( ms, jacobHp_, levelScore_, *dangerGraphicsLibrary_ );
+        sandwichesManager_.sandwiches[i]->update( ms, jacobHp_, levelScore_, *sandwichesManager_.dangerGraphicsLibrary_ );
     }
 
     // Move the sandwiches

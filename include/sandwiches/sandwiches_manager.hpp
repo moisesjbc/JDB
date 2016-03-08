@@ -57,6 +57,8 @@ class SandwichesManager
         std::unique_ptr<DangersCounter> dangersCounter_;
 
         unsigned int nDangersRemoved_ = 0;
+
+        std::unique_ptr< m2g::GraphicsLibrary > dangerGraphicsLibrary_;
 };
 
 } // namespace jdb

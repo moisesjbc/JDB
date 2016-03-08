@@ -148,8 +148,6 @@ class Level : public GameState
         // Background sprites.
         std::vector< m2g::TileSpritePtr > backgroundSprites;
         m2g::TileSpritePtr grinderFront;
-
-        std::unique_ptr< m2g::GraphicsLibrary > dangerGraphicsLibrary_;
 };
 
 } // namespace jdb
