@@ -21,6 +21,7 @@
 #define SURVIVAL_LEVEL_HPP
 
 #include "level.hpp"
+#include <utilities/timer.hpp>
 
 namespace jdb {
 
@@ -47,15 +48,24 @@ class SurvivalLevel : public Level
 
 
     protected:
-        virtual void updateLevelTime( unsigned int ms );
+        /***
+         * GameState interface
+         ***/
+        void update(unsigned int ms);
 
 
         // Level interface
-        virtual void resetLevelTime();
         std::unique_ptr<LevelUI> generateLevelUI(m2g::GraphicsLibrary &guiGraphicsLibrary) const;
+        virtual void reset();
 
     private:
         bool updatePlayerProfile(Profile &playerProfile) const;
+
+
+        /***
+         * Attributes
+         ***/
+        Timer timer_;
 };
 
 } // namespace jdb

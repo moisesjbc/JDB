@@ -73,19 +73,16 @@ class Level : public GameState
         void handleUserInput(const sf::Event& event, SandwichesVector& sandwiches );
         virtual bool defeat() const = 0;
         virtual bool victory() const = 0;
-        void reset();
+        virtual void reset();
 
 
         /***
          * 5. Auxiliar methods
          ***/
-        int getSeconds() const ;
         unsigned int levelIndex() const;
         unsigned int nSandwiches() const;
         unsigned int score() const;
 
-        virtual void resetLevelTime() = 0;
-        virtual void updateLevelTime( unsigned int ms ) = 0;
         virtual std::unique_ptr<LevelUI> generateLevelUI(m2g::GraphicsLibrary& guiGraphicsLibrary) const = 0;
 
 
@@ -133,8 +130,6 @@ class Level : public GameState
         std::unique_ptr<LevelUI> levelUI_;
 
         SoundManager& soundManager_;
-
-        unsigned int levelTime_;
 
         std::unique_ptr< LevelIntro > levelIntro_;
         unsigned int levelIndex_;

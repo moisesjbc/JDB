@@ -87,15 +87,14 @@ bool SurvivalLevel::defeat() const
 }
 
 
-void SurvivalLevel::updateLevelTime( unsigned int ms )
-{
-    levelTime_ += ms;
-}
+/***
+ * GameState interface
+ ***/
 
-
-void SurvivalLevel::resetLevelTime()
+void SurvivalLevel::update(unsigned int ms)
 {
-    levelTime_ = 0;
+    Level::update(ms);
+    timer_.update(ms);
 }
 
 
@@ -109,10 +108,17 @@ std::unique_ptr<LevelUI> SurvivalLevel::generateLevelUI(m2g::GraphicsLibrary &gu
                     std::move(guiGraphicsLibrary.getTilesetByName("score.png")),
                     [this](){ return tool_->index(); },
                     std::move(guiGraphicsLibrary.getTilesetByName("tool_selector.png")),
-                    [this](){ return levelTime_; },
+                    [this](){ return timer_.seconds(); },
                     std::move(guiGraphicsLibrary.getTilesetByName("time.png"))
                 )
             );
+}
+
+
+void SurvivalLevel::reset()
+{
+    Level::reset();
+    timer_.reset();
 }
 
 

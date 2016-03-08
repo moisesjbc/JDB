@@ -58,7 +58,7 @@ void SurvivalLevelUI::update()
     char buffer[10];
 
     // Compute the current game time.
-    unsigned int seconds = timeGetter_() / 1000;
+    unsigned int seconds = timeGetter_();
     unsigned int minutes = seconds / 60;
     seconds = seconds % 60;
 

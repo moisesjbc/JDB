@@ -42,7 +42,6 @@ const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
 Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex, Profile& playerProfile )
     : GameState( window ),
       soundManager_( *soundManager ),
-      levelTime_( 0 ),
       levelIndex_( levelIndex ),
       playerProfile_(playerProfile),
       acumScore_( 0 ),
@@ -221,11 +220,8 @@ void Level::reset()
     firstSandwich = 0;
     lastSandwich = sandwiches.size() - 1;
 
-    resetLevelTime();
-
     conveyorBelt_.reset();
 
-    resetLevelTime();
     resetClock();
 
     levelUI_->update();
@@ -238,12 +234,6 @@ void Level::reset()
 /***
  * 5. Auxiliar methods
  ***/
-
-int Level::getSeconds() const
-{
-    return levelTime_ / 1000;
-}
-
 
 unsigned int Level::levelIndex() const
 {
@@ -330,7 +320,6 @@ void Level::handleEvents()
 void Level::update( unsigned int ms )
 {
     LOG(INFO) << "Level::update()";
-    updateLevelTime( ms );
 
     unsigned int i;
 

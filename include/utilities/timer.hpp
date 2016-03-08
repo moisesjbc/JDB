@@ -35,7 +35,7 @@ class Timer
         /***
          * Getters
          ***/
-        unsigned int seconds();
+        unsigned int seconds() const;
 
 
         /***

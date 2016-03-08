@@ -50,7 +50,6 @@ class CampaignLevel : public Level
          ***/
         virtual bool defeat() const;
         virtual bool victory() const;
-        virtual void updateLevelTime( unsigned int ms );
 
 
     protected:
@@ -60,7 +59,6 @@ class CampaignLevel : public Level
         virtual void cleanUp();
 
         // Level interface
-        virtual void resetLevelTime();
         std::unique_ptr<LevelUI> generateLevelUI(m2g::GraphicsLibrary& guiGraphicsLibrary) const;
 
     private:

@@ -40,7 +40,7 @@ void Timer::reset()
  * Getters
  ***/
 
-unsigned int Timer::seconds()
+unsigned int Timer::seconds() const
 {
     return milliseconds_ / 1000;
 }

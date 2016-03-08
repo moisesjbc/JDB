@@ -120,27 +120,12 @@ bool CampaignLevel::defeat() const
 }
 
 
-void CampaignLevel::updateLevelTime( unsigned int ms )
-{
-    if( levelTime_ > ms ){
-        levelTime_ -= ms;
-    }else{
-        levelTime_ = 0;
-    }
-}
-
-
 /***
  * 4. GameState interface
  ***/
 
 void CampaignLevel::cleanUp()
 {}
-
-
-void CampaignLevel::resetLevelTime()
-{
-}
 
 
 std::unique_ptr<LevelUI> CampaignLevel::generateLevelUI(m2g::GraphicsLibrary& guiGraphicsLibrary) const
@@ -156,7 +141,7 @@ std::unique_ptr<LevelUI> CampaignLevel::generateLevelUI(m2g::GraphicsLibrary& gu
                     [this](){ return nDangersRemoved_ / static_cast<float>(dangersCounter_->initialNDangers()) * 100.0f; },
                     std::move(guiGraphicsLibrary.getTilesetByName("progress.png"))
                 )
-            );
+                );
 }
 
 
