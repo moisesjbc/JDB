@@ -41,11 +41,11 @@ const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
 
 Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex, Profile& playerProfile )
     : GameState( window ),
+      acumScore_( 0 ),
+      levelScore_( 0 ),
       soundManager_( *soundManager ),
       levelIndex_( levelIndex ),
-      playerProfile_(playerProfile),
-      acumScore_( 0 ),
-      levelScore_( 0 )
+      playerProfile_(playerProfile)
 {}
 
 

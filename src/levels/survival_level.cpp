@@ -65,7 +65,7 @@ bool SurvivalLevel::load( unsigned int index )
     // Get the conveyor belt parameters.
     conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
 
-    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex_, newDangersIDs, levelNode->FirstChildElement( "level_book" ), false ) );
+    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex(), newDangersIDs, levelNode->FirstChildElement( "level_book" ), false ) );
 
     return true;
 }

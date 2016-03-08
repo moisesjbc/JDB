@@ -76,7 +76,7 @@ bool CampaignLevel::load( unsigned int index )
     conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
 
     LOG(INFO) << "Creating level intro ...";
-    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex_, newDangersIDs, levelNode->FirstChildElement( "level_book" ) ) );
+    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex(), newDangersIDs, levelNode->FirstChildElement( "level_book" ) ) );
     LOG(INFO) << "Creating level intro ...OK";
 
     return true;
@@ -147,8 +147,8 @@ std::unique_ptr<LevelUI> CampaignLevel::generateLevelUI(m2g::GraphicsLibrary& gu
 
 bool CampaignLevel::updatePlayerProfile(Profile &playerProfile) const
 {
-    if(levelIndex_ > playerProfile.nextCampaignLevel()){
-        playerProfile.setNextCampaignLevel(levelIndex_);
+    if(levelIndex() > playerProfile.nextCampaignLevel()){
+        playerProfile.setNextCampaignLevel(levelIndex());
         return true;
     }
     return false;
