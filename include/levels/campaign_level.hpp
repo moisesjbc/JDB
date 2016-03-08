@@ -34,12 +34,6 @@ class CampaignLevel : public Level
 
 
         /***
-         * 2. Level loading
-         ***/
-        virtual bool load( unsigned int levelIndex );
-
-
-        /***
          * Getters
          ***/
         static unsigned int nLevels();
@@ -60,6 +54,8 @@ class CampaignLevel : public Level
 
         // Level interface
         std::unique_ptr<LevelUI> generateLevelUI(m2g::GraphicsLibrary& guiGraphicsLibrary) const;
+        tinyxml2::XMLElement* getLevelXmlNode(tinyxml2::XMLDocument& xmlFile, unsigned int index) const;
+        std::unique_ptr<LevelIntro> generateLevelIntro(const std::vector<std::string> &newDangersIDs, tinyxml2::XMLElement *levelIntroXmlNode) const;
 
     private:
         bool updatePlayerProfile(Profile &playerProfile) const;

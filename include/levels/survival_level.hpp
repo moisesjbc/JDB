@@ -35,12 +35,6 @@ class SurvivalLevel : public Level
 
 
         /***
-         * 2. Level loading
-         ***/
-        virtual bool load( unsigned int levelIndex );
-
-
-        /***
          * 3. Main loop
          ***/
         virtual bool victory() const;
@@ -57,6 +51,9 @@ class SurvivalLevel : public Level
         // Level interface
         std::unique_ptr<LevelUI> generateLevelUI(m2g::GraphicsLibrary &guiGraphicsLibrary) const;
         virtual void reset();
+        tinyxml2::XMLElement* getLevelXmlNode(tinyxml2::XMLDocument& xmlFile, unsigned int index) const;
+        std::unique_ptr<LevelIntro> generateLevelIntro(const std::vector<std::string> &newDangersIDs, tinyxml2::XMLElement *levelIntroXmlNode) const;
+
 
     private:
         bool updatePlayerProfile(Profile &playerProfile) const;

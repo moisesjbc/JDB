@@ -89,8 +89,8 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
     }
 
     // Draw the sandwiches
-    for( i=0; i < sandwichesManager_.sandwiches.size(); i++ ){
-        target.draw( *( sandwichesManager_.sandwiches[i] ), states );
+    for( i=0; i < sandwichesManager_->sandwiches.size(); i++ ){
+        target.draw( *( sandwichesManager_->sandwiches[i] ), states );
     }
 
     // Draw the grinder's front.
@@ -107,7 +107,58 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
  * Loading
  ***/
 
-void Level::loadSandwichData()
+bool Level::load(unsigned int levelIndex)
+{
+    tinyxml2::XMLDocument xmlFile;
+    xmlFile.LoadFile( (DATA_DIR_PATH + "/config/levels.xml").c_str() );
+
+    LOG(INFO) << "Loading level configuration ...";
+    tinyxml2::XMLElement* levelNode = getLevelXmlNode(xmlFile, levelIndex);
+    // If the index XML node doesn't exist, return false.
+    if( levelNode == nullptr ){
+        return false;
+    }
+    LOG(INFO) << "Loading level configuration ...OK";
+
+    // Load the sandwiches data.
+    LOG(INFO) << "Loading sandwich data ...";
+    std::vector<SandwichDataPtr> sandwichData = loadSandwichData();
+    LOG(INFO) << "Loading sandwich data ...OK";
+
+    // Load the dangers data.
+    LOG(INFO) << "Loading danger data ...";
+    tinyxml2::XMLElement* dangersXmlNode =
+            (tinyxml2::XMLElement*)levelNode->FirstChildElement("dangers");
+    std::map<std::string, float> dangersRatios;
+    std::vector<std::string> newDangersIDs;
+    std::unique_ptr<std::vector<DangerDataPtr>> dangerData(new std::vector<DangerDataPtr>);
+    std::unique_ptr< m2g::GraphicsLibrary > dangerGraphicsLibrary =
+        std::unique_ptr< m2g::GraphicsLibrary >( new m2g::GraphicsLibrary( DATA_DIR_PATH + "/img/dangers/dangers.xml" ) );
+    loadDangerData(dangersXmlNode, dangersRatios, newDangersIDs, *dangerData, *dangerGraphicsLibrary);
+    LOG(INFO) << "Loading danger data ...OK";
+
+    // FIXME: don't use dangers counter in survival level.
+    std::unique_ptr<DangersCounter> dangersCounter(
+                new DangersCounter(
+                    dangersXmlNode->IntAttribute("number"),
+                    dangersRatios));
+
+    sandwichesManager_ =
+            std::unique_ptr<SandwichesManager>(
+                new SandwichesManager(sandwichData, std::move(dangerData), std::move(dangersCounter), std::move(dangerGraphicsLibrary)));
+
+    // Get the conveyor belt parameters.
+    conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
+
+    LOG(INFO) << "Creating level intro ...";
+    levelIntro_ = std::move(generateLevelIntro(newDangersIDs, levelNode->FirstChildElement( "level_book" )));
+    LOG(INFO) << "Creating level intro ...OK";
+
+    return true;
+}
+
+
+std::vector<SandwichDataPtr> Level::loadSandwichData()
 {
     tinyxml2::XMLDocument document;
     tinyxml2::XMLElement* sandwichXMLElement = nullptr;
@@ -118,23 +169,24 @@ void Level::loadSandwichData()
     // Load the dangers data.
     document.LoadFile( (DATA_DIR_PATH + "/config/sandwiches.xml").c_str() );
     sandwichXMLElement = ( document.RootElement() )->FirstChildElement( "sandwich" );
-    sandwichesManager_.sandwichData_.clear();
+
+    std::vector<SandwichDataPtr> sandwichData;
     while( sandwichXMLElement ){
-        sandwichesManager_.sandwichData_.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary ) );
+        sandwichData.emplace_back( new SandwichData( sandwichXMLElement, graphicsLibrary ) );
 
         sandwichXMLElement = sandwichXMLElement->NextSiblingElement();
     }
+    return sandwichData;
 }
 
 
 void Level::loadDangerData(
             tinyxml2::XMLElement* dangersXmlNode,
             std::map<std::string, float>& dangersRatios,
-            std::vector<std::string>& newDangersIDs )
+            std::vector<std::string>& newDangersIDs,
+            std::vector<DangerDataPtr>& dangerData,
+            const m2g::GraphicsLibrary& dangersGraphicsLibrary )
 {
-    sandwichesManager_.dangerGraphicsLibrary_ =
-            std::unique_ptr< m2g::GraphicsLibrary >( new m2g::GraphicsLibrary( DATA_DIR_PATH + "/img/dangers/dangers.xml" ) );
-
     tinyxml2::XMLElement* dangerXmlNode =
         dangersXmlNode->FirstChildElement("danger");
     dangersRatios.clear();
@@ -152,20 +204,13 @@ void Level::loadDangerData(
         dangerXmlNode = dangerXmlNode->NextSiblingElement("danger");
     }
 
-    // FIXME: don't use dangers counter in survival level.
-    sandwichesManager_.dangersCounter_ =
-        std::unique_ptr<DangersCounter>(
-            new DangersCounter(
-                dangersXmlNode->IntAttribute("number"),
-                dangersRatios));
-
     // Load the dangers data from config file.
     DangerDataParser dangerDataParser;
     dangerDataParser.LoadDangersDataByName(
         (DATA_DIR_PATH + "/config/dangers.json").c_str(),
         dangersIDs,
-        *sandwichesManager_.dangerGraphicsLibrary_,
-        sandwichesManager_.dangerData_);
+        dangersGraphicsLibrary,
+        dangerData);
 }
 
 
@@ -182,7 +227,7 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
         break;
         case sf::Event::MouseButtonPressed:{
             // Player clicked on screen.
-            tool_->handleMouseButtonDown(sandwiches, jacobHp_, levelScore_, *sandwichesManager_.dangerGraphicsLibrary_);
+            tool_->handleMouseButtonDown(sandwiches, jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_);
             // FIXME: Duplicated code.
             if( jacobHp_ > 130 ){
                 jacobHp_ = 130;
@@ -231,27 +276,12 @@ void Level::reset()
 {
     levelScore_ = 0;
 
-    sandwichesManager_.nDangersRemoved_ = 0;
+    sandwichesManager_->nDangersRemoved_ = 0;
 
     // Initialize jacob's life and the sandwich indicators.
     jacobHp_ = 100;
 
-    sandwichesManager_.dangersCounter_->reset();
-
-    // Load the sandwiches, move them to their final positions and
-    // populate them with dangers.
-    sandwichesManager_.sandwiches.clear();
-    for( unsigned int i=0; i < N_SANDWICHES; i++ ){
-        sandwichesManager_.sandwiches.push_back(
-                    std::unique_ptr< Sandwich >(
-                        new Sandwich( sandwichesManager_.sandwichData_[0], &sandwichesManager_.dangerData_ ) ) );
-
-        sandwichesManager_.sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
-
-        sandwichesManager_.sandwiches[i]->populate( sandwichesManager_.dangerData_, sandwichesManager_.dangersCounter_.get() );
-    }
-
-    sandwichesManager_.reset();
+    sandwichesManager_->reset();
 
     conveyorBelt_.reset();
 
@@ -315,12 +345,12 @@ void Level::handleEvents()
     t0 = t1 = clock.getElapsedTime();
     while( static_cast< unsigned int >( (t1 - t0).asMilliseconds() ) < REFRESH_TIME ){
         if( window_.pollEvent( event ) != 0 ){
-            handleUserInput( event, sandwichesManager_.sandwiches );
+            handleUserInput( event, sandwichesManager_->sandwiches );
         }
         t1 = clock.getElapsedTime();
     }
 
-    tool_->handleMouseHover( sandwichesManager_.sandwiches, jacobHp_, levelScore_, *sandwichesManager_.dangerGraphicsLibrary_ );
+    tool_->handleMouseHover( sandwichesManager_->sandwiches, jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_ );
     // FIXME: Duplicated code.
     if( jacobHp_ > 130 ){
         jacobHp_ = 130;
@@ -334,22 +364,22 @@ void Level::update( unsigned int ms )
 
     unsigned int i;
 
-    tool_->applyStun( sandwichesManager_.sandwiches );
+    tool_->applyStun( sandwichesManager_->sandwiches );
 
-    sandwichesManager_.update(ms, jacobHp_);
+    sandwichesManager_->update(ms, jacobHp_);
 
     conveyorBelt_.update( ms );
 
     // Update the sandwiches
-    for( i=0; i < sandwichesManager_.sandwiches.size(); i++ ){
-        sandwichesManager_.sandwiches[i]->update( ms, jacobHp_, levelScore_, *sandwichesManager_.dangerGraphicsLibrary_ );
+    for( i=0; i < sandwichesManager_->sandwiches.size(); i++ ){
+        sandwichesManager_->sandwiches[i]->update( ms, jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_ );
     }
 
     // Move the sandwiches
     // Conveyor belt's speed management.
     float speed = conveyorBelt_.getSpeed();
-    for( i=0; i < sandwichesManager_.sandwiches.size(); i++ ){
-        sandwichesManager_.sandwiches[i]->translate( -speed, 0.0f );
+    for( i=0; i < sandwichesManager_->sandwiches.size(); i++ ){
+        sandwichesManager_->sandwiches[i]->translate( -speed, 0.0f );
     }
 
     // Update the tool

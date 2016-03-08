@@ -32,9 +32,26 @@ class SandwichesManager
 {
     public:
         /***
+         * Construction
+         ***/
+        SandwichesManager(std::vector<SandwichDataPtr> sandwichData,
+                          std::unique_ptr<std::vector<DangerDataPtr>> dangerData,
+                          std::unique_ptr<DangersCounter> dangersCounter,
+                          std::unique_ptr<m2g::GraphicsLibrary> dangersGraphicsLibrary);
+
+
+        /***
          * Resetting
          ***/
         void reset();
+
+
+        /***
+         * Getters
+         ***/
+        unsigned int nDangersRemoved() const;
+        unsigned int nInitialDangers() const;
+
 
 
         /***
@@ -45,14 +62,10 @@ class SandwichesManager
 
     public:
         std::vector<SandwichDataPtr> sandwichData_;
-        std::vector<DangerDataPtr> dangerData_;
-
-
+        std::unique_ptr<std::vector<DangerDataPtr>> dangerData_;
 
         // Sandwiches
         SandwichesVector sandwiches;
-
-        std::unique_ptr<DangersCounter> dangersCounter_;
 
         unsigned int nDangersRemoved_ = 0;
 
@@ -63,6 +76,8 @@ class SandwichesManager
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;
         unsigned int lastSandwich;
+
+        std::unique_ptr<DangersCounter> dangersCounter_;
 };
 
 } // namespace jdb

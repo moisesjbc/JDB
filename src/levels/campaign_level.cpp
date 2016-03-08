@@ -32,58 +32,6 @@ CampaignLevel::CampaignLevel( sf::RenderWindow& window, SoundManager* soundManag
 
 
 /***
- * 2. Level loading
- ***/
-
-bool CampaignLevel::load( unsigned int index )
-{
-    tinyxml2::XMLElement* levelNode = nullptr;
-    unsigned int i = 0;
-
-    // Open the levels configuration file.
-    LOG(INFO) << "Loading level configuration ...";
-    tinyxml2::XMLDocument xmlFile;
-    xmlFile.LoadFile( (DATA_DIR_PATH + "/config/levels.xml").c_str() );
-
-    // Iterate over the survival level XML nodes until de number index.
-    levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "campaign_levels" )->FirstChildElement( "campaign_level" ) );
-    while( levelNode && ( i < index ) ){
-        levelNode = levelNode->NextSiblingElement( "campaign_level" );
-        i++;
-    }
-
-    // If the index XML node doesn't exist, return false.
-    if( levelNode == nullptr ){
-        return false;
-    }
-    LOG(INFO) << "Loading level configuration ...OK";
-
-    // Load the sandwiches data.
-    LOG(INFO) << "Loading sandwich data ...";
-    loadSandwichData();
-    LOG(INFO) << "Loading sandwich data ...OK";
-
-    // Load the dangers data.
-    LOG(INFO) << "Loading danger data ...";
-    tinyxml2::XMLElement* dangersXmlNode =
-            (tinyxml2::XMLElement*)levelNode->FirstChildElement("dangers");
-    std::map<std::string, float> dangersRatios;
-    std::vector<std::string> newDangersIDs;
-    loadDangerData(dangersXmlNode, dangersRatios, newDangersIDs);
-    LOG(INFO) << "Loading danger data ...OK";
-
-    // Get the conveyor belt parameters.
-    conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
-
-    LOG(INFO) << "Creating level intro ...";
-    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex(), newDangersIDs, levelNode->FirstChildElement( "level_book" ) ) );
-    LOG(INFO) << "Creating level intro ...OK";
-
-    return true;
-}
-
-
-/***
  * Getters
  ***/
 
@@ -110,7 +58,7 @@ unsigned int CampaignLevel::nLevels()
 
 bool CampaignLevel::victory() const
 {
-    return (sandwichesManager_.nDangersRemoved_ == sandwichesManager_.dangersCounter_->initialNDangers());
+    return (sandwichesManager_->nDangersRemoved() == sandwichesManager_->nInitialDangers());
 }
 
 
@@ -138,10 +86,34 @@ std::unique_ptr<LevelUI> CampaignLevel::generateLevelUI(m2g::GraphicsLibrary& gu
                     std::move(guiGraphicsLibrary.getTilesetByName("score.png")),
                     [this](){ return toolIndex(); },
                     std::move(guiGraphicsLibrary.getTilesetByName("tool_selector.png")),
-                    [this](){ return sandwichesManager_.nDangersRemoved_ / static_cast<float>(sandwichesManager_.dangersCounter_->initialNDangers()) * 100.0f; },
+                    [this](){ return sandwichesManager_->nDangersRemoved() / static_cast<float>(sandwichesManager_->nInitialDangers()) * 100.0f; },
                     std::move(guiGraphicsLibrary.getTilesetByName("progress.png"))
                 )
                 );
+}
+
+
+tinyxml2::XMLElement* CampaignLevel::getLevelXmlNode(tinyxml2::XMLDocument& xmlFile, unsigned int index) const
+{
+    unsigned int i =0;
+    tinyxml2::XMLElement* levelNode = nullptr;
+    // Open the levels configuration file.
+    LOG(INFO) << "Loading level configuration ...";
+
+    // Iterate over the survival level XML nodes until de number index.
+    levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "campaign_levels" )->FirstChildElement( "campaign_level" ) );
+    while( levelNode && ( i < index ) ){
+        levelNode = levelNode->NextSiblingElement( "campaign_level" );
+        i++;
+    }
+
+    return levelNode;
+}
+
+
+std::unique_ptr<LevelIntro> CampaignLevel::generateLevelIntro(const std::vector<std::string> &newDangersIDs, tinyxml2::XMLElement *levelIntroXmlNode) const
+{
+    return std::unique_ptr<LevelIntro>( new LevelIntro(*this, window_, levelIndex(), newDangersIDs, levelIntroXmlNode ) );
 }
 
 

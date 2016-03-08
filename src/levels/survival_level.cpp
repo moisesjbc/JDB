@@ -28,50 +28,6 @@ SurvivalLevel::SurvivalLevel( sf::RenderWindow& window, SoundManager* soundManag
 
 
 /***
- * 2. Level loading
- ***/
-
-bool SurvivalLevel::load( unsigned int index )
-{
-    tinyxml2::XMLNode* levelNode = nullptr;
-    unsigned int i = 0;
-
-    // Open the levels configuration file.
-    tinyxml2::XMLDocument xmlFile;
-    xmlFile.LoadFile( (DATA_DIR_PATH + "/config/levels.xml").c_str() );
-
-    // Iterate over the survival level XML nodes until de number index.
-    levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "survival_levels" )->FirstChildElement( "survival_level" ) );
-    while( levelNode && ( i < index ) ){
-        levelNode = levelNode->NextSiblingElement( "survival_level" );
-        i++;
-    }
-
-    // If the index XML node doesn't exist, return false
-    if( levelNode == nullptr ){
-        return false;
-    }
-
-    // Load the sandwiches data.
-    loadSandwichData();
-
-    // Load the dangers data.
-    tinyxml2::XMLElement* dangersXmlNode =
-            (tinyxml2::XMLElement*)levelNode->FirstChildElement("dangers");
-    std::map<std::string, float> dangersRatios;
-    std::vector<std::string> newDangersIDs;
-    loadDangerData(dangersXmlNode, dangersRatios, newDangersIDs);
-
-    // Get the conveyor belt parameters.
-    conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
-
-    levelIntro_ = std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex(), newDangersIDs, levelNode->FirstChildElement( "level_book" ), false ) );
-
-    return true;
-}
-
-
-/***
  * 3. Main loop
  ***/
 
@@ -119,6 +75,31 @@ void SurvivalLevel::reset()
 {
     Level::reset();
     timer_.reset();
+}
+
+
+tinyxml2::XMLElement* SurvivalLevel::getLevelXmlNode(tinyxml2::XMLDocument& xmlFile, unsigned int index) const
+{
+    tinyxml2::XMLElement* levelNode = nullptr;
+    unsigned int i = 0;
+
+    // Open the levels configuration file.
+    xmlFile.LoadFile( (DATA_DIR_PATH + "/config/levels.xml").c_str() );
+
+    // Iterate over the survival level XML nodes until de number index.
+    levelNode = ( xmlFile.FirstChildElement( "levels" )->FirstChildElement( "survival_levels" )->FirstChildElement( "survival_level" ) );
+    while( levelNode && ( i < index ) ){
+        levelNode = levelNode->NextSiblingElement( "survival_level" );
+        i++;
+    }
+
+    return levelNode;
+}
+
+
+std::unique_ptr<LevelIntro> SurvivalLevel::generateLevelIntro(const std::vector<std::string> &newDangersIDs, tinyxml2::XMLElement *levelIntroXmlNode) const
+{
+    return std::unique_ptr<LevelIntro>( new LevelIntro( *this, window_, levelIndex(), newDangersIDs, levelIntroXmlNode, false ) );
 }
 
 

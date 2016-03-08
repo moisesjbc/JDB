@@ -37,8 +37,6 @@
 
 namespace jdb {
 
-const unsigned int N_SANDWICHES = 4;
-
 class Level : public GameState
 {
     public:
@@ -70,11 +68,15 @@ class Level : public GameState
         /***
          * Loading
          ***/
-        virtual bool load( unsigned int levelIndex ) = 0;
-        void loadSandwichData();
-        void loadDangerData(tinyxml2::XMLElement *dangersXmlNode,
+        virtual bool load( unsigned int levelIndex );
+        virtual tinyxml2::XMLElement* getLevelXmlNode(tinyxml2::XMLDocument& xmlFile, unsigned int index) const = 0;
+        virtual std::unique_ptr<LevelIntro> generateLevelIntro(const std::vector<std::string>& newDangersIDs, tinyxml2::XMLElement* levelIntroXmlNode) const = 0;
+        std::vector<SandwichDataPtr> loadSandwichData();
+        void loadDangerData(tinyxml2::XMLElement* dangersXmlNode,
                             std::map<std::string, float>& dangersRatios,
-                            std::vector<std::string>& newDangersIDs);
+                            std::vector<std::string>& newDangersIDs,
+                            std::vector<DangerDataPtr>& dangerData,
+                            const m2g::GraphicsLibrary& dangersGraphicsLibrary);
 
 
         /***
@@ -122,7 +124,7 @@ class Level : public GameState
          ***/
         ConveyorBelt conveyorBelt_;
 
-        SandwichesManager sandwichesManager_;
+        std::unique_ptr<SandwichesManager> sandwichesManager_;
 
         std::unique_ptr< LevelIntro > levelIntro_;
 

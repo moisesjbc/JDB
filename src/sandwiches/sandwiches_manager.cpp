@@ -19,7 +19,26 @@
 
 #include <sandwiches/sandwiches_manager.hpp>
 
+const unsigned int N_SANDWICHES = 4;
+
 namespace jdb {
+
+/***
+ * Construction
+ ***/
+
+SandwichesManager::SandwichesManager(std::vector<SandwichDataPtr> sandwichData,
+                                     std::unique_ptr<std::vector<DangerDataPtr>> dangerData,
+                                     std::unique_ptr<DangersCounter> dangersCounter,
+                                     std::unique_ptr<m2g::GraphicsLibrary> dangersGraphicsLibrary) :
+    sandwichData_(sandwichData),
+    dangerData_(std::move(dangerData)),
+    dangerGraphicsLibrary_(std::move(dangersGraphicsLibrary)),
+    dangersCounter_(std::move(dangersCounter))
+{
+    reset();
+}
+
 
 /***
  * Resetting
@@ -29,6 +48,37 @@ void SandwichesManager::reset()
 {
     firstSandwich = 0;
     lastSandwich = sandwiches.size() - 1;
+
+    dangersCounter_->reset();
+
+    // Load the sandwiches, move them to their final positions and
+    // populate them with dangers.
+    sandwiches.clear();
+    for( unsigned int i=0; i < N_SANDWICHES; i++ ){
+        sandwiches.push_back(
+                    std::unique_ptr< Sandwich >(
+                        new Sandwich( sandwichData_[0], &(*dangerData_) ) ) );
+
+        sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
+
+        sandwiches[i]->populate( *dangerData_, dangersCounter_.get() );
+    }
+}
+
+
+/***
+ * Getters
+ ***/
+
+unsigned int SandwichesManager::nDangersRemoved() const
+{
+    return nDangersRemoved_;
+}
+
+
+unsigned int SandwichesManager::nInitialDangers() const
+{
+    return dangersCounter_->initialNDangers();
 }
 
 
@@ -51,7 +101,7 @@ void SandwichesManager::update(int ms, int& jacobHp)
 
         if(dangersCounter_->nDangers() > 0){
             // Repopulate the sandwich.
-            sandwiches[firstSandwich]->populate( dangerData_, dangersCounter_.get() );
+            sandwiches[firstSandwich]->populate( *dangerData_, dangersCounter_.get() );
 
             // Translate the sandwich behind the last one.
             sandwiches[firstSandwich]->translate(
