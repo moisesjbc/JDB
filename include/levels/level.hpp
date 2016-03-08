@@ -141,7 +141,6 @@ class Level : public GameState
         unsigned int levelIndex_;
 
         std::unique_ptr<DangersCounter> dangersCounter_;
-        mutable sf::Text progressText_;
 
         unsigned int nDangersRemoved_ = 0;
 
