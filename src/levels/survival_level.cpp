@@ -99,12 +99,6 @@ void SurvivalLevel::resetLevelTime()
 }
 
 
-void SurvivalLevel::drawLevelProgress() const
-{
-
-}
-
-
 std::unique_ptr<LevelUI> SurvivalLevel::generateLevelUI(m2g::GraphicsLibrary &guiGraphicsLibrary) const
 {
     return std::unique_ptr<LevelUI>(

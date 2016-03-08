@@ -143,11 +143,6 @@ void CampaignLevel::resetLevelTime()
 }
 
 
-void CampaignLevel::drawLevelProgress() const
-{
-}
-
-
 std::unique_ptr<LevelUI> CampaignLevel::generateLevelUI(m2g::GraphicsLibrary& guiGraphicsLibrary) const
 {
     return std::unique_ptr<LevelUI>(

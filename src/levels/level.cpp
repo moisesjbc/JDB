@@ -437,8 +437,6 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
     target.draw( *tool_, states );
 
     target.draw(*levelUI_, states);
-
-    drawLevelProgress();
 }
 
 

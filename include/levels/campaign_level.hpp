@@ -61,7 +61,6 @@ class CampaignLevel : public Level
 
         // Level interface
         virtual void resetLevelTime();
-        virtual void drawLevelProgress() const;
         std::unique_ptr<LevelUI> generateLevelUI(m2g::GraphicsLibrary& guiGraphicsLibrary) const;
 
     private:
