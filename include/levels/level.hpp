@@ -42,23 +42,30 @@ class Level : public GameState
 {
     public:
         /***
-         * 1. Construction
+         * Construction and destruction
          ***/
         Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex, Profile& playerProfile );
-
-
-        /***
-         * 2. Destruction
-         ***/
         virtual ~Level() = default;
 
 
+        /***
+         * Getters
+         ***/
+        unsigned int levelIndex() const;
+        unsigned int score() const;
+        virtual bool defeat() const = 0;
+        virtual bool victory() const = 0;
+
+
+        /***
+         * Drawable interface
+         ***/
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 
     protected:
         /***
-         * 3. Level Loading
+         * Loading
          ***/
         virtual bool load( unsigned int levelIndex ) = 0;
         void loadSandwichData();
@@ -68,25 +75,20 @@ class Level : public GameState
 
 
         /***
-         * 4. Main loop
+         * Main loop
          ***/
         void handleUserInput(const sf::Event& event, SandwichesVector& sandwiches );
-        virtual bool defeat() const = 0;
-        virtual bool victory() const = 0;
         virtual void reset();
 
 
         /***
-         * 5. Auxiliar methods
+         * Inherited initializations
          ***/
-        unsigned int levelIndex() const;
-        unsigned int score() const;
-
         virtual std::unique_ptr<LevelUI> generateLevelUI(m2g::GraphicsLibrary& guiGraphicsLibrary) const = 0;
 
 
         /***
-         * 6. GameState interface
+         * GameState interface
          ***/
         virtual void init();
         virtual void handleEvents();
@@ -98,7 +100,7 @@ class Level : public GameState
 
     private:
         /***
-         * 7. Initialization
+         * Private initializations
          ***/
         void initGUI();
 

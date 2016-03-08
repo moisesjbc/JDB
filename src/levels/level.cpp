@@ -36,7 +36,7 @@ const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
 
 
 /***
- * 1. Construction
+ * Construction and destruction
  ***/
 
 Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex, Profile& playerProfile )
@@ -50,7 +50,52 @@ Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int
 
 
 /***
- * 3. Level Loading
+ * Getters
+ ***/
+
+unsigned int Level::levelIndex() const
+{
+    return levelIndex_;
+}
+
+unsigned int Level::score() const
+{
+    return levelScore_;
+}
+
+
+/***
+ * Drawable interface
+ ***/
+
+void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    unsigned int i;
+
+    window_.clear( sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ) );
+
+    // Draw the background
+    for( const m2g::TileSpritePtr& backgroundSprite : backgroundSprites ){
+        target.draw( *backgroundSprite, states );
+    }
+
+    // Draw the sandwiches
+    for( i=0; i < sandwiches.size(); i++ ){
+        target.draw( *( sandwiches[i] ), states );
+    }
+
+    // Draw the grinder's front.
+    target.draw( *grinderFront, states );
+
+    // Draw the tool.
+    target.draw( *tool_, states );
+
+    target.draw(*levelUI_, states);
+}
+
+
+/***
+ * Loading
  ***/
 
 void Level::loadSandwichData()
@@ -115,29 +160,8 @@ void Level::loadDangerData(
 }
 
 
-void Level::initGUI()
-{
-    jacobHp_ = 100;
-
-    // Load the "gui" graphics library.
-    m2g::GraphicsLibrary guiGraphicsLibrary( DATA_DIR_PATH + "/img/gui/gui.xml" );
-
-    // Load the "tools" graphics library.
-    m2g::GraphicsLibrary toolsGraphicsLibrary( DATA_DIR_PATH + "/img/tools/tools.xml" );
-
-    // Load the player's tool.
-    tool_ = ToolPtr( new Tool( toolsGraphicsLibrary.getAnimationDataByName( "tools.png" ), soundManager_ ) );
-
-    levelUI_ = std::move(generateLevelUI(guiGraphicsLibrary));
-
-    levelUI_->update();
-
-    window_.setMouseCursorVisible( false );
-}
-
-
 /***
- * 4. Main loop
+ * Main loop
  ***/
 
 void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiches )
@@ -232,22 +256,7 @@ void Level::reset()
 
 
 /***
- * 5. Auxiliar methods
- ***/
-
-unsigned int Level::levelIndex() const
-{
-    return levelIndex_;
-}
-
-unsigned int Level::score() const
-{
-    return levelScore_;
-}
-
-
-/***
- * 6. GameState interface
+ * GameState interface
  ***/
 
 void Level::init()
@@ -395,33 +404,6 @@ void Level::update( unsigned int ms )
 }
 
 
-
-void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
-{
-    unsigned int i;
-
-    window_.clear( sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ) );
-
-    // Draw the background
-    for( const m2g::TileSpritePtr& backgroundSprite : backgroundSprites ){
-        target.draw( *backgroundSprite, states );
-    }
-
-    // Draw the sandwiches
-    for( i=0; i < sandwiches.size(); i++ ){
-        target.draw( *( sandwiches[i] ), states );
-    }
-
-    // Draw the grinder's front.
-    target.draw( *grinderFront, states );
-
-    // Draw the tool.
-    target.draw( *tool_, states );
-
-    target.draw(*levelUI_, states);
-}
-
-
 void Level::pause()
 {
 }
@@ -438,6 +420,35 @@ void Level::cleanUp()
     updateAndSavePlayerProfile(playerProfile_);
 }
 
+
+/***
+ * Private initializations
+ ***/
+
+void Level::initGUI()
+{
+    jacobHp_ = 100;
+
+    // Load the "gui" graphics library.
+    m2g::GraphicsLibrary guiGraphicsLibrary( DATA_DIR_PATH + "/img/gui/gui.xml" );
+
+    // Load the "tools" graphics library.
+    m2g::GraphicsLibrary toolsGraphicsLibrary( DATA_DIR_PATH + "/img/tools/tools.xml" );
+
+    // Load the player's tool.
+    tool_ = ToolPtr( new Tool( toolsGraphicsLibrary.getAnimationDataByName( "tools.png" ), soundManager_ ) );
+
+    levelUI_ = std::move(generateLevelUI(guiGraphicsLibrary));
+
+    levelUI_->update();
+
+    window_.setMouseCursorVisible( false );
+}
+
+
+/***
+ * Player profile management
+ ***/
 
 void Level::savePlayerProfile(Profile &playerProfile) const
 {
