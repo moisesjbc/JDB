@@ -90,6 +90,7 @@ class Level : public GameState
         virtual void loadGUIProgressPanel(m2g::GraphicsLibrary& guiGraphicsLibrary,
                                           std::vector<m2g::TilesetPtr>& guiTilesets,
                                           std::vector<m2g::TileSpritePtr>& guiSprites) const = 0;
+        virtual std::unique_ptr<LevelUI> generateLevelUI(m2g::GraphicsLibrary& guiGraphicsLibrary) const = 0;
 
 
         /***
@@ -154,6 +155,9 @@ class Level : public GameState
 
         Profile& playerProfile_;
 
+        unsigned int acumScore_;
+        unsigned int levelScore_;
+
     private:
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;
@@ -165,9 +169,6 @@ class Level : public GameState
         // Background sprites.
         std::vector< m2g::TileSpritePtr > backgroundSprites;
         m2g::TileSpritePtr grinderFront;
-
-        unsigned int acumScore_;
-        unsigned int levelScore_;
 
         sf::Font guiFont_;
         mutable sf::Text healthText_;

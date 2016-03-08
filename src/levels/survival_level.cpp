@@ -18,6 +18,7 @@
  ***/
 
 #include <levels/survival_level.hpp>
+#include <level_ui/survival_level_ui.hpp>
 
 namespace jdb {
 
@@ -100,16 +101,7 @@ void SurvivalLevel::resetLevelTime()
 
 void SurvivalLevel::drawLevelProgress() const
 {
-    char buffer[10];
 
-    // Compute the current game time.
-    unsigned int seconds = levelTime_ / 1000;
-    unsigned int minutes = seconds / 60;
-    seconds = seconds % 60;
-
-    sprintf( buffer, "%02d:%02d", minutes, seconds );
-    progressText_.setString( buffer );
-    window_.draw( progressText_ );
 }
 
 
@@ -122,6 +114,23 @@ void SurvivalLevel::loadGUIProgressPanel(m2g::GraphicsLibrary& guiGraphicsLibrar
             m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets.back() ) ) );
     tileSprite->move( 367.0f, 0.0f );
     guiSprites.push_back( std::move( tileSprite ) );
+}
+
+
+std::unique_ptr<LevelUI> SurvivalLevel::generateLevelUI(m2g::GraphicsLibrary &guiGraphicsLibrary) const
+{
+    return std::unique_ptr<LevelUI>(
+                new SurvivalLevelUI(
+                    [this](){ return jacobHp_; },
+                    std::move(guiGraphicsLibrary.getTilesetByName("health.png")),
+                    [this](){ return acumScore_ + levelScore_; },
+                    std::move(guiGraphicsLibrary.getTilesetByName("score.png")),
+                    [this](){ return tool_->index(); },
+                    std::move(guiGraphicsLibrary.getTilesetByName("tool_selector.png")),
+                    [this](){ return levelTime_; },
+                    std::move(guiGraphicsLibrary.getTilesetByName("time.png"))
+                )
+            );
 }
 
 

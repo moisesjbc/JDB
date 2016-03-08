@@ -18,6 +18,7 @@
  ***/
 
 #include <levels/campaign_level.hpp>
+#include <level_ui/campaign_level_ui.hpp>
 
 namespace jdb {
 
@@ -144,11 +145,6 @@ void CampaignLevel::resetLevelTime()
 
 void CampaignLevel::drawLevelProgress() const
 {
-    char buffer[10];
-    float completedPercentage = nDangersRemoved_ / static_cast<float>(dangersCounter_->initialNDangers()) * 100.0f;
-    sprintf(buffer, "%4.1f%%", completedPercentage);
-    progressText_.setString(buffer);
-    window_.draw(progressText_);
 }
 
 
@@ -161,6 +157,22 @@ void CampaignLevel::loadGUIProgressPanel(m2g::GraphicsLibrary& guiGraphicsLibrar
             m2g::TileSpritePtr( new m2g::TileSprite( *( guiTilesets.back() ) ) );
     tileSprite->move( 367.0f, 0.0f );
     guiSprites.push_back( std::move( tileSprite ) );
+}
+
+std::unique_ptr<LevelUI> CampaignLevel::generateLevelUI(m2g::GraphicsLibrary& guiGraphicsLibrary) const
+{
+    return std::unique_ptr<LevelUI>(
+                new CampaignLevelUI(
+                    [this](){ return jacobHp_; },
+                    std::move(guiGraphicsLibrary.getTilesetByName("health.png")),
+                    [this](){ return acumScore_ + levelScore_; },
+                    std::move(guiGraphicsLibrary.getTilesetByName("score.png")),
+                    [this](){ return tool_->index(); },
+                    std::move(guiGraphicsLibrary.getTilesetByName("tool_selector.png")),
+                    [this](){ return nDangersRemoved_ / static_cast<float>(dangersCounter_->initialNDangers()) * 100.0f; },
+                    std::move(guiGraphicsLibrary.getTilesetByName("progress.png"))
+                )
+            );
 }
 
 

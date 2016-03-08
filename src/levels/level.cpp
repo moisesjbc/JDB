@@ -128,16 +128,7 @@ void Level::initGUI()
     // Load the player's tool.
     tool_ = ToolPtr( new Tool( toolsGraphicsLibrary.getAnimationDataByName( "tools.png" ), soundManager_ ) );
 
-    levelUI_ = std::unique_ptr<LevelUI>(
-                new LevelUI(
-                    [this](){ return jacobHp_; },
-                    std::move(guiGraphicsLibrary.getTilesetByName("health.png")),
-                    [this](){ return acumScore_ + levelScore_; },
-                    std::move(guiGraphicsLibrary.getTilesetByName("score.png")),
-                    [this](){ return tool_->index(); },
-                    std::move(guiGraphicsLibrary.getTilesetByName("tool_selector.png"))
-                )
-            );
+    levelUI_ = std::move(generateLevelUI(guiGraphicsLibrary));
 
     // Load the GUI sprites.
     loadGUIProgressPanel(guiGraphicsLibrary, guiTilesets_, guiSprites_);
@@ -286,11 +277,6 @@ void Level::init()
 
     // Initialize GUI's texts.
     guiFont_.loadFromFile( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
-
-    progressText_.setFont( guiFont_ );
-    progressText_.setCharacterSize( 50 );
-    progressText_.setColor( sf::Color( 8, 31, 126, 255 ) );
-    progressText_.setPosition( 450, 3 );
 
     // Load all the needed tilesets and animations (the graphics for
     // dangers and sandwiches are loaded in the methods "loadDangers" and

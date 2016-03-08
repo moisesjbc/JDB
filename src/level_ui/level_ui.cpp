@@ -55,6 +55,16 @@ LevelUI::LevelUI(PlayerHPGetter playerHpGetter,
 
 
 /***
+ * Getters
+ ***/
+
+const sf::Font &LevelUI::font() const
+{
+    return font_;
+}
+
+
+/***
  * Updating
  ***/
 

@@ -48,6 +48,12 @@ class LevelUI : public sf::Drawable
 
 
         /***
+         * Getters
+         ***/
+        const sf::Font& font() const;
+
+
+        /***
          * LevelListener interface
          ***/
         virtual void update();
@@ -62,7 +68,7 @@ class LevelUI : public sf::Drawable
 
     private:
         /***
-         * Attributes
+         * Private Attributes
          ***/
         PlayerHPGetter playerHpGetter_;
         m2g::TileSprite playerHpPanel_;
@@ -74,7 +80,6 @@ class LevelUI : public sf::Drawable
 
         ToolIndexGetter toolIndexGetter_;
         m2g::TileSprite toolSelector_;
-
         sf::Font font_;
 };
 

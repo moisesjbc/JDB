@@ -83,6 +83,8 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/utilities/volume_control_panel.cpp"
     "${SOURCE_DIR}/utilities/unicode_file_reader.cpp"
     "${SOURCE_DIR}/level_ui/level_ui.cpp"
+    "${SOURCE_DIR}/level_ui/campaign_level_ui.cpp"
+    "${SOURCE_DIR}/level_ui/survival_level_ui.cpp"
 )
 
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin )
