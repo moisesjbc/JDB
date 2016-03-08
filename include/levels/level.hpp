@@ -55,6 +55,7 @@ class Level : public GameState
         unsigned int score() const;
         virtual bool defeat() const = 0;
         virtual bool victory() const = 0;
+        unsigned int toolIndex() const;
 
 
         /***
@@ -119,8 +120,6 @@ class Level : public GameState
          ***/
         ConveyorBelt conveyorBelt_;
 
-        // Players tool
-        ToolPtr tool_;
 
         // Jacob's life
         int jacobHp_;
@@ -147,6 +146,9 @@ class Level : public GameState
          ***/
         std::vector<DangerDataPtr> dangerData_;
         std::vector<SandwichDataPtr> sandwichData_;
+
+        // Player's tool
+        ToolPtr tool_;
 
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;

@@ -136,7 +136,7 @@ std::unique_ptr<LevelUI> CampaignLevel::generateLevelUI(m2g::GraphicsLibrary& gu
                     std::move(guiGraphicsLibrary.getTilesetByName("health.png")),
                     [this](){ return acumScore_ + levelScore_; },
                     std::move(guiGraphicsLibrary.getTilesetByName("score.png")),
-                    [this](){ return tool_->index(); },
+                    [this](){ return toolIndex(); },
                     std::move(guiGraphicsLibrary.getTilesetByName("tool_selector.png")),
                     [this](){ return nDangersRemoved_ / static_cast<float>(dangersCounter_->initialNDangers()) * 100.0f; },
                     std::move(guiGraphicsLibrary.getTilesetByName("progress.png"))

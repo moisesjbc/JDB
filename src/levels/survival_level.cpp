@@ -106,7 +106,7 @@ std::unique_ptr<LevelUI> SurvivalLevel::generateLevelUI(m2g::GraphicsLibrary &gu
                     std::move(guiGraphicsLibrary.getTilesetByName("health.png")),
                     [this](){ return acumScore_ + levelScore_; },
                     std::move(guiGraphicsLibrary.getTilesetByName("score.png")),
-                    [this](){ return tool_->index(); },
+                    [this](){ return toolIndex(); },
                     std::move(guiGraphicsLibrary.getTilesetByName("tool_selector.png")),
                     [this](){ return timer_.seconds(); },
                     std::move(guiGraphicsLibrary.getTilesetByName("time.png"))

@@ -64,6 +64,12 @@ unsigned int Level::score() const
 }
 
 
+unsigned int Level::toolIndex() const
+{
+    return tool_->index();
+}
+
+
 /***
  * Drawable interface
  ***/
