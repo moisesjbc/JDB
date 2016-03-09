@@ -18,6 +18,7 @@
  ***/
 
 #include <sandwiches/sandwiches_manager.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 const unsigned int N_SANDWICHES = 4;
 
@@ -30,11 +31,14 @@ namespace jdb {
 SandwichesManager::SandwichesManager(std::vector<SandwichDataPtr> sandwichData,
                                      std::unique_ptr<std::vector<DangerDataPtr>> dangerData,
                                      std::unique_ptr<DangersCounter> dangersCounter,
-                                     std::unique_ptr<m2g::GraphicsLibrary> dangersGraphicsLibrary) :
+                                     std::unique_ptr<m2g::GraphicsLibrary> dangersGraphicsLibrary,
+                                     const ConveyorBelt& conveyorBelt) :
+    dangerGraphicsLibrary_(std::move(dangersGraphicsLibrary)),
     sandwichData_(sandwichData),
     dangerData_(std::move(dangerData)),
-    dangerGraphicsLibrary_(std::move(dangersGraphicsLibrary)),
-    dangersCounter_(std::move(dangersCounter))
+    dangersCounter_(std::move(dangersCounter)),
+    nDangersRemoved_(0),
+    conveyorBelt_(conveyorBelt)
 {
     reset();
 }
@@ -47,21 +51,22 @@ SandwichesManager::SandwichesManager(std::vector<SandwichDataPtr> sandwichData,
 void SandwichesManager::reset()
 {
     firstSandwich = 0;
-    lastSandwich = sandwiches.size() - 1;
+    lastSandwich = sandwiches_.size() - 1;
 
+    nDangersRemoved_ = 0;
     dangersCounter_->reset();
 
     // Load the sandwiches, move them to their final positions and
     // populate them with dangers.
-    sandwiches.clear();
+    sandwiches_.clear();
     for( unsigned int i=0; i < N_SANDWICHES; i++ ){
-        sandwiches.push_back(
+        sandwiches_.push_back(
                     std::unique_ptr< Sandwich >(
                         new Sandwich( sandwichData_[0], &(*dangerData_) ) ) );
 
-        sandwiches[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
+        sandwiches_[i]->setPosition( 1024 + i * DISTANCE_BETWEEN_SANDWICHES, 410 );
 
-        sandwiches[i]->populate( *dangerData_, dangersCounter_.get() );
+        sandwiches_[i]->populate( *dangerData_, dangersCounter_.get() );
     }
 }
 
@@ -82,45 +87,76 @@ unsigned int SandwichesManager::nInitialDangers() const
 }
 
 
+SandwichesVector &SandwichesManager::sandwiches()
+{
+    return sandwiches_;
+}
+
+
 /***
  * Updating
  ***/
 
-void SandwichesManager::update(int ms, int& jacobHp)
+void SandwichesManager::update(int ms, int& jacobHp, unsigned int& levelScore)
 {
     // Game logic: Check if the first sandwich reached the
     // sandwiches' end point and, in that case, restart it.
-    if( sandwiches[firstSandwich]->getBoundaryBox().left < SANDWICHES_END_POINT ){
+    if( sandwiches_[firstSandwich]->getBoundaryBox().left < SANDWICHES_END_POINT ){
         // Hurt Jacob! (muahahaha!)
-        jacobHp -= sandwiches[firstSandwich]->getDamage();
+        jacobHp -= sandwiches_[firstSandwich]->getDamage();
 
         // Decrease the counter for the dangers of the sandwich.
         if(dangersCounter_ != nullptr){
-            nDangersRemoved_ += sandwiches[firstSandwich]->nDangers();
+            nDangersRemoved_ += sandwiches_[firstSandwich]->nDangers();
         }
 
         if(dangersCounter_->nDangers() > 0){
             // Repopulate the sandwich.
-            sandwiches[firstSandwich]->populate( *dangerData_, dangersCounter_.get() );
+            sandwiches_[firstSandwich]->populate( *dangerData_, dangersCounter_.get() );
 
             // Translate the sandwich behind the last one.
-            sandwiches[firstSandwich]->translate(
-                        sandwiches[lastSandwich]->getBoundaryBox().left
-                        - sandwiches[firstSandwich]->getBoundaryBox().left
+            sandwiches_[firstSandwich]->translate(
+                        sandwiches_[lastSandwich]->getBoundaryBox().left
+                        - sandwiches_[firstSandwich]->getBoundaryBox().left
                         + DISTANCE_BETWEEN_SANDWICHES,
                         0.0f );
 
             // Change the indices for the first and last sandwiches.
-            firstSandwich = (firstSandwich + 1) % sandwiches.size();
-            lastSandwich = (lastSandwich + 1) % sandwiches.size();
+            firstSandwich = (firstSandwich + 1) % sandwiches_.size();
+            lastSandwich = (lastSandwich + 1) % sandwiches_.size();
         }else{
-            SandwichesVector::iterator sandwichIt = sandwiches.begin();
+            SandwichesVector::iterator sandwichIt = sandwiches_.begin();
             std::advance( sandwichIt, firstSandwich );
-            sandwiches.erase( sandwichIt );
-            if( sandwiches.size() ){
-                firstSandwich = (firstSandwich + 1) % sandwiches.size();
+            sandwiches_.erase( sandwichIt );
+            if( sandwiches_.size() ){
+                firstSandwich = (firstSandwich + 1) % sandwiches_.size();
             }
         }
+    }
+
+    // Update the sandwiches
+    unsigned int i;
+    for( i=0; i < sandwiches_.size(); i++ ){
+        sandwiches_[i]->update( ms, jacobHp, levelScore, *dangerGraphicsLibrary_ );
+    }
+
+    // Move the sandwiches
+    // Conveyor belt's speed management.
+    float speed = conveyorBelt_.getSpeed();
+    for( i=0; i < sandwiches_.size(); i++ ){
+        sandwiches_[i]->translate( -speed, 0.0f );
+    }
+}
+
+
+/***
+ * Drawable interface
+ ***/
+
+void SandwichesManager::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    for( auto& sandwich : sandwiches_ ){
+        target.draw( *sandwich, states );
     }
 }
 

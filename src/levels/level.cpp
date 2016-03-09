@@ -79,26 +79,18 @@ int Level::jacobHp() const
 
 void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    unsigned int i;
-
-    window_.clear( sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ) );
-
-    // Draw the background
-    for( const m2g::TileSpritePtr& backgroundSprite : backgroundSprites ){
-        target.draw( *backgroundSprite, states );
+    // Background
+    window_.clear(sf::Color(0xDC, 0xF1, 0xF1, 0xFF));
+    for(const m2g::TileSpritePtr& backgroundSprite : backgroundSprites){
+        target.draw(*backgroundSprite, states);
     }
 
-    // Draw the sandwiches
-    for( i=0; i < sandwichesManager_->sandwiches.size(); i++ ){
-        target.draw( *( sandwichesManager_->sandwiches[i] ), states );
-    }
+    // Sandwiches
+    target.draw(*sandwichesManager_, states);
 
-    // Draw the grinder's front.
-    target.draw( *grinderFront, states );
-
-    // Draw the tool.
-    target.draw( *tool_, states );
-
+    // Front elements
+    target.draw(*grinderFront, states);
+    target.draw(*tool_, states);
     target.draw(*levelUI_, states);
 }
 
@@ -143,12 +135,12 @@ bool Level::load(unsigned int levelIndex)
                     dangersXmlNode->IntAttribute("number"),
                     dangersRatios));
 
-    sandwichesManager_ =
-            std::unique_ptr<SandwichesManager>(
-                new SandwichesManager(sandwichData, std::move(dangerData), std::move(dangersCounter), std::move(dangerGraphicsLibrary)));
-
     // Get the conveyor belt parameters.
     conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
+
+    sandwichesManager_ =
+            std::unique_ptr<SandwichesManager>(
+                new SandwichesManager(sandwichData, std::move(dangerData), std::move(dangersCounter), std::move(dangerGraphicsLibrary), conveyorBelt_));
 
     LOG(INFO) << "Creating level intro ...";
     levelIntro_ = std::move(generateLevelIntro(newDangersIDs, levelNode->FirstChildElement( "level_book" )));
@@ -276,8 +268,6 @@ void Level::reset()
 {
     levelScore_ = 0;
 
-    sandwichesManager_->nDangersRemoved_ = 0;
-
     // Initialize jacob's life and the sandwich indicators.
     jacobHp_ = 100;
 
@@ -345,12 +335,12 @@ void Level::handleEvents()
     t0 = t1 = clock.getElapsedTime();
     while( static_cast< unsigned int >( (t1 - t0).asMilliseconds() ) < REFRESH_TIME ){
         if( window_.pollEvent( event ) != 0 ){
-            handleUserInput( event, sandwichesManager_->sandwiches );
+            handleUserInput( event, sandwichesManager_->sandwiches() );
         }
         t1 = clock.getElapsedTime();
     }
 
-    tool_->handleMouseHover( sandwichesManager_->sandwiches, jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_ );
+    tool_->handleMouseHover( sandwichesManager_->sandwiches(), jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_ );
     // FIXME: Duplicated code.
     if( jacobHp_ > 130 ){
         jacobHp_ = 130;
@@ -362,25 +352,11 @@ void Level::update( unsigned int ms )
 {
     LOG(INFO) << "Level::update()";
 
-    unsigned int i;
+    tool_->applyStun( sandwichesManager_->sandwiches() );
 
-    tool_->applyStun( sandwichesManager_->sandwiches );
-
-    sandwichesManager_->update(ms, jacobHp_);
+    sandwichesManager_->update(ms, jacobHp_, levelScore_);
 
     conveyorBelt_.update( ms );
-
-    // Update the sandwiches
-    for( i=0; i < sandwichesManager_->sandwiches.size(); i++ ){
-        sandwichesManager_->sandwiches[i]->update( ms, jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_ );
-    }
-
-    // Move the sandwiches
-    // Conveyor belt's speed management.
-    float speed = conveyorBelt_.getSpeed();
-    for( i=0; i < sandwichesManager_->sandwiches.size(); i++ ){
-        sandwichesManager_->sandwiches[i]->translate( -speed, 0.0f );
-    }
 
     // Update the tool
     tool_->update( ms );

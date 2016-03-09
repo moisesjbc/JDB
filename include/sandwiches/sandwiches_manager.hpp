@@ -24,11 +24,13 @@ const float SANDWICHES_END_POINT = 0.0f;
 const float DISTANCE_BETWEEN_SANDWICHES = 300.0f;
 
 #include <sandwiches/sandwich.hpp>
+#include <levels/conveyor_belt.hpp>
 #include <vector>
+#include <SFML/Graphics/Drawable.hpp>
 
 namespace jdb {
 
-class SandwichesManager
+class SandwichesManager : public sf::Drawable
 {
     public:
         /***
@@ -37,7 +39,8 @@ class SandwichesManager
         SandwichesManager(std::vector<SandwichDataPtr> sandwichData,
                           std::unique_ptr<std::vector<DangerDataPtr>> dangerData,
                           std::unique_ptr<DangersCounter> dangersCounter,
-                          std::unique_ptr<m2g::GraphicsLibrary> dangersGraphicsLibrary);
+                          std::unique_ptr<m2g::GraphicsLibrary> dangersGraphicsLibrary,
+                          const ConveyorBelt& conveyorBelt);
 
 
         /***
@@ -51,33 +54,48 @@ class SandwichesManager
          ***/
         unsigned int nDangersRemoved() const;
         unsigned int nInitialDangers() const;
+        SandwichesVector& sandwiches();
 
 
 
         /***
          * Updating
          ***/
-        void update(int ms, int& jacobHp);
+        void update(int ms, int& jacobHp, unsigned int& levelScore);
 
 
-    public:
-        std::vector<SandwichDataPtr> sandwichData_;
-        std::unique_ptr<std::vector<DangerDataPtr>> dangerData_;
-
-        // Sandwiches
-        SandwichesVector sandwiches;
-
-        unsigned int nDangersRemoved_ = 0;
-
+        /***
+         * Public attributes
+         ***/
         std::unique_ptr< m2g::GraphicsLibrary > dangerGraphicsLibrary_;
 
 
+    protected:
+        /***
+         * Drawable interface
+         ***/
+        void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
+
     private:
+        /***
+         * Private attributes
+         ***/
+        // Sandwiches management
+        SandwichesVector sandwiches_;
+        std::vector<SandwichDataPtr> sandwichData_;
+
         // Variables used for sandwich reseting.
         unsigned int firstSandwich;
         unsigned int lastSandwich;
 
+        // Dangers management.
+        std::unique_ptr<std::vector<DangerDataPtr>> dangerData_;
         std::unique_ptr<DangersCounter> dangersCounter_;
+        unsigned int nDangersRemoved_;
+
+        // Used for getting the movement speed of the sandwiches.
+        const ConveyorBelt& conveyorBelt_;
 };
 
 } // namespace jdb
