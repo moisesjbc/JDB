@@ -594,7 +594,7 @@
             },
 	        "info": {
                 "name": "Enigma bomb",
-                "description": "A bomb which hides something good... or something bad",
+                "description": "A bomb which may hide that medic kit that could save Jacob's life... or just another danger",
                 "removal_instructions": "You can remove this danger with your bare hand or, if you feel lucky, you can light its fuse and wait for the explosion to uncover what is inside."
             },
             "states": [
@@ -621,6 +621,20 @@
                             "danger_mutation": {
                                 "danger_hp_variation": -50,
                                 "new_danger_state": 1
+                            }
+                        },
+                        {
+                            "conditions": {
+	                            "player_action":"lighter_on",
+                                "danger_min_hp": 0,
+                                "danger_max_hp":90
+                            },
+                            "danger_mutation": {
+                                "danger_hp_variation": -50,
+                                "new_danger": {
+                                    "id": "medic_kit",
+                                    "appearance_animation": "enigma_bomb_explosion.png"
+                                }
                             }
                         },
 				        {

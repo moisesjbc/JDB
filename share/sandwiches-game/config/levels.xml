@@ -46,7 +46,7 @@
                 <danger ratio="1">shell</danger>
                 <danger ratio="1">coward_hypnotist_rat</danger>
                 <danger ratio="1.25" present_to_player="true">enigma_bomb</danger>
-                <danger ratio="0.5" present_to_player="true">medic_kit</danger>
+                <danger ratio="0">medic_kit</danger>
                 <danger ratio="2" present_to_player="true">tesla_coils</danger>
             </dangers>
 		</campaign_level>
@@ -63,7 +63,7 @@
                 <danger ratio="1">shell</danger>
                 <danger ratio="1">coward_hypnotist_rat</danger>
                 <danger ratio="1">enigma_bomb</danger>
-                <danger ratio="0.5">medic_kit</danger>
+                <danger ratio="0">medic_kit</danger>
                 <danger ratio="1">tesla_coils</danger>
                 <danger ratio="2" present_to_player="true">petards</danger>
                 <danger ratio="2" present_to_player="true">broken_bottle</danger>
@@ -82,7 +82,7 @@
                 <danger ratio="1">shell</danger>
                 <danger ratio="1">coward_hypnotist_rat</danger>
                 <danger ratio="1">enigma_bomb</danger>
-                <danger ratio="0.5">medic_kit</danger>
+                <danger ratio="0">medic_kit</danger>
                 <danger ratio="1">tesla_coils</danger>
                 <danger ratio="1">petards</danger>
                 <danger ratio="1">broken_bottle</danger>
@@ -109,7 +109,7 @@
                 <danger ratio="1">shell</danger>
                 <danger ratio="1">coward_hypnotist_rat</danger>
                 <danger ratio="1">enigma_bomb</danger>
-                <danger ratio="1">medic_kit</danger>
+                <danger ratio="0">medic_kit</danger>
                 <danger ratio="1">tesla_coils</danger>
                 <danger ratio="1">petards</danger>
                 <danger ratio="1">broken_bottle</danger>
