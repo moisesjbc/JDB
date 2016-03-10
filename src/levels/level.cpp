@@ -20,7 +20,7 @@
 #include <levels/level.hpp>
 #include <tinyxml2.h>
 #include <algorithm>
-#include <game_states/end_of_demo_screen.hpp>
+#include <game_states/end_of_campaign_screen.hpp>
 #include <game_states/game_over_screen.hpp>
 #include <profiles/profile_json_parser.hpp>
 #include <boost/filesystem.hpp>
@@ -370,8 +370,8 @@ void Level::update( unsigned int ms )
         if( load( levelIndex_ ) ){
             reset();
         }else{
-            std::unique_ptr<EndOfDemoScreen> endOfDemoScreen( new EndOfDemoScreen( window_, *this ) );
-            switchState( *endOfDemoScreen );
+            std::unique_ptr<EndOfCampaignScreen> endOfCampaignScreen( new EndOfCampaignScreen( window_, *this ) );
+            switchState( *endOfCampaignScreen );
             requestStateExit();
         }
         //init();

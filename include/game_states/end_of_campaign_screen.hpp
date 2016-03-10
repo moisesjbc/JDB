@@ -17,21 +17,21 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef END_OF_DEMO_SCREEN_HPP
-#define END_OF_DEMO_SCREEN_HPP
+#ifndef END_OF_CAMPAIGN_SCREEN_HPP
+#define END_OF_CAMPAIGN_SCREEN_HPP
 
 #include <game_states/gui_menu.hpp>
 #include <TGUI/TGUI.hpp>
 
 namespace jdb {
 
-class EndOfDemoScreen : public GUIMenu
+class EndOfCampaignScreen : public GUIMenu
 {
     public:
         /***
          * Construction
          ***/
-        EndOfDemoScreen( sf::RenderWindow& window, const GameState& parentGameState );
+        EndOfCampaignScreen( sf::RenderWindow& window, const GameState& parentGameState );
 
 
     protected:
@@ -41,18 +41,27 @@ class EndOfDemoScreen : public GUIMenu
         virtual void initGUI(tgui::Gui& gui);
 
 
+        /***
+         * Drawable interface
+         ***/
+        void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
+
     private:
         /***
          * Auxiliar initialization methods
          ***/
-        std::wstring readEndOfDemoText();
+        std::wstring readEndOfCampaignText();
 
 
         /***
          * Attributes
          ***/
         const GameState& parentGameState_;
+        sf::Texture backgroundTexture_;
+        sf::Sprite backgroundSprite_;
 };
 
 } // namespace jdb
-#endif // END_OF_DEMO_SCREEN_HPP
+
+#endif // END_OF_CAMPAIGN_SCREEN_HPP

@@ -34,7 +34,7 @@ class GUIMenu : public GameState
         /***
          * Construction
          ***/
-        GUIMenu(sf::RenderWindow& window);
+        GUIMenu(sf::RenderWindow& window, bool clearScreenWhenDrawing = true);
 
 
         /***
@@ -71,6 +71,7 @@ class GUIMenu : public GameState
          * Attributes
          ***/
         mutable tgui::Gui gui_;
+        bool clearScreenWhenDrawing_;
 };
 
 } // namespace jdb

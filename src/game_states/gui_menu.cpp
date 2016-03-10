@@ -25,9 +25,10 @@ namespace jdb {
  * Construction
  ***/
 
-GUIMenu::GUIMenu(sf::RenderWindow &window) :
+GUIMenu::GUIMenu(sf::RenderWindow &window, bool clearScreenWhenDrawing) :
     GameState(window),
-    gui_(window)
+    gui_(window),
+    clearScreenWhenDrawing_(clearScreenWhenDrawing)
 {}
 
 
@@ -85,7 +86,9 @@ void GUIMenu::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     (void)(target);
     (void)(states);
-    window_.clear(sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ));
+    if(clearScreenWhenDrawing_){
+        target.clear(sf::Color( 0xDC, 0xF1, 0xF1, 0xFF ));
+    }
     gui_.draw();
 }
 

@@ -77,7 +77,7 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/game_states/game_over_screen.cpp"
     "${SOURCE_DIR}/utilities/sound_manager.cpp"
     "${SOURCE_DIR}/game_states/pause_menu.cpp"
-    "${SOURCE_DIR}/game_states/end_of_demo_screen.cpp"
+    "${SOURCE_DIR}/game_states/end_of_campaign_screen.cpp"
     "${SOURCE_DIR}/game_states/level_intro.cpp"
     "${SOURCE_DIR}/utilities/level_book.cpp"
     "${SOURCE_DIR}/utilities/texture_picture.cpp"
