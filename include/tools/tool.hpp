@@ -62,6 +62,7 @@ class Tool : public m2g::Animation
          * 3. Setters
          ***/
         void setToolType( ToolType toolType );
+        void setActive(bool active);
 
 
         /***

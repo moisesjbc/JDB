@@ -388,6 +388,7 @@ void Level::update( unsigned int ms )
 
 void Level::pause()
 {
+    tool_->setActive(false);
 }
 
 

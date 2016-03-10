@@ -99,6 +99,25 @@ void Tool::setToolType( ToolType toolType )
 }
 
 
+void Tool::setActive(bool active)
+{
+    if(active != active_){
+        if(active){
+            // Play the sound associated to the current tool.
+            sounds_[ static_cast<int>(currentToolType_) ].setVolume( sf::Listener::getGlobalVolume() );
+            sounds_[ static_cast<int>(currentToolType_) ].play();
+
+            setState( currentState() + 1 );
+        }else{
+            sounds_[ static_cast<int>(currentToolType_) ].stop();
+
+            setState( currentState() - 1 );
+        }
+        active_ = active;
+    }
+}
+
+
 /***
  * 4. Handlers
  ***/
@@ -109,10 +128,6 @@ void Tool::handleMouseButtonDown( SandwichesVector& sandwiches,
                                   m2g::GraphicsLibrary& dangersGraphicsLibrary)
 {
     unsigned int i = 0;
-
-    // Play the sound associated to the current tool.
-    sounds_[ static_cast<int>(currentToolType_) ].setVolume( sf::Listener::getGlobalVolume() );
-    sounds_[ static_cast<int>(currentToolType_) ].play();
 
     if( currentToolType_ == ToolType::HAND ){
         while( ( i < sandwiches.size() ) &&
@@ -126,19 +141,14 @@ void Tool::handleMouseButtonDown( SandwichesVector& sandwiches,
         }
     }
 
-    active_ = true;
-    setState( currentState() + 1 );
+    setActive(true);
 }
 
 
 void Tool::handleMouseButtonUp()
 {
     if( currentState() % 2 ){
-        active_ = false;
-        setState( currentState() - 1 );
-
-        // Stop the sound associated to the current tool.
-        sounds_[ static_cast<int>(currentToolType_) ].stop();
+        setActive(false);
     }
 }
 
