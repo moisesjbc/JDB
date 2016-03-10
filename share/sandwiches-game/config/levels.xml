@@ -74,7 +74,7 @@
         <!-- Campaign level 05 -->
 		<campaign_level>
 			<speed initial="6.0" step="0.2" time_lapse="10" />
-            <dangers number="15">
+            <dangers number="65">
                 <danger ratio="1">fire</danger>
                 <danger ratio="1">ice_crystals</danger>
                 <danger ratio="1">rat</danger>
