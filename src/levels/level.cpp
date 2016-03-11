@@ -226,10 +226,6 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
         case sf::Event::MouseButtonPressed:{
             // Player clicked on screen.
             tool_->handleMouseButtonDown(sandwiches, jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_);
-            // FIXME: Duplicated code.
-            if( jacobHp_ > 130 ){
-                jacobHp_ = 130;
-            }
         }break;
         case sf::Event::MouseButtonReleased:
             tool_->handleMouseButtonUp();
@@ -347,10 +343,6 @@ void Level::handleEvents()
     }
 
     tool_->handleMouseHover( sandwichesManager_->sandwiches(), jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_ );
-    // FIXME: Duplicated code.
-    if( jacobHp_ > 130 ){
-        jacobHp_ = 130;
-    }
 }
 
 
@@ -361,6 +353,9 @@ void Level::update( unsigned int ms )
     tool_->applyStun( sandwichesManager_->sandwiches() );
 
     sandwichesManager_->update(ms, jacobHp_, levelScore_);
+    if( jacobHp_ > MAX_JACOB_LIFE ){
+        jacobHp_ = MAX_JACOB_LIFE;
+    }
 
     conveyorBelt_.update( ms );
 

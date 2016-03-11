@@ -37,6 +37,8 @@
 
 namespace jdb {
 
+const int MAX_JACOB_LIFE = 130;
+
 class Level : public GameState
 {
     public:
