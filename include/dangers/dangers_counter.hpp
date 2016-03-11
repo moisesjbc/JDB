@@ -25,6 +25,8 @@
 
 namespace jdb {
 
+const unsigned int UNLIMITED_DANGERS = 999999;
+
 class DangersCounter
 {
     public:

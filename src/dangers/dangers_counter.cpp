@@ -106,11 +106,13 @@ unsigned int DangersCounter::initialNDangers() const
 
 void DangersCounter::decreaseDangerCounter(const std::string &dangerID)
 {
-    if(nSpecificDangers_.at(dangerID) > 0){
-        nSpecificDangers_.at(dangerID)--;
-        nDangers_--;
-    }else{
-        throw std::runtime_error("Triying to decrease a zero counter");
+    if(initialNDangers_ != UNLIMITED_DANGERS){
+        if(nSpecificDangers_.at(dangerID) > 0){
+            nSpecificDangers_.at(dangerID)--;
+            nDangers_--;
+        }else{
+            throw std::runtime_error("Triying to decrease a zero counter");
+        }
     }
 }
 

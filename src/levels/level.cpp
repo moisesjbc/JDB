@@ -129,11 +129,17 @@ bool Level::load(unsigned int levelIndex)
     loadDangerData(dangersXmlNode, dangersRatios, newDangersIDs, *dangerData, *dangerGraphicsLibrary);
     LOG(INFO) << "Loading danger data ...OK";
 
-    // FIXME: don't use dangers counter in survival level.
+    int nDangers = 0;
+    if(strcmp(dangersXmlNode->Attribute("number"), "unlimited") == 0){
+        nDangers = UNLIMITED_DANGERS;
+    }else{
+        nDangers = dangersXmlNode->IntAttribute("number");
+    }
     std::unique_ptr<DangersCounter> dangersCounter(
                 new DangersCounter(
-                    dangersXmlNode->IntAttribute("number"),
+                    nDangers,
                     dangersRatios));
+
 
     // Get the conveyor belt parameters.
     conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
