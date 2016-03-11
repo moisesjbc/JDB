@@ -94,7 +94,11 @@ add_custom_target( HEADERS SOURCES ${HEADER_FILES} ${HEADER_TEMPLATE_FILES} )
 
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin )
 set( EXEC_NAME "${PROJECT_NAME}" )
-add_executable( "${EXEC_NAME}" "${SOURCE_DIR}/main.cpp" ${SOURCE_FILES} )
+if( NOT BUILD_USING_MXE )
+    add_executable( "${EXEC_NAME}" "${SOURCE_DIR}/main.cpp" ${SOURCE_FILES} )
+else()
+    add_executable( "${EXEC_NAME}" WIN32 "${SOURCE_DIR}/main.cpp" ${SOURCE_FILES} )
+endif()
 target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 
 if( NOT BUILD_USING_MXE )
