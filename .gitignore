@@ -26,8 +26,9 @@ temp-dependencies
 # Linux desktop files
 *.desktop
 
-# Generated DEB packages.
-*.deb
+# Generated packages.
+sandwiches-game-*.deb
+sandwiches-game-*.zip
 
 # Generated binaries
 bin/
