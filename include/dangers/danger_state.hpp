@@ -27,57 +27,12 @@
 #include <memory>
 #include <m2g/drawables/animation_data.hpp>
 #include <m2g/graphics_library.hpp>
+#include <dangers/state_time_transition.hpp>
+#include <dangers/state_distance_transition.hpp>
+#include <tools/tool_type.hpp>
+#include <dangers/stun_type.hpp>
 
 namespace jdb {
-
-// TODO: Move to another file?
-enum class ToolType
-{
-    HAND = 0,
-    EXTINGUISHER,
-    LIGHTER,
-    GAVEL
-};
-
-enum class StunType
-{
-    NONE = 0,
-    BURN,
-    FREEZING,
-    ELECTROCUTION,
-    BITE,
-    HYPNOTISM,
-    CUT
-};
-
-struct StateTimeTransition {
-    unsigned int minTimeout;
-    unsigned int maxTimeout;
-
-    DangerMutation dangerMutation;
-
-    StateTimeTransition(unsigned int minTimeout, unsigned int maxTimeout, DangerMutation dangerMutation) :
-        minTimeout(minTimeout),
-        maxTimeout(maxTimeout),
-        dangerMutation(dangerMutation)
-    {}
-
-    unsigned int generateTimeout(){
-        return minTimeout + rand() % (maxTimeout - minTimeout + 1);
-    }
-};
-
-struct StateDistanceTransition {
-    // Distance to the *left border* of the window.
-    // TODO: Make this depend on effective distance to grinder.
-    unsigned int distance;
-    DangerMutation dangerMutation;
-
-    StateDistanceTransition(unsigned int distance, DangerMutation dangerMutation) :
-        distance(distance),
-        dangerMutation(dangerMutation)
-    {}
-};
 
 struct DangerState
 {
