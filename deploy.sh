@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Build DEB package for Ubuntu
+make clean &&
+sudo rm -r CMakeCache.txt CMakeFiles &&
 cmake -DCMAKE_BUILD_TYPE=Release . &&
 make -j $(nproc) package
 
