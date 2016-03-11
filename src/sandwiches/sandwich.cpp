@@ -68,8 +68,6 @@ void Sandwich::populate( const std::vector< DangerDataPtr >& dangersData,
     // Variables for controlling population loop exit.
     const unsigned int MAX_DANGERS = 3;
     bool exit = false;
-
-    // TODO: Order vector of dangerData from greater base line width to smallest.
     unsigned int i = 0;
 
     // Remaining free width on sandwich.

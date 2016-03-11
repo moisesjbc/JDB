@@ -365,7 +365,7 @@ void Level::update( unsigned int ms )
 
     if( victory() ){
         acumScore_ += levelScore_;
-        levelIndex_++; // TODO: This should go inside "load()".
+        levelIndex_++;
         updateAndSavePlayerProfile(playerProfile_);
         if( load( levelIndex_ ) ){
             reset();

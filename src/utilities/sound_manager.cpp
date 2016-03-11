@@ -25,8 +25,6 @@ using namespace boost::filesystem;
 
 namespace jdb {
 
-// FIXME: When I declare this variable in positions (1) or (2) in method
-// SoundManager::loadSounds(), the sounds doesn't play. Why?
 Sound newSound;
 
 /***
@@ -53,7 +51,6 @@ SoundIndex SoundManager::loadSounds( const std::string& category,
                                      const std::string& prefix )
 {
     const SoundIndex soundIndex = sounds_.size();
-    // (1)
 
     path dirPath( SOUNDS_DIR_PATH + "/" + category );
 
@@ -67,7 +64,6 @@ SoundIndex SoundManager::loadSounds( const std::string& category,
                         basename( fileIterator->path() );
 
                 if( fileName.substr( 0, prefix.size() ) == prefix ){
-                    // (2)
                     if( !newSound.buffer.loadFromFile( fileIterator->path().string() ) ){
                         throw std::runtime_error( std::string( "Error loading sound [" ) +
                                                   fileIterator->path().string() +
