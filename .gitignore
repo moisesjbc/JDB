@@ -30,9 +30,10 @@ temp-dependencies
 sandwiches-game-*.deb
 sandwiches-game-*.zip
 
-# Generated binaries
+# Generated binaries and libraries
 bin/
 sandwiches-game-launcher
+libsandwiches-game.dll.a
 
 # Logs
 sandwiches_game.log
