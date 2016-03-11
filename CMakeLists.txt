@@ -28,12 +28,10 @@ endif()
 # Common libraries
 link_directories("${CMAKE_SOURCE_DIR}/third-party/ubuntu_14_04_x86_64/lib")
 include_directories("${CMAKE_SOURCE_DIR}/third-party/ubuntu_14_04_x86_64/include")
-message("${CMAKE_SOURCE_DIR}/third-party/ubuntu_14_04_x86_64/lib")
 include( FindPkgConfig )
 if( BUILD_USING_MXE )
     set( LIBRARIES "${LIBRARIES};tinyxml2;tgui-s;sfml-graphics-s;sfml-window-s;sfml-audio-s;sfml-system-s;opengl32;freetype;winmm;bz2;m2g;opengl32;freetype;jpeg;winmm;gdi32;openal32;FLAC;vorbisenc;vorbisfile;vorbis;ogg;bz2;png;z;m;boost_system-mt;boost_filesystem-mt;dinput8;dxguid;dxerr8;user32;gdi32;winmm;imm32;ole32;oleaut32;shell32;version;uuid;harfbuzz;glib-2.0;rtutils;intl;iconv;winmm;ws2_32;sndfile" )
     #openal32;flac
-    message("LIBRARIES: ${LIBRARIES}")
 else( BUILD_USING_MXE )
     set( LIBRARIES "${LIBRARIES};tinyxml2;m2g;tgui;sfml-graphics;sfml-window;sfml-audio;sfml-system;boost_system;boost_filesystem" )
 endif( BUILD_USING_MXE )
@@ -147,7 +145,6 @@ set( CPACK_SET_DESTDIR true )
 set( CPACK_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX} )
 set( CPACK_STRIP_FILES true )
 include( CPack )
-message("SFML_LIBRARIES ${SFML_LIBRARIES}")
 
 if( NOT WIN32 )
     configure_file(
