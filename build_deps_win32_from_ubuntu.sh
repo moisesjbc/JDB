@@ -49,9 +49,6 @@ wget http://www.sfml-dev.org/files/SFML-2.3.2-windows-gcc-4.9.2-mingw-32-bit.zip
 unzip SFML-2.3.2.zip &&
 cp SFML-2.3.2/lib/libFLAC.a SFML-2.3.2/lib/libopenal32.a /opt/mxe/usr/i686-w64-mingw32.static/lib/
 
-# Build the sandwiches game!
-cd $OLD_DIR
+# Move openal32.dll to bin dir.
 sudo mkdir -p third-party/win32/bin &&
-sudo cp /var/tmp/SFML-2.3.2/bin/openal32.dll third-party/win32/bin &&
-i686-w64-mingw32.static-cmake -DBUILD_USING_MXE=1 -DCMAKE_BUILD_TYPE=Release . && 
-make -j 6
+sudo cp /var/tmp/SFML-2.3.2/bin/openal32.dll third-party/win32/bin 
