@@ -112,7 +112,7 @@ else()
     set( CMAKE_INSTALL_PREFIX / )
 endif()
 install( TARGETS "${EXEC_NAME}" RUNTIME DESTINATION bin )
-install( DIRECTORY share/${PROJECT_NAME} DESTINATION share )
+install( DIRECTORY share/${PROJECT_NAME} DESTINATION share FILE_PERMISSIONS WORLD_WRITE WORLD_READ )
 if( NOT BUILD_USING_MXE )
     file( WRITE ${PROJECT_NAME}-launcher "#!/bin/bash
 (cd \"${CMAKE_INSTALL_PREFIX}/bin\" && export LD_LIBRARY_PATH=. && ./${EXEC_NAME})
