@@ -89,6 +89,11 @@ set( SOURCE_FILES
     "${SOURCE_DIR}/utilities/timer.cpp"
 )
 
+# Workaround for showing include files in Qtcreator.
+file( GLOB_RECURSE HEADER_FILES "include/*.hpp" )
+file( GLOB_RECURSE HEADER_TEMPLATE_FILES "include/*.hpp.in" )
+add_custom_target( HEADERS SOURCES ${HEADER_FILES} ${HEADER_TEMPLATE_FILES} )
+
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin )
 set( EXEC_NAME "${PROJECT_NAME}" )
 add_executable( "${EXEC_NAME}" "${SOURCE_DIR}/main.cpp" ${SOURCE_FILES} )
