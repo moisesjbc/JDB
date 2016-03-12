@@ -59,11 +59,15 @@ TEST(ProfileTest, nextCampaignLevelIsInitializedToZero)
 
 
 
-TEST(ProfileTest, nextCampaignLevelSetterWorks)
+TEST(ProfileTest, nextCampaignLevelIsUpdatedCorrectly)
 {
     jdb::Profile profile("profile-name");
-    profile.setNextCampaignLevel(66);
-    EXPECT_EQ(66, profile.nextCampaignLevel());
+    profile.updateCampaignLevelRecordScore(0, 15);
+    EXPECT_EQ(1, profile.nextCampaignLevel());
+    profile.updateCampaignLevelRecordScore(0, 15);
+    EXPECT_EQ(1, profile.nextCampaignLevel());
+    profile.updateCampaignLevelRecordScore(3, 15);
+    EXPECT_EQ(4, profile.nextCampaignLevel());
 }
 
 
@@ -142,5 +146,4 @@ TEST(ProfileTest, accesingAnUnsavedCampaignRecordThrows)
     }catch(...){
         FAIL() << "Expected out_of_range";
     }
-
 }

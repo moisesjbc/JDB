@@ -31,8 +31,11 @@ json jdb::ProfileJSONParser::writeToJSON(jdb::Profile &profile)
     json profileJSON;
 
     profileJSON["name"] = profile.name();
-    profileJSON["next_campaign_level"] = profile.nextCampaignLevel();
     profileJSON["survival_record_score"] = profile.survivalRecordScore();
+    profileJSON["campaign_record_scores"] = {};
+    for(unsigned int levelIndex=0; levelIndex<profile.nextCampaignLevel(); levelIndex++){
+        profileJSON["campaign_record_scores"].push_back(profile.campaignLevelRecordScore(levelIndex));
+    }
 
     return profileJSON;
 }
@@ -57,8 +60,13 @@ Profile ProfileJSONParser::readFromJSON(json profileJSON)
     std::string profileName = profileJSON["name"];
     Profile profile(profileName);
 
-    profile.setNextCampaignLevel(profileJSON["next_campaign_level"]);
     profile.updateSurvivalRecordScore(profileJSON["survival_record_score"]);
+    unsigned int levelIndex = 0;
+    while(profileJSON["campaign_record_scores"][levelIndex] != nullptr){
+        profile.updateCampaignLevelRecordScore(levelIndex,
+                                               profileJSON["campaign_record_scores"][levelIndex]);
+        levelIndex++;
+    }
 
     return profile;
 }

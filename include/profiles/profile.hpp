@@ -47,14 +47,12 @@ class Profile
         /***
          * Setters
          ***/
-        void setNextCampaignLevel(unsigned int nextCampaignLevel);
         bool updateSurvivalRecordScore(unsigned int newScore);
         bool updateCampaignLevelRecordScore(unsigned int levelIndex, unsigned int newScore);
 
 
     private:
         std::string name_;
-        unsigned int nextCampaignLevel_;
         unsigned int survivalRecordScore_;
         std::vector<unsigned int> campaignRecordScores_;
 };

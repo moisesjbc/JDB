@@ -45,11 +45,14 @@ TEST(ProfileJSONParserTest, ProfileIsWrittenToJSON)
     jdb::ProfileJSONParser profileParser;
     jdb::Profile profile("profile-name");
     profile.updateSurvivalRecordScore(60);
+    profile.updateCampaignLevelRecordScore(0, 10);
+    profile.updateCampaignLevelRecordScore(1, 15);
     json profileJSON = profileParser.writeToJSON(profile);
 
     EXPECT_EQ("profile-name", profileJSON["name"]);
-    EXPECT_EQ(0, profileJSON["next_campaign_level"]);
     EXPECT_EQ(60, profileJSON["survival_record_score"]);
+    EXPECT_EQ(10, profileJSON["campaign_record_scores"][0]);
+    EXPECT_EQ(15, profileJSON["campaign_record_scores"][1]);
 }
 
 
@@ -58,8 +61,8 @@ TEST(ProfileJSONParserTest, ProfileIsReadFromJSON)
     json profileJSON = R"(
     {
         "name": "awesome-player",
-        "next_campaign_level": 5,
-        "survival_record_score": 13
+        "survival_record_score": 13,
+        "campaign_record_scores": [15, 32]
     }
     )"_json;
 
@@ -67,6 +70,8 @@ TEST(ProfileJSONParserTest, ProfileIsReadFromJSON)
     jdb::Profile profile = profileParser.readFromJSON(profileJSON);
 
     EXPECT_EQ("awesome-player", profile.name());
-    EXPECT_EQ(5, profile.nextCampaignLevel());
+    EXPECT_EQ(2, profile.nextCampaignLevel());
     EXPECT_EQ(13, profile.survivalRecordScore());
+    EXPECT_EQ(15, profile.campaignLevelRecordScore(0));
+    EXPECT_EQ(32, profile.campaignLevelRecordScore(1));
 }

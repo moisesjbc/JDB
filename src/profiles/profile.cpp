@@ -28,7 +28,6 @@ namespace jdb {
 
 Profile::Profile(const std::string& name) :
     name_(name),
-    nextCampaignLevel_(0),
     survivalRecordScore_(0)
 {
     if(name.length() < 3){
@@ -49,7 +48,7 @@ std::string Profile::name() const
 
 unsigned int Profile::nextCampaignLevel() const
 {
-    return nextCampaignLevel_;
+    return campaignRecordScores_.size();
 }
 
 
@@ -68,11 +67,6 @@ unsigned int Profile::campaignLevelRecordScore(unsigned int levelIndex) const
 /***
  * Setters
  ***/
-
-void Profile::setNextCampaignLevel(unsigned int nextCampaignLevel)
-{
-    nextCampaignLevel_ = nextCampaignLevel;
-}
 
 
 bool Profile::updateSurvivalRecordScore(unsigned int newScore)
