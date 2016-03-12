@@ -135,15 +135,8 @@ TEST(ProfileTest, campaignRecordsAreInitializedToZero)
 }
 
 
-TEST(ProfileTest, accesingAnUnsavedCampaignRecordThrows)
+TEST(ProfileTest, accesingAnUnsavedCampaignRecordReturnsZero)
 {
     jdb::Profile profile("profile-name");
-    try{
-        profile.campaignLevelRecordScore(0);
-        FAIL() << "Expected out_of_range";
-    }catch(std::out_of_range&){
-        SUCCEED();
-    }catch(...){
-        FAIL() << "Expected out_of_range";
-    }
+    EXPECT_EQ(0, profile.campaignLevelRecordScore(0));
 }

@@ -60,7 +60,11 @@ unsigned int Profile::survivalRecordScore() const
 
 unsigned int Profile::campaignLevelRecordScore(unsigned int levelIndex) const
 {
-    return campaignRecordScores_.at(levelIndex);
+    if(levelIndex < campaignRecordScores_.size()){
+        return campaignRecordScores_.at(levelIndex);
+    }else{
+        return 0;
+    }
 }
 
 
