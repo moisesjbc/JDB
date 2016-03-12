@@ -59,6 +59,12 @@ unsigned int Profile::survivalRecordScore() const
 }
 
 
+unsigned int Profile::campaignLevelRecordScore(unsigned int levelIndex) const
+{
+    return campaignRecordScores_.at(levelIndex);
+}
+
+
 /***
  * Setters
  ***/
@@ -76,6 +82,23 @@ bool Profile::updateSurvivalRecordScore(unsigned int newScore)
         return true;
     }else{
         return false;
+    }
+}
+
+
+bool Profile::updateCampaignLevelRecordScore(unsigned int levelIndex, unsigned int newScore)
+{
+    if(levelIndex < campaignRecordScores_.size()){
+        if(newScore > campaignRecordScores_[levelIndex]){
+            campaignRecordScores_[levelIndex] = newScore;
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        campaignRecordScores_.resize(levelIndex + 1, 0);
+        campaignRecordScores_[levelIndex] = newScore;
+        return true;
     }
 }
 

@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 
 namespace jdb {
 
@@ -40,6 +41,7 @@ class Profile
         std::string name() const;
         unsigned int nextCampaignLevel() const;
         unsigned int survivalRecordScore() const;
+        unsigned int campaignLevelRecordScore(unsigned int levelIndex) const;
 
 
         /***
@@ -47,12 +49,14 @@ class Profile
          ***/
         void setNextCampaignLevel(unsigned int nextCampaignLevel);
         bool updateSurvivalRecordScore(unsigned int newScore);
+        bool updateCampaignLevelRecordScore(unsigned int levelIndex, unsigned int newScore);
 
 
     private:
         std::string name_;
         unsigned int nextCampaignLevel_;
         unsigned int survivalRecordScore_;
+        std::vector<unsigned int> campaignRecordScores_;
 };
 
 } // namespace jdb

@@ -91,3 +91,56 @@ TEST(ProfileTest, survivalRecordScoreIsNotUpdatedWithSmallerScores)
     EXPECT_EQ(false, profile.updateSurvivalRecordScore(45));
     EXPECT_EQ(bestSurvivalRecordScore, profile.survivalRecordScore());
 }
+
+
+TEST(ProfileTest, campaignRecordScoreIsUpdatedWithBiggerScores)
+{
+    jdb::Profile profile("profile-name");
+    EXPECT_EQ(true, profile.updateCampaignLevelRecordScore(0, 55));
+    EXPECT_EQ(55, profile.campaignLevelRecordScore(0));
+}
+
+
+TEST(ProfileTest, campaignRecordScoreIsNotUpdatedWithSmallerScores)
+{
+    jdb::Profile profile("profile-name");
+    const unsigned int bestCampaignRecordScore = 55;
+    const unsigned int levelIndex = 0;
+    profile.updateCampaignLevelRecordScore(levelIndex, bestCampaignRecordScore);
+    EXPECT_EQ(bestCampaignRecordScore, profile.campaignLevelRecordScore(levelIndex));
+
+    EXPECT_EQ(false, profile.updateCampaignLevelRecordScore(levelIndex, 30));
+    EXPECT_EQ(bestCampaignRecordScore, profile.campaignLevelRecordScore(levelIndex));
+
+    EXPECT_EQ(false, profile.updateCampaignLevelRecordScore(levelIndex, 45));
+    EXPECT_EQ(bestCampaignRecordScore, profile.campaignLevelRecordScore(levelIndex));
+}
+
+
+TEST(ProfileTest, campaignRecordsAreInitializedToZero)
+{
+    jdb::Profile profile("profile-name");
+    const unsigned int lastLevelIndex = 5;
+    profile.updateCampaignLevelRecordScore(lastLevelIndex, 55);
+
+    for(unsigned int levelIndex=0; levelIndex<lastLevelIndex; levelIndex++){
+        EXPECT_EQ(0, profile.campaignLevelRecordScore(levelIndex));
+
+    }
+    EXPECT_EQ(55, profile.campaignLevelRecordScore(lastLevelIndex));
+}
+
+
+TEST(ProfileTest, accesingAnUnsavedCampaignRecordThrows)
+{
+    jdb::Profile profile("profile-name");
+    try{
+        profile.campaignLevelRecordScore(0);
+        FAIL() << "Expected out_of_range";
+    }catch(std::out_of_range&){
+        SUCCEED();
+    }catch(...){
+        FAIL() << "Expected out_of_range";
+    }
+
+}
