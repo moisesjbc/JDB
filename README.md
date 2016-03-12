@@ -60,34 +60,51 @@ There is a total of 4 tools for player to combine them and remove dangers.
 
 1. Open a terminal and clone the last version of [this repository](https://github.com/moisesjbc/JDB).
 
-```
-git clone https://github.com/moisesjbc/sandwiches-game.git
-```
+        git clone https://github.com/moisesjbc/sandwiches-game.git
 
 2. Enter into the project's directory.
 
-```
-cd sandwiches-game
-```
+        cd sandwiches-game
 
 3. Build dependencies using the script provided.
 
-```
-./build_deps_ubuntu_14_04_x86_64.sh
-```
+        ./build_deps_ubuntu_14_04_x86_64.sh
 
 4. Build and install the game.
 
-```
-cmake .
-sudo make install
-```
+        cmake .
+        sudo make install
 
 5. Run the game and enjoy!
 
-```
-sandwiches-game
-```
+        sandwiches-game
+
+
+## Building for Windows from Ubuntu (14.04 - x86_64)
+
+Currently I buid The Sandwiches Game for Windows from Ubuntu using [MXE](http://mxe.cc/)
+
+1. Open a terminal and clone the last version of [this repository](https://github.com/moisesjbc/JDB).
+
+        git clone https://github.com/moisesjbc/sandwiches-game.git
+
+2. Enter into the project's directory.
+
+        cd sandwiches-game
+
+3. Build dependencies using the script provided.
+
+        ./build_deps_win32_from_ubuntu.sh
+
+4. Build and install the game.
+
+        i686-w64-mingw32.static-cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_USING_MXE=1 .
+        sudo make install
+
+5. Run the game from Windows or using [Wine](https://www.winehq.org/)
+
+        wine bin/sandwiches-game.exe
+
 
 ## Dockerfile (for developers)
 
