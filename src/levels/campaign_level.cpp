@@ -119,7 +119,7 @@ std::unique_ptr<LevelIntro> CampaignLevel::generateLevelIntro(const std::vector<
 
 bool CampaignLevel::updatePlayerProfile(Profile &playerProfile) const
 {
-    return playerProfile.updateCampaignLevelRecordScore(levelIndex(), score());
+    return victory() && playerProfile.updateCampaignLevelRecordScore(levelIndex(), score());
 }
 
 } // namespace jdb
