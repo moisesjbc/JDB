@@ -130,7 +130,6 @@ class Level : public GameState
 
         std::unique_ptr< LevelIntro > levelIntro_;
 
-        unsigned int acumScore_;
         unsigned int levelScore_;
 
     private:

@@ -37,7 +37,6 @@ namespace jdb {
 
 Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int levelIndex, Profile& playerProfile )
     : GameState( window ),
-      acumScore_( 0 ),
       levelScore_( 0 ),
       soundManager_( *soundManager ),
       levelIndex_( levelIndex ),
@@ -366,7 +365,6 @@ void Level::update( unsigned int ms )
 
     if( victory() ){
         updateAndSavePlayerProfile(playerProfile_);
-        acumScore_ += levelScore_;
         levelIndex_++;
         if( load( levelIndex_ ) ){
             reset();
