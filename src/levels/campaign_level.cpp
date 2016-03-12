@@ -82,7 +82,7 @@ std::unique_ptr<LevelUI> CampaignLevel::generateLevelUI(m2g::GraphicsLibrary& gu
                 new CampaignLevelUI(
                     [this](){ return jacobHp(); },
                     std::move(guiGraphicsLibrary.getTilesetByName("health.png")),
-                    [this](){ return acumScore_ + levelScore_; },
+                    [this](){ return score(); },
                     std::move(guiGraphicsLibrary.getTilesetByName("score.png")),
                     [this](){ return toolIndex(); },
                     std::move(guiGraphicsLibrary.getTilesetByName("tool_selector.png")),
