@@ -2,8 +2,6 @@
 
 ![JDB game](img/jdb.jpg "JDB game")
 
-**Project status: Active**
-
 
 ## About
 
