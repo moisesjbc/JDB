@@ -143,3 +143,29 @@ Break the bottle completly (**gavel**) and then remove the broken crystals with 
 ### Stuns
 
 - Hand (cut).
+
+
+## Queen rat
+
+*Hail (one of) the queen of all rabid rat!.*
+
+### Removal instructions
+
+Hit it with the gavel to stun it. Then, remove it using the hand. NOTE: This rat will drain your score while sitting on its throne, so remove it fast!
+
+### Stuns
+
+- Hand (bite).
+
+
+## Hive
+
+*I hate bees!*
+
+### Removal instructions
+
+First, burn the hive with the ligther, then, remove it with the hand
+
+### Stuns
+
+- Hand (bite).
