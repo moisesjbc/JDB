@@ -21,6 +21,7 @@
 #define CAMPAIGN_LEVEL_HPP
 
 #include "level.hpp"
+#include <levels/level_difficulty.hpp>
 
 namespace jdb {
 
