@@ -127,7 +127,30 @@ tgui::Widget::Ptr CampaignLevelSelectionMenu::generateGameDifficultySelector()
     gameDifficultySelector->addItem("GameDifficulty: Easy", "easy");
     gameDifficultySelector->addItem("GameDifficulty: Normal", "normal");
     gameDifficultySelector->addItem("GameDifficulty: Hard", "hard");
-    gameDifficultySelector->setSelectedItemById("normal");
+
+    gameDifficultySelector->connect("ItemSelected", [this](sf::String text, sf::String itemID){
+        if(itemID.toAnsiString() == "easy"){
+            playerProfile_.updateGameDifficulty(GameDifficulty::EASY);
+        }else if(itemID.toAnsiString() == "normal"){
+            playerProfile_.updateGameDifficulty(GameDifficulty::NORMAL);
+        }else{
+            playerProfile_.updateGameDifficulty(GameDifficulty::HARD);
+        }
+        Level::savePlayerProfile(playerProfile_);
+    });
+
+    switch(playerProfile_.gameDifficulty()){
+        case GameDifficulty::EASY:
+            gameDifficultySelector->setSelectedItemById("easy");
+        break;
+        case GameDifficulty::NORMAL:
+            gameDifficultySelector->setSelectedItemById("normal");
+        break;
+        default:
+            gameDifficultySelector->setSelectedItemById("hard");
+        break;
+    }
+
     gameDifficultySelector->setTextSize(20);
     layout->add(gameDifficultySelector);
 

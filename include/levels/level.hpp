@@ -66,6 +66,12 @@ class Level : public GameState
         virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 
+        /***
+         * Player profile management (public)
+         ***/
+        static void savePlayerProfile(Profile& playerProfile);
+
+
     protected:
         /***
          * Loading
@@ -113,10 +119,9 @@ class Level : public GameState
 
 
         /***
-         * Player profile management
+         * Player profile management (private)
          ***/
         virtual bool updatePlayerProfile(Profile& playerProfile) const = 0;
-        void savePlayerProfile(Profile& playerProfile) const;
         void updateAndSavePlayerProfile(Profile &playerProfile) const;
 
 

@@ -80,8 +80,8 @@ Profile ProfileJSONParser::readFromJSON(json profileJSON)
     const std::map<std::string, jdb::GameDifficulty> gameDifficultyStrings =
     {
         {"easy", jdb::GameDifficulty::EASY},
-        {"normal", jdb::GameDifficulty::EASY},
-        {"hard", jdb::GameDifficulty::EASY}
+        {"normal", jdb::GameDifficulty::NORMAL},
+        {"hard", jdb::GameDifficulty::HARD}
     };
     profile.updateGameDifficulty(gameDifficultyStrings.at(profileJSON["game_difficulty"]));
 

@@ -67,6 +67,7 @@ Profile JDB::loadProfile()
     if( boost::filesystem::exists(savegamePath) ){
         LOG(INFO) << "Loading savegame [" + SAVEGAME_PATH + "]";
         ProfileJSONParser profileParser;
+
         return profileParser.readFromJSON(savegamePath.string());
     }else{
         LOG(INFO) << "Not savegame found [" + SAVEGAME_PATH + "]";

@@ -95,6 +95,23 @@ void Level::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 
 /***
+ * Player profile management (public)
+ ***/
+
+void Level::savePlayerProfile(Profile &playerProfile)
+{
+    boost::filesystem::path savegamePath(SAVEGAME_PATH);
+    LOG(INFO) << "Saving player profile to [" + savegamePath.string() + "]";
+    if(!boost::filesystem::exists(savegamePath.parent_path())){
+        boost::filesystem::create_directory(savegamePath.parent_path());
+    }
+
+    ProfileJSONParser profileParser;
+    profileParser.writeToJSON(playerProfile, savegamePath.string());
+}
+
+
+/***
  * Loading
  ***/
 
@@ -429,21 +446,8 @@ void Level::initGUI()
 
 
 /***
- * Player profile management
+ * Player profile management (private)
  ***/
-
-void Level::savePlayerProfile(Profile &playerProfile) const
-{
-    boost::filesystem::path savegamePath(SAVEGAME_PATH);
-    LOG(INFO) << "Saving player profile to [" + savegamePath.string() + "]";
-    if(!boost::filesystem::exists(savegamePath.parent_path())){
-        boost::filesystem::create_directory(savegamePath.parent_path());
-    }
-
-    ProfileJSONParser profileParser;
-    profileParser.writeToJSON(playerProfile, savegamePath.string());
-}
-
 
 void Level::updateAndSavePlayerProfile(Profile &playerProfile) const
 {
