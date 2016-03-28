@@ -52,6 +52,9 @@ void CampaignLevelSelectionMenu::initGUI(tgui::Gui &gui)
 
     playLevelButtons_.reserve(nLevels_);
 
+    layout->add(generateGameDifficultySelector());
+    layout->insertSpace(999, 0.5f);
+
     for(unsigned int levelIndex=0; levelIndex<nLevels_; levelIndex++){
         tgui::Button::Ptr playLevelButton = std::make_shared<tgui::Button>();
         playLevelButton->setTextSize( 20 );
@@ -107,6 +110,28 @@ void CampaignLevelSelectionMenu::resume()
             playLevelButtons_[levelIndex]->enable();
         }
     }
+}
+
+
+/***
+ * Auxiliar initializations
+ ***/
+
+tgui::Widget::Ptr CampaignLevelSelectionMenu::generateGameDifficultySelector()
+{
+    tgui::HorizontalLayout::Ptr layout =
+        std::make_shared<tgui::HorizontalLayout>();
+
+    tgui::ComboBox::Ptr gameDifficultySelector =
+        std::make_shared<tgui::ComboBox>();
+    gameDifficultySelector->addItem("GameDifficulty: Easy", "easy");
+    gameDifficultySelector->addItem("GameDifficulty: Normal", "normal");
+    gameDifficultySelector->addItem("GameDifficulty: Hard", "hard");
+    gameDifficultySelector->setSelectedItemById("normal");
+    gameDifficultySelector->setTextSize(20);
+    layout->add(gameDifficultySelector);
+
+    return layout;
 }
 
 

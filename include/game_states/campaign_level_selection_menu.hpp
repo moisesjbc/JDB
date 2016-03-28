@@ -22,6 +22,7 @@
 
 #include <game_states/gui_menu.hpp>
 #include <profiles/profile.hpp>
+#include <TGUI/HorizontalLayout.hpp>
 
 namespace jdb {
 
@@ -49,7 +50,14 @@ class CampaignLevelSelectionMenu : public GUIMenu
          ***/
         void resume();
 
+
     private:
+        /***
+         * Auxiliar initializations
+         ***/
+        tgui::Widget::Ptr generateGameDifficultySelector();
+
+
         /***
          * Attributes
          ***/
