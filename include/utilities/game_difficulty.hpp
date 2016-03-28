@@ -17,12 +17,12 @@
     along with sandwiches-game.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
-#ifndef LEVEL_DIFFICULTY_HPP
-#define LEVEL_DIFFICULTY_HPP
+#ifndef GAME_DIFFICULTY_HPP
+#define GAME_DIFFICULTY_HPP
 
 namespace jdb {
 
-enum class LevelDifficulty {
+enum class GameDifficulty {
     EASY,
     NORMAL,
     HARD
@@ -30,4 +30,4 @@ enum class LevelDifficulty {
 
 } // namespace jdb
 
-#endif // LEVEL_DIFFICULTY_HPP
+#endif // GAME_DIFFICULTY_HPP
