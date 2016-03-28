@@ -37,6 +37,15 @@ json jdb::ProfileJSONParser::writeToJSON(jdb::Profile &profile)
         profileJSON["campaign_record_scores"].push_back(profile.campaignLevelRecordScore(levelIndex));
     }
 
+    const std::map<jdb::GameDifficulty, std::string> gameDifficultyStrings =
+    {
+        {jdb::GameDifficulty::EASY, "easy"},
+        {jdb::GameDifficulty::NORMAL, "normal"},
+        {jdb::GameDifficulty::HARD, "hard"}
+    };
+    profileJSON["game_difficulty"] =
+        gameDifficultyStrings.at(profile.gameDifficulty());
+
     return profileJSON;
 }
 
@@ -67,6 +76,14 @@ Profile ProfileJSONParser::readFromJSON(json profileJSON)
                                                profileJSON["campaign_record_scores"][levelIndex]);
         levelIndex++;
     }
+
+    const std::map<std::string, jdb::GameDifficulty> gameDifficultyStrings =
+    {
+        {"easy", jdb::GameDifficulty::EASY},
+        {"normal", jdb::GameDifficulty::EASY},
+        {"hard", jdb::GameDifficulty::EASY}
+    };
+    profile.updateGameDifficulty(gameDifficultyStrings.at(profileJSON["game_difficulty"]));
 
     return profile;
 }
