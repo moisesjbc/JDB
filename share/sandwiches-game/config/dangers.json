@@ -76,11 +76,11 @@
                         {
                             "conditions": {
                                 "player_action": "lighter_on",
-                                "danger_min_hp": 10,
+                                "danger_min_hp": 15,
                                 "danger_max_hp": 100
                             },
                             "danger_mutation": {
-                                "danger_hp_variation": -5,
+                                "danger_hp_variation": -10,
                                 "new_danger_state": -1
                             }
                         },
@@ -88,7 +88,7 @@
                             "conditions": {
                                 "player_action": "lighter_on",
                                 "danger_min_hp": 0,
-                                "danger_max_hp": 9
+                                "danger_max_hp": 14
                             },
                             "danger_mutation": {
                                 "danger_hp_variation": "all",
