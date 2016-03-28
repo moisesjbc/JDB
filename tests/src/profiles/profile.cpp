@@ -20,6 +20,8 @@
 #include <profiles/profile.hpp>
 #include <gtest/gtest.h>
 #include <vector>
+#include <array>
+
 
 TEST(ProfileTest, nameIsInitializedInConstructor)
 {
@@ -139,4 +141,44 @@ TEST(ProfileTest, accesingAnUnsavedCampaignRecordReturnsZero)
 {
     jdb::Profile profile("profile-name");
     EXPECT_EQ(0, profile.campaignLevelRecordScore(0));
+}
+
+
+TEST(ProfileTest, gameDifficultyDefaultsToNormal)
+{
+    jdb::Profile profile("profile-name");
+    EXPECT_EQ(jdb::GameDifficulty::NORMAL, profile.gameDifficulty());
+}
+
+
+TEST(ProfileTest, updatingGameDifficultyWorks)
+{
+    jdb::Profile profile("profile-name");
+
+    std::array<jdb::GameDifficulty, 3> gameDifficulties =
+    {
+        jdb::GameDifficulty::EASY,
+        jdb::GameDifficulty::NORMAL,
+        jdb::GameDifficulty::HARD
+    };
+
+    for(jdb::GameDifficulty newGameDifficulty : gameDifficulties){
+        EXPECT_EQ(true, profile.updateGameDifficulty(newGameDifficulty));
+        EXPECT_EQ(newGameDifficulty, profile.gameDifficulty());
+    }
+}
+
+
+TEST(ProfileTest, updateGameDifficultyMethodReturnsFalseIfGameDifficultyDoesNotChange)
+{
+    jdb::Profile profile("profile-name");
+
+    // Game difficulty defaults to normal, so this should return false.
+    EXPECT_EQ(false, profile.updateGameDifficulty(jdb::GameDifficulty::NORMAL));
+
+    // Game difficulty changed from normal to hard, this should flag the change.
+    EXPECT_EQ(true, profile.updateGameDifficulty(jdb::GameDifficulty::HARD));
+
+    // Game difficulty already set to hard, so this should not flag any changes.
+    EXPECT_EQ(false, profile.updateGameDifficulty(jdb::GameDifficulty::HARD));
 }

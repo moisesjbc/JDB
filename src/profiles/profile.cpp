@@ -28,7 +28,8 @@ namespace jdb {
 
 Profile::Profile(const std::string& name) :
     name_(name),
-    survivalRecordScore_(0)
+    survivalRecordScore_(0),
+    gameDifficulty_(GameDifficulty::NORMAL)
 {
     if(name.length() < 3){
         throw std::invalid_argument("Profile name with less than 3 characters not allowed");
@@ -68,6 +69,12 @@ unsigned int Profile::campaignLevelRecordScore(unsigned int levelIndex) const
 }
 
 
+GameDifficulty Profile::gameDifficulty() const
+{
+    return gameDifficulty_;
+}
+
+
 /***
  * Setters
  ***/
@@ -98,6 +105,14 @@ bool Profile::updateCampaignLevelRecordScore(unsigned int levelIndex, unsigned i
         campaignRecordScores_[levelIndex] = newScore;
         return true;
     }
+}
+
+
+bool Profile::updateGameDifficulty(GameDifficulty newGameDifficulty)
+{
+    bool gameDifficultyChanged = (newGameDifficulty != gameDifficulty_);
+    gameDifficulty_ = newGameDifficulty;
+    return gameDifficultyChanged;
 }
 
 } // namespace jdb

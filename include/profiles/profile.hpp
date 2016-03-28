@@ -23,6 +23,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <vector>
+#include <utilities/game_difficulty.hpp>
 
 namespace jdb {
 
@@ -42,6 +43,7 @@ class Profile
         unsigned int nextCampaignLevel() const;
         unsigned int survivalRecordScore() const;
         unsigned int campaignLevelRecordScore(unsigned int levelIndex) const;
+        GameDifficulty gameDifficulty() const;
 
 
         /***
@@ -49,12 +51,14 @@ class Profile
          ***/
         bool updateSurvivalRecordScore(unsigned int newScore);
         bool updateCampaignLevelRecordScore(unsigned int levelIndex, unsigned int newScore);
+        bool updateGameDifficulty(GameDifficulty newGameDifficulty);
 
 
     private:
         std::string name_;
         unsigned int survivalRecordScore_;
         std::vector<unsigned int> campaignRecordScores_;
+        GameDifficulty gameDifficulty_;
 };
 
 } // namespace jdb
