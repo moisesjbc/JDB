@@ -157,6 +157,8 @@ class Level : public GameState
         // Background sprites.
         std::vector< m2g::TileSpritePtr > backgroundSprites;
         m2g::TileSpritePtr grinderFront;
+
+        float difficultyFactor_;
 };
 
 } // namespace jdb

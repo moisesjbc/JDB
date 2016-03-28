@@ -40,8 +40,21 @@ Level::Level( sf::RenderWindow& window, SoundManager* soundManager, unsigned int
       levelScore_( 0 ),
       soundManager_( *soundManager ),
       levelIndex_( levelIndex ),
-      playerProfile_(playerProfile)
-{}
+      playerProfile_(playerProfile),
+      difficultyFactor_(1.0f)
+{
+    switch(playerProfile_.gameDifficulty()){
+        case GameDifficulty::EASY:
+            difficultyFactor_ = 0.75f;
+        break;
+        case GameDifficulty::NORMAL:
+            difficultyFactor_ = 1.0f;
+        break;
+        default:
+            difficultyFactor_ = 1.25f;
+        break;
+    }
+}
 
 
 /***
@@ -74,17 +87,7 @@ int Level::jacobHp() const
 
 float Level::difficultyFactor() const
 {
-    switch(playerProfile_.gameDifficulty()){
-        case GameDifficulty::EASY:
-            return 0.75f;
-        break;
-        case GameDifficulty::NORMAL:
-            return 1.0f;
-        break;
-        default:
-            return 1.25f;
-        break;
-    }
+    return difficultyFactor_;
 }
 
 
