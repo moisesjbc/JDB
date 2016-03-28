@@ -75,12 +75,14 @@ class Sandwich : public m2g::Animation
         virtual void update( unsigned int ms,
                              int& playerHp,
                              unsigned int& playerScore,
-                             m2g::GraphicsLibrary& dangersGraphicsLibrary);
+                             m2g::GraphicsLibrary& dangersGraphicsLibrary,
+                             float difficultyFactor);
         bool useTool( PlayerAction playerAction,
                       TileSprite* tool,
                       int& playerHp,
                       unsigned int& playerScore,
-                      m2g::GraphicsLibrary& dangersGraphicsLibrary );
+                      m2g::GraphicsLibrary& dangersGraphicsLibrary,
+                      float difficultyFactor);
         StunType stuns( const m2g::TileSprite &tool, ToolType toolType );
         void reset();
 

@@ -125,18 +125,19 @@ void Tool::setActive(bool active)
 void Tool::handleMouseButtonDown( SandwichesVector& sandwiches,
                                   int& playerHp,
                                   unsigned int& playerScore,
-                                  m2g::GraphicsLibrary& dangersGraphicsLibrary)
+                                  m2g::GraphicsLibrary& dangersGraphicsLibrary,
+                                  float difficultyFactor)
 {
     unsigned int i = 0;
 
     if( currentToolType_ == ToolType::HAND ){
         while( ( i < sandwiches.size() ) &&
-               ( !sandwiches[i]->useTool( PlayerAction::HAND_CLICK, this, playerHp, playerScore, dangersGraphicsLibrary ) ) ){
+               ( !sandwiches[i]->useTool( PlayerAction::HAND_CLICK, this, playerHp, playerScore, dangersGraphicsLibrary, difficultyFactor ) ) ){
             i++;
         }
     }else if( currentToolType_ == ToolType::GAVEL ){
         while( ( i < sandwiches.size() ) &&
-               ( !sandwiches[i]->useTool( PlayerAction::GAVEL_HIT, this, playerHp, playerScore, dangersGraphicsLibrary ) ) ){
+               ( !sandwiches[i]->useTool( PlayerAction::GAVEL_HIT, this, playerHp, playerScore, dangersGraphicsLibrary, difficultyFactor ) ) ){
             i++;
         }
     }
@@ -153,7 +154,7 @@ void Tool::handleMouseButtonUp()
 }
 
 
-void Tool::handleMouseHover( SandwichesVector& sandwiches, int& playerHp, unsigned int& playerScore, m2g::GraphicsLibrary& dangersGraphicsLibrary )
+void Tool::handleMouseHover( SandwichesVector& sandwiches, int& playerHp, unsigned int& playerScore, m2g::GraphicsLibrary& dangersGraphicsLibrary, float difficultyFactor )
 {
     unsigned int i = 0;
 
@@ -167,7 +168,7 @@ void Tool::handleMouseHover( SandwichesVector& sandwiches, int& playerHp, unsign
         if( ( currentToolType_ == ToolType::EXTINGUISHER ) ||
             ( currentToolType_ == ToolType::LIGHTER ) ){
             while( ( i < sandwiches.size() ) &&
-                   ( !sandwiches[i]->useTool( toolAction[currentToolType_], this, playerHp, playerScore, dangersGraphicsLibrary ) ) ){
+                   ( !sandwiches[i]->useTool( toolAction[currentToolType_], this, playerHp, playerScore, dangersGraphicsLibrary, difficultyFactor ) ) ){
                 i++;
             }
         }

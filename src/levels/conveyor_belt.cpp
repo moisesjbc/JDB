@@ -25,12 +25,12 @@ namespace jdb {
  * 1. Initialization
  ***/
 
-void ConveyorBelt::load( tinyxml2::XMLElement* xmlElement )
+void ConveyorBelt::load( tinyxml2::XMLElement* xmlElement, float difficultyFactor )
 {
     timeSinceLastUpdate_ = 0;
 
-    initialSpeed_ = xmlElement->FloatAttribute( "initial" );
-    speedStep_ = xmlElement->FloatAttribute( "step" );
+    initialSpeed_ = xmlElement->FloatAttribute( "initial" ) * difficultyFactor;
+    speedStep_ = xmlElement->FloatAttribute( "step" ) * difficultyFactor;
     timeLapse_ = xmlElement->UnsignedAttribute( "time_lapse" ) * 1000;
 
     speed_ = initialSpeed_;

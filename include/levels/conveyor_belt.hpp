@@ -40,7 +40,7 @@ class ConveyorBelt
         /***
          * 1. Initialization
          ***/
-        void load( tinyxml2::XMLElement* xmlElement );
+        void load( tinyxml2::XMLElement* xmlElement, float difficultyFactor );
 
 
         /***

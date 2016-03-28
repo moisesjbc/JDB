@@ -58,6 +58,7 @@ class Level : public GameState
         virtual bool victory() const = 0;
         unsigned int toolIndex() const;
         int jacobHp() const;
+        float difficultyFactor() const;
 
 
         /***

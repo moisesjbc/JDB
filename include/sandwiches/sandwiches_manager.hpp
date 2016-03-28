@@ -61,7 +61,7 @@ class SandwichesManager : public sf::Drawable
         /***
          * Updating
          ***/
-        void update(int ms, int& jacobHp, unsigned int& levelScore);
+        void update(int ms, int& jacobHp, unsigned int& levelScore, float difficultyFactor);
 
 
         /***

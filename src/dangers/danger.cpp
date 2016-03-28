@@ -108,7 +108,8 @@ void Danger::setState( int newState )
 void Danger::update( unsigned int ms,
                      int& playerHp,
                      unsigned int& playerScore,
-                     m2g::GraphicsLibrary& dangersGraphicsLibrary )
+                     m2g::GraphicsLibrary& dangersGraphicsLibrary,
+                     float difficultyFactor )
 {
     m2g::Animation::update( ms );
     if( appearanceAnimation ){
@@ -137,7 +138,7 @@ void Danger::update( unsigned int ms,
 
         if( ms + timeElapsedFromLastTimeout >= currentTimeout ){
             timeElapsedFromLastTimeout = 0;
-            applyMutation(dangerData->states[state].stateTimeTransition->dangerMutation, playerHp, playerScore, dangersGraphicsLibrary);
+            applyMutation(dangerData->states[state].stateTimeTransition->dangerMutation, playerHp, playerScore, dangersGraphicsLibrary, difficultyFactor);
         }else{
             timeElapsedFromLastTimeout += ms;
         }
@@ -148,7 +149,7 @@ void Danger::update( unsigned int ms,
     // applicable.
     if( dangerData->states[state].stateDistanceTransition != nullptr ){
         if( this->getBoundaryBox().left < static_cast< int >( dangerData->states[state].stateDistanceTransition->distance ) ){
-            applyMutation( dangerData->states[state].stateDistanceTransition->dangerMutation, playerHp, playerScore, dangersGraphicsLibrary );
+            applyMutation( dangerData->states[state].stateDistanceTransition->dangerMutation, playerHp, playerScore, dangersGraphicsLibrary, difficultyFactor );
         }
     }
 }
@@ -157,7 +158,8 @@ void Danger::update( unsigned int ms,
 bool Danger::playerAction( PlayerAction playerAction,
                            int& playerHp,
                            unsigned int& playerScore,
-                           m2g::GraphicsLibrary& dangersGraphicsLibrary)
+                           m2g::GraphicsLibrary& dangersGraphicsLibrary,
+                           float difficultyFactor )
 {
     unsigned int i = 0;
     const PlayerActionResponse* playerActionResponse;
@@ -185,7 +187,7 @@ bool Danger::playerAction( PlayerAction playerAction,
     if( validPlayerResponses.size() > 0 ){
         playerActionResponse = &validPlayerResponses[ rand() % validPlayerResponses.size() ];
 
-        applyMutation(playerActionResponse->dangerMutation, playerHp, playerScore, dangersGraphicsLibrary);
+        applyMutation(playerActionResponse->dangerMutation, playerHp, playerScore, dangersGraphicsLibrary, difficultyFactor);
 
         return true;
     }
@@ -197,7 +199,8 @@ bool Danger::playerAction( PlayerAction playerAction,
 void Danger::applyMutation(const DangerMutation &mutation,
                            int& playerHp,
                            unsigned int& playerScore,
-                           m2g::GraphicsLibrary& dangersGraphicsLibrary)
+                           m2g::GraphicsLibrary& dangersGraphicsLibrary,
+                           float difficultyFactor )
 {
     int oldDangerHp = hp;
     if(mutation.newDanger() != DANGER_NULL_ID){
@@ -222,6 +225,7 @@ void Danger::applyMutation(const DangerMutation &mutation,
     if( hp < oldDangerHp){
         playerScoreVariation += (oldDangerHp - hp) * dangerData->damageFactor;
     }
+    playerScoreVariation *= difficultyFactor;
     if( (int)playerScore + playerScoreVariation > 0 ){
         playerScore += playerScoreVariation;
     }else{

@@ -97,7 +97,7 @@ SandwichesVector &SandwichesManager::sandwiches()
  * Updating
  ***/
 
-void SandwichesManager::update(int ms, int& jacobHp, unsigned int& levelScore)
+void SandwichesManager::update(int ms, int& jacobHp, unsigned int& levelScore, float difficultyFactor)
 {
     // Game logic: Check if the first sandwich reached the
     // sandwiches' end point and, in that case, restart it.
@@ -137,7 +137,7 @@ void SandwichesManager::update(int ms, int& jacobHp, unsigned int& levelScore)
     // Update the sandwiches
     unsigned int i;
     for( i=0; i < sandwiches_.size(); i++ ){
-        sandwiches_[i]->update( ms, jacobHp, levelScore, *dangerGraphicsLibrary_ );
+        sandwiches_[i]->update( ms, jacobHp, levelScore, *dangerGraphicsLibrary_, difficultyFactor );
     }
 
     // Move the sandwiches

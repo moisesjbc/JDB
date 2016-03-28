@@ -72,6 +72,22 @@ int Level::jacobHp() const
 }
 
 
+float Level::difficultyFactor() const
+{
+    switch(playerProfile_.gameDifficulty()){
+        case GameDifficulty::EASY:
+            return 0.75f;
+        break;
+        case GameDifficulty::NORMAL:
+            return 1.0f;
+        break;
+        default:
+            return 1.25f;
+        break;
+    }
+}
+
+
 /***
  * Drawable interface
  ***/
@@ -158,7 +174,7 @@ bool Level::load(unsigned int levelIndex)
 
 
     // Get the conveyor belt parameters.
-    conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ) );
+    conveyorBelt_.load( (tinyxml2::XMLElement*)levelNode->FirstChildElement( "speed" ), difficultyFactor() );
 
     sandwichesManager_ =
             std::unique_ptr<SandwichesManager>(
@@ -241,7 +257,7 @@ void Level::handleUserInput( const sf::Event& event, SandwichesVector& sandwiche
         break;
         case sf::Event::MouseButtonPressed:{
             // Player clicked on screen.
-            tool_->handleMouseButtonDown(sandwiches, jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_);
+            tool_->handleMouseButtonDown(sandwiches, jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_, difficultyFactor());
         }break;
         case sf::Event::MouseButtonReleased:
             tool_->handleMouseButtonUp();
@@ -358,7 +374,7 @@ void Level::handleEvents()
         t1 = clock.getElapsedTime();
     }
 
-    tool_->handleMouseHover( sandwichesManager_->sandwiches(), jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_ );
+    tool_->handleMouseHover( sandwichesManager_->sandwiches(), jacobHp_, levelScore_, *sandwichesManager_->dangerGraphicsLibrary_, difficultyFactor() );
 }
 
 
@@ -368,7 +384,7 @@ void Level::update( unsigned int ms )
 
     tool_->applyStun( sandwichesManager_->sandwiches() );
 
-    sandwichesManager_->update(ms, jacobHp_, levelScore_);
+    sandwichesManager_->update(ms, jacobHp_, levelScore_, difficultyFactor());
     if( jacobHp_ > MAX_JACOB_LIFE ){
         jacobHp_ = MAX_JACOB_LIFE;
     }

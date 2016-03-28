@@ -191,12 +191,12 @@ void Sandwich::setPosition( const float& x, const float& y )
  * 5. Updating
  ***/
 
-void Sandwich::update(unsigned int ms, int& playerHp, unsigned int& playerScore, m2g::GraphicsLibrary& dangersGraphicsLibrary)
+void Sandwich::update(unsigned int ms, int& playerHp, unsigned int& playerScore, m2g::GraphicsLibrary& dangersGraphicsLibrary, float difficultyFactor)
 {
     Animation::update( ms );
 
     for( unsigned int i=0; i<nDangers_; i++ ){
-        dangers_[i]->update( ms, playerHp, playerScore, dangersGraphicsLibrary );
+        dangers_[i]->update( ms, playerHp, playerScore, dangersGraphicsLibrary, difficultyFactor );
     }
 }
 
@@ -205,13 +205,14 @@ bool Sandwich::useTool( PlayerAction playerAction,
                         TileSprite* tool,
                         int& playerHp,
                         unsigned int& playerScore,
-                        m2g::GraphicsLibrary& dangersGraphicsLibrary)
+                        m2g::GraphicsLibrary& dangersGraphicsLibrary,
+                        float difficultyFactor)
 {
     unsigned int i=0;
 
     for( ; i<nDangers_; i++ ){
         if( dangers_[i]->collide( *tool ) &&
-            dangers_[i]->playerAction(playerAction, playerHp, playerScore, dangersGraphicsLibrary) ){
+            dangers_[i]->playerAction(playerAction, playerHp, playerScore, dangersGraphicsLibrary, difficultyFactor) ){
                 return true;
         }
     }

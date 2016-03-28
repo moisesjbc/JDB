@@ -82,15 +82,18 @@ class Danger : public m2g::Animation
         virtual void update(unsigned int ms,
                             int& playerHp,
                             unsigned int& playerScore,
-                            m2g::GraphicsLibrary& dangersGraphicsLibrary);
+                            m2g::GraphicsLibrary& dangersGraphicsLibrary,
+                            float difficultyFactor);
         bool playerAction( PlayerAction playerAction,
                            int& playerHp,
                            unsigned int& playerScore,
-                           m2g::GraphicsLibrary& dangersGraphicsLibrary );
+                           m2g::GraphicsLibrary& dangersGraphicsLibrary,
+                           float difficultyFactor );
         void applyMutation(const DangerMutation& mutation,
                            int& playerHp,
                            unsigned int& playerScore,
-                           m2g::GraphicsLibrary& dangersGraphicsLibrary);
+                           m2g::GraphicsLibrary& dangersGraphicsLibrary,
+                           float difficultyFactor );
         void reset();
         StunType stuns( const m2g::TileSprite &tool, ToolType toolType ) const;
 
