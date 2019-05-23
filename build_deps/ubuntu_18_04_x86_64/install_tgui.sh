@@ -1,0 +1,15 @@
+#!/bin/bash
+
+TGUI_VERSION=$1
+THIRD_PARTY_DIR=$2
+CMAKE_ARGUMENTS=$3
+
+CMAKE_ARGUMENTS="$CMAKE_ARGUMENTS -DCMAKE_MODULE_PATH=$THIRD_PARTY_DIR/share/SFML/cmake/Modules/ -DSFML_ROOT=$THIRD_PARTY_DIR"
+
+wget https://github.com/texus/TGUI/archive/v$TGUI_VERSION.zip
+unzip v$TGUI_VERSION.zip
+cd TGUI-$TGUI_VERSION
+cmake $CMAKE_ARGUMENTS
+make install
+sudo ldconfig
+cd $TEMP_DIR

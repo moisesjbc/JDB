@@ -47,14 +47,14 @@ There is a total of 4 tools for player to combine them and remove dangers.
 * [Boost](www.boost.org/)
 * [tinyxml2](http://www.grinninglizard.com/tinyxml2/)
 * [JSON for modern C++](https://github.com/nlohmann/json)
-* [SFML (>= 2.3.2)](http://www.sfml-dev.org/)
-* [m2g (v0.3)](https://github.com/moisesjbc/m2g)
-* [v0.7-dev)](https://tgui.eu/v0.7-dev/)
+* [SFML](http://www.sfml-dev.org/)
+* [m2g](https://github.com/moisesjbc/m2g)
+* [TGUI](https://tgui.eu/v0.7-dev/)
 * [CMake](https://cmake.org/)
 * [Easylogging++](https://github.com/easylogging/easyloggingpp)
 
 
-## Building from source (Ubuntu 14.04 - x86_64)
+## Building from source (Ubuntu 18.04 - x86_64)
 
 1. Open a terminal and clone the last version of [this repository](https://github.com/moisesjbc/JDB).
 
@@ -66,7 +66,7 @@ There is a total of 4 tools for player to combine them and remove dangers.
 
 3. Build dependencies using the script provided.
 
-        ./build_deps_ubuntu_14_04_x86_64.sh
+        bash build_deps/ubuntu_18_04_x86_64/build_deps.sh
 
 4. Build and install the game.
 
