@@ -37,6 +37,7 @@ libsandwiches-game.dll.a
 
 # Logs
 sandwiches_game.log
+logs/
 
 # Savegames
 share/sandwiches-game/savegames/
