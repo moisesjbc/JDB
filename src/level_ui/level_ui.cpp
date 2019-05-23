@@ -39,13 +39,13 @@ LevelUI::LevelUI(PlayerHPGetter playerHpGetter,
 
     playerHpText_.setFont( font_ );
     playerHpText_.setCharacterSize( 50 );
-    playerHpText_.setColor( sf::Color( 131, 60, 60, 255 ) );
+    playerHpText_.setFillColor( sf::Color( 131, 60, 60, 255 ) );
     playerHpText_.setPosition( 75, 5 );
 
     playerScorePanel_.move( 768.0f, 0.0f );
     playerScoreText_.setFont( font_ );
     playerScoreText_.setCharacterSize( 50 );
-    playerScoreText_.setColor( sf::Color( 11, 109, 36, 255 ) );
+    playerScoreText_.setFillColor( sf::Color( 11, 109, 36, 255 ) );
     playerScoreText_.setPosition( 785, 5 );
 
     toolSelector_.move( 384.0f, 660.0f );

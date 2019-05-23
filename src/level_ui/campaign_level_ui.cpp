@@ -42,7 +42,7 @@ CampaignLevelUI::CampaignLevelUI( PlayerHPGetter playerHpGetter,
 
     progressText_.setFont( font() );
     progressText_.setCharacterSize( 50 );
-    progressText_.setColor( sf::Color( 8, 31, 126, 255 ) );
+    progressText_.setFillColor( sf::Color( 8, 31, 126, 255 ) );
     progressText_.setPosition( 450, 3 );
 }
 

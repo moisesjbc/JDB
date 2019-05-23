@@ -42,7 +42,7 @@ SurvivalLevelUI::SurvivalLevelUI( PlayerHPGetter playerHpGetter,
 
     timeText_.setFont( font() );
     timeText_.setCharacterSize( 50 );
-    timeText_.setColor( sf::Color( 8, 31, 126, 255 ) );
+    timeText_.setFillColor( sf::Color( 8, 31, 126, 255 ) );
     timeText_.setPosition( 450, 3 );
 }
 
@@ -55,7 +55,7 @@ void SurvivalLevelUI::update()
 {
     LevelUI::update();
 
-    char buffer[10];
+    char buffer[20];
 
     // Compute the current game time.
     unsigned int seconds = timeGetter_();
