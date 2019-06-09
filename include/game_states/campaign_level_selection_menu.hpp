@@ -22,7 +22,7 @@
 
 #include <game_states/gui_menu.hpp>
 #include <profiles/profile.hpp>
-#include <TGUI/HorizontalLayout.hpp>
+#include <TGUI/Widgets/HorizontalLayout.hpp>
 
 namespace jdb {
 

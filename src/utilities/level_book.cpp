@@ -19,6 +19,7 @@
 
 #include <utilities/level_book.hpp>
 #include <paths.hpp>
+#include <iostream>
 
 namespace jdb {
 
@@ -31,7 +32,7 @@ LevelBook::LevelBook() :
 {
     const sf::Vector2f LEVEL_BOOK_SIZE = { 600.0f, 400.0f };
 
-    setBackgroundColor( sf::Color::White );
+    //getRenderer()->setBackgroundColor( sf::Color::White );
 
     textBox_ = std::make_shared<tgui::TextBox>();
     textBox_->setReadOnly( true );
@@ -46,13 +47,10 @@ LevelBook::LevelBook() :
     VerticalLayout::add( continueButton_ );
     VerticalLayout::setRatio( continueButton_, 0.5f );
 
-    m_callback.widgetType = "LevelBook";
-    addSignal<sf::String>("BookClosed");
-    continueButton_->connect( "pressed", std::bind( &LevelBook::setNextPage, this ) );
+    continueButton_->connect( "pressed", &LevelBook::setNextPage, this );
+    connect( "BookClosed", &LevelBook::setVisible, this, false );
 
-    this->connect( "BookClosed", std::bind( &LevelBook::hide, this ) );
-
-    tgui::Panel::setSize( LEVEL_BOOK_SIZE.x, LEVEL_BOOK_SIZE.y );
+    setSize( LEVEL_BOOK_SIZE.x, LEVEL_BOOK_SIZE.y );
 }
 
 
@@ -61,10 +59,10 @@ LevelBook::LevelBook() :
  ***/
 
 void LevelBook::addPage( const sf::String &text,
-                         std::unique_ptr<tgui::Texture> texture)
+                         std::unique_ptr<tgui::Sprite> texture)
 {
     if(texture != nullptr){
-        texture->setTextureRect(sf::FloatRect(0.0f, 0.0f, picture_->getSize().x, picture_->getSize().y));
+        texture->setVisibleRect(sf::FloatRect(0.0f, 0.0f, picture_->getSize().x, picture_->getSize().y));
     }
     pages_.emplace_back( text, std::move( texture ) );
     if( pages_.size() == 1 ){
@@ -86,14 +84,14 @@ void LevelBook::setPage(unsigned int pageIndex)
     textBox_->setText( newPage.text );
 
     // A trick for setting the caret at the beginning of the text :-)
-    sf::Event::KeyEvent keyEvent;
+    /*sf::Event::KeyEvent keyEvent;
     keyEvent.code = sf::Keyboard::PageUp;
     while( textBox_->getScrollbar()->getValue() > 0 ){
         textBox_->keyPressed( keyEvent );
-    }
+    }*/
 
-    if( newPage.texture != nullptr ){
-        picture_->setTexture( *( newPage.texture ) );
+    if( newPage.sprite != nullptr ){
+        picture_->setTexture( newPage.sprite->getTexture() );
     }
 }
 
@@ -104,8 +102,22 @@ void LevelBook::setNextPage()
             ( currentPageIndex_ < ( pages_.size() - 1 ) ) ){
         setPage( currentPageIndex_ + 1 );
     }else{
-        sendSignal( "bookClosed" );
+        onBookClosed.emit(this, true);
     }
+}
+
+
+/***
+ * 5. Signals
+ ***/
+
+tgui::Signal& LevelBook::getSignal(std::string signalName)
+{
+    if (signalName == tgui::toLower(onBookClosed.getName())) {
+        return onBookClosed;
+    }
+
+    return tgui::VerticalLayout::getSignal(signalName);
 }
 
 } // namespace jdb

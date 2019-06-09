@@ -23,7 +23,7 @@
 #include "game_state.hpp"
 #include <SFML/Graphics/Text.hpp>
 #include <TGUI/Gui.hpp>
-#include <TGUI/VerticalLayout.hpp>
+#include <TGUI/Widgets/VerticalLayout.hpp>
 
 namespace jdb {
 

@@ -72,10 +72,11 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
         for( DangerInfo& dangerInfo : dangersInfo ){
             sf::Vector2u dangerTextureSize = getTileSize(dangerIDs[i] + "_01.png");
 
-            std::unique_ptr< tgui::Texture > dangerTexture(
-                        new tgui::Texture(
+            std::unique_ptr< tgui::Sprite > dangerSprite(
+                        new tgui::Sprite(
+                            tgui::Texture(
                             dangerInfo.texturePath,
-                            { 0, 0, static_cast<int>( dangerTextureSize.x ), static_cast<int>( dangerTextureSize.y ) }
+                            { 0, 0, static_cast<int>( dangerTextureSize.x ), static_cast<int>( dangerTextureSize.y ) })
                         ) );
 
             unsigned int minX = 0;
@@ -84,7 +85,7 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
             unsigned int maxY = 0;
             for( unsigned int x = 0; x < dangerTextureSize.x; x++ ){
                 for( unsigned int y = 0; y < dangerTextureSize.y; y++ ){
-                    if( !( dangerTexture->isTransparentPixel( x, y ) ) ){
+                    if( !( dangerSprite->getTexture().isTransparentPixel( sf::Vector2u(x, y) ) ) ){
                         if( minX == 0 || x < minX ){
                             minX = x;
                         }
@@ -101,19 +102,19 @@ LevelIntro::LevelIntro(const GameState& parentGameState,
                 }
             }
 
-            dangerTexture = std::unique_ptr< tgui::Texture >(
-                        new tgui::Texture(
-                            dangerInfo.texturePath,
+            dangerSprite = std::unique_ptr< tgui::Sprite >(
+                        new tgui::Sprite(
+                            tgui::Texture(dangerInfo.texturePath,
                             { static_cast<int>(minX),
                               static_cast<int>(minY),
                               static_cast<int>(maxX - minX),
-                              static_cast<int>(maxY - minY) }
+                              static_cast<int>(maxY - minY) })
                         ) );
 
             levelBook->addPage( "New danger: \n\t" + dangerInfo.name + "\n\n" +
                                 "Description: \n\t" + dangerInfo.description + "\n\n" +
                                 "Instructions: \n\t" + dangerInfo.removalInstructions,
-                                std::move( dangerTexture ) );
+                                std::move( dangerSprite ) );
             i++;
         }
     }

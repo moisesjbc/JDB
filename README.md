@@ -110,6 +110,9 @@ This repository comes with a Dockerfile for building a [Docker](https://www.dock
 
 To build the image, run the following **on the top directory of the repository**:
 
-        sudo docker build -t moisesjbc/ubuntu-base-for-sandwiches-game:0.1 .
+        sudo docker build -t sandwiches-game-ubuntu-dev .
 
 Those third-party dependencies not installed from repository are present in the directory */opt/third-party* in the Docker image.
+
+        sudo docker run -v `pwd`:/var/tmp/sandwiches-game -it moisesjbc/ubuntu-base-for-sandwiches-game
+

@@ -68,7 +68,7 @@ void CampaignLevelSelectionMenu::initGUI(tgui::Gui &gui)
 
         if(levelIndex > playerProfile_.nextCampaignLevel()){
             playLevelButton->setText( playLevelButton->getText() + " [LOCKED]" );
-            playLevelButton->disable();
+            playLevelButton->setEnabled(false);
         }else{
             tgui::Label::Ptr toolTip = std::make_shared<tgui::Label>();
             toolTip->setText("Current record score: " + std::to_string(playerProfile_.campaignLevelRecordScore(levelIndex)));
@@ -107,7 +107,7 @@ void CampaignLevelSelectionMenu::resume()
             tgui::Label::Ptr toolTip = std::make_shared<tgui::Label>();
             toolTip->setText("Current record score: " + std::to_string(playerProfile_.campaignLevelRecordScore(levelIndex)));
             playLevelButtons_[levelIndex]->setToolTip(toolTip);
-            playLevelButtons_[levelIndex]->enable();
+            playLevelButtons_[levelIndex]->setEnabled(true);
         }
     }
 }

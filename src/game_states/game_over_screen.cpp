@@ -43,7 +43,7 @@ void GameOverScreen::init()
 
     tgui::Panel::Ptr panel =
         std::make_shared<tgui::Panel>();
-    panel->setBackgroundColor(sf::Color::White);
+    panel->getRenderer()->setBackgroundColor(sf::Color::White);
     panel->setSize(tgui::bindSize(gui_) * 0.3f);
     panel->setPosition(tgui::bindSize(gui_) * 0.35f);
 

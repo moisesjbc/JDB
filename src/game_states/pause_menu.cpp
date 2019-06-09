@@ -55,11 +55,11 @@ void PauseMenu::init()
                              tgui::bindHeight( gui_ ) * 0.35f );
     pausePanel->addSpace(SPACE_BETWEEN_WIDGETS);
 
-    pausePanel->setBackgroundColor( sf::Color::White );
+    //pausePanel->getRenderer()->setBackgroundColor( sf::Color::White );
 
     tgui::Label::Ptr pauseMenuLabel = std::make_shared<tgui::Label>();
     pauseMenuLabel->setText( "Game paused" );
-    pauseMenuLabel->setTextColor( sf::Color::Black );
+    pauseMenuLabel->getRenderer()->setTextColor( sf::Color::Black );
     pausePanel->add( pauseMenuLabel );
     pausePanel->insertSpace( 30, SPACE_BETWEEN_WIDGETS );
 

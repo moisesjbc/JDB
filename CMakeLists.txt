@@ -5,15 +5,14 @@ set( CMAKE_BUILD_TYPE Release )
 project( sandwiches-game )
 set( PROJECT_VERSION_MAJOR 1 )
 set( PROJECT_VERSION_MINOR 1 )
-set( PROJECT_VERSION_PATCH 0 )
+set( PROJECT_VERSION_PATCH 1 )
 set( PROJECT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH} )
-
 set( DONT_EDIT_THIS_FILE_MESSAGE "This file is generated automatically by CMakeLists.txt every time cmake is run. Don't edit it!" )
 
 # Compiler flags
 if(CMAKE_COMPILER_IS_GNUCXX)
 	message(STATUS "GCC detected, adding compile flags")
-        add_compile_options( "-std=c++11" "-Wall" "-Werror" "-pedantic-errors" )
+        add_compile_options( "-std=gnu++14" "-Wall" "-Werror" "-pedantic-errors" )
     if( BUILD_USING_MXE )
         add_compile_options( "-DSFML_STATIC" )
     endif()
@@ -40,6 +39,9 @@ set( SOURCE_DIR "${CMAKE_BINARY_DIR}/src" )
 set( INCLUDE_DIR "${CMAKE_BINARY_DIR}/include" )
 
 include_directories( "${INCLUDE_DIR}" )
+
+# Make binary search libraries in current directory.
+SET( CMAKE_INSTALL_RPATH "$ORIGIN/" )
 
 # main_menu.cpp displays the game version, so we update it here.
 configure_file(
@@ -101,9 +103,9 @@ else()
 endif()
 target_link_libraries( "${EXEC_NAME}" ${LIBRARIES} )
 
-if( NOT BUILD_USING_MXE )
-    include(${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt)
-endif()
+#if( NOT BUILD_USING_MXE )
+#    include(${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt)
+#endif()
 
 # Instalation
 if( NOT BUILD_USING_MXE )
@@ -143,7 +145,7 @@ set( CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR} )
 set( CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR} )
 set( CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH} )
 set( CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}" )
-set( CPACK_DEBIAN_PACKAGE_DEPENDS "libtinyxml2-0.0.0" )
+set( CPACK_DEBIAN_PACKAGE_DEPENDS "libtinyxml2-6" )
 if( WIN32 )
     set( CPACK_PACKAGING_INSTALL_PREFIX "/")
 else()

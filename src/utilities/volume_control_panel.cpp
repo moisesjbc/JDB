@@ -38,9 +38,7 @@ VolumeControlPanel::VolumeControlPanel()
     volumeSlider_->setValue( sf::Listener::getGlobalVolume() );
 
     // Update the displayed value when changed.
-    volumeSlider_->connect( "ValueChanged", [this](float newVolume){
-        sf::Listener::setGlobalVolume( newVolume );
-    });
+    volumeSlider_->connect( "ValueChanged", &sf::Listener::setGlobalVolume );
 
     // Add widgets to layout.
     VerticalLayout::add( volumeLabel_ );

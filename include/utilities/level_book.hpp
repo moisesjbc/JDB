@@ -20,13 +20,16 @@
 #ifndef LEVELBOOK_HPP
 #define LEVELBOOK_HPP
 
-#include <TGUI/Gui.hpp>
-#include <TGUI/VerticalLayout.hpp>
+//#include <TGUI/Gui.hpp>
+#include <TGUI/Signal.hpp>
+#include <TGUI/SignalImpl.hpp>
+#include <TGUI/Widgets/VerticalLayout.hpp>
 #include <vector>
 #include <string>
 #include <TGUI/Widgets/Scrollbar.hpp>
 #include <TGUI/Widgets/TextBox.hpp>
 #include <TGUI/Widgets/Button.hpp>
+#include <TGUI/Widgets/Panel.hpp>
 #include "../utilities/texture_picture.hpp"
 
 namespace jdb {
@@ -34,11 +37,11 @@ namespace jdb {
 struct BookPage
 {
     std::string text;
-    std::unique_ptr< tgui::Texture > texture;
+    std::unique_ptr< tgui::Sprite > sprite;
 
-    BookPage( std::string text, std::unique_ptr< tgui::Texture > texture ) :
+    BookPage( std::string text, std::unique_ptr< tgui::Sprite > sprite ) :
         text( text ),
-        texture( std::move( texture ) )
+        sprite( std::move( sprite ) )
     {}
 };
 
@@ -66,7 +69,7 @@ class LevelBook : public tgui::VerticalLayout
          * 3. Pages management
          ***/
         void addPage( const sf::String& text,
-                      std::unique_ptr< tgui::Texture > texture = nullptr );
+                      std::unique_ptr< tgui::Sprite > texture = nullptr );
 
 
         /***
@@ -75,7 +78,11 @@ class LevelBook : public tgui::VerticalLayout
         void setPage( unsigned int pageIndex );
         void setNextPage();
 
-
+        /***
+         * 5. Signals
+         ***/
+        tgui::SignalBool onBookClosed = {"BookClosed"};
+        tgui::Signal& getSignal(std::string signalName);
     private:
         unsigned int currentPageIndex_;
         std::vector< BookPage > pages_;

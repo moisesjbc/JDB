@@ -20,7 +20,8 @@
 #ifndef VOLUME_CONTROL_PANEL_HPP
 #define VOLUME_CONTROL_PANEL_HPP
 
-#include <TGUI/VerticalLayout.hpp>
+#include <TGUI/SignalImpl.hpp>
+#include <TGUI/Widgets/VerticalLayout.hpp>
 #include <TGUI/Widgets/Label.hpp>
 #include <TGUI/Widgets/Slider.hpp>
 

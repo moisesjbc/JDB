@@ -93,13 +93,13 @@ tgui::VerticalLayout::Ptr MainMenu::generateTitleLayout() const
         std::make_shared<tgui::Label>();
     originalTitleLabel->setText("El Juego De los Bocadillos");
     originalTitleLabel->setTextSize(50);
-    originalTitleLabel->setTextStyle(sf::Text::Style::Bold);
+    originalTitleLabel->getRenderer()->setTextStyle(sf::Text::Style::Bold);
 
     tgui::Label::Ptr titleLabel =
         std::make_shared<tgui::Label>();
     titleLabel->setText("The Sandwiches Game");
     titleLabel->setTextSize(40);
-    titleLabel->setTextStyle(sf::Text::Style::Bold);
+    titleLabel->getRenderer()->setTextStyle(sf::Text::Style::Bold);
 
     tgui::VerticalLayout::Ptr layout =
         std::make_shared<tgui::VerticalLayout>();

@@ -64,7 +64,7 @@ then
     bash $SCRIPTS_DIR/install_sfml.sh $SFML_VERSION $THIRD_PARTY_DIR
 
     # Install TGUI from source.
-    bash $SCRIPTS_DIR/install_tgui.sh $SFML_VERSION $THIRD_PARTY_DIR $CMAKE_ARGUMENTS
+    bash $SCRIPTS_DIR/install_tgui.sh $TGUI_VERSION $THIRD_PARTY_DIR $CMAKE_ARGUMENTS
 
     # Install m2g from source.
     bash $SCRIPTS_DIR/install_m2g.sh $M2G_VERSION $THIRD_PARTY_DIR
