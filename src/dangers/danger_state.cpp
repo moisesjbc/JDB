@@ -1,5 +1,5 @@
 /***
-    Copyright 2013 - 2016 Moises J. Bonilla Caraballo (moisesjbc)
+    Copyright 2013 - 2019 Moises J. Bonilla Caraballo (moisesjbc)
 
     This file is part of sandwiches-game.
 
