@@ -23,7 +23,7 @@
 //#include <TGUI/Gui.hpp>
 #include <TGUI/Signal.hpp>
 #include <TGUI/SignalImpl.hpp>
-#include <TGUI/Widgets/VerticalLayout.hpp>
+#include <TGUI/Widgets/Panel.hpp>
 #include <vector>
 #include <string>
 #include <TGUI/Widgets/Scrollbar.hpp>
@@ -46,7 +46,7 @@ struct BookPage
 };
 
 
-class LevelBook : public tgui::VerticalLayout
+class LevelBook : public tgui::Panel
 {
     public:
         typedef std::shared_ptr<LevelBook> Ptr;

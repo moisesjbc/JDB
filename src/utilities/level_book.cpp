@@ -18,8 +18,8 @@
  ***/
 
 #include <utilities/level_book.hpp>
+#include <TGUI/Widgets/VerticalLayout.hpp>
 #include <paths.hpp>
-#include <iostream>
 
 namespace jdb {
 
@@ -32,24 +32,27 @@ LevelBook::LevelBook() :
 {
     const sf::Vector2f LEVEL_BOOK_SIZE = { 600.0f, 400.0f };
 
-    //getRenderer()->setBackgroundColor( sf::Color::White );
+    getRenderer()->setBackgroundColor( sf::Color::White );
+
+    tgui::VerticalLayout::Ptr layout = std::make_shared<tgui::VerticalLayout>();
 
     textBox_ = std::make_shared<tgui::TextBox>();
     textBox_->setReadOnly( true );
-    VerticalLayout::add( textBox_ );
-    VerticalLayout::setRatio( textBox_, 2.0f );
+    layout->add( textBox_ );
+    layout->setRatio( textBox_, 2.0f );
 
     picture_ = TexturePicture::create( DATA_DIR_PATH + "/img/sandwiches/sandwich_01.png" );
-    VerticalLayout::add( picture_ );
+    layout->add( picture_ );
 
     continueButton_ = std::make_shared<tgui::Button>();
     continueButton_->setText( "Continue" );
-    VerticalLayout::add( continueButton_ );
-    VerticalLayout::setRatio( continueButton_, 0.5f );
+    layout->add( continueButton_ );
+    layout->setRatio( continueButton_, 0.5f );
+
+    add(layout);
 
     continueButton_->connect( "pressed", &LevelBook::setNextPage, this );
     connect( "BookClosed", &LevelBook::setVisible, this, false );
-
     setSize( LEVEL_BOOK_SIZE.x, LEVEL_BOOK_SIZE.y );
 }
 
@@ -117,7 +120,7 @@ tgui::Signal& LevelBook::getSignal(std::string signalName)
         return onBookClosed;
     }
 
-    return tgui::VerticalLayout::getSignal(signalName);
+    return tgui::Panel::getSignal(signalName);
 }
 
 } // namespace jdb

@@ -20,6 +20,7 @@
 #include <game_states/pause_menu.hpp>
 #include <SFML/Window/Event.hpp>
 #include <TGUI/Widgets/Button.hpp>
+#include <TGUI/Widgets/Panel.hpp>
 #include <string>
 #include <functional>
 #include <paths.hpp>
@@ -48,28 +49,32 @@ void PauseMenu::init()
 {
     gui_.setFont( DATA_DIR_PATH + "/fonts/LiberationSans-Bold.ttf" );
 
-    tgui::VerticalLayout::Ptr pausePanel = std::make_shared<tgui::VerticalLayout>();
+    tgui::Panel::Ptr pausePanel = std::make_shared<tgui::Panel>();
     pausePanel->setSize( tgui::bindWidth( gui_ ) * 0.30f,
                          tgui::bindHeight( gui_ ) * 0.30f );
     pausePanel->setPosition( tgui::bindWidth( gui_ ) * 0.35f,
                              tgui::bindHeight( gui_ ) * 0.35f );
-    pausePanel->addSpace(SPACE_BETWEEN_WIDGETS);
 
-    //pausePanel->getRenderer()->setBackgroundColor( sf::Color::White );
+    tgui::VerticalLayout::Ptr layout =
+        std::make_shared<tgui::VerticalLayout>();
+    layout->addSpace(SPACE_BETWEEN_WIDGETS);
+
+    pausePanel->getRenderer()->setBackgroundColor( sf::Color::White );
 
     tgui::Label::Ptr pauseMenuLabel = std::make_shared<tgui::Label>();
     pauseMenuLabel->setText( "Game paused" );
     pauseMenuLabel->getRenderer()->setTextColor( sf::Color::Black );
-    pausePanel->add( pauseMenuLabel );
-    pausePanel->insertSpace( 30, SPACE_BETWEEN_WIDGETS );
+    layout->add( pauseMenuLabel );
+    layout->insertSpace( 30, SPACE_BETWEEN_WIDGETS );
 
-    createPauseMenuButtons( pausePanel, pauseMenuLabel );
+    createPauseMenuButtons( layout, pauseMenuLabel );
 
     VolumeControlPanel::Ptr volumeControlPanel = std::make_shared<VolumeControlPanel>();
-    pausePanel->add( volumeControlPanel );
-    pausePanel->setRatio( volumeControlPanel, 2.0f );
-    pausePanel->insertSpace( 30, SPACE_BETWEEN_WIDGETS );
+    layout->add( volumeControlPanel );
+    layout->setRatio( volumeControlPanel, 2.0f );
+    layout->insertSpace( 30, SPACE_BETWEEN_WIDGETS );
 
+    pausePanel->add(layout);
     gui_.add( pausePanel );
 
     window_.setMouseCursorVisible( true );
