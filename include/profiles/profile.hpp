@@ -54,6 +54,11 @@ class Profile
         bool updateGameDifficulty(GameDifficulty newGameDifficulty);
 
 
+        /***
+         * I/O
+         ***/
+        static Profile loadProfile();
+
     private:
         std::string name_;
         unsigned int survivalRecordScore_;

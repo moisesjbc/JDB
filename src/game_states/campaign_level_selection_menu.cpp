@@ -98,16 +98,20 @@ void CampaignLevelSelectionMenu::resume()
 {
     GUIMenu::resume();
 
-    // If player unlocked levels before returning to this menu,
-    // unlock their respective buttons.
     for(unsigned int levelIndex=0; levelIndex<nLevels_; levelIndex++){
-        if(!playLevelButtons_[levelIndex]->isEnabled() && levelIndex <= playerProfile_.nextCampaignLevel()){
-            std::string buttonText = playLevelButtons_[levelIndex]->getText().toAnsiString();
-            playLevelButtons_[levelIndex]->setText(buttonText.substr(0, buttonText.size() - std::string(" [LOCKED]").size() ));
+        if(levelIndex <= playerProfile_.nextCampaignLevel()){
+            // Update levels scores.
             tgui::Label::Ptr toolTip = std::make_shared<tgui::Label>();
             toolTip->setText("Current record score: " + std::to_string(playerProfile_.campaignLevelRecordScore(levelIndex)));
             playLevelButtons_[levelIndex]->setToolTip(toolTip);
             playLevelButtons_[levelIndex]->setEnabled(true);
+
+            // If player unlocked levels before returning to this menu,
+            // unlock their respective buttons.
+            if(!playLevelButtons_[levelIndex]->isEnabled()){
+                std::string buttonText = playLevelButtons_[levelIndex]->getText().toAnsiString();
+                playLevelButtons_[levelIndex]->setText(buttonText.substr(0, buttonText.size() - std::string(" [LOCKED]").size() ));
+            }
         }
     }
 }

@@ -22,6 +22,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <levels/level.hpp>
+#include <utilities/easylogging++.h>
 
 namespace jdb {
 
@@ -41,12 +42,6 @@ class JDB
 
 
     private:
-        /***
-         * Auxiliar methods
-         ***/
-        Profile loadProfile();
-
-
         sf::RenderWindow window_;
 };
 

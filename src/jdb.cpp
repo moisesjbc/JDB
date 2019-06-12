@@ -19,9 +19,6 @@
 
 #include "jdb.hpp"
 #include "game_states/main_menu.hpp"
-#include <paths.hpp>
-#include <boost/filesystem.hpp>
-#include <profiles/profile_json_parser.hpp>
 
 namespace jdb {
 
@@ -47,7 +44,7 @@ void JDB::run()
     SoundManager soundManager( (DATA_DIR_PATH + "/audio").c_str() );
     LOG(INFO) << "Initializing sound manager ...OK";
 
-    Profile playerProfile = loadProfile();
+    Profile playerProfile = Profile::loadProfile();
 
     LOG(INFO) << "Initializing main menu ...";
     MainMenu mainMenu( window_, &soundManager, playerProfile );
@@ -55,25 +52,5 @@ void JDB::run()
 
     mainMenu.run();
 }
-
-
-/***
- * Auxiliar methods
- ***/
-
-Profile JDB::loadProfile()
-{
-    boost::filesystem::path savegamePath(SAVEGAME_PATH);
-    if( boost::filesystem::exists(savegamePath) ){
-        LOG(INFO) << "Loading savegame [" + SAVEGAME_PATH + "]";
-        ProfileJSONParser profileParser;
-
-        return profileParser.readFromJSON(savegamePath.string());
-    }else{
-        LOG(INFO) << "Not savegame found [" + SAVEGAME_PATH + "]";
-        return Profile("Player");
-    }
-}
-
 
 } // namespace jdb

@@ -19,6 +19,10 @@
 
 
 #include <profiles/profile.hpp>
+#include <paths.hpp>
+#include <boost/filesystem.hpp>
+#include <profiles/profile_json_parser.hpp>
+#include <utilities/easylogging++.h>
 
 namespace jdb {
 
@@ -114,5 +118,25 @@ bool Profile::updateGameDifficulty(GameDifficulty newGameDifficulty)
     gameDifficulty_ = newGameDifficulty;
     return gameDifficultyChanged;
 }
+
+
+/***
+ * I/O
+ ***/
+
+Profile Profile::loadProfile()
+{
+    boost::filesystem::path savegamePath(SAVEGAME_PATH);
+    if( boost::filesystem::exists(savegamePath) ){
+        LOG(INFO) << "Loading savegame [" + SAVEGAME_PATH + "]";
+        ProfileJSONParser profileParser;
+
+        return profileParser.readFromJSON(savegamePath.string());
+    }else{
+        LOG(INFO) << "Not savegame found [" + SAVEGAME_PATH + "]";
+        return Profile("Player");
+    }
+}
+
 
 } // namespace jdb
