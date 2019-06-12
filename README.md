@@ -2,15 +2,15 @@
 
 ![JDB game](img/jdb.jpg "JDB game")
 
-
 ## About
 
 The Sandwiches game, or JDB (Juego De los Bocadillos, in spanish), is an ability 2D game where the player have to combine multiple tools in order to remove the dangers that travel on delicious sandwiches.
-Background
+
+## Background
 
 JDB's story focuses on Jacob, a young boy and its ambition to get a world record: eating the most sandwiches never seen, thanks to a giant grinder he has just built. The only problem is that in his rush for glory, our hero has made the sandwiches in the garage. No one can imagine what disagreeable surprises could have been added to the sandwiches!
 
-As our hero's best friend Marcos, your mission with consist in removing all the threats from the sandwiches before they get the grinder and damage the protagonist, preventing him from archieve victory.
+As our hero's best friend Marcos, your mission will consist in removing all the threats from the sandwiches before they get to the grinder and damage the protagonist, preventing him from archieve victory.
 
 ## Game mechanics
 
@@ -44,13 +44,13 @@ There is a total of 4 tools for player to combine them and remove dangers.
 
 ## Dependencies
 
-* [Boost](www.boost.org/)
-* [tinyxml2](http://www.grinninglizard.com/tinyxml2/)
+* [Boost](www.boost.org)
+* [tinyxml2](http://www.grinninglizard.com/tinyxml2)
 * [JSON for modern C++](https://github.com/nlohmann/json)
-* [SFML](http://www.sfml-dev.org/)
+* [SFML](http://www.sfml-dev.org)
 * [m2g](https://github.com/moisesjbc/m2g)
-* [TGUI](https://tgui.eu/v0.7-dev/)
-* [CMake](https://cmake.org/)
+* [TGUI](https://tgui.eu)
+* [CMake](https://cmake.org)
 * [Easylogging++](https://github.com/easylogging/easyloggingpp)
 
 
@@ -71,14 +71,16 @@ There is a total of 4 tools for player to combine them and remove dangers.
 4. Build and install the game.
 
         cmake .
-        sudo make install
+        make
 
 5. Run the game and enjoy!
 
-        sandwiches-game
+        bin/sandwiches-game
 
 
 ## Building for Windows from Ubuntu (14.04 - x86_64)
+
+**Update: currently working on updating JDB dependencies. This section is still to be tested**
 
 Currently I buid The Sandwiches Game for Windows from Ubuntu using [MXE](http://mxe.cc/)
 
@@ -106,13 +108,22 @@ Currently I buid The Sandwiches Game for Windows from Ubuntu using [MXE](http://
 
 ## Dockerfile (for developers)
 
-This repository comes with a Dockerfile for building a [Docker](https://www.docker.com/) image for continuous integration. This image includes all the required packages and dependencies for building *The Sandwiches Game*. 
+This repository comes with a development [Docker](https://www.docker.com/) image. This image includes all the required packages and dependencies for building *The Sandwiches Game*. 
 
-To build the image, run the following **on the top directory of the repository**:
+1. To build the image, run the following **on the top directory of the repository**:
 
         sudo docker build -t sandwiches-game-ubuntu-dev .
 
-Those third-party dependencies not installed from repository are present in the directory */opt/third-party* in the Docker image.
+2. Then, run the Docker image.
 
         sudo docker run -v `pwd`:/var/tmp/sandwiches-game -it moisesjbc/ubuntu-base-for-sandwiches-game
+
+3. (**Inside the container**) Build the game.
+
+        cmake .
+        make
+
+4. (**In host**) Run the game.
+
+        LD_LIBRARY_PATH=third-party/ubuntu_18_04_x86_64/lib/ bin/sandwiches-game
 
