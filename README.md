@@ -112,11 +112,11 @@ This repository comes with a development [Docker](https://www.docker.com/) image
 
 1. To build the image, run the following **on the top directory of the repository**:
 
-        sudo docker build -t sandwiches-game-ubuntu-dev .
+        (cd docker/ubuntu_18_04_x86_64 && sudo docker build -t sandwiches-game-ubuntu-dev .)
 
 2. Then, run the Docker image.
 
-        sudo docker run -v `pwd`:/var/tmp/sandwiches-game -it moisesjbc/ubuntu-base-for-sandwiches-game
+        sudo docker run -v `pwd`:/opt/sandwiches-game -e HOST_UID=$(id -u ${USER}) -e HOST_GID=$(id -g ${USER}) -it sandwiches-game-ubuntu-dev build_zip.sh
 
 3. (**Inside the container**) Build the game.
 

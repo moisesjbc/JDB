@@ -3,7 +3,7 @@
 declare -a PACKAGES=( 
     'binutils'
     'build-essential'
-    'cmake3'
+    'cmake'
     'wget'
     'unzip'
     'libtinyxml2-dev'
@@ -31,16 +31,11 @@ declare -a PACKAGES=(
     'pkg-config'
     'libgtest-dev'
     'xorg-dev'
-    'gcc-4.9' # Ubuntu 18.04 installs gcc / g++ 4.8 but we need 4.9 for TGUI
-    'g++-4.9'
+    'gcc-7'
+    'g++-7'
 );
 
 # Install dependencies from repositories.
-sudo apt install -y software-properties-common # Needed for add-apt-repository
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y # PPA for gcc / g++ 4.9
 sudo apt-get update
 sudo apt install ${PACKAGES[@]} -y
 
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
-
-# Source for gcc / g++ 4.9 installation: https://gist.github.com/goldsborough/d466f43e8ffc948ff92de7486c5216d6

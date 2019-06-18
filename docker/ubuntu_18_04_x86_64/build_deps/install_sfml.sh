@@ -2,15 +2,17 @@
 
 SFML_VERSION=$1
 THIRD_PARTY_DIR=$2
+TEMP_DIR=$3
+N_PROC=$4
 
 export CMAKE_ARGUMENTS="-DCMAKE_INSTALL_PREFIX=$THIRD_PARTY_DIR -DCMAKE_INCLUDE_PATH=$THIRD_PARTY_DIR/include -DCMAKE_LIBRARY_PATH=$THIRD_PARTY_DIR/lib -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=1"
 
 # Install SFML from source.
+cd $TEMP_DIR
 wget https://www.sfml-dev.org/files/SFML-$SFML_VERSION-sources.zip
 unzip SFML-$SFML_VERSION-sources.zip
 cd SFML-$SFML_VERSION
 cmake $CMAKE_ARGUMENTS .
-make install
+make install -j $N_PROC
 sudo ldconfig
-#cp $TEMP_DIR/SFML-2.5.1/SFMLConfig.cmake $THIRD_PARTY_DIR/share/SFML/
-cd $TEMP_DIR
+rm -rf $TEMP_DIR

@@ -41,3 +41,6 @@ logs/
 
 # Savegames
 share/sandwiches-game/savegames/
+
+# Generated files
+dist/

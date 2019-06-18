@@ -1,12 +1,14 @@
-FROM ubuntu:18.08
+FROM ubuntu:18.04
 MAINTAINER Moisés J. <moisesjbc@gmail.com>
 
 # Update Ubuntu 18.08.
 RUN export DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get upgrade -y
+RUN apt-get install sudo
 
 # Set environment variables.
+ENV N_PROC 6
 ENV SFML_VERSION 2.5.1
 ENV TGUI_VERSION 0.8.5
 ENV M2G_VERSION 0.3.0
@@ -19,8 +21,6 @@ COPY ./build_deps $SCRIPTS_DIR
 WORKDIR $SCRIPTS_DIR
 RUN chmod +x $SCRIPTS_DIR/*.sh
 
-RUN exit 1
-
 # Install dependencies from Ubuntu repositories.
 RUN ./install_packages.sh
 
@@ -28,24 +28,28 @@ RUN ./install_packages.sh
 RUN mkdir $THIRD_PARTY_DIR
 
 # Install SFML from source.
-RUN $SCRIPTS_DIR/install_sfml.sh $SFML_VERSION $THIRD_PARTY_DIR
-RUN exit 1
+RUN $SCRIPTS_DIR/install_sfml.sh $SFML_VERSION $THIRD_PARTY_DIR $TEMP_DIR $N_PROC
 
 # Install TGUI from source.
-RUN $SCRIPTS_DIR/install_tgui.sh $TGUI_VERSION $THIRD_PARTY_DIR
+RUN $SCRIPTS_DIR/install_tgui.sh $TGUI_VERSION $THIRD_PARTY_DIR $TEMP_DIR $N_PROC
 
 # Install m2g from source.
-RUN $SCRIPTS_DIR/install_m2g.sh $M2G_VERSION $THIRD_PARTY_DIR
+RUN $SCRIPTS_DIR/install_m2g.sh $M2G_VERSION $THIRD_PARTY_DIR $TEMP_DIR $N_PROC
+
+# Copy tinyxml2 library to third-party dir.
+RUN cp /usr/lib/x86_64-linux-gnu/libtinyxml2.so* $THIRD_PARTY_DIR/lib
+
+# Copy boost libraries to third-party dir.
+RUN cp /usr/lib/x86_64-linux-gnu/libboost_* $THIRD_PARTY_DIR/lib
 
 # Strip generated libraries.
 RUN for library in `ls $THIRD_PARTY_DIR/lib/li*.so.*`; do sudo strip "$library"; done
 
-WORKDIR /var/tmp/sandwiches-game
+# Create directory for sharing game source.
+RUN mkdir /opt/sandwiches-game
+WORKDIR /opt/sandwiches-game
 
-ENTRYPOINT cp /usr/lib/x86_64-linux-gnu/libtinyxml2.so.0.0.0 third-party/ubuntu_18_04_x86_64/lib && \
-    cp -R /var/tmp/build_deps/third-party/* third-party/ubuntu_18_04_x86_64/ && \
-    rm -rf CMakeFiles/ CMakeCache.txt && \
-    cmake . && \
-    make -j 6
+COPY ./build_zip.sh /usr/bin/build_zip.sh
+RUN chmod +x /usr/bin/build_zip.sh
 
-
+COPY ./launcher.sh /opt/launcher.sh
