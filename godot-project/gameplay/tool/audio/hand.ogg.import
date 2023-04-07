@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/hand.ogg-c326c3b065fafb2d4b4ad423bd519e64.oggstr"
+
+[deps]
+
+source_file="res://gameplay/tool/audio/hand.ogg"
+dest_files=[ "res://.import/hand.ogg-c326c3b065fafb2d4b4ad423bd519e64.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

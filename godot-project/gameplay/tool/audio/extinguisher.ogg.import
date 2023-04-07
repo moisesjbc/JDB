@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/extinguisher.ogg-611f0aab65297ad1a1de43a661f26a21.oggstr"
+
+[deps]
+
+source_file="res://gameplay/tool/audio/extinguisher.ogg"
+dest_files=[ "res://.import/extinguisher.ogg-611f0aab65297ad1a1de43a661f26a21.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://gameplay/main/conveyor_belt.png" type="Texture" id=1]
 [ext_resource path="res://gameplay/main/grinder_back.png" type="Texture" id=2]
 [ext_resource path="res://gameplay/main/grinder_front.png" type="Texture" id=3]
 [ext_resource path="res://gameplay/sandwiches_manager/sandwiches_manager.tscn" type="PackedScene" id=4]
+[ext_resource path="res://gameplay/tool/tool.tscn" type="PackedScene" id=5]
 
 [node name="main" type="Node2D"]
 position = Vector2( 0, -48 )
@@ -23,3 +24,5 @@ position = Vector2( 0, 48 )
 [node name="grinder_front" type="Sprite" parent="."]
 position = Vector2( 256, 253 )
 texture = ExtResource( 3 )
+
+[node name="tool" parent="." instance=ExtResource( 5 )]

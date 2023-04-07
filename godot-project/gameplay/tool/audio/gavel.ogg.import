@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/gavel.ogg-7da531b182c7676df3a2be087a9eda17.oggstr"
+
+[deps]
+
+source_file="res://gameplay/tool/audio/gavel.ogg"
+dest_files=[ "res://.import/gavel.ogg-7da531b182c7676df3a2be087a9eda17.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
