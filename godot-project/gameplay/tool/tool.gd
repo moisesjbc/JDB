@@ -8,7 +8,7 @@ func _ready():
 	set_current_tool($hand)
 
 
-func _process(delta):
+func _process(_delta):
 	global_position = get_global_mouse_position()
 
 
