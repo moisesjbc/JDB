@@ -8,6 +8,34 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "AnimatedSprite",
+"class": "Danger",
+"language": "GDScript",
+"path": "res://globals/types/danger.gd"
+}, {
+"base": "Reference",
+"class": "DangerType",
+"language": "GDScript",
+"path": "res://globals/types/danger_type.gd"
+}, {
+"base": "Reference",
+"class": "DangersManager",
+"language": "GDScript",
+"path": "res://globals/singletons/dangers_manager.gd"
+}, {
+"base": "Reference",
+"class": "ToolType",
+"language": "GDScript",
+"path": "res://globals/types/tool_type.gd"
+} ]
+_global_script_class_icons={
+"Danger": "",
+"DangerType": "",
+"DangersManager": "",
+"ToolType": ""
+}
+
 [application]
 
 config/name="The sandwiches game"

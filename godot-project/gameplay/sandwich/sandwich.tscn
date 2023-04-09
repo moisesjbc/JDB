@@ -20,4 +20,10 @@ scale = Vector2( 12.35, 3.85 )
 position = Vector2( -1.5, -18.5 )
 shape = SubResource( 1 )
 
+[node name="baseline" type="Line2D" parent="."]
+visible = false
+points = PoolVector2Array( -97, -27, 109, -27 )
+
+[node name="dangers" type="Node2D" parent="."]
+
 [connection signal="screen_exited" from="sprite/visibility_notifier" to="." method="_on_visibility_notifier_screen_exited"]
