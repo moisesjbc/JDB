@@ -3,6 +3,7 @@ class_name Danger
 extends AnimatedSprite
 
 var hp = 100
+export var full_damage = 100
 
 
 func connect_area_signal(signal_name, method_name):
@@ -25,3 +26,11 @@ func _on_area_body_entered(body):
 func _on_area_body_exited(body):
 	if body.is_in_group("tools") and body.current_danger == self:
 		body.current_danger = null
+
+
+func _exit_tree():
+	damage()
+
+
+func damage():
+	get_node("/root/main").apply_damage(full_damage * (hp / 100))
